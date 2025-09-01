@@ -16,6 +16,9 @@
     <Filter Include="shader">
       <UniqueIdentifier>{9a519020-0428-4129-9f05-2a7777035a71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="アイテム関係">
+      <UniqueIdentifier>{e3ce501d-fb5c-423d-af6b-ea17bb91dedd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -145,6 +148,21 @@
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="exp_item.h">
+      <Filter>アイテム関係</Filter>
+    </ClInclude>
+    <ClInclude Include="lowtier_exp_item.h">
+      <Filter>アイテム関係</Filter>
+    </ClInclude>
+    <ClInclude Include="midtier_exp_item.h">
+      <Filter>アイテム関係</Filter>
+    </ClInclude>
+    <ClInclude Include="hightier_exp_item.h">
+      <Filter>アイテム関係</Filter>
+    </ClInclude>
+    <ClInclude Include="exp_item_manager.h">
+      <Filter>アイテム関係</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -157,12 +157,17 @@
     <ClInclude Include="component.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />
+    <ClInclude Include="exp_item.h" />
+    <ClInclude Include="exp_item_manager.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="hightier_exp_item.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="midtier_exp_item.h" />
     <ClInclude Include="modelRenderer.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
