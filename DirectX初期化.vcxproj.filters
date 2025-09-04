@@ -81,6 +81,15 @@
     <ClCompile Include="title.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="lowtier_exp_item.cpp">
+      <Filter>アイテム関係</Filter>
+    </ClCompile>
+    <ClCompile Include="midtier_exp_item.cpp">
+      <Filter>アイテム関係</Filter>
+    </ClCompile>
+    <ClCompile Include="hightier_exp_item.cpp">
+      <Filter>アイテム関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

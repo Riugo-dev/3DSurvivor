@@ -13,7 +13,9 @@
 
 class LowTierExpItem : public ExpItem
 {
-
+public:
+	LowTierExpItem(Vector3 position);
+	~LowTierExpItem();
 };
 
 
