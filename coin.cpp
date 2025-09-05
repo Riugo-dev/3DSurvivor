@@ -25,11 +25,12 @@ Coin::Coin(Vector3 size, Vector3 position)
 {
 	m_pModelRenderer = new ModelRenderer();
 	//m_pModelRenderer->Load("asset\\model\\rock.obj");
-	m_pModelRenderer->Load("asset\\model\\torus.obj");
+	//m_pModelRenderer->Load("asset\\model\\torus.obj");
+	m_pModelRenderer->Load("asset\\model\\HighTierEXPItem.obj");
 
 	m_Scale = size;
 	m_Position = position;
-	m_Rotation = { (3.141569f / 180.0f) * 90.0f  , 0.0f, 0.0f };
+	m_Rotation = { 0.0f  , 0.0f, 0.0f };//(3.141569f / 180.0f) * 90.0f
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 

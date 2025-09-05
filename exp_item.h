@@ -12,8 +12,10 @@
 #include "main.h"
 #include "gameobject.h"
 #include "renderer.h"
+#include "manager.h"
+#include "scene.h"
 #include "modelRenderer.h"
-
+#include "player.h"
 
 class ExpItem:public GameObject
 {
@@ -26,14 +28,33 @@ protected:
 
 	int m_Exp = 0;
 
-	Vector3 m_Position = { 0.0f , 0.0f , 0.0f };
-	Vector3 m_Size = {1.0f , 1.0f ,1.0f};
+	/*Vector3 m_Position = { 0.0f , 0.0f , 0.0f };
+	Vector3 m_Size = {1.0f , 1.0f ,1.0f};*/
 
 public:
 	//ExpItem();
 	virtual ~ExpItem() = default;
 
 	int GetExp() { return m_Exp; }
+
+	void Init(Input*) {}
+
+	void Uninit() {};
+
+	void Update()
+	{
+		m_Rotation.m_y += 0.1f;
+
+		Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+		Vector3 distance = player->GetPosition() - m_Position;
+		float length = distance.length();
+
+		if (length < m_Scale.m_y * 1.5f)
+		{
+			m_IsDestroy = true;
+		}
+	}
 
 	//‘S‚Ä“¯‚¶ˆ—‚Åƒhƒ[‚·‚é‚Ì‚Å‚±‚±‚ÅˆêŠ‡‚Å‘‚­
 	void Draw()

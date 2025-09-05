@@ -13,7 +13,7 @@
 MidTierExpItem::MidTierExpItem(Vector3 position)
 {
 	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\MidTierItem.obj");
+	m_pModelRenderer->Load("asset\\model\\MidTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 

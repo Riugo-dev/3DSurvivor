@@ -13,7 +13,7 @@
 HighTierExpItem::HighTierExpItem(Vector3 position)
 {
 	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\HighTierItem.obj");
+	m_pModelRenderer->Load("asset\\model\\HighTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
