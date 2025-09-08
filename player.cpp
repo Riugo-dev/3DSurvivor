@@ -19,6 +19,8 @@
 
 #include "player.h"
 
+#define INVINCIBLEFRAME_AFTERDAMAGE (15)
+
 //********************************************************************************
 //関数
 //********************************************************************************
@@ -30,6 +32,14 @@ Player::Player(Vector3 size, Vector3 position)
 	m_Scale = size;
 	m_Position = position;
 	m_Rotation = { 0.0f , 0.0f , 0.0f };
+
+	m_NecessaryExpForNextLevel = 100;//次のレベルまでの必要経験値
+	m_PlayerCurrentLevel = LEVEL_ONE;//現在のレベル表記用に使用
+	m_TotalExpOfPlayer = 0;//全体獲得経験値
+
+	m_HP = 5;
+	m_InvinceibleFrameCount = 0;
+	m_IsInvinceble = false;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
@@ -100,6 +110,17 @@ void Player::Update()
 		bullet->Shot(m_Position, enemy->GetPosition());*/
 	}
 
+	if (m_IsInvinceble)
+	{
+		m_InvinceibleFrameCount++;
+
+		if (m_InvinceibleFrameCount >= INVINCIBLEFRAME_AFTERDAMAGE)
+		{
+			m_InvinceibleFrameCount = 0;
+			m_IsInvinceble = false;
+		}
+	}
+
 	/*m_Rotation.m_x += 0.1f;
 	m_Rotation.m_y += 0.1f;*/
 	//m_Rotation.z += 0.1f;
@@ -141,4 +162,84 @@ void Player::Draw()
 	Renderer::SetWorldMatrix(WorldMatrix);
 
 	m_pModelRenderer->Draw();
+}
+
+void Player::GivePlayerExp(int gainingexp)
+{
+	if (m_PlayerCurrentLevel == LEVEL_MAX) return;
+
+	m_TotalExpOfPlayer += gainingexp;
+
+	if (m_TotalExpOfPlayer > m_NecessaryExpForNextLevel)
+	{
+		m_NecessaryExpForNextLevel = m_NecessaryExpForNextLevel + m_NecessaryExpForNextLevel * 1.1f;
+
+		switch (m_PlayerCurrentLevel)
+		{
+		case LEVEL_ONE:
+			m_PlayerCurrentLevel = LEVEL_TWO;
+			break;
+		case LEVEL_TWO:
+			m_PlayerCurrentLevel = LEVEL_THREE;
+			break;
+		case LEVEL_THREE:
+			m_PlayerCurrentLevel = LEVEL_FOUR;
+			break;
+		case LEVEL_FOUR:
+			m_PlayerCurrentLevel = LEVEL_FIVE;
+			break;
+		case LEVEL_FIVE:
+			m_PlayerCurrentLevel = LEVEL_SIX;
+			break;
+		case LEVEL_SIX:
+			m_PlayerCurrentLevel = LEVEL_SEVEN;
+			break;
+		case LEVEL_SEVEN:
+			m_PlayerCurrentLevel = LEVEL_EIGHT;
+			break;
+		case LEVEL_EIGHT:
+			m_PlayerCurrentLevel = LEVEL_NINE;
+			break;
+		case LEVEL_NINE:
+			m_PlayerCurrentLevel = LEVEL_TEN;
+			break;
+		case LEVEL_TEN:
+			m_PlayerCurrentLevel = LEVEL_ELEVEN;
+			break;
+		case LEVEL_ELEVEN:
+			m_PlayerCurrentLevel = LEVEL_TWELVE;
+			break;
+		case LEVEL_TWELVE:
+			m_PlayerCurrentLevel = LEVEL_THIRTEEN;
+			break;
+		case LEVEL_THIRTEEN:
+			m_PlayerCurrentLevel = LEVEL_FOURTEEN;
+			break;
+		case LEVEL_FOURTEEN:
+			m_PlayerCurrentLevel = LEVEL_FIFTEEN;
+			break;
+		case LEVEL_FIFTEEN:
+			m_PlayerCurrentLevel = LEVEL_MAX;
+			break;
+		}
+
+		//ここのタイミングレベルアップのアイテム選択をさせる
+
+		//もし過剰な経験値をもらってた場合の処理をここで行う
+		GivePlayerExp(0);
+	}
+}
+
+void Player::DamagePlayer()
+{
+	m_HP--;
+
+	if (m_HP <= 0)
+	{
+		//ここでゲームオーバー処理追加
+
+	}
+
+	m_IsInvinceble = true;
+	m_InvinceibleFrameCount = 0;
 }

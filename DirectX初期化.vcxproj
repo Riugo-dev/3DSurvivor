@@ -159,6 +159,8 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemybase.h" />
+    <ClInclude Include="enemy_manager.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="exp_item.h" />
     <ClInclude Include="exp_item_manager.h" />

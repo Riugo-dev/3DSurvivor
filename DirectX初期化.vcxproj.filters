@@ -19,6 +19,9 @@
     <Filter Include="アイテム関係">
       <UniqueIdentifier>{e3ce501d-fb5c-423d-af6b-ea17bb91dedd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="エネミー関係">
+      <UniqueIdentifier>{a78b1a36-7d3d-422e-ad83-766ebf7cd23a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,9 +57,6 @@
     <ClCompile Include="box.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -89,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="hightier_exp_item.cpp">
       <Filter>アイテム関係</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>エネミー関係</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +134,6 @@
     <ClInclude Include="box.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -172,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="exp_item_manager.h">
       <Filter>アイテム関係</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="enemybase.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_manager.h">
+      <Filter>エネミー関係</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

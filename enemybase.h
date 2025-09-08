@@ -1,13 +1,12 @@
 //********************************************************************************
 //
-// exp_item.h[弾]
+// enemybase.h[敵の基底クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/01
+//															Date   :2025/09/08
 //********************************************************************************
-
-#ifndef _EXP_ITEM_H_
-#define _EXP_ITEM_H_
+#ifndef _ENEMYBASE_H_
+#define _ENEMYBASE_H_
 
 #include "main.h"
 #include "gameobject.h"
@@ -17,7 +16,7 @@
 #include "modelRenderer.h"
 #include "player.h"
 
-class ExpItem:public GameObject
+class BaseEnemy : public GameObject
 {
 protected:
 	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
@@ -26,40 +25,35 @@ protected:
 
 	ModelRenderer* m_pModelRenderer = nullptr;
 
-	int m_Exp = 0;
-
-	/*Vector3 m_Position = { 0.0f , 0.0f , 0.0f };
-	Vector3 m_Size = {1.0f , 1.0f ,1.0f};*/
-
 public:
-	//ExpItem();
-	virtual ~ExpItem() = default;
+	virtual ~BaseEnemy() = default;
 
-	int GetExp() { return m_Exp; }
+	void Init(Input*) override {};
+	void Uninit() override {};
 
-	void Init(Input*) override {}
-
-	void Uninit() override{};
-
-	void Update() override
+	//アップデートも基本プレイヤーを追いかけるだけなので基本的にここで一括でいい
+	void Update() override 
 	{
-		m_Rotation.m_y += 0.1f;
-
 		Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+
+
 
 		Vector3 distance = player->GetPosition() - m_Position;
 		float length = distance.length();
 
 		if (length < m_Scale.m_y * 1.5f)
 		{
-			player->GivePlayerExp(m_Exp);
-
-			m_IsDestroy = true;
+			if(!player->GetIsInvincible())
+			{
+				player->DamagePlayer();
+			}
 		}
 	}
 
+
 	//全て同じ処理でドローするのでここで一括で書く
-	void Draw() override
+	void Draw()	override
 	{
 		//入力レイアウト設定
 		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -95,11 +89,5 @@ public:
 	}
 };
 
-//経験値の幅の考え
-//LowTier　５　～　２０　EXP
-//MidTier　２１ ～　５０　EXP
-//HighTier  ５１　～　１００　EXP
-//経験値の幅は価値の高いものほど大きい
-//また経験値アイテムは敵の強さによって使うスポナーを変えるべきかな
-//例えば、強い適ほど高い確率でHighTierの経験値アイテムを落とす
-#endif // !_EXP_ITEM_H
+#endif // !_ENEMYBASE_H_
+
