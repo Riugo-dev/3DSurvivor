@@ -23,11 +23,11 @@
 Enemy::Enemy(Vector3 size, Vector3 position)
 {
 	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\player.obj");
+	m_pModelRenderer->Load("asset\\model\\EnemyTypeRed.obj");
 
 	m_Scale = size;
 	m_Position = position;
-	m_Rotation = { 0.0f , (3.141569f / 180.0f) * 180.0f , 0.0f };
+	m_Rotation = { 0.0f , /*(3.141569f / 180.0f) * 180.0f*/0.0f , 0.0f };
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 

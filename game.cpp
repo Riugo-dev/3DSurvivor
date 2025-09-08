@@ -42,9 +42,9 @@ void Game::Init(Input* input)
 	AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
 	AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
-	AddGameObject<Enemy>()->SetPosition({ 0.0f,0.0f,6.0f });
-	AddGameObject<Enemy>()->SetPosition({ 4.0f,0.0f,6.0f });
-	AddGameObject<Enemy>()->SetPosition({ -4.0f,0.0f,6.0f });
+	AddGameObject<Enemy>()->SetPosition({ 0.0f,0.5f,6.0f });
+	AddGameObject<Enemy>()->SetPosition({ 4.0f,0.5f,6.0f });
+	AddGameObject<Enemy>()->SetPosition({ -4.0f,0.5f,6.0f });
 	AddGameObject<Coin>()->SetPosition({ -4.0f,1.5f,3.0f }); 
 	AddGameObject<Coin>()->SetPosition({ 0.0f,1.5f,3.0f });
 	AddGameObject<Coin>()->SetPosition({ 4.0f,1.5f,3.0f });
