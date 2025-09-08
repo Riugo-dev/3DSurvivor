@@ -53,7 +53,7 @@ private:
 	int NecessaryExpForNextLevel = 0;//次のレベルまでの必要経験値
 	Level PlayerCurrentLevel = LEVEL_ONE;//現在のレベル表記用に使用
 	int TotalExpOfPlayer = 0;//全体獲得経験値
-
+	
 public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.0f , 0.0f });
 	~Player();

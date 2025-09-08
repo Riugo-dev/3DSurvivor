@@ -154,7 +154,12 @@ void ModelRenderer::LoadModel( const char *FileName, MODEL *Model)
 			TexMetadata metadata;
 			ScratchImage image;
 			wchar_t wc[256];
-			mbstowcs(wc, modelObj.SubsetArray[i].Material.TextureName, sizeof(wc));
+			//mbstowcs(wc, modelObj.SubsetArray[i].Material.TextureName, sizeof(wc));
+			//—Ìˆæ‚ð‚Í‚Ýo‚µ‚Ä‘‚«ž‚ñ‚Å‚¢‚½‚Ì‚Å‚»‚ê‚ð‰ü—Ç‚µ‚½‚à‚Ì«
+			size_t converted = 0;
+			mbstowcs_s(&converted, wc, _countof(wc), modelObj.SubsetArray[i].Material.TextureName, _TRUNCATE);//Å‘å’·‚ðŽw’è
+			wc[_countof(wc) - 1] = L'\0';//”O‚Ì‚½‚ß‚Ì“h‚é––’[
+
 			LoadFromWICFile(wc, WIC_FLAGS_NONE, &metadata, image);
 			CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &Model->SubsetArray[i].Material.Texture);
 
