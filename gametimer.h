@@ -9,8 +9,6 @@
 #ifndef _GAMETIMER_H_
 #define _GAMETIMER_H_
 
-#include "main.h"
-
 class Player;
 
 typedef enum

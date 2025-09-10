@@ -12,6 +12,8 @@
 #ifndef _GAMEOBJECT_H_
 #define _GAMEOBJECT_H_
 
+#include "main.h"
+
 class Input;
 
 class GameObject
