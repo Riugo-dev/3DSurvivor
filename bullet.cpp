@@ -102,7 +102,7 @@ void Bullet::Update()
 		{
 			Manager::GetScene()->AddGameObject<Explosion>(2)->SetPosition(itr->GetPosition() + Vector3(0.0f , 1.0f , 0.0f));
 
-			Manager::GetScene()->AddGameObject<LowTierExpItem>(2)->SetPosition(itr->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
+			Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(itr->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
 
 			m_IsDestroy = true;
 			itr->SetDestroy(true);

@@ -146,6 +146,20 @@ public:
 		}
 	}
 
+	Vector3 normalized()
+	{
+		float magSq = m_x * m_x + m_y * m_y + m_z * m_z;
+		if (magSq > 0.0f)
+		{
+			//０除算をチェックする
+			float oneOverMag = 1.0f / sqrt(magSq);
+			m_x *= oneOverMag;
+			m_y *= oneOverMag;
+			m_z *= oneOverMag;
+		}
+		return{ m_x , m_y , m_z };
+	}
+
 	float length() const
 	{
 		return sqrtf(m_x * m_x + m_y * m_y + m_z * m_z);

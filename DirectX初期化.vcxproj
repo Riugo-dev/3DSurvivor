@@ -136,6 +136,7 @@
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gametimer.cpp" />
     <ClCompile Include="hightier_exp_item.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="lowtier_exp_item.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="field.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="gametimer.h" />
     <ClInclude Include="hightier_exp_item.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="lowtier_exp_item.h" />

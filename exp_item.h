@@ -50,7 +50,7 @@ public:
 		Vector3 distance = player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		if (length < m_Scale.m_y * 1.5f)
+		if (length < m_Scale.m_y * 1.65f)
 		{
 			player->GivePlayerExp(m_Exp);
 
