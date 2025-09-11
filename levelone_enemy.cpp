@@ -17,9 +17,21 @@ LevelOneEnemy::LevelOneEnemy()
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");*/
+
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\toon1VS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\toon1PS.cso");
+
+	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
+
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\pixelLightingBlinnPhongVS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\pixelLightingBlinnPhongPS.cso");*/
 
 	m_HP = 1;
 	m_EnemySpeed = 0.03f;

@@ -468,9 +468,10 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 	//メモリ確保
 	materialArray = new MODEL_MATERIAL[ materialNum ];
 
-
 	//要素読込
 	int mc = -1;
+
+	
 
 	fseek( file, 0, SEEK_SET );
 
@@ -486,6 +487,9 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 		{
 			//マテリアル名
 			mc++;
+			//安全な配置
+			materialArray[mc].Material.TextureEnable = 0;//デフォルトテクスチャ無し
+
 			fscanf( file, "%s", materialArray[ mc ].Name );
 			strcpy( materialArray[ mc ].TextureName, "" );
 
@@ -539,6 +543,9 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 			strcat( path, str );
 
 			strcat( materialArray[ mc ].TextureName, path );
+
+			//TextureEnableをセット
+			materialArray[mc].Material.TextureEnable = 1;
 		}
 	}
 

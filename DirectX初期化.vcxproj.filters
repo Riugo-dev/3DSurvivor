@@ -96,10 +96,19 @@
     <ClCompile Include="gametimer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_manager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="levelone_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="leveltwo_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="levelthree_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfour_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_manager.cpp">
       <Filter>エネミー関係</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,6 +206,18 @@
     <ClInclude Include="levelone_enemy.h">
       <Filter>エネミー関係</Filter>
     </ClInclude>
+    <ClInclude Include="leveltwo_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="levelthree_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfour_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="gameender_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">
@@ -206,6 +227,30 @@
       <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="pixelLightingBlinnPhongPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon2PS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon2VS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon1PS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon1VS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="pixelLightingBlinnPhongVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ToonPSEdge.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ToonVSEdge.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>

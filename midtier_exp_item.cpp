@@ -10,14 +10,13 @@
 
 #include "midtier_exp_item.h"
 
-MidTierExpItem::MidTierExpItem(Vector3 position)
+MidTierExpItem::MidTierExpItem()
 {
 	m_pModelRenderer = new ModelRenderer();
 	m_pModelRenderer->Load("asset\\model\\MidTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
-	m_Position = position;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 

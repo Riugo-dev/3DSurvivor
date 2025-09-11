@@ -25,7 +25,7 @@ ID3D11Buffer*			Renderer::m_ViewBuffer{};
 ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
 ID3D11Buffer*			Renderer::m_MaterialBuffer{};
 ID3D11Buffer*			Renderer::m_LightBuffer{};
-
+ID3D11Buffer*			Renderer::m_CameraBuffer{};
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
 ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
@@ -233,9 +233,11 @@ void Renderer::Init()
 	m_DeviceContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
 	m_DeviceContext->PSSetConstantBuffers( 4, 1, &m_LightBuffer );
 
+	bufferDesc.ByteWidth = sizeof(XMFLOAT4);
 
-
-
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_CameraBuffer);
+	m_DeviceContext->VSSetConstantBuffers(5, 1, &m_CameraBuffer);
+	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_CameraBuffer);
 
 	// ライト初期化
 	LIGHT light{};
@@ -253,7 +255,7 @@ void Renderer::Init()
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
-
+	
 
 
 }
@@ -365,6 +367,12 @@ void Renderer::SetLight( LIGHT Light )
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
 
+void Renderer::SetCameraPosition(Vector3 CameraPosition)
+{
+	const XMFLOAT4	temp = XMFLOAT4(CameraPosition.m_x, CameraPosition.m_y, CameraPosition.m_z, 0.0f);
+	m_DeviceContext->UpdateSubresource(m_CameraBuffer, 0, NULL, &temp, 0, 0);
+}
+
 
 
 
@@ -422,6 +430,24 @@ void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* F
 	m_Device->CreatePixelShader(buffer, fsize, NULL, PixelShader);
 
 	delete[] buffer;
+}
+
+void Renderer::SetCullMode(D3D11_CULL_MODE cull)
+{
+	// ラスタライザステート設定
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.DepthClipEnable = TRUE;
+	rd.MultisampleEnable = FALSE;
+	rd.CullMode = cull;
+
+	ID3D11RasterizerState* rs;
+	m_Device->CreateRasterizerState(&rd, &rs);
+	m_DeviceContext->RSSetState(rs);
+
+	rs->Release();
 }
 
 

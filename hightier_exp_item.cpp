@@ -10,14 +10,12 @@
 
 #include "hightier_exp_item.h"
 
-HighTierExpItem::HighTierExpItem(Vector3 position)
+HighTierExpItem::HighTierExpItem()
 {
 	m_pModelRenderer = new ModelRenderer();
 	m_pModelRenderer->Load("asset\\model\\HighTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
-
-	m_Position = position;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 

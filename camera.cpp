@@ -136,7 +136,7 @@ void Camera::Update()
 		
 	}
 
-	
+	Renderer::SetCameraPosition(m_Position);
 
 	//XMFLOAT3 target = GetBallPosition();
 
