@@ -18,9 +18,14 @@ class Game :public Scene
 {
 private:
 	Input* m_Input;
+	class GameTimer* m_pTimer;
 public:
 	void Init(Input*) override;		//‰Šú‰»
+	void Uninit() override;
+
 	void Update() override;
+
+	GameTimer* GetGameTimer() { return m_pTimer; }
 };
 
 #endif // !_GAME_H_

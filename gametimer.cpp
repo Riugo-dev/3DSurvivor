@@ -24,92 +24,108 @@
 #define WAVEFOUR (480)
 #define WAVEMAX (600)
 //********************************************************************************
+//グローバル変数
+//********************************************************************************
+
+
+//********************************************************************************
 //関数
 //********************************************************************************
 
-GameTimer::GameTimer(Player* player)
+GameTimer::GameTimer()
 {
-	m_pPlayer = player;
-
 	m_CurrentTime = 0;
+	m_PreviousTime = 1;
 	m_CurrentWave = WAVE_ONE;
 	m_EnemySpawnCoolTime = WAVEONECOOLTIME;
 	m_FrameCount = 0;
 
+	m_pEnemyManager = new EnemyManager;
 }
 
 GameTimer::~GameTimer()
 {
-
+	delete m_pEnemyManager;
+	m_pEnemyManager = nullptr;
 }
 
 void GameTimer::Update()
 {
 	m_FrameCount++;
-
+	
 	m_CurrentTime = m_FrameCount / 60;
 
-	switch (m_CurrentWave)
+	if(m_CurrentTime != m_PreviousTime)
 	{
-	case WAVE_ONE:
-		if (m_CurrentTime % WAVEONECOOLTIME == 0)
+		switch (m_CurrentWave)
 		{
-			//ここでエネミースポナーを呼び出す
-		}
+		case WAVE_ONE:
+			if (m_CurrentTime % WAVEONECOOLTIME == 0)
+			{
+				//ここでエネミースポナーを呼び出す
+				m_pEnemyManager->SpawnEnemy();
+			}
 
-		if (m_CurrentTime >= WAVEONE)
-		{
-			m_CurrentWave = WAVE_TWO;
-		}
-		break;
-	case WAVE_TWO:
-		if (m_CurrentTime % WAVETWOCOOLTIME == 0)
-		{
-			//ここでエネミースポナーを呼び出す
-		}
+			if (m_CurrentTime >= WAVEONE)
+			{
+				m_CurrentWave = WAVE_TWO;
+			}
+			break;
+		case WAVE_TWO:
+			if (m_CurrentTime % WAVETWOCOOLTIME == 0)
+			{
+				//ここでエネミースポナーを呼び出す
+				m_pEnemyManager->SpawnEnemy();
+			}
 
-		if (m_CurrentTime >= WAVETWO)
-		{
-			m_CurrentWave = WAVE_THREE;
-		}
-		break;
-	case WAVE_THREE:
-		if (m_CurrentTime % WAVETHREECOOLTIME == 0)
-		{
-			//ここでエネミースポナーを呼び出す
-		}
+			if (m_CurrentTime >= WAVETWO)
+			{
+				m_CurrentWave = WAVE_THREE;
+			}
+			break;
+		case WAVE_THREE:
+			if (m_CurrentTime % WAVETHREECOOLTIME == 0)
+			{
+				//ここでエネミースポナーを呼び出す
+				m_pEnemyManager->SpawnEnemy();
+			}
 
-		if (m_CurrentTime >= WAVETHREE)
-		{
-			m_CurrentWave = WAVE_FOUR;
-		}
-		break;
-	case WAVE_FOUR:
-		if (m_CurrentTime % WAVEFOURCOOLTIME == 0)
-		{
-			//ここでエネミースポナーを呼び出す
-		}
+			if (m_CurrentTime >= WAVETHREE)
+			{
+				m_CurrentWave = WAVE_FOUR;
+			}
+			break;
+		case WAVE_FOUR:
+			if (m_CurrentTime % WAVEFOURCOOLTIME == 0)
+			{
+				//ここでエネミースポナーを呼び出す
+				m_pEnemyManager->SpawnEnemy();
+			}
 
-		if (m_CurrentTime >= WAVEFOUR)
-		{
-			m_CurrentWave = WAVE_MAX;
-		}
-		break;
-	case WAVE_MAX:
-		if (m_CurrentTime % WAVEMAXCOOLTIME == 0)
-		{
-			//ここでエネミースポナーを呼び出す
-		}
+			if (m_CurrentTime >= WAVEFOUR)
+			{
+				m_CurrentWave = WAVE_MAX;
+			}
+			break;
+		case WAVE_MAX:
+			if (m_CurrentTime % WAVEMAXCOOLTIME == 0)
+			{
+				//ここでエネミースポナーを呼び出す
+				m_pEnemyManager->SpawnEnemy();
+			}
 
-		if (m_CurrentTime >= WAVEMAX)
-		{
-			m_CurrentWave = GAME_END;
+			if (m_CurrentTime >= WAVEMAX)
+			{
+				m_CurrentWave = GAME_END;
+			}
+			break;
+		case GAME_END:
+			//ここに強制終了エネミーを出現させる
+			m_pEnemyManager->SpawnEnemy();
+		default:
+			break;
 		}
-		break;
-	case GAME_END:
-		//ここに強制終了エネミーを出現させる
-	default:
-		break;
+		m_PreviousTime = m_CurrentTime;
 	}
 
 }

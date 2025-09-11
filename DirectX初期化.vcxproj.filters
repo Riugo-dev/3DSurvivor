@@ -93,6 +93,15 @@
     <ClCompile Include="enemy.cpp">
       <Filter>エネミー関係</Filter>
     </ClCompile>
+    <ClCompile Include="gametimer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_manager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="levelone_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -180,6 +189,12 @@
       <Filter>エネミー関係</Filter>
     </ClInclude>
     <ClInclude Include="enemy_manager.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="gametimer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="levelone_enemy.h">
       <Filter>エネミー関係</Filter>
     </ClInclude>
   </ItemGroup>

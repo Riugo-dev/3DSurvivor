@@ -91,23 +91,23 @@ void Bullet::Update()
 		p_enemy->SetDestroy(true);
 	}*/
 
-	//“G‚Æ‚ÌÕ“Ë”»’è
-	std::vector<Enemy*> p_enemys = Manager::GetScene()->GetGameObjects<Enemy>();//auto enemies = ‚Å‚à‘åä•v
+	////“G‚Æ‚ÌÕ“Ë”»’è
+	//std::vector<Enemy*> p_enemys = Manager::GetScene()->GetGameObjects<Enemy>();//auto enemies = ‚Å‚à‘åä•v
 
-	for (auto itr : p_enemys)
-	{
-		Vector3 d = itr->GetPosition() - m_Position;
-		float length = d.length();
-		if (length < 1.0f)
-		{
-			Manager::GetScene()->AddGameObject<Explosion>(2)->SetPosition(itr->GetPosition() + Vector3(0.0f , 1.0f , 0.0f));
+	//for (auto itr : p_enemys)
+	//{
+	//	Vector3 d = itr->GetPosition() - m_Position;
+	//	float length = d.length();
+	//	if (length < 1.0f)
+	//	{
+	//		Manager::GetScene()->AddGameObject<Explosion>(2)->SetPosition(itr->GetPosition() + Vector3(0.0f , 1.0f , 0.0f));
 
-			Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(itr->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
+	//		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(itr->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
 
-			m_IsDestroy = true;
-			itr->SetDestroy(true);
-		}
-	}
+	//		m_IsDestroy = true;
+	//		itr->SetDestroy(true);
+	//	}
+	//}
 
 	
 

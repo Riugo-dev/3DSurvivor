@@ -14,7 +14,9 @@
 #include "manager.h"
 #include "scene.h"
 #include "modelRenderer.h"
+#include "bullet.h"
 #include "player.h"
+#include <vector>
 
 class BaseEnemy : public GameObject
 {
@@ -25,6 +27,9 @@ protected:
 
 	ModelRenderer* m_pModelRenderer = nullptr;
 
+	int m_HP;
+	float m_EnemySpeed = 0.03f;
+	int m_Points;
 public:
 	virtual ~BaseEnemy() = default;
 
@@ -34,19 +39,61 @@ public:
 	//アップデートも基本プレイヤーを追いかけるだけなので基本的にここで一括でいい
 	void Update() override 
 	{
-		Player* player = Manager::GetScene()->GetGameObject<Player>();
+		if (m_IsDestroy)return;
+		
+		std::vector<Bullet*> p_bullets = Manager::GetScene()->GetGameObjects<Bullet>();
+
+		for (auto itr : p_bullets)
+		{
+			if (itr->GetDestroy())continue;
+
+			Vector3 d = itr->GetPosition() - m_Position;
+			float length = d.length();
+			if (length < 1.0f)
+			{
+				itr->SetDestroy(true);
+
+				m_HP--;
+
+				if(m_HP <= 0)
+				{
+					m_IsDestroy = true;
+					EnemyItemDrop();
+				}
+
+				
+				return;
+			}
+		}
+
+		
+
+		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
+
+		m_Position = m_Position + to_player * m_EnemySpeed;
+
+		float angle_y, angle_x, angle_z;
 
 
+		angle_y = atan2(to_player.m_x, to_player.m_z);
+		/*angle_x = atan2(to_player.m_y, to_player.m_z);
+		angle_z = atan2(to_player.m_x, to_player.m_y);*/
+
+		m_Rotation.m_y = angle_y;
+		/*m_Rotation.m_x = angle_x;
+		m_Rotation.m_z = angle_z;*/
 
 
-		Vector3 distance = player->GetPosition() - m_Position;
+		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
 		if (length < m_Scale.m_y * 1.5f)
 		{
-			if(!player->GetIsInvincible())
+			if(!p_player->GetIsInvincible())
 			{
-				player->DamagePlayer();
+				p_player->DamagePlayer();
 			}
 		}
 	}
@@ -67,7 +114,7 @@ public:
 		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
 		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y + XM_PI, m_Rotation.m_z);
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
 		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
@@ -87,6 +134,16 @@ public:
 
 		m_pModelRenderer->Draw();
 	}
+
+
+	void DamageEnemy(int damage)
+	{
+		m_HP -= damage;
+	}
+	int GetEnemyHp() { return m_HP; }
+
+	virtual void EnemyItemDrop() = 0;
+	
 };
 
 #endif // !_ENEMYBASE_H_

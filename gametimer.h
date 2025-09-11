@@ -9,7 +9,7 @@
 #ifndef _GAMETIMER_H_
 #define _GAMETIMER_H_
 
-class Player;
+
 
 typedef enum
 {
@@ -21,19 +21,20 @@ typedef enum
 	GAME_END,
 }Wave;
 
+
+
 class GameTimer
 {
 private:
-	int m_FrameCount = 0;
-	int m_CurrentTime = 0;
-	int m_EnemySpawnCoolTime = 0;
-
-	
+	class EnemyManager* m_pEnemyManager;
+	int m_FrameCount;
+	int m_CurrentTime;
+	int m_PreviousTime;
+	int m_EnemySpawnCoolTime;
 	Wave m_CurrentWave = WAVE_ONE;
-	Player* m_pPlayer = nullptr;
-
+	
 public:
-	GameTimer(Player*);
+	GameTimer();
 	~GameTimer();
 
 	void Update();

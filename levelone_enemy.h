@@ -1,24 +1,23 @@
 //********************************************************************************
 //
-// enemy_manager.h[敵管理クラス]
+// levelone_enemy.h[レベル１敵クラス]
 //
 //															Author :Riugo Honda
 //															Date   :2025/09/11
 //********************************************************************************
 
-#ifndef _ENEMY_MANAGER_H_
-#define _ENEMY_MANAGER_H_
+#ifndef _LEVELONE_ENEMY_H_
+#define _LEVELONE_ENEMY_H_
 
-class EnemyManager
+#include "enemybase.h"
+
+class LevelOneEnemy : public BaseEnemy
 {
-private:
-
 public:
-	EnemyManager();
-	~EnemyManager();
+	LevelOneEnemy();
+	~LevelOneEnemy();
 
-	void SpawnEnemy();
+	void EnemyItemDrop() override;
 };
 
-#endif // !_ENEMY_MANAGER_H_
-
+#endif // !_LEVELONE_ENEMY_H_

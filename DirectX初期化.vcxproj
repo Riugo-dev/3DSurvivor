@@ -133,12 +133,14 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gametimer.cpp" />
     <ClCompile Include="hightier_exp_item.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="levelone_enemy.cpp" />
     <ClCompile Include="lowtier_exp_item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
@@ -171,6 +173,7 @@
     <ClInclude Include="gametimer.h" />
     <ClInclude Include="hightier_exp_item.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="levelone_enemy.h" />
     <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
