@@ -9,11 +9,14 @@
 //********************************************************************************
 #include "main.h"
 #include "manager.h"
+#include "scene.h"
 #include "renderer.h"
 #include "camera.h"
 #include "modelRenderer.h"
+#include "player.h"
 #include "input.h"
 #include "bullet.h"
+#include <math.h>
 
 #include "enemy.h"
 
@@ -23,11 +26,11 @@
 Enemy::Enemy(Vector3 size, Vector3 position)
 {
 	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\player.obj");
+	m_pModelRenderer->Load("asset\\model\\EnemyTypeRed.obj");
 
 	m_Scale = size;
 	m_Position = position;
-	m_Rotation = { 0.0f , (3.141569f / 180.0f) * 180.0f , 0.0f };
+	m_Rotation = { 0.0f , /*(3.141569f / 180.0f) * 180.0f*/0.0f , 0.0f };
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
@@ -57,6 +60,23 @@ void Enemy::Uninit()
 
 void Enemy::Update()
 {
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
+	
+	m_Position = m_Position + to_player * 0.025f;
+	 
+	float angle_y , angle_x , angle_z;
+
+	
+	angle_y = atan2(to_player.m_x, to_player.m_z);
+	/*angle_x = atan2(to_player.m_y, to_player.m_z);
+	angle_z = atan2(to_player.m_x, to_player.m_y);*/
+
+	m_Rotation.m_y = angle_y;
+	/*m_Rotation.m_x = angle_x;
+	m_Rotation.m_z = angle_z;*/
+
 	//Camera* p_camera = Manager::GetGameObject<Camera>();
 
 	//if (m_pInput->GetKeyPress(KK_A))
@@ -109,7 +129,7 @@ void Enemy::Draw()
 	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
 	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y + XM_PI, m_Rotation.m_z);
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
 	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
 	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);

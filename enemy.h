@@ -28,13 +28,18 @@ private:
 
 
 public:
-	Enemy(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 2.0f , 0.0f , 2.0f });
+	Enemy(Vector3 size = { 0.5f , 0.5f , 0.5f }, Vector3 position = { 2.0f , 0.0f , 2.0f });
 	~Enemy();
 
 	void Init(Input*) override;
 	void Uninit() override;
+
+
 	void Update() override;
-	void Draw() override;
+
+
+	//‘S‚Ä“¯‚¶ˆ—‚Åƒhƒ[‚·‚é‚Ì‚Å‚±‚±‚ÅˆêŠ‡‚Å‘‚­
+	void Draw()override;
 
 private:
 
