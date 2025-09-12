@@ -19,7 +19,7 @@
 
 #include "player.h"
 
-#define INVINCIBLEFRAME_AFTERDAMAGE (15)
+#define INVINCIBLEFRAME_AFTERDAMAGE (90)
 
 //********************************************************************************
 //ä÷êî

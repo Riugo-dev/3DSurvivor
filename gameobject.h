@@ -71,6 +71,12 @@ public:
 	{
 		return (m_Position - Position).length();
 	}
+
+	float GetZ(Vector3 position, Vector3 foward)
+	{
+		Vector3 direction = m_Position - position;
+		return Vector3::dot(direction, foward);
+	}
 };
 
 

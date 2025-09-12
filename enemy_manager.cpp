@@ -4,7 +4,8 @@
 //
 //															Author :Riugo Honda
 //															Date   :2025/09/11
-//********************************************************************************#include "main.h"
+//********************************************************************************
+#include "main.h"
 #include "manager.h"
 #include "scene.h"
 #include "player.h"
@@ -117,8 +118,8 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 5 + 4;
+		int z = rd() % 5 + 4;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
@@ -155,8 +156,8 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 5 + 4;
+		int z = rd() % 5 + 4;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
@@ -193,8 +194,8 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 3 + 5;
+		int z = rd() % 3 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
@@ -231,8 +232,8 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 3 + 5;
+		int z = rd() % 3 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
@@ -269,8 +270,8 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 5 + 5;
+		int z = rd() % 5 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
@@ -307,8 +308,8 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		int leftright = rd() % 2;
 		int fowardback = rd() % 2;
 
-		int x = rd() % 5 + 3;
-		int z = rd() % 5 + 3;
+		int x = rd() % 5 + 5;
+		int z = rd() % 5 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
 

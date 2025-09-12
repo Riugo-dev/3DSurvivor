@@ -30,7 +30,7 @@ class Scene
 private:
 	Input* m_Input;
 	SceneType m_type;
-	std::list<GameObject*> m_GameObjects[4];//リストを三個分作る-> 0がカメラ,1が3Dオブジェクト, 2がエフェクト,3が2Dオブシェクト
+	std::list<GameObject*> m_GameObjects[5];//リストを三個分作る-> 0がカメラ,1が3Dオブジェクト, 2がエフェクト,3が2Dオブシェクト
 public:
 	virtual void Init(Input*);		//初期化
 	virtual void Uninit();	//終了処理

@@ -16,6 +16,8 @@
 #include "modelRenderer.h"
 #include "bullet.h"
 #include "player.h"
+#include "score.h"
+#include "hp_ui.h"
 #include <vector>
 
 class BaseEnemy : public GameObject
@@ -60,6 +62,7 @@ public:
 
 				if(m_HP <= 0)
 				{
+					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
 				}
@@ -96,7 +99,8 @@ public:
 		{
 			if(!p_player->GetIsInvincible())
 			{
-				p_player->DamagePlayer();
+				p_player->SetInvincibilty(true);
+				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
 			}
 		}
 	}

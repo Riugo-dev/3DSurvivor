@@ -167,11 +167,23 @@ public:
 	
 	////ベクトルの内積・・・標準の乗算記号をこれにオーバーロードする
 
-	//float operator  (const Vector3& a) const
-	//{
-	//	return m_x * a.m_x + m_y * a.m_y + m_z * a.m_z;
-	//}
+	//ベクトルの内積計算
+	static float dot(const Vector3& a, const Vector3& b)
+	{
+		return a.m_x * b.m_x + a.m_y * b.m_y + a.m_z * b.m_z;
+	}
 
+
+
+	//外積
+	static Vector3 cross(const Vector3& a, const Vector3& b)
+	{
+		Vector3 ret;
+		ret.m_x = a.m_y * b.m_z - a.m_z * b.m_y;
+		ret.m_y = a.m_z * b.m_x - a.m_x * b.m_z;
+		ret.m_z = a.m_x * b.m_y - a.m_y * b.m_x;
+		return ret;
+	}
 };
 
 #endif // !_VECTOR3_

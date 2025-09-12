@@ -141,6 +141,7 @@
     <ClCompile Include="gameender_enemy.cpp" />
     <ClCompile Include="gametimer.cpp" />
     <ClCompile Include="hightier_exp_item.cpp" />
+    <ClCompile Include="hp_ui.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="levelfive_enemy.cpp" />
     <ClCompile Include="levelfour_enemy.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="score.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
@@ -182,6 +184,7 @@
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gametimer.h" />
     <ClInclude Include="hightier_exp_item.h" />
+    <ClInclude Include="hp_ui.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="levelfive_enemy.h" />
     <ClInclude Include="levelfour_enemy.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="score.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
