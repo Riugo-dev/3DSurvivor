@@ -17,8 +17,8 @@
 #include "camera.h"
 
 #define CAMERA_LENGTH_TP_X	(0.0f)
-#define CAMERA_LENGTH_TP_Y	(10.0f)
-#define CAMERA_LENGTH_TP_Z	(-10.0f)
+#define CAMERA_LENGTH_TP_Y	(15.0f)
+#define CAMERA_LENGTH_TP_Z	(-15.0f)
 
 #define CAMERA_LENGTH_FP_X	(0.0f)
 #define CAMERA_LENGTH_FP_Y	(2.0f)

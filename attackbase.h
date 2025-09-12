@@ -1,13 +1,12 @@
 //********************************************************************************
 //
-// exp_item.h[弾]
+// attackbase.h[攻撃の基底クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/01
+//															Date   :2025/09/012
 //********************************************************************************
-
-#ifndef _EXP_ITEM_H_
-#define _EXP_ITEM_H_
+#ifndef _ATTACKBASE_H_
+#define _ATTACKBASE_H_
 
 #include "main.h"
 #include "gameobject.h"
@@ -16,65 +15,46 @@
 #include "scene.h"
 #include "modelRenderer.h"
 #include "player.h"
+#include <vector>
 
-class ExpItem:public GameObject
+typedef enum
+{
+	ATT_LV1 = 1,
+	ATT_LV2,
+	ATT_LV3,
+	ATT_LV4,
+	ATT_LVMAX,
+}AttaclLevel;
+
+class BaseAttack : public GameObject
 {
 protected:
 	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
 	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
 
-	ID3D11VertexShader* m_VertexShaderEdge; //頂点シェーダーオブジェクト
-	ID3D11PixelShader* m_PixelShaderEdge; //ピクセルシェーダーオブジェクト
+	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
+	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
 	ModelRenderer* m_pModelRenderer = nullptr;
 
-	int m_Exp = 0;
+	int m_HP;//攻撃事態のHP（貫通することを考慮して）
+	Vector3 m_Velocity;
+	int m_FrameCount;
+	int m_LivingFrames;
 
-	int m_FrameCount = 0;
-	
-
-	/*Vector3 m_Position = { 0.0f , 0.0f , 0.0f };
-	Vector3 m_Size = {1.0f , 1.0f ,1.0f};*/
-
+	AttaclLevel m_AttackLevel;
+	int m_Strength;//攻撃の威力
 public:
-	//ExpItem();
-	virtual ~ExpItem() = default;
+	virtual ~BaseAttack() = default;
 
-	int GetExp() { return m_Exp; }
-
-	void Init(Input*) override {}
-
-	void Uninit() override{};
-
-	void Update() override
-	{
-		m_Rotation.m_y += 0.1f;
-
-		Player* player = Manager::GetScene()->GetGameObject<Player>();
-
-		Vector3 distance = player->GetPosition() - m_Position;
-		float length = distance.length();
-
-		if (length < m_Scale.m_y * 1.65f)
-		{
-			player->GivePlayerExp(m_Exp);
-
-			m_IsDestroy = true;
-		}
-
-		if (m_FrameCount > 3000)
-		{
-			m_IsDestroy = true;
-		}
-		m_FrameCount++;
-
-	}
+	void Init(Input*)override {};
+	void Uninit() override {};
+	virtual void Update() = 0;
 
 	//全て同じ処理でドローするのでここで一括で書く
-	void Draw() override
+	void Draw()	override
 	{
-
 		{//通常の描画
 			//入力レイアウト設定
 			Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -124,13 +104,12 @@ public:
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}
 	}
+
+	Vector3 GetVelocity() { return m_Velocity; }
+	void SetVelocity(Vector3 vel) { m_Velocity = vel;}
+
+	void SetLivingFrames(int frames) { m_LivingFrames = frames; }
 };
 
-//経験値の幅の考え
-//LowTier　５　～　２０　EXP
-//MidTier　２１ ～　５０　EXP
-//HighTier  ５１　～　１００　EXP
-//経験値の幅は価値の高いものほど大きい
-//また経験値アイテムは敵の強さによって使うスポナーを変えるべきかな
-//例えば、強い適ほど高い確率でHighTierの経験値アイテムを落とす
-#endif // !_EXP_ITEM_H
+#endif // !_ATTACKBASE_H_
+

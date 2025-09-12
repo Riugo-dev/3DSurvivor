@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="attackbase_bullet.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -161,8 +162,11 @@
     <ClCompile Include="vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="attackbase.h" />
+    <ClInclude Include="attackbase_bullet.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="bulletattack.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
