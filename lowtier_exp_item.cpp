@@ -38,4 +38,6 @@ LowTierExpItem::~LowTierExpItem()
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
+	m_VertexShaderEdge->Release();
+	m_PixelShaderEdge->Release();
 }

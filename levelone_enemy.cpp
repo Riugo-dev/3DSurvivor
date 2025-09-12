@@ -34,7 +34,7 @@ LevelOneEnemy::LevelOneEnemy()
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\pixelLightingBlinnPhongPS.cso");*/
 
 	m_HP = 1;
-	m_EnemySpeed = 0.03f;
+	m_EnemySpeed = 0.01f;
 	m_Points = 10;
 }
 
@@ -46,6 +46,8 @@ LevelOneEnemy::~LevelOneEnemy()
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
+	m_VertexShaderEdge->Release();
+	m_PixelShaderEdge->Release();
 }
 
 void LevelOneEnemy::EnemyItemDrop()

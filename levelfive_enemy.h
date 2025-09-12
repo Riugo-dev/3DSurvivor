@@ -1,25 +1,25 @@
 //********************************************************************************
 //
-// gameender_enemy.h[死神敵クラス]
+// levelfive_enemy.h[レベル5敵クラス]
 //
 //															Author :Riugo Honda
 //															Date   :2025/09/12
 //********************************************************************************
 
-#ifndef _GAMEENDER_ENEMY_H_
-#define _GAMEENDER_ENEMY_H_
+#ifndef _LEVELFIVE_ENEMY_H_
+#define _LEVELFIVE_ENEMY_H_
 
 #include "enemybase.h"
 
-class GameEnderEnemy : public BaseEnemy
+class LevelFiveEnemy : public BaseEnemy
 {
 public:
-	GameEnderEnemy();
-	~GameEnderEnemy();
+	LevelFiveEnemy();
+	~LevelFiveEnemy();
 
 	void EnemyItemDrop() override;
 };
 
-#endif // !_GAMEENDER_ENEMY_H_
+#endif // !_LEVELFIVE_ENEMY_H_
 
 

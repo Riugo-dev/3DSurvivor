@@ -18,12 +18,16 @@ LevelFourEnemy::LevelFourEnemy()
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\toon1VS.cso");
 
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\toon1PS.cso");
+
+	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
 	m_HP = 4;
-	m_EnemySpeed = 0.045f;
+	m_EnemySpeed = 0.025f;
 	m_Points = 40;
 }
 
@@ -35,6 +39,8 @@ LevelFourEnemy::~LevelFourEnemy()
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
+	m_VertexShaderEdge->Release();
+	m_PixelShaderEdge->Release();
 }
 
 void LevelFourEnemy::EnemyItemDrop()
