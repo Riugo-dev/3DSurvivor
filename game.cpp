@@ -23,6 +23,7 @@
 #include "gametimer.h"
 #include "score.h"
 #include "hp_ui.h"
+#include "stage_field.h"
 
 #include "title.h"
 
@@ -44,9 +45,10 @@ void Game::Init(Input* input)
 	//m_GameObjects.push_back(new Camera(g_Input));
 	AddGameObject<Camera>(0)->Init(input);
 	AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
-	AddGameObject<Field>();
+	//AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
-	
+	AddGameObject<StageField>();
+
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);
 }

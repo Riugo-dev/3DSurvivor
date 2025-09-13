@@ -72,6 +72,7 @@ HPUI::HPUI()
 
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
+
 	m_HP = PLAYER_HP_MAX;
 }
 

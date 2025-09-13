@@ -58,6 +58,6 @@ void LevelOneEnemy::EnemyItemDrop()
 
 	if (drop <= 80)
 	{
-		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 1.0f, 0.0f));
+		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
 	}
 }

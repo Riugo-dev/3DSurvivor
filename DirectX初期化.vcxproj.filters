@@ -28,6 +28,9 @@
     <Filter Include="UI関連">
       <UniqueIdentifier>{c2632b95-1ea2-4826-8348-9dd1580f1726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ステージ関係">
+      <UniqueIdentifier>{91d18140-9d06-4008-8926-673a5d730a4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,9 +73,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="explosion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="skydome.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="texture.cpp">
@@ -132,6 +132,15 @@
     <ClCompile Include="hp_ui.cpp">
       <Filter>UI関連</Filter>
     </ClCompile>
+    <ClCompile Include="stage_field.cpp">
+      <Filter>ステージ関係</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome.cpp">
+      <Filter>ステージ関係</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletattack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -180,9 +189,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="explosion.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="texture.h">
@@ -257,6 +263,12 @@
     <ClInclude Include="hp_ui.h">
       <Filter>UI関連</Filter>
     </ClInclude>
+    <ClInclude Include="stage_field.h">
+      <Filter>ステージ関係</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome.h">
+      <Filter>ステージ関係</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">
@@ -290,6 +302,12 @@
       <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="ToonVSEdge.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="vertexDirectionalLightingPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="vertexDirectionalLightingVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>

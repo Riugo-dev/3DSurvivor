@@ -50,11 +50,11 @@ void LevelFourEnemy::EnemyItemDrop()
 
 	if (drop <= 20)
 	{
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 1.0f, 0.0f));
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 1.0f, 0.0f));
+		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
 	}
 }
 

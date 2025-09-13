@@ -17,14 +17,7 @@
 #include "player.h"
 #include <vector>
 
-typedef enum
-{
-	ATT_LV1 = 1,
-	ATT_LV2,
-	ATT_LV3,
-	ATT_LV4,
-	ATT_LVMAX,
-}AttaclLevel;
+
 
 class BaseAttack : public GameObject
 {
@@ -43,7 +36,6 @@ protected:
 	int m_FrameCount;
 	int m_LivingFrames;
 
-	AttaclLevel m_AttackLevel;
 	int m_Strength;//çUåÇÇÃà–óÕ
 public:
 	virtual ~BaseAttack() = default;
@@ -104,6 +96,9 @@ public:
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}
 	}
+
+	int GetStrength() { return m_Strength; }
+	void SetStrength(int pow) { m_Strength = pow; }
 
 	Vector3 GetVelocity() { return m_Velocity; }
 	void SetVelocity(Vector3 vel) { m_Velocity = vel;}

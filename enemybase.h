@@ -14,7 +14,7 @@
 #include "manager.h"
 #include "scene.h"
 #include "modelRenderer.h"
-#include "bullet.h"
+#include "attackbase.h"
 #include "player.h"
 #include "score.h"
 #include "hp_ui.h"
@@ -46,9 +46,9 @@ public:
 	{
 		if (m_IsDestroy)return;
 		
-		std::vector<Bullet*> p_bullets = Manager::GetScene()->GetGameObjects<Bullet>();
+		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-		for (auto itr : p_bullets)
+		for (auto itr : p_attacks)
 		{
 			if (itr->GetDestroy())continue;
 

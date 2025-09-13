@@ -17,6 +17,8 @@ public:
 	~BaseAttackBullet();
 
 	void Update() override;
+
+	
 };
 
 #endif // ! _ATTACKBASE_BULLET_H_

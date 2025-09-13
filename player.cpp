@@ -16,6 +16,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "scene.h"
+#include "bulletattack.h"
 
 #include "player.h"
 
@@ -45,6 +46,8 @@ Player::Player(Vector3 size, Vector3 position)
 
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 	
+	Manager::GetScene()->AddGameObject<BulletAttack>(4);
+
 }
 
 Player::~Player()
@@ -98,17 +101,17 @@ void Player::Update()
 	Vector3 rotation = p_camera->GetRotation();
 	m_Rotation.m_y = rotation.m_y;
 
-	if (m_pInput->GetKeyTrigger(KK_SPACE))
-	{
-		Manager::GetScene()->AddGameObject<Bullet>();
+	//if (m_pInput->GetKeyTrigger(KK_SPACE))
+	//{
+	//	Manager::GetScene()->AddGameObject<Bullet>();
 
-		//エルミーと用
-		/*Bullet* bullet = Manager::AddGameObject<Bullet>();
-		bullet->SetPosition(m_Position);
-		
-		Enemy* enemy = Manager::GetGameObject<Enemy>();
-		bullet->Shot(m_Position, enemy->GetPosition());*/
-	}
+	//	//エルミーと用
+	//	/*Bullet* bullet = Manager::AddGameObject<Bullet>();
+	//	bullet->SetPosition(m_Position);
+	//	
+	//	Enemy* enemy = Manager::GetGameObject<Enemy>();
+	//	bullet->Shot(m_Position, enemy->GetPosition());*/
+	//}
 
 	if (m_IsInvinceble)
 	{
