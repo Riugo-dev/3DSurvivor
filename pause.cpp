@@ -113,7 +113,7 @@ Pause::Pause()
 	}
 
 	m_TexturePause = Texture::Load("asset\\texture\\pause.png");//頭にLを入れる必要がない
-	m_TextureBG = Texture::Load("asset\\texture\\pauseBG.png");//頭にLを入れる必要がない
+	m_TextureBG = Texture::Load("asset\\texture\\black.png");//頭にLを入れる必要がない
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
@@ -150,27 +150,18 @@ void Pause::Draw()
 		//マトリクス設定
 		Renderer::SetWorldViewProjection2D();
 
-		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+	
 
-		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
-
-		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-
-		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
-
-		Renderer::SetWorldMatrix(WorldMatrix);
-
-		//マテリアル設定
-		MATERIAL material{};
-		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-		material.TextureEnable = true;
-		Renderer::SetMaterial(material);
+		
 
 		{
+
+			//マテリアル設定
+			MATERIAL material{};
+			material.Diffuse = { 1.0f , 1.0f , 1.0f , 0.7f};
+			material.TextureEnable = true;
+			Renderer::SetMaterial(material);
+
 			//頂点バッファ設定
 			UINT stride = sizeof(VERTEX_3D);
 			UINT offset = 0;
@@ -186,6 +177,32 @@ void Pause::Draw()
 
 
 		{
+			static float trans = 1.0f;
+			static bool updown = true;
+			if (updown)
+			{
+				trans -= 0.01;
+				if (trans <= 0.5f)
+				{
+					updown = false;
+				}
+			}
+			else
+			{
+				trans += 0.01;
+				if (trans >= 1.0f)
+				{
+					updown = true;
+				}
+			}
+
+
+			//マテリアル設定
+			MATERIAL material{};
+			material.Diffuse = { 1.0f , 1.0f , 1.0f , trans };
+			material.TextureEnable = true;
+			Renderer::SetMaterial(material);
+
 			//頂点バッファ設定
 			UINT stride = sizeof(VERTEX_3D);
 			UINT offset = 0;

@@ -12,7 +12,7 @@ void main(in VS_IN  In, out PS_IN  Out)
 
 	//モデルの変形
     float4 pos = In.Position;
-    float4 norm = normalize(In.Normal) * 0.03f;//スケーリング
+    float4 norm = normalize(In.Normal) * 0.05f;//スケーリング
     norm.w = 0;
     pos += norm;	//頂点の移動
     Out.Position = mul(pos, wvp); //頂点変換

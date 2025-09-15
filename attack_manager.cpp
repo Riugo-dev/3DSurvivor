@@ -20,6 +20,7 @@
 
 
 #include "attack_manager.h"
+#include "result_ui.h"
 
 AttackManager::AttackManager()
 {
@@ -210,6 +211,7 @@ void AttackManager::Draw()
 		drawoption();
 	}
 }
+
 
 void AttackManager::drawbg()
 {

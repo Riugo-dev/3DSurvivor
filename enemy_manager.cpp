@@ -29,7 +29,7 @@
 void EnemyManager::WaveOne()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 10;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 15;//スポーンさせる敵の数
 
 	LevelOneEnemySpawner(enemyspawnedcount);
 }
@@ -37,9 +37,9 @@ void EnemyManager::WaveOne()
 void EnemyManager::WaveTwo()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 10;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 10 + 20;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 5;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 3 + 5;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
 
@@ -51,11 +51,11 @@ void EnemyManager::WaveTwo()
 void EnemyManager::WaveThree()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 10;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 25;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 3;
+	int levelthreecount = rd() % 3 + 5;
 
-	int leveltwocount = rd() % 7 + 5;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 7 + 7;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
 
@@ -67,9 +67,9 @@ void EnemyManager::WaveThree()
 void EnemyManager::WaveFour()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 20;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 10 + 25;//スポーンさせる敵の数
 
-	int levelfourcount = rd() % 3;
+	int levelfourcount = rd() % 3 + 5;
 
 	int levelthreecount = rd() % 7 + 3;
 
@@ -86,13 +86,13 @@ void EnemyManager::WaveFour()
 void EnemyManager::WaveMax()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 20;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 30;//スポーンさせる敵の数
 
-	int levelfivecount = rd() % 3 + 1;
+	int levelfivecount = rd() % 3 + 3;
 
-	int levelfourcount = rd() % 7 + 3;
+	int levelfourcount = rd() % 7 + 5;
 
-	int levelthreecount = rd() % 2 + 5;
+	int levelthreecount = rd() % 2 + 7;
 
 	int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
 

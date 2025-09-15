@@ -26,7 +26,7 @@ HighTierExpItem::HighTierExpItem()
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
 	std::random_device rd;
-	m_Exp = rd() % 50 + 51;
+	m_Exp = rd() % 100 + 51;
 }
 
 HighTierExpItem::~HighTierExpItem()

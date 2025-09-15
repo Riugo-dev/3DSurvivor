@@ -286,3 +286,8 @@ void Score::SetScore(float x, float y, float width, float height, const char* fi
 
 }
 
+int Score::GetPoints()
+{
+	return m_Points;
+}
+

@@ -3,6 +3,7 @@ Texture2D g_Texture : register(t0); //テクスチャ０番
 Texture2D g_TextureToon : register(t1); //テクスチャ1番
 SamplerState g_SamplerState : register(s0); //サンプラー０番
 
+
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
 	//光源からピクセルへのベクトル

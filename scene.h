@@ -23,6 +23,7 @@ typedef enum
 	SCENE_NONE = -1,
 	SCENE_TITLE,
 	SCENE_GAME,
+	SCENE_RESULT,
 }SceneType;
 
 class Scene

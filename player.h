@@ -32,7 +32,7 @@ private:
 	//現在考えているのが武器のみで各種武器は５段階のレベリング
 	//つまりマックスレベルを１６として開始レベルを１
 	//一段階のレベル上昇で武器強化を武器取得を選べるようにする
-	typedef enum 
+	enum Level
 	{
 		LEVEL_ONE = 1,
 		LEVEL_TWO,
@@ -50,7 +50,7 @@ private:
 		LEVEL_FOURTEEN,
 		LEVEL_FIFTEEN,
 		LEVEL_MAX,
-	}Level;
+	};
 
 	int m_NecessaryExpForNextLevel = 0;//次のレベルまでの必要経験値
 	Level m_PlayerCurrentLevel = LEVEL_ONE;//現在のレベル表記用に使用
@@ -72,6 +72,7 @@ public:
 	void Draw() override;
 
 	void GivePlayerExp(int);
+	int GetTotalEXP(){ return m_TotalExpOfPlayer; }
 
 	bool GetIsInvincible() { return m_IsInvinceble; }
 	void SetInvincibilty(bool flag) { m_IsInvinceble = flag; }

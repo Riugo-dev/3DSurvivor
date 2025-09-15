@@ -27,7 +27,7 @@ MidTierExpItem::MidTierExpItem()
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
 	std::random_device rd;
-	m_Exp = rd() % 30 + 21;
+	m_Exp = rd() % 60 + 21;
 }
 
 MidTierExpItem::~MidTierExpItem()

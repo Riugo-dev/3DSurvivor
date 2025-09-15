@@ -168,6 +168,18 @@
     <ClCompile Include="attack_manager.cpp">
       <Filter>攻撃関連</Filter>
     </ClCompile>
+    <ClCompile Include="explosion_particle.cpp">
+      <Filter>パーティクル</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>パーティクル</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="result_ui.cpp">
+      <Filter>UI関連</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -316,6 +328,18 @@
     </ClInclude>
     <ClInclude Include="fade.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion_particle.h">
+      <Filter>パーティクル</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>パーティクル</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="result_ui.h">
+      <Filter>UI関連</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

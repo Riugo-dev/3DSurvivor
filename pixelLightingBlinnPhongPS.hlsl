@@ -4,6 +4,7 @@
 Texture2D g_Texture : register(t0); //テクスチャ０番
 SamplerState g_SamplerState : register(s0); //サンプラー０番
 
+
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
 	//ピクセルの法線を正規化

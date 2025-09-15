@@ -62,6 +62,8 @@ void SwordAttack::Update()
 				vel.m_y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
+				sword->SetStrength(1);
+
 			}
 		}
 	}

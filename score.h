@@ -41,7 +41,8 @@ public:
 
 	void SetScore(float x, float y, float width, float height, const char* filename);
 	void AddPoints(int points) { m_Points += points; }
-private:
+	
+	int GetPoints();
 
 };
 

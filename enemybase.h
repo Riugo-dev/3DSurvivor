@@ -18,6 +18,10 @@
 #include "player.h"
 #include "score.h"
 #include "hp_ui.h"
+#include "explosion_particle.h"
+#include "result.h"
+#include "game.h"
+#include "fade.h"
 #include <vector>
 
 class BaseEnemy : public GameObject
@@ -62,6 +66,10 @@ public:
 
 				if(m_HP <= 0)
 				{
+					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+					boom->SetPosition(m_Position);
+					boom->SetScale({ 0.1f , 0.1f , 0.1f });
+
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
@@ -95,12 +103,19 @@ public:
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		if (length < m_Scale.m_y * 1.5f)
+		if (length < m_Scale.m_y * 2.5f)
 		{
 			if(!p_player->GetIsInvincible())
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+
+				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+				{
+					Manager::SetScene<Result>();
+					Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+					Game::SetGameState(GAME_FADEOUT);
+				}
 			}
 		}
 	}

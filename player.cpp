@@ -178,7 +178,7 @@ void Player::GivePlayerExp(int gainingexp)
 
 	if (m_TotalExpOfPlayer > m_NecessaryExpForNextLevel)
 	{
-		m_NecessaryExpForNextLevel = m_NecessaryExpForNextLevel + m_NecessaryExpForNextLevel * 1.1f;
+		m_NecessaryExpForNextLevel += 100 * (m_PlayerCurrentLevel + 1);
 
 		switch (m_PlayerCurrentLevel)
 		{
@@ -255,7 +255,7 @@ void Player::GivePlayerExp(int gainingexp)
 		case LEVEL_FIFTEEN:
 			m_PlayerCurrentLevel = LEVEL_MAX;
 			//ここのタイミングレベルアップのアイテム選択をさせる
-			Game::SetGameState(PLAYER_LEVELUP);
+			//Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		}
 
