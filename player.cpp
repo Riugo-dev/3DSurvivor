@@ -16,7 +16,8 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "scene.h"
-#include "bulletattack.h"
+#include "game.h"
+
 
 #include "player.h"
 
@@ -46,7 +47,7 @@ Player::Player(Vector3 size, Vector3 position)
 
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 	
-	Manager::GetScene()->AddGameObject<BulletAttack>(4);
+
 
 }
 
@@ -147,7 +148,7 @@ void Player::Draw()
 	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x , m_Position.m_y , m_Position.m_z);
 
 	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y + XM_PI, m_Rotation.m_z);
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
 	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
 	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
@@ -169,9 +170,11 @@ void Player::Draw()
 
 void Player::GivePlayerExp(int gainingexp)
 {
-	if (m_PlayerCurrentLevel == LEVEL_MAX) return;
+	
 
 	m_TotalExpOfPlayer += gainingexp;
+
+	if (m_PlayerCurrentLevel == LEVEL_MAX) return;
 
 	if (m_TotalExpOfPlayer > m_NecessaryExpForNextLevel)
 	{
@@ -181,55 +184,81 @@ void Player::GivePlayerExp(int gainingexp)
 		{
 		case LEVEL_ONE:
 			m_PlayerCurrentLevel = LEVEL_TWO;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_TWO:
 			m_PlayerCurrentLevel = LEVEL_THREE;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_THREE:
 			m_PlayerCurrentLevel = LEVEL_FOUR;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_FOUR:
 			m_PlayerCurrentLevel = LEVEL_FIVE;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_FIVE:
 			m_PlayerCurrentLevel = LEVEL_SIX;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_SIX:
 			m_PlayerCurrentLevel = LEVEL_SEVEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_SEVEN:
 			m_PlayerCurrentLevel = LEVEL_EIGHT;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_EIGHT:
 			m_PlayerCurrentLevel = LEVEL_NINE;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_NINE:
 			m_PlayerCurrentLevel = LEVEL_TEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_TEN:
 			m_PlayerCurrentLevel = LEVEL_ELEVEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_ELEVEN:
 			m_PlayerCurrentLevel = LEVEL_TWELVE;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_TWELVE:
 			m_PlayerCurrentLevel = LEVEL_THIRTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_THIRTEEN:
 			m_PlayerCurrentLevel = LEVEL_FOURTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_FOURTEEN:
 			m_PlayerCurrentLevel = LEVEL_FIFTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_FIFTEEN:
 			m_PlayerCurrentLevel = LEVEL_MAX;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		}
 
-		//ここのタイミングレベルアップのアイテム選択をさせる
-
-		//もし過剰な経験値をもらってた場合の処理をここで行う
-		GivePlayerExp(0);
 	}
 }
 

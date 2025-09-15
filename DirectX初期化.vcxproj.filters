@@ -31,6 +31,12 @@
     <Filter Include="ステージ関係">
       <UniqueIdentifier>{91d18140-9d06-4008-8926-673a5d730a4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="パーティクル">
+      <UniqueIdentifier>{e168f591-ad3f-48f5-b4a4-adabc5a6a75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オーディオ">
+      <UniqueIdentifier>{b152f653-99a0-4373-bdc2-b51bfa36184c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -139,7 +145,28 @@
       <Filter>ステージ関係</Filter>
     </ClCompile>
     <ClCompile Include="bulletattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="swordattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_sword.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_shuriken.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="shurikenattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="pause.cpp">
+      <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="attack_manager.cpp">
+      <Filter>攻撃関連</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +295,27 @@
     </ClInclude>
     <ClInclude Include="skydome.h">
       <Filter>ステージ関係</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_sword.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="swordattack.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_shuriken.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="shurikenattack.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="pause.h">
+      <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="attack_manager.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

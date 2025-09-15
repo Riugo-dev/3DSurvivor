@@ -45,7 +45,7 @@ public:
 	virtual void Update() = 0;
 
 	//全て同じ処理でドローするのでここで一括で書く
-	void Draw()	override
+	virtual void Draw()	override
 	{
 		{//通常の描画
 			//入力レイアウト設定
@@ -96,6 +96,10 @@ public:
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}
 	}
+
+	void SetAttackHP(int hp) { m_HP = hp; }
+	int GetAttackHP() { return m_HP; }
+	void SubtractHP(int damage = 1) { m_HP -= damage; }
 
 	int GetStrength() { return m_Strength; }
 	void SetStrength(int pow) { m_Strength = pow; }

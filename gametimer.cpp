@@ -20,11 +20,11 @@
 #define WAVEMAXCOOLTIME (420)
 
 //ïbä∑éZ
-#define WAVEONE (120)
-#define WAVETWO (240)
-#define WAVETHREE (360)
-#define WAVEFOUR (480)
-#define WAVEMAX (600)
+#define WAVEONE (60)
+#define WAVETWO (120)
+#define WAVETHREE (180)
+#define WAVEFOUR (240)
+#define WAVEMAX (300)
 //********************************************************************************
 //ÉOÉçÅ[ÉoÉãïœêî
 //********************************************************************************

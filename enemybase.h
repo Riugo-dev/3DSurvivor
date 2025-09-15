@@ -56,9 +56,9 @@ public:
 			float length = d.length();
 			if (length < 1.0f)
 			{
-				itr->SetDestroy(true);
-
-				m_HP--;
+				m_HP -= itr->GetStrength();
+				itr->SubtractHP();
+				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 				if(m_HP <= 0)
 				{

@@ -7,6 +7,9 @@
 // -------------------------------------------------------------------------------
 //															Last Edited:2025/04/23
 //********************************************************************************
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
 #include "main.h"
 #include "manager.h"
 #include <thread>
@@ -29,7 +32,7 @@ HWND GetWindow()
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	WNDCLASSEX wcex;
 	{
@@ -113,6 +116,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	Manager::Uninit();
 
 	CoUninitialize();
+
+	//_CrtDumpMemoryLeaks();
 
 	return (int)msg.wParam;
 }

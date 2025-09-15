@@ -21,7 +21,7 @@ HPUI::HPUI()
 {
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 	m_Position = { 0.0f , 0.0f , 0.0f };
-	VERTEX_3D vertex[24];
+	VERTEX_3D vertex[4];
 	//上面
 	m_VertexPosition[0] = XMFLOAT3(m_Position.m_x - m_Scale.m_x, m_Position.m_y + m_Scale.m_y, m_Position.m_z);
 	m_VertexPosition[1] = XMFLOAT3(m_Position.m_x + m_Scale.m_x, m_Position.m_y + m_Scale.m_y, m_Position.m_z);
@@ -110,19 +110,19 @@ void HPUI::Draw()
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
 
-	//平行移動行列の作成（表示座標を決める）
-	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, 0.0f);
+	////平行移動行列の作成（表示座標を決める）
+	//XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, 0.0f);
 
-	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, m_Rotation.m_z);
+	////回転行列（Z回転）行列の作成
+	//XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, m_Rotation.m_z);
 
-	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, 1.0f);
+	////スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	//XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, 1.0f);
 
-	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+	////ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	//XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-	Renderer::SetWorldMatrix(WorldMatrix);
+	//Renderer::SetWorldMatrix(WorldMatrix);
 
 	//マテリアル設定
 	MATERIAL material{};

@@ -1,25 +1,26 @@
 //********************************************************************************
 //
-// bulletattack.h[球攻撃の管理クラス]
+// shurikenattack.h[球攻撃の管理クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/12
+//															Date   :2025/09/14
 //********************************************************************************
-#ifndef _BULLETATTACK_H_
-#define _BULLETATTACK_H_
+#ifndef _SHURIKENATTACK_H_
+#define _SHURIKENATTACK_H_
 
 #include "gameobject.h"
 
 
-class BulletAttack:public GameObject
+
+class ShurikenAttack :public GameObject
 {
 private:
 	AttackLevel m_AttackLevel;
 	int m_FrameCount;
 
 public:
-	BulletAttack();
-	~BulletAttack();
+	ShurikenAttack();
+	~ShurikenAttack();
 
 	void Init(Input*) override {};
 	void Uninit() override {};
@@ -31,4 +32,4 @@ public:
 	void SetToNextLevel();
 };
 
-#endif // !_BULLETATTACK_H_
+#endif // !_SHURIKENATTACK_H_

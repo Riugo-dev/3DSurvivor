@@ -26,8 +26,8 @@ LevelFiveEnemy::LevelFiveEnemy()
 
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
-	m_HP = 5;
-	m_EnemySpeed = 0.03f;
+	m_HP = 10;
+	m_EnemySpeed = 0.05f;
 	m_Points = 100;
 }
 

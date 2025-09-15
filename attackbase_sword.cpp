@@ -1,17 +1,20 @@
 //********************************************************************************
 //
-// attackbase_bullet.h[‹…UŒ‚‚ÌŠî’êƒNƒ‰ƒX]
+// attackbase_sword.h[‹…UŒ‚‚ÌŠî’êƒNƒ‰ƒX]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/12
+//															Date   :2025/09/14
 //********************************************************************************
+#include "manager.h"
+#include "scene.h"
+#include "player.h"
 
-#include "attackbase_bullet.h"
+#include "attackbase_sword.h"
 
-BaseAttackBullet::BaseAttackBullet()
+BaseAttackSword::BaseAttackSword()
 {
 	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\bullet.obj");
+	m_pModelRenderer->Load("asset\\model\\AttackTypeSword.obj");
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
@@ -25,13 +28,15 @@ BaseAttackBullet::BaseAttackBullet()
 
 	m_Velocity = { 0.0f , 0.0f , 0.0f };
 	m_Position = { 0.0f , 0.0f , 0.0f };
+	m_Scale = { 0.5f , 0.5f , 0.5f };
 
 	m_FrameCount = 0;
 	m_LivingFrames = 0;
-	m_Strength = 1;
+	m_angle = 0.0f;
+	m_rotationspeed = 1.0f;
 }
 
-BaseAttackBullet::~BaseAttackBullet()
+BaseAttackSword::~BaseAttackSword()
 {
 	delete m_pModelRenderer;
 	m_pModelRenderer = nullptr;
@@ -43,13 +48,28 @@ BaseAttackBullet::~BaseAttackBullet()
 	m_PixelShaderEdge->Release();
 }
 
-void BaseAttackBullet::Update()
+void BaseAttackSword::Update()
 {
-	m_Position += m_Velocity;
+	float dt = 0.1f;
 
-	if (m_FrameCount >= m_LivingFrames)
+	m_Velocity.m_y += m_gravity * dt;
+	m_Position += m_Velocity * dt;
+	m_Rotation.m_z += 1.0f;
+
+	if (m_Position.m_y <= -1.0f)
 	{
 		m_IsDestroy = true;
 	}
-	m_FrameCount++;
 }
+
+void BaseAttackSword::SetSword(Vector3 vel, Vector3 pos, float angle)
+{
+	m_Velocity = vel;
+	
+
+	m_angle = angle;
+
+	m_Position = pos;
+
+}
+

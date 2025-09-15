@@ -15,6 +15,15 @@
 #include "main.h"
 
 class Input;
+typedef enum
+{
+	ATT_LVNONE = 0,
+	ATT_LV1,
+	ATT_LV2,
+	ATT_LV3,
+	ATT_LV4,
+	ATT_LVMAX,
+}AttackLevel;
 
 class GameObject
 {

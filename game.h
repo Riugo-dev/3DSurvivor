@@ -14,18 +14,38 @@
 
 class Input;
 
+typedef enum
+{
+	GAME_PLAY = 0,
+	PLAYER_LEVELUP,
+	GAME_PAUSE,
+	GAME_RESULT,
+	GAME_FADEIN,
+	GAME_FADEOUT,
+}GameState;
+
 class Game :public Scene
 {
 private:
+
+	class Pause* m_pPause;
 	Input* m_Input;
 	class GameTimer* m_pTimer;
+	static GameState m_State;
+	ID3D11ShaderResourceView* m_TexturePause;//ˆê’â~ˆê–‡ŠG
+	ID3D11ShaderResourceView* m_TextureBackGround;//ˆê’â~”wŒi
 public:
 	void Init(Input*) override;		//‰Šú‰»
 	void Uninit() override;
 
 	void Update() override;
+	void Draw() override;
 
 	GameTimer* GetGameTimer() { return m_pTimer; }
+
+	static GameState GetGameState() { return m_State; }
+	static void SetGameState(GameState state) { m_State = state; }
+
 };
 
 #endif // !_GAME_H_

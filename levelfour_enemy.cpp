@@ -26,8 +26,8 @@ LevelFourEnemy::LevelFourEnemy()
 
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
-	m_HP = 4;
-	m_EnemySpeed = 0.025f;
+	m_HP = 8;
+	m_EnemySpeed = 0.04f;
 	m_Points = 40;
 }
 

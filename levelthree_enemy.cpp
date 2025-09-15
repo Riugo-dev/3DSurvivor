@@ -26,8 +26,8 @@ LevelThreeEnemy::LevelThreeEnemy()
 
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
-	m_HP = 3;
-	m_EnemySpeed = 0.02f;
+	m_HP = 6;
+	m_EnemySpeed = 0.03f;
 	m_Points = 30;
 }
 

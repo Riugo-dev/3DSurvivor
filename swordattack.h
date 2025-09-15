@@ -1,25 +1,26 @@
 //********************************************************************************
 //
-// bulletattack.h[球攻撃の管理クラス]
+// swordattack.h[球攻撃の管理クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/12
+//															Date   :2025/09/14
 //********************************************************************************
-#ifndef _BULLETATTACK_H_
-#define _BULLETATTACK_H_
+#ifndef _SWORDATTACK_H_
+#define _SWORDATTACK_H_
 
 #include "gameobject.h"
 
 
-class BulletAttack:public GameObject
+
+class SwordAttack :public GameObject
 {
 private:
 	AttackLevel m_AttackLevel;
 	int m_FrameCount;
 
 public:
-	BulletAttack();
-	~BulletAttack();
+	SwordAttack();
+	~SwordAttack();
 
 	void Init(Input*) override {};
 	void Uninit() override {};
@@ -29,6 +30,7 @@ public:
 	AttackLevel GetLevel() { return m_AttackLevel; }
 	void SetLevel(AttackLevel level) { m_AttackLevel = level; }
 	void SetToNextLevel();
+
 };
 
-#endif // !_BULLETATTACK_H_
+#endif // !_SWORDATTACK_H_

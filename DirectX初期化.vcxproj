@@ -129,6 +129,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="attackbase_bullet.cpp" />
+    <ClCompile Include="attackbase_shuriken.cpp" />
+    <ClCompile Include="attackbase_sword.cpp" />
+    <ClCompile Include="attack_manager.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bulletattack.cpp" />
@@ -137,6 +140,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
+    <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameender_enemy.cpp" />
@@ -154,13 +158,16 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="midtier_exp_item.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
+    <ClCompile Include="pause.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="shurikenattack.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="stage_field.cpp" />
+    <ClCompile Include="swordattack.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="vector3.cpp" />
@@ -168,6 +175,9 @@
   <ItemGroup>
     <ClInclude Include="attackbase.h" />
     <ClInclude Include="attackbase_bullet.h" />
+    <ClInclude Include="attackbase_shuriken.h" />
+    <ClInclude Include="attackbase_sword.h" />
+    <ClInclude Include="attack_manager.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="bulletattack.h" />
@@ -180,6 +190,7 @@
     <ClInclude Include="explosion.h" />
     <ClInclude Include="exp_item.h" />
     <ClInclude Include="exp_item_manager.h" />
+    <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameender_enemy.h" />
@@ -198,13 +209,16 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="midtier_exp_item.h" />
     <ClInclude Include="modelRenderer.h" />
+    <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="shurikenattack.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="stage_field.h" />
+    <ClInclude Include="swordattack.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="vector3.h" />

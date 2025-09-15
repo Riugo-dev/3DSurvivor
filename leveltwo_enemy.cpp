@@ -26,8 +26,8 @@ LevelTwoEnemy::LevelTwoEnemy()
 
 	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
 
-	m_HP = 2;
-	m_EnemySpeed = 0.015f;
+	m_HP = 3;
+	m_EnemySpeed = 0.02f;
 	m_Points = 20;
 }
 
