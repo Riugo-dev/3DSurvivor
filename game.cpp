@@ -21,10 +21,24 @@
 #include "box.h"
 #include "skydome.h"
 #include "gametimer.h"
+#include "score.h"
+#include "hp_ui.h"
+#include "stage_field.h"
+#include "modelRenderer.h"
+#include "pause.h"
+#include "bulletattack.h"
+#include "swordattack.h"
+#include "shurikenattack.h"
+#include "attack_manager.h"
+#include "fade.h"
 
 #include "title.h"
 
 #include "game.h"
+//********************************************************************************
+//グローバル変数
+//********************************************************************************
+GameState Game::m_State;
 
 //********************************************************************************
 //関数
@@ -42,20 +56,21 @@ void Game::Init(Input* input)
 	//m_GameObjects.push_back(new Camera(g_Input));
 	AddGameObject<Camera>(0)->Init(input);
 	AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
-	AddGameObject<Field>();
+	//AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
-	/*AddGameObject<Enemy>()->SetPosition({ 0.0f,0.5f,6.0f });
-	AddGameObject<Enemy>()->SetPosition({ 4.0f,0.5f,6.0f });
-	AddGameObject<Enemy>()->SetPosition({ -4.0f,0.5f,6.0f });*/
-	AddGameObject<Coin>()->SetPosition({ -4.0f,1.5f,3.0f }); 
-	AddGameObject<Coin>()->SetPosition({ 0.0f,1.5f,3.0f });
-	AddGameObject<Coin>()->SetPosition({ 4.0f,1.5f,3.0f });
-	AddGameObject<Box>();
-	
+	AddGameObject<StageField>();
+
+	AddGameObject<Score>(4);
+	AddGameObject<HPUI>(4);
+	AddGameObject<Pause>(4);
+	AddGameObject<AttackManager>(4);
+	AddGameObject<Fade>(4);
+
+	GetGameObject<Fade>()->SetFade(FADE_IN);
 
 
-	AddGameObject<Polygon2D>(2);//これは元となる関数を全て自動的に作っているだけなのでロード時間は増えるのであまり多用しすぎないほうが良い
 
+	m_State = GAME_FADEIN;
 }
 
 void Game::Uninit()
@@ -64,16 +79,80 @@ void Game::Uninit()
 	m_pTimer = nullptr;
 
 	Scene::Uninit();
+
+	ModelRenderer::UnloadAll();
 }
 
 void Game::Update()
 {
-	Scene::Update();
 
-	m_pTimer->Update();
-
-	if (m_Input->GetKeyTrigger(KK_ENTER))
+	if(m_State == GAME_PLAY)
 	{
-		Manager::SetScene<Title>();
+		Scene::Update();
+
+		m_pTimer->Update();
+
+
+
+		if (m_Input->GetKeyTrigger(KK_P))
+		{
+			m_State = GAME_PAUSE;
+		}
 	}
+	else if (m_State == GAME_PAUSE)
+	{
+	
+
+		if (m_Input->GetKeyTrigger(KK_P))
+		{
+			m_State = GAME_PLAY;
+		}
+
+		if (m_Input->GetKeyTrigger(KK_ENTER))
+		{
+			Manager::SetScene<Title>();
+			GetGameObject<Fade>()->SetFade(FADE_OUT);
+			m_State = GAME_FADEOUT;
+		}
+	}
+	else if (m_State == PLAYER_LEVELUP)
+	{
+		GetGameObject<AttackManager>()->Update();
+	}
+	else if(m_State == GAME_FADEIN)
+	{
+		GetGameObject<Fade>()->Update();
+	
+
+		if (GetGameObject<Fade>()->GetFade() == FADE_FIN)
+		{
+			m_State = PLAYER_LEVELUP;
+
+			GetGameObject<Fade>()->SetFade(FADE_NONE);
+
+			GetGameObject<AttackManager>()->Update();
+
+		}
+	}
+	else if (m_State == GAME_FADEOUT)
+	{
+		GetGameObject<Fade>()->Update();
+
+
+		if (GetGameObject<Fade>()->GetFade() == FADE_FIN)
+		{
+			Scene::Update();
+
+
+		}
+	}
+
+	
+	
 }
+
+void Game::Draw()
+{
+	Scene::Draw();
+}
+

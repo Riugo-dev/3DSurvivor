@@ -32,7 +32,7 @@ struct MATERIAL
 	float4 Specular;
 	float4 Emission;
 	float Shininess;
-	bool TextureEnable;
+	int TextureEnable;//<- bool からintに変換GPU差によるエラー回避
 	float2 Dummy;
 };
 
@@ -46,11 +46,17 @@ cbuffer MaterialBuffer : register(b3)
 
 struct LIGHT
 {
-	bool Enable;
-	bool3 Dummy;
-	float4 Direction;
-	float4 Diffuse;
-	float4 Ambient;
+    bool Enable;
+    bool3 Dummy;
+    float4 Direction;
+    float4 Diffuse;
+    float4 Ambient;
+    float4 Position;
+    float4 PointLightParam;
+    float4 SkyColor;
+    float4 GroundColor;
+    float4 GroundNormal;
+    float4 Angle;
 };
 
 cbuffer LightBuffer : register(b4)
@@ -58,7 +64,20 @@ cbuffer LightBuffer : register(b4)
 	LIGHT Light;
 }
 
+cbuffer CameraBuffer : register(b5)
+{
+    float4 CameraPosition;
+}
 
+cbuffer ParameterBuffer : register(b6)
+{
+    float4 Parameter;
+}
+
+cbuffer GaussianWeight : register(b7)
+{
+    float4 Weight[2];
+}
 
 
 
@@ -73,7 +92,15 @@ struct VS_IN
 
 struct PS_IN
 {
-	float4 Position		: SV_POSITION;
-	float4 Diffuse		: COLOR0;
-	float2 TexCoord		: TEXCOORD0;
+    float4 Position : SV_POSITION;
+    float4 WorldPosition : POSITION0;
+    float4 Normal : NORMAL0;
+    float4 Diffuse : COLOR0;
+    float2 TexCoord : TEXCOORD0;
+    //float4 WorldPosition : TEXCOORD0;
+    //float4 Normal : TEXCOORD1;
+    //float4 Diffuse : TEXCOORD2;
+    //float2 TexCoord : TEXCOORD3;
+    //float VertexLight : TEXCOORD1;//頂点ライティングの結果
+    //float3 LightDir : TEXCOORD2;//VSで計算したキャラ基準のライト方向
 };

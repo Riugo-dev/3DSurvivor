@@ -29,7 +29,7 @@ struct MATERIAL
 	XMFLOAT4	Specular;
 	XMFLOAT4	Emission;
 	float		Shininess;
-	BOOL		TextureEnable;
+	int		TextureEnable;//<- bool からintに変換GPU差によるエラー回避
 	float		Dummy[2];
 };
 
@@ -44,7 +44,10 @@ struct LIGHT
 	XMFLOAT4	Ambient;
 };
 
-
+struct CAMERA
+{
+	XMFLOAT4	CameraPosition;
+};
 //********************************************************************************
 //クラス
 //********************************************************************************
@@ -65,7 +68,7 @@ private:
 	static ID3D11Buffer*			m_ProjectionBuffer;
 	static ID3D11Buffer*			m_MaterialBuffer;
 	static ID3D11Buffer*			m_LightBuffer;
-
+	static ID3D11Buffer*			m_CameraBuffer;
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
@@ -90,6 +93,8 @@ public:
 	static void SetMaterial(MATERIAL Material);
 	static void SetLight(LIGHT Light);
 
+	static void SetCameraPosition(Vector3 CameraPosition);
+
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
 
@@ -98,5 +103,5 @@ public:
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
-
+	static void SetCullMode(D3D11_CULL_MODE cull);
 };

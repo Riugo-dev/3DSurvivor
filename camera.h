@@ -53,7 +53,7 @@ public:
 	void Draw() override;
 
 	XMMATRIX GetViewMatrix() { return m_View; }
-
+	XMMATRIX GetProjectionMatrix() {return m_Projection;}
 
 private:
 

@@ -29,8 +29,6 @@ private:
 	class EnemyManager* m_pEnemyManager;
 	int m_FrameCount;
 	int m_CurrentTime;
-	int m_PreviousTime;
-	int m_EnemySpawnCoolTime;
 	Wave m_CurrentWave = WAVE_ONE;
 	
 public:

@@ -31,7 +31,7 @@ using namespace DirectX;
 #if _DEBUG
 #pragma comment(lib , "DirectXTex_Debug.lib")
 #else
-#pregma comment(lib , "DirectXTex_Release.lib")
+#pragma comment(lib , "DirectXTex_Release.lib")
 #endif
 
 

@@ -14,7 +14,7 @@
 class MidTierExpItem : public ExpItem
 {
 public:
-	MidTierExpItem(Vector3 position);
+	MidTierExpItem();
 	~MidTierExpItem();
 };
 

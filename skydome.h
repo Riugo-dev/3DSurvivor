@@ -28,7 +28,7 @@ private:
 
 
 public:
-	SkyDome(Vector3 size = { 100.0f , 100.0f , 100.0f }, Vector3 position = { 0.0f , -10.0f , 0.0f });
+	SkyDome(Vector3 size = { 500.0f , 500.0f , 500.0f }, Vector3 position = { 0.0f , -10.0f , 0.0f });
 	~SkyDome();
 
 	void Init(Input*) override;

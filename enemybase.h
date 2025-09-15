@@ -14,8 +14,14 @@
 #include "manager.h"
 #include "scene.h"
 #include "modelRenderer.h"
-#include "bullet.h"
+#include "attackbase.h"
 #include "player.h"
+#include "score.h"
+#include "hp_ui.h"
+#include "explosion_particle.h"
+#include "result.h"
+#include "game.h"
+#include "fade.h"
 #include <vector>
 
 class BaseEnemy : public GameObject
@@ -24,6 +30,9 @@ protected:
 	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
 	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
+
+	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
+	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
 	ModelRenderer* m_pModelRenderer = nullptr;
 
@@ -41,9 +50,9 @@ public:
 	{
 		if (m_IsDestroy)return;
 		
-		std::vector<Bullet*> p_bullets = Manager::GetScene()->GetGameObjects<Bullet>();
+		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-		for (auto itr : p_bullets)
+		for (auto itr : p_attacks)
 		{
 			if (itr->GetDestroy())continue;
 
@@ -51,12 +60,17 @@ public:
 			float length = d.length();
 			if (length < 1.0f)
 			{
-				itr->SetDestroy(true);
-
-				m_HP--;
+				m_HP -= itr->GetStrength();
+				itr->SubtractHP();
+				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 				if(m_HP <= 0)
 				{
+					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+					boom->SetPosition(m_Position);
+					boom->SetScale({ 0.1f , 0.1f , 0.1f });
+
+					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
 				}
@@ -89,11 +103,19 @@ public:
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		if (length < m_Scale.m_y * 1.5f)
+		if (length < m_Scale.m_y * 2.5f)
 		{
 			if(!p_player->GetIsInvincible())
 			{
-				p_player->DamagePlayer();
+				p_player->SetInvincibilty(true);
+				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+
+				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+				{
+					Manager::SetScene<Result>();
+					Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+					Game::SetGameState(GAME_FADEOUT);
+				}
 			}
 		}
 	}
@@ -102,37 +124,54 @@ public:
 	//全て同じ処理でドローするのでここで一括で書く
 	void Draw()	override
 	{
-		//入力レイアウト設定
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+		{//通常の描画
+			//入力レイアウト設定
+			Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-		//シェーダ設定
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
-
-
-		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
-
-		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
-
-		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
-
-		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
-
-		//マテリアル設定
-		MATERIAL material{};
-		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-		material.TextureEnable = false;
-		Renderer::SetMaterial(material);
+			//シェーダ設定
+			Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
 
+			//平行移動行列の作成（表示座標を決める）
+			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
-		Renderer::SetWorldMatrix(WorldMatrix);
+			//回転行列（Z回転）行列の作成
+			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
-		m_pModelRenderer->Draw();
+			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+
+			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+			//マテリアル設定
+			MATERIAL material{};
+			material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+			material.TextureEnable = false;
+			Renderer::SetMaterial(material);
+
+
+
+			Renderer::SetWorldMatrix(WorldMatrix);
+
+			m_pModelRenderer->Draw();
+		}
+
+
+		{//輪郭線の描画
+			//頂点シェーダーをセット
+			Renderer::GetDeviceContext()->VSSetShader(m_VertexShaderEdge, NULL, 0);
+			//ピクセルシェーダーをセット
+			Renderer::GetDeviceContext()->PSSetShader(m_PixelShaderEdge, NULL, 0);
+
+			Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+			//描画
+			m_pModelRenderer->Draw();
+
+			Renderer::SetCullMode(D3D11_CULL_BACK);
+		}
 	}
 
 

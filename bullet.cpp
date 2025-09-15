@@ -79,7 +79,7 @@ void Bullet::Update()
 	//	+ m_StartVector *(m_Time * m_Time * m_Time - 2.0f * m_Time * m_Time + m_Time)
 	//	+ m_EndVector * (m_Time * m_Time * m_Time - m_Time * m_Time);
 
-	Manager::GetScene()->AddGameObject<Explosion>(2)->SetPosition(m_Position);//èdÇ≠Ç»ÇËÇ∑Ç¨ÇÈ
+	//Manager::GetScene()->AddGameObject<Explosion>(2)->SetPosition(m_Position);//èdÇ≠Ç»ÇËÇ∑Ç¨ÇÈ
 
 	/*Enemy* p_enemy = Manager::GetGameObject<Enemy>();
 

@@ -15,6 +15,15 @@
 #include "main.h"
 
 class Input;
+typedef enum
+{
+	ATT_LVNONE = 0,
+	ATT_LV1,
+	ATT_LV2,
+	ATT_LV3,
+	ATT_LV4,
+	ATT_LVMAX,
+}AttackLevel;
 
 class GameObject
 {
@@ -70,6 +79,12 @@ public:
 	float GetDistanceFromCamera(Vector3 Position)
 	{
 		return (m_Position - Position).length();
+	}
+
+	float GetZ(Vector3 position, Vector3 foward)
+	{
+		Vector3 direction = m_Position - position;
+		return Vector3::dot(direction, foward);
 	}
 };
 

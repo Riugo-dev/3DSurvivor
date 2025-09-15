@@ -22,6 +22,21 @@
     <Filter Include="エネミー関係">
       <UniqueIdentifier>{a78b1a36-7d3d-422e-ad83-766ebf7cd23a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="攻撃関連">
+      <UniqueIdentifier>{37fc9019-c9af-4c2a-bcf6-abafff584fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI関連">
+      <UniqueIdentifier>{c2632b95-1ea2-4826-8348-9dd1580f1726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ステージ関係">
+      <UniqueIdentifier>{91d18140-9d06-4008-8926-673a5d730a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="パーティクル">
+      <UniqueIdentifier>{e168f591-ad3f-48f5-b4a4-adabc5a6a75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="オーディオ">
+      <UniqueIdentifier>{b152f653-99a0-4373-bdc2-b51bfa36184c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,9 +81,6 @@
     <ClCompile Include="explosion.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="skydome.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="texture.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -96,11 +108,77 @@
     <ClCompile Include="gametimer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_manager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="levelone_enemy.cpp">
       <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="leveltwo_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="levelthree_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfour_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_manager.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="gameender_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfive_enemy.cpp">
+      <Filter>エネミー関係</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_bullet.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="hp_ui.cpp">
+      <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_field.cpp">
+      <Filter>ステージ関係</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome.cpp">
+      <Filter>ステージ関係</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="swordattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_sword.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_shuriken.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="shurikenattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="pause.cpp">
+      <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="attack_manager.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="explosion_particle.cpp">
+      <Filter>パーティクル</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>パーティクル</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="result_ui.cpp">
+      <Filter>UI関連</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +230,6 @@
     <ClInclude Include="explosion.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="skydome.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="texture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -197,6 +272,75 @@
     <ClInclude Include="levelone_enemy.h">
       <Filter>エネミー関係</Filter>
     </ClInclude>
+    <ClInclude Include="leveltwo_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="levelthree_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfour_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="gameender_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfive_enemy.h">
+      <Filter>エネミー関係</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_bullet.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="bulletattack.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="hp_ui.h">
+      <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="stage_field.h">
+      <Filter>ステージ関係</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome.h">
+      <Filter>ステージ関係</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_sword.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="swordattack.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_shuriken.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="shurikenattack.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="pause.h">
+      <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="attack_manager.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion_particle.h">
+      <Filter>パーティクル</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>パーティクル</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="result_ui.h">
+      <Filter>UI関連</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">
@@ -206,6 +350,36 @@
       <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="pixelLightingBlinnPhongPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon2PS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon2VS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon1PS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="toon1VS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="pixelLightingBlinnPhongVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ToonPSEdge.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ToonVSEdge.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="vertexDirectionalLightingPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="vertexDirectionalLightingVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>

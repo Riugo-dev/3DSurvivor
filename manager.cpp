@@ -15,6 +15,7 @@
 #include "title.h"
 #include "game.h"
 #include "texture.h"
+#include "fade.h"
 
 
 #include "manager.h"
@@ -70,16 +71,20 @@ void Manager::Draw()
 	//‰æ–Ê‘JˆÚ
 	if (m_NextScene != nullptr)
 	{
-		m_Scene->Uninit();
-		delete m_Scene;
+		if(m_Scene->GetGameObject<Fade>() == nullptr || m_Scene->GetGameObject<Fade>()->GetFade() == FADE_FIN)
+		{
 
-		Texture::ReleaseAll();
+			m_Scene->Uninit();
+			delete m_Scene;
 
-		ModelRenderer::UnloadAll();
+			Texture::ReleaseAll();
 
-		m_Scene = m_NextScene;
-		m_Scene->Init(m_Input);
+			ModelRenderer::UnloadAll();
 
-		m_NextScene = nullptr;
+			m_Scene = m_NextScene;
+			m_Scene->Init(m_Input);
+
+			m_NextScene = nullptr;
+		}
 	}
 }

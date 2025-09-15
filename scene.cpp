@@ -86,11 +86,13 @@ void Scene::Draw()
 	if(camera != nullptr)
 	{
 		Vector3 cameraPosition = camera->GetPosition();
+		Vector3 cameraFoward = camera->GetFoward();
+
 
 		//ラムダ式のかっこの中にアンパサンドを入れることでローカル変数にもアクセスできるようになる
 		m_GameObjects[2].sort([&](GameObject* object1, GameObject* object2)
 			{
-				return object1->GetDistanceFromCamera(cameraPosition) > object2->GetDistanceFromCamera(cameraPosition);
+				return object1->GetZ(cameraPosition, cameraFoward) > object2->GetZ(cameraPosition, cameraFoward);
 			});
 	}
 
