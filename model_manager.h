@@ -36,6 +36,8 @@ typedef enum
 	SHURIKEN,
 	SWORD,
 
+	//その他のオブジェクト
+	SKYDOME,
 	
 }ModelTags;
 

@@ -18,8 +18,10 @@
 //********************************************************************************
 SkyDome::SkyDome(Vector3 size, Vector3 position)
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\sky.obj");
+	/*m_pModelRenderer = new ModelRenderer();
+	m_pModelRenderer->Load("asset\\model\\sky.obj");*/
+
+	m_ModelTag = SKYDOME;
 
 	m_Scale = size;
 
@@ -31,7 +33,7 @@ SkyDome::SkyDome(Vector3 size, Vector3 position)
 
 SkyDome::~SkyDome()
 {
-	delete m_pModelRenderer;
+	/*delete m_pModelRenderer;*/
 
 
 	m_VertexLayout->Release();
@@ -87,7 +89,8 @@ void SkyDome::Draw()
 	material.TextureEnable = false;
 	Renderer::SetMaterial(material);
 
-	m_pModelRenderer->Draw();
+	//m_pModelRenderer->Draw();
+	ModelManager::ModelDraw(m_ModelTag);
 }
 
 

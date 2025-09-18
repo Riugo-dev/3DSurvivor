@@ -50,6 +50,11 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SWORD] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SWORD]->Load("asset\\model\\AttackTypeSword.obj");
 
+	m_pModelRenderers[SKYDOME] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SKYDOME]->Load("asset\\model\\sky.obj");
+
+
+
 }
 
 ModelManager::~ModelManager()
