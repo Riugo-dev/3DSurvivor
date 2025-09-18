@@ -11,13 +11,13 @@
 #include "manager.h"
 #include "renderer.h"
 #include "camera.h"
-#include "modelRenderer.h"
+//#include "modelRenderer.h"
 #include "input.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "scene.h"
 #include "game.h"
-
+//#include "model_manager.h"
 
 #include "player.h"
 
@@ -28,8 +28,8 @@
 //********************************************************************************
 Player::Player(Vector3 size, Vector3 position) 
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\player.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\player.obj");
 
 	m_Scale = size;
 	m_Position = position;
@@ -42,6 +42,7 @@ Player::Player(Vector3 size, Vector3 position)
 	m_HP = 5;
 	m_InvinceibleFrameCount = 0;
 	m_IsInvinceble = false;
+	m_ModelTag = PLAYER;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
@@ -53,7 +54,7 @@ Player::Player(Vector3 size, Vector3 position)
 
 Player::~Player()
 { 
-	delete m_pModelRenderer;
+	//delete m_pModelRenderer;
 	
 
 	m_VertexLayout->Release();
@@ -165,7 +166,8 @@ void Player::Draw()
 
 	Renderer::SetWorldMatrix(WorldMatrix);
 
-	m_pModelRenderer->Draw();
+	//m_pModelRenderer->Draw();
+	ModelManager::ModelDraw(m_ModelTag);
 }
 
 void Player::GivePlayerExp(int gainingexp)

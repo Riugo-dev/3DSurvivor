@@ -12,8 +12,8 @@
 
 LowTierExpItem::LowTierExpItem()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\LowTierEXPItem.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\LowTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
@@ -27,13 +27,13 @@ LowTierExpItem::LowTierExpItem()
 
 	std::random_device rd;
 	m_Exp = rd() % 30 + 5;
-
+	m_ModelTag = LOWTIER_EXP;
 }
 
 LowTierExpItem::~LowTierExpItem()
 {
-	delete m_pModelRenderer;
-
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

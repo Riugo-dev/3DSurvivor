@@ -13,10 +13,10 @@
 #define _PLAYER_H_
 
 #include "gameobject.h"
+#include "model_manager.h"
 
 
-
-class ModelRenderer;
+//class ModelRenderer;
 
 class Player:public GameObject
 {
@@ -26,7 +26,7 @@ private:
 	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
 	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
 
-	ModelRenderer* m_pModelRenderer;
+	//ModelRenderer* m_pModelRenderer;
 
 	//経験値とレベル関係の名メモ
 	//現在考えているのが武器のみで各種武器は５段階のレベリング
@@ -61,7 +61,7 @@ private:
 	int m_HP = 0;//プレイヤーの体力設定
 	int m_InvinceibleFrameCount = 0;
 	bool m_IsInvinceble = false;
-	
+	ModelTags m_ModelTag;
 public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.5f , 0.0f });
 	~Player();

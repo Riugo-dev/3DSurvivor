@@ -13,8 +13,8 @@
 #include "renderer.h"
 #include "manager.h"
 #include "scene.h"
-#include "modelRenderer.h"
 #include "player.h"
+#include "model_manager.h"
 #include <vector>
 
 
@@ -37,6 +37,8 @@ protected:
 	int m_LivingFrames;
 
 	int m_Strength;//UŒ‚‚ÌˆÐ—Í
+
+	ModelTags m_ModelTag;
 public:
 	virtual ~BaseAttack() = default;
 
@@ -78,7 +80,9 @@ public:
 
 			Renderer::SetWorldMatrix(WorldMatrix);
 
-			m_pModelRenderer->Draw();
+			//m_pModelRenderer->Draw();
+			ModelManager::ModelDraw(m_ModelTag);
+
 		}
 
 
@@ -91,7 +95,8 @@ public:
 			Renderer::SetCullMode(D3D11_CULL_FRONT);
 
 			//•`‰æ
-			m_pModelRenderer->Draw();
+			//m_pModelRenderer->Draw();
+			ModelManager::ModelDraw(m_ModelTag);
 
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}

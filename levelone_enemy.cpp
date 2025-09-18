@@ -13,8 +13,8 @@
 
 LevelOneEnemy::LevelOneEnemy()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\EnemyTypeRed.obj");
+	/*m_pModelRenderer = new ModelRenderer();
+	m_pModelRenderer->Load("asset\\model\\EnemyTypeRed.obj");*/
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
@@ -37,12 +37,13 @@ LevelOneEnemy::LevelOneEnemy()
 	m_HP = 1;
 	m_EnemySpeed = 0.01f;
 	m_Points = 10;
+	m_ModelTag = ENEMY_RED;
 }
 
 LevelOneEnemy::~LevelOneEnemy()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	/*delete m_pModelRenderer;
+	m_pModelRenderer = nullptr;*/
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

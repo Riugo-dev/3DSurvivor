@@ -24,13 +24,14 @@
 #include "score.h"
 #include "hp_ui.h"
 #include "stage_field.h"
-#include "modelRenderer.h"
+//#include "modelRenderer.h"
 #include "pause.h"
 #include "bulletattack.h"
 #include "swordattack.h"
 #include "shurikenattack.h"
 #include "attack_manager.h"
 #include "fade.h"
+#include "model_manager.h"
 
 #include "title.h"
 
@@ -50,6 +51,7 @@ void Game::Init(Input* input)
 	
 	m_Input = input;
 	m_pTimer = new GameTimer;
+	
 
 	Renderer::Init();
 
@@ -68,7 +70,7 @@ void Game::Init(Input* input)
 
 	GetGameObject<Fade>()->SetFade(FADE_IN);
 
-
+	m_pModelManager = new ModelManager;
 
 	m_State = GAME_FADEIN;
 }
@@ -78,9 +80,12 @@ void Game::Uninit()
 	delete m_pTimer;
 	m_pTimer = nullptr;
 
+	delete m_pModelManager;
+	m_pModelManager = nullptr;
+
 	Scene::Uninit();
 
-	ModelRenderer::UnloadAll();
+	//ModelRenderer::UnloadAll();
 }
 
 void Game::Update()

@@ -13,8 +13,8 @@
 
 LevelFourEnemy::LevelFourEnemy()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\EnemyTypePurple.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\EnemyTypePurple.obj");
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
@@ -29,12 +29,13 @@ LevelFourEnemy::LevelFourEnemy()
 	m_HP = 8;
 	m_EnemySpeed = 0.04f;
 	m_Points = 40;
+	m_ModelTag = ENEMY_PURPLE;
 }
 
 LevelFourEnemy::~LevelFourEnemy()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

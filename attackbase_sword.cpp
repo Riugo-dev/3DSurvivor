@@ -13,8 +13,10 @@
 
 BaseAttackSword::BaseAttackSword()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\AttackTypeSword.obj");
+	/*m_pModelRenderer = new ModelRenderer();
+	m_pModelRenderer->Load("asset\\model\\AttackTypeSword.obj");*/
+
+	m_ModelTag = SWORD;
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
@@ -38,8 +40,8 @@ BaseAttackSword::BaseAttackSword()
 
 BaseAttackSword::~BaseAttackSword()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

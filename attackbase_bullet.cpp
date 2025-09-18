@@ -10,8 +10,9 @@
 
 BaseAttackBullet::BaseAttackBullet()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\bullet.obj");
+	/*m_pModelRenderer = new ModelRenderer();
+	m_pModelRenderer->Load("asset\\model\\bullet.obj");*/
+	m_ModelTag = BULLET;
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
@@ -33,8 +34,8 @@ BaseAttackBullet::BaseAttackBullet()
 
 BaseAttackBullet::~BaseAttackBullet()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	/*delete m_pModelRenderer;
+	m_pModelRenderer = nullptr;*/
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

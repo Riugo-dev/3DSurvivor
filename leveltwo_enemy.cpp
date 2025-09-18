@@ -13,8 +13,8 @@
 
 LevelTwoEnemy::LevelTwoEnemy()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\EnemyTypeBlue.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\EnemyTypeBlue.obj");
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
@@ -29,12 +29,13 @@ LevelTwoEnemy::LevelTwoEnemy()
 	m_HP = 3;
 	m_EnemySpeed = 0.02f;
 	m_Points = 20;
+	m_ModelTag = ENEMY_BLUE;
 }
 
 LevelTwoEnemy::~LevelTwoEnemy()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

@@ -27,7 +27,7 @@ typedef enum
 class Game :public Scene
 {
 private:
-
+	class ModelManager* m_pModelManager;
 	class Pause* m_pPause;
 	Input* m_Input;
 	class GameTimer* m_pTimer;
