@@ -13,7 +13,6 @@
 #include "renderer.h"
 #include "manager.h"
 #include "scene.h"
-#include "modelRenderer.h"
 #include "attackbase.h"
 #include "player.h"
 #include "score.h"
@@ -22,6 +21,7 @@
 #include "result.h"
 #include "game.h"
 #include "fade.h"
+#include "model_manager.h"
 #include <vector>
 
 class BaseEnemy : public GameObject
@@ -34,13 +34,14 @@ protected:
 	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
-	ModelRenderer* m_pModelRenderer = nullptr;
+	//ModelRenderer* m_pModelRenderer = nullptr;
 
 	int m_HP;
 	float m_EnemySpeed = 0.03f;
 	int m_Points;
+	ModelTags m_ModelTag;
 public:
-	virtual ~BaseEnemy() = default;
+	~BaseEnemy() = default;
 
 	void Init(Input*) override {};
 	void Uninit() override {};
@@ -155,7 +156,8 @@ public:
 
 			Renderer::SetWorldMatrix(WorldMatrix);
 
-			m_pModelRenderer->Draw();
+			//m_pModelRenderer->Draw();
+			ModelManager::ModelDraw(m_ModelTag);
 		}
 
 
@@ -168,7 +170,8 @@ public:
 			Renderer::SetCullMode(D3D11_CULL_FRONT);
 
 			//描画
-			m_pModelRenderer->Draw();
+			//m_pModelRenderer->Draw();
+			ModelManager::ModelDraw(m_ModelTag);
 
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}

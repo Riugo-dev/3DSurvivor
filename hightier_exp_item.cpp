@@ -12,8 +12,8 @@
 
 HighTierExpItem::HighTierExpItem()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\HighTierEXPItem.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\HighTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
@@ -27,12 +27,13 @@ HighTierExpItem::HighTierExpItem()
 
 	std::random_device rd;
 	m_Exp = rd() % 100 + 51;
+	m_ModelTag = HIGHTIER_EXP;
 }
 
 HighTierExpItem::~HighTierExpItem()
 {
-	delete m_pModelRenderer;
-
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

@@ -28,7 +28,7 @@ private:
 	int m_HP;
 public:
 	Pause();
-	~Pause();
+	~Pause() override;
 
 	void Init(Input*) override {};
 	void Uninit() override {};

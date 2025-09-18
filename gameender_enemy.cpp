@@ -11,8 +11,8 @@
 
 GameEnderEnemy::GameEnderEnemy()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\EnemyTypeBlack.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\EnemyTypeBlack.obj");
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
@@ -27,12 +27,13 @@ GameEnderEnemy::GameEnderEnemy()
 	m_HP = 100;
 	m_EnemySpeed = 0.4f;
 	m_Points = 10000;
+	m_ModelTag = ENEMY_BLACK;
 }
 
 GameEnderEnemy::~GameEnderEnemy()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

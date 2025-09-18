@@ -31,9 +31,10 @@ private:
 	const int m_IndexCount = 6;
 public:
 	StageField();
+	~StageField() override;
 
 	void Init(Input*) override {};
-	void Uninit() override;
+	void Uninit() override {};
 	void Update() override;
 	void Draw() override;
 };

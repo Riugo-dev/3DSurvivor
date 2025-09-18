@@ -19,7 +19,7 @@ private:
 
 public:
 	BulletAttack();
-	~BulletAttack();
+	~BulletAttack() override {};
 
 	void Init(Input*) override {};
 	void Uninit() override {};

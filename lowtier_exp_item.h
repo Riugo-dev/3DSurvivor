@@ -15,7 +15,7 @@ class LowTierExpItem : public ExpItem
 {
 public:
 	LowTierExpItem();
-	~LowTierExpItem();
+	~LowTierExpItem() override;
 };
 
 

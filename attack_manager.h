@@ -34,7 +34,7 @@ private:
 
 public:
 	AttackManager();
-	~AttackManager();
+	~AttackManager() override;
 
 	void Init(Input* p_input) { m_pInput = p_input; }
 	void Uninit() override {};

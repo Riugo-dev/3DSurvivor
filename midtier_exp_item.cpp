@@ -12,8 +12,8 @@
 
 MidTierExpItem::MidTierExpItem()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\MidTierEXPItem.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\MidTierEXPItem.obj");
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
@@ -28,12 +28,13 @@ MidTierExpItem::MidTierExpItem()
 
 	std::random_device rd;
 	m_Exp = rd() % 60 + 21;
+	m_ModelTag = MIDTIER_EXP;
 }
 
 MidTierExpItem::~MidTierExpItem()
 {
-	delete m_pModelRenderer;
-
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

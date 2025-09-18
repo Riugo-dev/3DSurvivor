@@ -13,8 +13,8 @@
 
 LevelThreeEnemy::LevelThreeEnemy()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\EnemyTypeGreen.obj");
+	//m_pModelRenderer = new ModelRenderer();
+	//m_pModelRenderer->Load("asset\\model\\EnemyTypeGreen.obj");
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
@@ -29,12 +29,13 @@ LevelThreeEnemy::LevelThreeEnemy()
 	m_HP = 6;
 	m_EnemySpeed = 0.03f;
 	m_Points = 30;
+	m_ModelTag = ENEMY_GREEN;
 }
 
 LevelThreeEnemy::~LevelThreeEnemy()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	/*delete m_pModelRenderer;
+	m_pModelRenderer = nullptr;*/
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

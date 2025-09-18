@@ -13,8 +13,9 @@
 
 BaseAttackShuriken::BaseAttackShuriken()
 {
-	m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\AttackTypeShuriken.obj");
+	/*m_pModelRenderer = new ModelRenderer();
+	m_pModelRenderer->Load("asset\\model\\AttackTypeShuriken.obj");*/
+	m_ModelTag = SHURIKEN;
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
@@ -39,8 +40,8 @@ BaseAttackShuriken::BaseAttackShuriken()
 
 BaseAttackShuriken::~BaseAttackShuriken()
 {
-	delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;
+	//delete m_pModelRenderer;
+	//m_pModelRenderer = nullptr;
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

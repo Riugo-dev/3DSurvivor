@@ -37,6 +37,9 @@ protected:
 
 	Input* m_pInput;
 public:
+
+	virtual ~GameObject() = default;
+
 	virtual void Init(Input*) = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;

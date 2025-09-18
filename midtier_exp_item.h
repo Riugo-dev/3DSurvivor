@@ -15,7 +15,7 @@ class MidTierExpItem : public ExpItem
 {
 public:
 	MidTierExpItem();
-	~MidTierExpItem();
+	~MidTierExpItem() override;
 };
 
 

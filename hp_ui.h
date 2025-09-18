@@ -31,7 +31,7 @@ private:
 	int m_HP;
 public:
 	HPUI();
-	~HPUI();
+	~HPUI() override;
 
 	void Init(Input*) override;
 	void Uninit() override;
