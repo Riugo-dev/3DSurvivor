@@ -15,7 +15,7 @@ class LevelTwoEnemy : public BaseEnemy
 {
 public:
 	LevelTwoEnemy();
-	~LevelTwoEnemy();
+	~LevelTwoEnemy() override;
 
 	void EnemyItemDrop() override;
 };

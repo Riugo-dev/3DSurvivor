@@ -98,8 +98,7 @@ StageField::StageField()
 
 }
 
-
-void StageField::Uninit()
+StageField::~StageField()
 {
 	m_VertexBuffer->Release();
 	m_IndexBuffer->Release();
@@ -110,6 +109,9 @@ void StageField::Uninit()
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 }
+
+
+
 
 
 void StageField::Update()

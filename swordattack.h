@@ -20,7 +20,7 @@ private:
 
 public:
 	SwordAttack();
-	~SwordAttack();
+	~SwordAttack()override {};
 
 	void Init(Input*) override {};
 	void Uninit() override {};

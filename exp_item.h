@@ -40,7 +40,7 @@ protected:
 
 public:
 	//ExpItem();
-	virtual ~ExpItem() = default;
+	~ExpItem() = default;
 
 	int GetExp() { return m_Exp; }
 

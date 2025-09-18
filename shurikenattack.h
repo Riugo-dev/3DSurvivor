@@ -20,7 +20,7 @@ private:
 
 public:
 	ShurikenAttack();
-	~ShurikenAttack();
+	~ShurikenAttack() override {};
 
 	void Init(Input*) override {};
 	void Uninit() override {};

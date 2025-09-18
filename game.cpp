@@ -10,6 +10,7 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
+#include "texture.h"
 #include "input.h"
 
 #include "camera.h"
@@ -24,7 +25,6 @@
 #include "score.h"
 #include "hp_ui.h"
 #include "stage_field.h"
-//#include "modelRenderer.h"
 #include "pause.h"
 #include "bulletattack.h"
 #include "swordattack.h"
@@ -84,6 +84,8 @@ void Game::Uninit()
 	m_pModelManager = nullptr;
 
 	Scene::Uninit();
+
+	//Texture::ReleaseAll();
 
 	//ModelRenderer::UnloadAll();
 }

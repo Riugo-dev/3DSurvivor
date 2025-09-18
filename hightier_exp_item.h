@@ -15,7 +15,7 @@ class HighTierExpItem : public ExpItem
 {
 public:
 	HighTierExpItem();
-	~HighTierExpItem();
+	~HighTierExpItem() override;
 };
 
 

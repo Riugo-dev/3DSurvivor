@@ -41,7 +41,7 @@ protected:
 	int m_Points;
 	ModelTags m_ModelTag;
 public:
-	virtual ~BaseEnemy() = default;
+	~BaseEnemy() = default;
 
 	void Init(Input*) override {};
 	void Uninit() override {};

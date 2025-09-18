@@ -15,7 +15,7 @@ class GameEnderEnemy : public BaseEnemy
 {
 public:
 	GameEnderEnemy();
-	~GameEnderEnemy();
+	~GameEnderEnemy() override;
 
 	void EnemyItemDrop() override;
 };

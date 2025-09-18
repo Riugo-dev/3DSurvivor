@@ -33,7 +33,7 @@ private:
 	int m_TotalScore;
 public:
 	ResultUI();
-	~ResultUI();
+	~ResultUI() override;
 
 	void Init(Input*) override {};
 	void Uninit() override {};

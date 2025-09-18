@@ -29,8 +29,6 @@ protected:
 	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
-	ModelRenderer* m_pModelRenderer = nullptr;
-
 	int m_HP;//攻撃事態のHP（貫通することを考慮して）
 	Vector3 m_Velocity;
 	int m_FrameCount;
