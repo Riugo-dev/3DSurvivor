@@ -119,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -137,6 +138,7 @@
     <ClCompile Include="bulletattack.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
+    <ClCompile Include="controller.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
@@ -189,6 +191,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="controller.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemybase.h" />
     <ClInclude Include="enemy_manager.h" />

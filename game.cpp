@@ -32,7 +32,7 @@
 #include "attack_manager.h"
 #include "fade.h"
 #include "model_manager.h"
-
+#include "controller.h"
 #include "title.h"
 
 #include "game.h"
@@ -93,6 +93,8 @@ void Game::Uninit()
 void Game::Update()
 {
 
+	Controller* p_contorller = Manager::GetController();
+
 	if(m_State == GAME_PLAY)
 	{
 		Scene::Update();
@@ -101,7 +103,7 @@ void Game::Update()
 
 
 
-		if (m_Input->GetKeyTrigger(KK_P))
+		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PAUSE;
 		}
@@ -110,12 +112,12 @@ void Game::Update()
 	{
 	
 
-		if (m_Input->GetKeyTrigger(KK_P))
+		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PLAY;
 		}
 
-		if (m_Input->GetKeyTrigger(KK_ENTER))
+		if ((m_Input->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
 		{
 			Manager::SetScene<Title>();
 			GetGameObject<Fade>()->SetFade(FADE_OUT);
