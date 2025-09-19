@@ -11,6 +11,7 @@
 #include "renderer.h"
 #include "modelRenderer.h"
 #include "input.h"
+#include "controller.h"
 #include "scene.h"
 #include "title.h"
 #include "game.h"
@@ -25,6 +26,7 @@
 Scene* Manager::m_Scene = nullptr;
 Scene* Manager::m_NextScene = nullptr;
 Input* Manager::m_Input;
+Controller* Manager::m_pController = nullptr;
 //********************************************************************************
 //ŠÖ”
 //********************************************************************************
@@ -33,7 +35,7 @@ void Manager::Init()
 	Renderer::Init();
     m_Input = new Input;
 	
-
+	m_pController = new Controller;
 
 	m_Scene = new Title();
 	m_Scene->Init(m_Input);
@@ -46,6 +48,7 @@ void Manager::Uninit()
 
 	Texture::ReleaseAll();
 
+	delete m_pController;
 	delete m_Input;
 	Renderer::Uninit();
 }
@@ -53,6 +56,7 @@ void Manager::Uninit()
 void Manager::Update()
 {
 	m_Input->Update();
+	m_pController->Controller_Update();
 
 	m_Scene->Update();
 

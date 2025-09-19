@@ -5,7 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/05/14
 // -------------------------------------------------------------------------------
-//															Last Edited:2025/05/14
+//															Last Edited:2025/09/14
 //********************************************************************************
 #include "main.h"
 #include "manager.h"
@@ -13,6 +13,7 @@
 #include "input.h"
 #include "player.h"
 #include "scene.h"
+#include "controller.h"
 
 #include "camera.h"
 
@@ -76,21 +77,39 @@ void Camera::Uninit()
 
 void Camera::Update()
 {
-	if (m_pInput->GetKeyPress(KK_LEFT))
+	Controller* p_contorller = Manager::GetController();
+
+	if (p_contorller->IsConnected())
 	{
-		m_Rotation.m_y += -0.1f;
-		IsRotating = true;
+		if (p_contorller->Controller_RightStickIsLeft())
+		{
+			m_Rotation.m_y += -0.05f;
+			IsRotating = true;
+		}
+		else if (p_contorller->Controller_RightStickIsRight())
+		{
+			m_Rotation.m_y += 0.05f;
+			IsRotating = true;
+		}
 	}
-	else if (m_pInput->GetKeyPress(KK_RIGHT))
+	else
 	{
-		m_Rotation.m_y += 0.1f;
-		IsRotating = true;
+		if (m_pInput->GetKeyPress(KK_LEFT))
+		{
+			m_Rotation.m_y += -0.05f;
+			IsRotating = true;
+		}
+		else if (m_pInput->GetKeyPress(KK_RIGHT))
+		{
+			m_Rotation.m_y += 0.05f;
+			IsRotating = true;
+		}
 	}
-	else if (m_pInput->GetKeyPress(KK_RIGHTSHIFT))
+	/*else if (m_pInput->GetKeyPress(KK_RIGHTSHIFT))
 	{
 		m_Rotation.m_y = 0.0f;
 		IsRotating = false;
-	}
+	}*/
 
 
 	if (m_pInput->GetKeyPress(KK_ENTER))

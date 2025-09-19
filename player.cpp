@@ -11,13 +11,12 @@
 #include "manager.h"
 #include "renderer.h"
 #include "camera.h"
-//#include "modelRenderer.h"
 #include "input.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "scene.h"
 #include "game.h"
-//#include "model_manager.h"
+#include "controller.h"
 
 #include "player.h"
 
@@ -75,26 +74,27 @@ void Player::Uninit()
 void Player::Update()
 {
 	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+	Controller* p_controller = Manager::GetController();
 
-	if (m_pInput->GetKeyPress(KK_A))
+	if ((m_pInput->GetKeyPress(KK_A) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsLeft())
 	{
 		//m_Position += Vector3(-1.0f, 0.0f, 0.0f);
 		m_Position += -p_camera->GetRight() * 0.1f;
 	}
 	
-	if (m_pInput->GetKeyPress(KK_D))
+	if ((m_pInput->GetKeyPress(KK_D) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsRight())
 	{
 		//m_Position += Vector3(1.0f, 0.0f, 0.0f);
 		m_Position += p_camera->GetRight() * 0.1f;
 	}
 	
-	if (m_pInput->GetKeyPress(KK_W))
+	if ((m_pInput->GetKeyPress(KK_W) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsUp())
 	{
 		//m_Position += Vector3(0.0f, 0.0f, 1.0f);
 		m_Position += p_camera->GetFoward() * 0.1f;
 	}
 	
-	if (m_pInput->GetKeyPress(KK_S))
+	if ((m_pInput->GetKeyPress(KK_S) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsDown())
 	{
 		//m_Position += Vector3(0.0f, 0.0f, -1.0f);
 		m_Position += -p_camera->GetFoward() * 0.1f;

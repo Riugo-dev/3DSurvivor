@@ -18,6 +18,7 @@
 #include "title.h"
 #include "player.h"
 #include "score.h"
+#include "controller.h"
 
 #include "result.h"
 
@@ -38,10 +39,15 @@ void Result::Init(Input*)
 
 void Result::Update()
 {
-	if (m_Input->GetKeyTrigger(KK_ENTER))
+	if (Manager::GetScene()->GetGameObject<Fade>()->GetFade() == FADE_FIN)
 	{
-		Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-		Manager::SetScene<Title>();
+		Controller* p_contorller = Manager::GetController();
+
+		if ((m_Input->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
+		{
+			Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+			Manager::SetScene<Title>();
+		}
 
 	}
 

@@ -17,6 +17,7 @@ private:
 	static class Scene* m_Scene;
 	static class Scene* m_NextScene;
 	static Input* m_Input;
+	static class Controller* m_pController;
 public:
 	static void Init();		//‰Šú‰»
 	static void Uninit();	//I—¹ˆ—
@@ -24,6 +25,7 @@ public:
 	static void Draw();		//•`‰æˆ—
 
 	static Scene* GetScene() { return m_Scene; }
+	static Controller* GetController() { return m_pController; }
 	
 	template <typename S>
 	static void SetScene()

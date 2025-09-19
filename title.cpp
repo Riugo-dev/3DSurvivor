@@ -14,6 +14,7 @@
 #include "game.h"
 #include "polygon.h"
 #include "fade.h"
+#include "controller.h"
 
 #include "title.h"
 
@@ -25,11 +26,16 @@ void Title::Init(Input*)
 
 void Title::Update()
 {
-	if (m_Input->GetKeyTrigger(KK_ENTER))
+	if(Manager::GetScene()->GetGameObject<Fade>()->GetFade() == FADE_FIN)
 	{
-		Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-		Manager::SetScene<Game>();
-		
+		Controller* p_contorller = Manager::GetController();
+
+		if ((m_Input->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
+		{
+			Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+			Manager::SetScene<Game>();
+
+		}
 	}
 
 	Manager::GetScene()->GetGameObject<Fade>()->Update();

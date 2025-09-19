@@ -16,7 +16,7 @@
 #include "swordattack.h"
 #include "shurikenattack.h"
 #include "player.h"
-
+#include "controller.h"
 
 
 #include "attack_manager.h"
@@ -101,7 +101,10 @@ void AttackManager::Update()
 {
 	if (Game::GetGameState() == PLAYER_LEVELUP)
 	{
-		if (m_pInput->GetKeyTrigger(KK_RIGHT))
+
+		Controller* p_contorller = Manager::GetController();
+
+		if ((m_pInput->GetKeyTrigger(KK_RIGHT) && !p_contorller->IsConnected()) || p_contorller->LeftStickIsRightContinuous())
 		{
 			m_SelectNumber++;
 
@@ -110,7 +113,7 @@ void AttackManager::Update()
 				m_SelectNumber = 0;
 			}
 		}
-		else if (m_pInput->GetKeyTrigger(KK_LEFT))
+		else if ((m_pInput->GetKeyTrigger(KK_LEFT) && !p_contorller->IsConnected()) || p_contorller->LeftStickIsLeftContinuous())
 		{
 			m_SelectNumber--;
 
@@ -120,12 +123,12 @@ void AttackManager::Update()
 			}
 		}
 
-		if (m_pInput->GetKeyTrigger(KK_ENTER))
+		if ((m_pInput->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
 		{
 			switch (m_SelectNumber)
-			{
+
 			case 0:
-			{
+			{			{
 				if (Manager::GetScene()->GetGameObject<BulletAttack>()->GetLevel() == ATT_LVMAX) return;
 
 				Manager::GetScene()->GetGameObject<BulletAttack>()->SetToNextLevel();
