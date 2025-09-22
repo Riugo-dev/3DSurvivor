@@ -160,6 +160,7 @@
     <ClCompile Include="lowtier_exp_item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="manager_shader.cpp" />
     <ClCompile Include="manager_soundeffect.cpp" />
     <ClCompile Include="midtier_exp_item.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="manager_shader.h" />
     <ClInclude Include="manager_soundeffect.h" />
     <ClInclude Include="midtier_exp_item.h" />
     <ClInclude Include="modelRenderer.h" />

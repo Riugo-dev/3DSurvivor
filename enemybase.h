@@ -22,17 +22,13 @@
 #include "game.h"
 #include "fade.h"
 #include "model_manager.h"
+#include "manager_shader.h"
 #include <vector>
 
 class BaseEnemy : public GameObject
 {
 protected:
-	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
-	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
-	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
 
-	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
-	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
 	//ModelRenderer* m_pModelRenderer = nullptr;
 
@@ -40,6 +36,7 @@ protected:
 	float m_EnemySpeed = 0.03f;
 	int m_Points;
 	ModelTags m_ModelTag;
+	Shader m_Shader;
 public:
 	~BaseEnemy() = default;
 
@@ -127,11 +124,15 @@ public:
 	{
 		{//通常の描画
 			//入力レイアウト設定
-			Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+			//Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
 
 			//シェーダ設定
-			Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+			/*Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);*/
+
+			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
 
 
 			//平行移動行列の作成（表示座標を決める）
@@ -162,10 +163,20 @@ public:
 
 
 		{//輪郭線の描画
-			//頂点シェーダーをセット
-			Renderer::GetDeviceContext()->VSSetShader(m_VertexShaderEdge, NULL, 0);
-			//ピクセルシェーダーをセット
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShaderEdge, NULL, 0);
+			////頂点シェーダーをセット
+			//Renderer::GetDeviceContext()->VSSetShader(m_VertexShaderEdge, NULL, 0);
+			////ピクセルシェーダーをセット
+			//Renderer::GetDeviceContext()->PSSetShader(m_PixelShaderEdge, NULL, 0);
+
+			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
+
+			//シェーダ設定
+			/*Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);*/
+
+			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+
 
 			Renderer::SetCullMode(D3D11_CULL_FRONT);
 

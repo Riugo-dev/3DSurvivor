@@ -12,19 +12,11 @@
 
 MidTierExpItem::MidTierExpItem()
 {
-	//m_pModelRenderer = new ModelRenderer();
-	//m_pModelRenderer->Load("asset\\model\\MidTierEXPItem.obj");
+	
 
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
-
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\pixelLightingBlinnPhongVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\pixelLightingBlinnPhongPS.cso");
-
-	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
+	m_Shader = SHADER_BLINNPHONG;
 
 	std::random_device rd;
 	m_Exp = rd() % 60 + 21;
@@ -33,12 +25,5 @@ MidTierExpItem::MidTierExpItem()
 
 MidTierExpItem::~MidTierExpItem()
 {
-	//delete m_pModelRenderer;
-	//m_pModelRenderer = nullptr;
 
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release(); 
-	m_VertexShaderEdge->Release();
-	m_PixelShaderEdge->Release();
 }

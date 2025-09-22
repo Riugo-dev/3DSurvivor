@@ -13,19 +13,11 @@
 
 BaseAttackShuriken::BaseAttackShuriken()
 {
-	/*m_pModelRenderer = new ModelRenderer();
-	m_pModelRenderer->Load("asset\\model\\AttackTypeShuriken.obj");*/
 	m_ModelTag = SHURIKEN;
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\pixelLightingBlinnPhongVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\pixelLightingBlinnPhongPS.cso");
-
-	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
+	m_Shader = SHADER_BLINNPHONG;
 
 	m_Velocity = { 0.0f , 0.0f , 0.0f };
 	m_Position = { 0.0f , 0.0f , 0.0f };
@@ -40,14 +32,7 @@ BaseAttackShuriken::BaseAttackShuriken()
 
 BaseAttackShuriken::~BaseAttackShuriken()
 {
-	//delete m_pModelRenderer;
-	//m_pModelRenderer = nullptr;
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-	m_VertexShaderEdge->Release();
-	m_PixelShaderEdge->Release();
+	
 }
 
 void BaseAttackShuriken::Update()

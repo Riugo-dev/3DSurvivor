@@ -183,6 +183,18 @@
     <ClCompile Include="model_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="controller.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="manager_soundeffect.cpp">
+      <Filter>オーディオ</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.cpp">
+      <Filter>オーディオ</Filter>
+    </ClCompile>
+    <ClCompile Include="manager_shader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -345,6 +357,18 @@
       <Filter>UI関連</Filter>
     </ClInclude>
     <ClInclude Include="model_manager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
+      <Filter>オーディオ</Filter>
+    </ClInclude>
+    <ClInclude Include="manager_soundeffect.h">
+      <Filter>オーディオ</Filter>
+    </ClInclude>
+    <ClInclude Include="manager_shader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

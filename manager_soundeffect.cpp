@@ -28,7 +28,7 @@ SoundEffectManager::SoundEffectManager()
 	m_pSoundEffects[SE_SHURIKENTHROW]->Load("asset\\audio\\shurikenthrow.wav");
 	m_pSoundEffects[SE_ENEMYDAMAGE] = std::make_unique<Audio>();
 	m_pSoundEffects[SE_ENEMYDAMAGE]->Load("asset\\audio\\enemydamage.wav");
-	m_pSoundEffects[SE_NEWRECORD] = std::make_unique<Audio>(););
+	m_pSoundEffects[SE_NEWRECORD] = std::make_unique<Audio>();
 	m_pSoundEffects[SE_NEWRECORD]->Load("asset\\audio\\newRecord.wav");
 }
 

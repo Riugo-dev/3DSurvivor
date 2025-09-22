@@ -18,6 +18,7 @@ private:
 	static class Scene* m_NextScene;
 	static Input* m_Input;
 	static class Controller* m_pController;
+	static class ShaderManager* m_pShaderManager;
 public:
 	static void Init();		//‰Šú‰»
 	static void Uninit();	//I—¹ˆ—
@@ -26,6 +27,7 @@ public:
 
 	static Scene* GetScene() { return m_Scene; }
 	static Controller* GetController() { return m_pController; }
+	static ShaderManager* GetShaders() { return m_pShaderManager; }
 	
 	template <typename S>
 	static void SetScene()
