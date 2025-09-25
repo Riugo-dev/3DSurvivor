@@ -8,6 +8,7 @@
 #ifndef _MODEL_MANAGER_H_
 #define _MODEL_MANAGER_H_
 
+#include "manager_shader.h"
 #include	<unordered_map>
 #include	<memory>
 
@@ -46,12 +47,14 @@ class ModelManager
 private:
 
 	static std::unordered_map<ModelTags , std::unique_ptr<class ModelRenderer>> m_pModelRenderers;
+	static std::unordered_map< ModelTags, std::unique_ptr<class ShaderManager>> m_pModelShaders;
 public:
 	ModelManager();
 	~ModelManager();
 
 
 	static void ModelDraw(ModelTags);
+	static void SetShaders(ModelTags, Shader);
 };
 
 #endif // !_MODEL_MANAGER_H_

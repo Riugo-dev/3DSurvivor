@@ -21,7 +21,7 @@ typedef enum
 	SHADER_BLINNPHONG,
 	SHADER_TOONEDGE,
 	SHADER_TOON_TWO,
-	SAHDER_DIRECTIONLIGHTING,
+	SHADER_DIRECTIONLIGHTING,
 
 	SHADER_MAX,
 }Shader;
@@ -50,10 +50,11 @@ private:
 	std::unordered_map<Shader, ShaderPointers*> m_pShaderPointers;
 
 public:
-	ShaderManager();
+	ShaderManager(Shader , bool = false);
 	~ShaderManager();
 
 	ShaderPointers* GetShaderPointers(Shader);
+	void SetShaders(Shader);
 };
 
 #endif // !_SHADER_MANAGER_H_

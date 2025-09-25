@@ -74,12 +74,13 @@ public:
 
 		{//通常の描画
 			//入力レイアウト設定
-			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
+			//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
 
-			//シェーダ設定
-			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
+			////シェーダ設定
+			//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
+			//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
 
+			ModelManager::SetShaders(m_ModelTag, m_Shader);
 
 			//平行移動行列の作成（表示座標を決める）
 			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
@@ -110,11 +111,13 @@ public:
 
 
 		{//輪郭線の描画
-			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
+			//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
 
-			//シェーダ設定
-			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+			////シェーダ設定
+			//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
+			//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+
+			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 			Renderer::SetCullMode(D3D11_CULL_FRONT);
 

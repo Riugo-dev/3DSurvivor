@@ -122,18 +122,16 @@ public:
 	//全て同じ処理でドローするのでここで一括で書く
 	void Draw()	override
 	{
+
+		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+		Vector3 vector = p_player->GetPosition() - m_Position;
+		float length = vector.length();
+
+		if (length > 30) return;
+
 		{//通常の描画
-			//入力レイアウト設定
-			//Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
-
-			//シェーダ設定
-			/*Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);*/
-
-			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
-
+			ModelManager::SetShaders(m_ModelTag, m_Shader);
 
 			//平行移動行列の作成（表示座標を決める）
 			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
@@ -163,19 +161,7 @@ public:
 
 
 		{//輪郭線の描画
-			////頂点シェーダーをセット
-			//Renderer::GetDeviceContext()->VSSetShader(m_VertexShaderEdge, NULL, 0);
-			////ピクセルシェーダーをセット
-			//Renderer::GetDeviceContext()->PSSetShader(m_PixelShaderEdge, NULL, 0);
-
-			Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
-
-			//シェーダ設定
-			/*Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);*/
-
-			Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 
 			Renderer::SetCullMode(D3D11_CULL_FRONT);

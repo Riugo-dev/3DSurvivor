@@ -57,7 +57,7 @@ void Game::Init(Input* input)
 
 	//m_GameObjects.push_back(new Camera(g_Input));
 	AddGameObject<Camera>(0)->Init(input);
-	AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
+	//AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
 	//AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
 	AddGameObject<StageField>();
@@ -65,9 +65,8 @@ void Game::Init(Input* input)
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);
 	AddGameObject<Pause>(4);
-	AddGameObject<AttackManager>(4);
 	AddGameObject<Fade>(4);
-
+	AddGameObject<AttackManager>(5);
 	GetGameObject<Fade>()->SetFade(FADE_IN);
 
 	m_pModelManager = new ModelManager;

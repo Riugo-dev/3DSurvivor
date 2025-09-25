@@ -28,7 +28,7 @@ Scene* Manager::m_Scene = nullptr;
 Scene* Manager::m_NextScene = nullptr;
 Input* Manager::m_Input;
 Controller* Manager::m_pController = nullptr;
-ShaderManager* Manager::m_pShaderManager = nullptr;
+//ShaderManager* Manager::m_pShaderManager = nullptr;
 //********************************************************************************
 //ŠÖ”
 //********************************************************************************
@@ -38,7 +38,7 @@ void Manager::Init()
     m_Input = new Input;
 	
 	m_pController = new Controller;
-	m_pShaderManager = new ShaderManager;
+	//m_pShaderManager = new ShaderManager;
 
 	m_Scene = new Title();
 	m_Scene->Init(m_Input);

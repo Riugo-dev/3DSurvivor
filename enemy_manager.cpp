@@ -19,9 +19,14 @@
 #include "bullet.h"
 #include "gametimer.h"
 #include <random>
+#include <vector>
 
 
 #include "enemy_manager.h"
+
+#define ENEMY_DESTORY_LENGTH (50.0f)
+#define ENEMY_MAX_NUM (350)
+
 //********************************************************************************
 //プライベート関数
 //********************************************************************************
@@ -340,6 +345,30 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 
 		Manager::GetScene()->AddGameObject<GameEnderEnemy>()->SetPosition(spawnpoint);
 	}
+
+}
+
+void EnemyManager::DestroyFarEnemy()
+{
+	
+
+	std::vector<BaseEnemy*> p_enemys = Manager::GetScene()->GetGameObjects<BaseEnemy>();
+	if (p_enemys.size() < ENEMY_MAX_NUM) return;
+
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	for (auto itr : p_enemys)
+	{
+		Vector3 vector = p_player->GetPosition() - itr->GetPosition();
+		
+		float length = vector.length();
+
+		if (length > ENEMY_DESTORY_LENGTH)
+		{
+			itr->SetDestroy(true);
+		}
+	}
+
 
 }
 
