@@ -17,7 +17,8 @@
 #include "game.h"
 #include "texture.h"
 #include "fade.h"
-#include "manager_shader.h"
+#include "audio.h"
+#include "manager_soundeffect.h"
 
 
 #include "manager.h"
@@ -28,6 +29,8 @@ Scene* Manager::m_Scene = nullptr;
 Scene* Manager::m_NextScene = nullptr;
 Input* Manager::m_Input;
 Controller* Manager::m_pController = nullptr;
+Audio* Manager::m_pAudio = nullptr;
+SoundEffectManager* Manager::m_pSoundEffect = nullptr;
 //ShaderManager* Manager::m_pShaderManager = nullptr;
 //********************************************************************************
 //ŠÖ”
@@ -35,10 +38,16 @@ Controller* Manager::m_pController = nullptr;
 void Manager::Init()
 {
 	Renderer::Init();
+
+	m_pAudio = new Audio;
+	m_pAudio->InitMaster();
+	m_pSoundEffect = new SoundEffectManager;
+
     m_Input = new Input;
 	
 	m_pController = new Controller;
 	//m_pShaderManager = new ShaderManager;
+	
 
 	m_Scene = new Title();
 	m_Scene->Init(m_Input);
@@ -47,6 +56,11 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
+	m_pAudio->UninitMaster();
+	delete m_pAudio;
+
+	delete m_pSoundEffect;
+
 	m_Scene->Uninit();
 
 	Texture::ReleaseAll();

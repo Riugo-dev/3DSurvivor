@@ -58,7 +58,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     float d = dot(normal, eyev); // 視線とピクセル法線の内積
     if (d > -0.25f)
     {
-        outDiffuse.rgb *= 0.3f;
+       outDiffuse.rgb *= 0.3f;
     }
    
     

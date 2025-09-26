@@ -9,7 +9,11 @@
 //********************************************************************************
 #include "main.h"
 #include "renderer.h"
+#include "manager.h"
+#include "scene.h"
 #include "modelRenderer.h"
+#include "manager_shader.h"
+#include "player.h"
 
 #include "skydome.h"
 
@@ -25,20 +29,11 @@ SkyDome::SkyDome(Vector3 size, Vector3 position)
 
 	m_Scale = size;
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
-
 }
 
 SkyDome::~SkyDome()
 {
-	/*delete m_pModelRenderer;*/
-
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
+	
 }
 
 void SkyDome::Init(Input* p_input)
@@ -55,18 +50,18 @@ void SkyDome::Update()
 {
 	m_Rotation.m_z += 0.001;
 	
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	m_Position = p_player->GetPosition();
+
+
 }
 
 void SkyDome::Draw()
 {
 
 
-	//入力レイアウト設定
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-
-	//シェーダ設定
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	ModelManager::SetShaders(m_ModelTag, SHADER_UNLITTEXT);
 
 
 	//平行移動行列の作成（表示座標を決める）

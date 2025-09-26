@@ -18,6 +18,8 @@ private:
 	static class Scene* m_NextScene;
 	static Input* m_Input;
 	static class Controller* m_pController;
+	static class Audio* m_pAudio;
+	static class SoundEffectManager* m_pSoundEffect;
 	//static class ShaderManager* m_pShaderManager;
 public:
 	static void Init();		//‰Šú‰»
@@ -27,6 +29,8 @@ public:
 
 	static Scene* GetScene() { return m_Scene; }
 	static Controller* GetController() { return m_pController; }
+	static Audio* GetAudio() { return m_pAudio; }
+	static SoundEffectManager* GetSoundEffect() { return m_pSoundEffect; }
 	//static ShaderManager* GetShaders() { return m_pShaderManager; }
 	
 	template <typename S>

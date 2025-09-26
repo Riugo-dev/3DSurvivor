@@ -36,7 +36,7 @@ ModelManager::ModelManager()
 
 	m_pModelRenderers[PLAYER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[PLAYER]->Load("asset\\model\\player.obj");
-	m_pModelShaders[PLAYER] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+	m_pModelShaders[PLAYER] = std::make_unique<ShaderManager>(SHADER_TOON);
 
 	m_pModelRenderers[ENEMY_RED] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_RED]->Load("asset\\model\\EnemyTypeRed.obj");

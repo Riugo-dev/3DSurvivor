@@ -43,6 +43,9 @@ private:
 	CameraMode m_Mode;
 	bool IsRotating;
 
+	float m_ShakeTime = 0.0f;
+	Vector3 m_ShakeVector = { 0.0f , 0.0f , 0.0f };
+
 public:
 	Camera(Vector3 postion = { 0.0f , 2.0f , -10.0f }, Vector3 target = { 0.0f , 0.0f , 0.0f }, int movementx = 0, int movementy = 0, Vector3 rotation = { 0.0f , 0.0f , 0.0f });
 	~Camera();
@@ -54,6 +57,8 @@ public:
 
 	XMMATRIX GetViewMatrix() { return m_View; }
 	XMMATRIX GetProjectionMatrix() {return m_Projection;}
+
+	void CameraShake(Vector3);
 
 private:
 

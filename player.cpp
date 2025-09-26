@@ -17,6 +17,8 @@
 #include "scene.h"
 #include "game.h"
 #include "controller.h"
+#include "model_manager.h"
+#include "manager_shader.h"
 
 #include "player.h"
 
@@ -27,9 +29,6 @@
 //********************************************************************************
 Player::Player(Vector3 size, Vector3 position) 
 {
-	//m_pModelRenderer = new ModelRenderer();
-	//m_pModelRenderer->Load("asset\\model\\player.obj");
-
 	m_Scale = size;
 	m_Position = position;
 	m_Rotation = { 0.0f , 0.0f , 0.0f };
@@ -42,23 +41,11 @@ Player::Player(Vector3 size, Vector3 position)
 	m_InvinceibleFrameCount = 0;
 	m_IsInvinceble = false;
 	m_ModelTag = PLAYER;
-
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
-	
-
-
 }
 
 Player::~Player()
 { 
-	//delete m_pModelRenderer;
 	
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
 }
 
 void Player::Init(Input* p_input)
@@ -137,37 +124,38 @@ void Player::Draw()
 {
 
 
-	//入力レイアウト設定
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-
-	//シェーダ設定
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	{
+		ModelManager::SetShaders(m_ModelTag, SHADER_TOON);
 
 
-	//平行移動行列の作成（表示座標を決める）
-	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x , m_Position.m_y , m_Position.m_z);
+		//平行移動行列の作成（表示座標を決める）
+		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
-	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		//回転行列（Z回転）行列の作成
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
-	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
 
-	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-	//マテリアル設定
-	MATERIAL material{};
-	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-	material.TextureEnable = false;
-	Renderer::SetMaterial(material);
+		//マテリアル設定
+		MATERIAL material{};
+		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+		material.TextureEnable = true;
 
 
-	Renderer::SetWorldMatrix(WorldMatrix);
+		Renderer::SetMaterial(material);
 
-	//m_pModelRenderer->Draw();
-	ModelManager::ModelDraw(m_ModelTag);
+
+		Renderer::SetWorldMatrix(WorldMatrix);
+
+		//m_pModelRenderer->Draw();
+		ModelManager::ModelDraw(m_ModelTag);
+	}
+
+
 }
 
 void Player::GivePlayerExp(int gainingexp)

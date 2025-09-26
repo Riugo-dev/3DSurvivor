@@ -15,6 +15,7 @@
 #include "scene.h"
 #include "attackbase.h"
 #include "player.h"
+#include "camera.h"
 #include "score.h"
 #include "hp_ui.h"
 #include "explosion_particle.h"
@@ -107,6 +108,7 @@ public:
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
 				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 				{
