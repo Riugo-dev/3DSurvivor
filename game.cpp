@@ -24,6 +24,7 @@
 #include "gametimer.h"
 #include "score.h"
 #include "hp_ui.h"
+#include "exp_ui.h"
 #include "stage_field.h"
 #include "pause.h"
 #include "bulletattack.h"
@@ -64,6 +65,7 @@ void Game::Init(Input* input)
 
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);
+	AddGameObject<EXPUI>(4);
 	AddGameObject<Pause>(4);
 	AddGameObject<Fade>(4);
 	AddGameObject<AttackManager>(5);

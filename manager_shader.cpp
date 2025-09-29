@@ -24,7 +24,7 @@ ShaderPointers::ShaderPointers()
 	m_pVertexShader = nullptr;
 	m_pPixelShader = nullptr;
 }
-
+ 
 ShaderPointers::~ShaderPointers()
 {
 	m_pVertexLayout->Release();

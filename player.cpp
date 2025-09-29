@@ -168,6 +168,7 @@ void Player::GivePlayerExp(int gainingexp)
 
 	if (m_TotalExpOfPlayer > m_NecessaryExpForNextLevel)
 	{
+		m_PrevousExpCount = m_NecessaryExpForNextLevel;
 		m_NecessaryExpForNextLevel += 100 * (m_PlayerCurrentLevel + 1);
 
 		switch (m_PlayerCurrentLevel)

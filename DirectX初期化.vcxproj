@@ -144,6 +144,7 @@
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="explosion_particle.cpp" />
+    <ClCompile Include="exp_ui.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="vector3.h" />
+    <ClInclude Include="exp_ui.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">

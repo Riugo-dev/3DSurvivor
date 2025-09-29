@@ -26,6 +26,8 @@
 #include "manager_shader.h"
 #include <vector>
 
+#define ENEMY_LIVINGFRAME (5400) //–ñ‚X‚O•b
+
 class BaseEnemy : public GameObject
 {
 protected:
@@ -38,6 +40,7 @@ protected:
 	int m_Points;
 	ModelTags m_ModelTag;
 	Shader m_Shader;
+	int m_FrameCount = 0;
 public:
 	~BaseEnemy() = default;
 
@@ -117,6 +120,12 @@ public:
 					Game::SetGameState(GAME_FADEOUT);
 				}
 			}
+		}
+
+		m_FrameCount++;
+		if (m_FrameCount >= ENEMY_LIVINGFRAME)
+		{
+			m_IsDestroy = true;
 		}
 	}
 

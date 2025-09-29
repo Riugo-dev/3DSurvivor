@@ -17,6 +17,26 @@
 
 
 //class ModelRenderer;
+enum Level
+{
+	LEVEL_ONE = 1,
+	LEVEL_TWO,
+	LEVEL_THREE,
+	LEVEL_FOUR,
+	LEVEL_FIVE,
+	LEVEL_SIX,
+	LEVEL_SEVEN,
+	LEVEL_EIGHT,
+	LEVEL_NINE,
+	LEVEL_TEN,
+	LEVEL_ELEVEN,
+	LEVEL_TWELVE,
+	LEVEL_THIRTEEN,
+	LEVEL_FOURTEEN,
+	LEVEL_FIFTEEN,
+	LEVEL_MAX,
+};
+
 
 class Player:public GameObject
 {
@@ -32,29 +52,12 @@ private:
 	//現在考えているのが武器のみで各種武器は５段階のレベリング
 	//つまりマックスレベルを１６として開始レベルを１
 	//一段階のレベル上昇で武器強化を武器取得を選べるようにする
-	enum Level
-	{
-		LEVEL_ONE = 1,
-		LEVEL_TWO,
-		LEVEL_THREE,
-		LEVEL_FOUR,
-		LEVEL_FIVE,
-		LEVEL_SIX,
-		LEVEL_SEVEN,
-		LEVEL_EIGHT,
-		LEVEL_NINE,
-		LEVEL_TEN,
-		LEVEL_ELEVEN,
-		LEVEL_TWELVE,
-		LEVEL_THIRTEEN,
-		LEVEL_FOURTEEN,
-		LEVEL_FIFTEEN,
-		LEVEL_MAX,
-	};
 
+	int m_PrevousExpCount = 0;
 	int m_NecessaryExpForNextLevel = 0;//次のレベルまでの必要経験値
 	Level m_PlayerCurrentLevel = LEVEL_ONE;//現在のレベル表記用に使用
 	int m_TotalExpOfPlayer = 0;//全体獲得経験値
+	float m_CurrentExpPercentage = 0.0f;
 
 	//ヴァンサバらしくいくならノックバックなしで無敵フレームもなしな状態になるが
 	//今回はHPをわかりやすく??制にして１０ｆくらいの無敵猶予を与えてもいい
@@ -77,6 +80,18 @@ public:
 	bool GetIsInvincible() { return m_IsInvinceble; }
 	void SetInvincibilty(bool flag) { m_IsInvinceble = flag; }
 	void DamagePlayer();
+	Level GetPlayerLevel() { return m_PlayerCurrentLevel; }
+
+	int GetNecessaryExp() { return m_NecessaryExpForNextLevel; }
+	float GetCurrentExpPercentage() 
+	{
+		int currentexp = m_TotalExpOfPlayer - m_PrevousExpCount;
+		int nesexp = m_NecessaryExpForNextLevel - m_PrevousExpCount;
+
+		float percetage = (float)currentexp / (float)nesexp;
+
+		return percetage; 
+	}
 private:
 
 };
