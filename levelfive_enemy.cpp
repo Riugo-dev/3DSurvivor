@@ -13,18 +13,10 @@
 
 LevelFiveEnemy::LevelFiveEnemy()
 {
-	//m_pModelRenderer = new ModelRenderer();
-	//m_pModelRenderer->Load("asset\\model\\EnemyTypeMetal.obj");
-
+	
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\pixelLightingBlinnPhongVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\pixelLightingBlinnPhongPS.cso");
-
-	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
+	m_Shader = SHADER_BLINNPHONG;
 
 	m_HP = 10;
 	m_EnemySpeed = 0.05f;
@@ -34,14 +26,7 @@ LevelFiveEnemy::LevelFiveEnemy()
 
 LevelFiveEnemy::~LevelFiveEnemy()
 {
-	//delete m_pModelRenderer;
-	//m_pModelRenderer = nullptr;
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-	m_VertexShaderEdge->Release();
-	m_PixelShaderEdge->Release();
+	
 }
 
 void LevelFiveEnemy::EnemyItemDrop()

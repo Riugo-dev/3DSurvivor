@@ -145,7 +145,7 @@ void StageField::Draw()
 			//カメラ→チャンク方向ベクトル
 			Vector3 toChunk = chunkCenter - campos;
 
-			//前方だけ描画(dot > 0 なら前方（dot < 0は後方）
+			//前方だけ描画(dot > 0 なら前方（dot < 0は後方）//今回は省いた
 			float dot = Vector3::dot(toChunk.normalized(), foward);
 
 			//ワールド行列

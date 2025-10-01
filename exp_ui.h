@@ -1,44 +1,47 @@
 //********************************************************************************
 //
-// skydome.h[空]
+// exp_ui.h[経験値バーUIクラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/06/11
-// -------------------------------------------------------------------------------
-//															Last Edited:2025/06/14
+//															Date   :2025/09/29
 //********************************************************************************
-#pragma once
-
-#ifndef _SKYDOME_H_
-#define _SKYDOME_H_
+#ifndef _EXP_UI_H_
+#define _EXP_UI_H_
 
 #include "gameobject.h"
-#include "model_manager.h"
 
-//class ModelRenderer;
-
-class SkyDome :public GameObject
+class EXPUI : public GameObject
 {
 private:
+	ID3D11Buffer* m_VertexBuffer;
 
 	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
 	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
 
-	//ModelRenderer* m_pModelRenderer;
-	ModelTags m_ModelTag;
+	ID3D11ShaderResourceView* m_TextureExpBar;//文字
+	ID3D11ShaderResourceView* m_TextureExpBarFrame;//ハートの絵
 
+	float m_expinterpolation;
+	float m_expbarwidth;
+	float m_expbarpos;
+	Vector3 m_color;
+	bool m_IslvMax;
 public:
-	SkyDome(Vector3 size = { 50.0f , 50.0f , 50.0f }, Vector3 position = { 0.0f , -10.0f , 0.0f });
-	~SkyDome();
+	EXPUI();
+	~EXPUI();
 
 	void Init(Input*) override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
-private:
 
+private:
+	void drawframe();
+	void drawexpbar();
+	void drawexpbarmax();
+	void colorchange();
 };
 
-#endif // !_SKYDOME_H_
 
+#endif // !_EXP_UI_H_

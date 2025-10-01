@@ -8,6 +8,7 @@
 #include "player.h"
 #include "enemy_manager.h"
 
+
 #include "gametimer.h"
 //********************************************************************************
 //’è”‚Ì’è‹`
@@ -64,6 +65,8 @@ void GameTimer::Update()
 		if (m_CurrentTime >= WAVEONE)
 		{
 			m_CurrentWave = WAVE_TWO;
+
+			m_pEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_TWO:
@@ -76,6 +79,9 @@ void GameTimer::Update()
 		if (m_CurrentTime >= WAVETWO)
 		{
 			m_CurrentWave = WAVE_THREE;
+
+
+			m_pEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_THREE:
@@ -88,6 +94,9 @@ void GameTimer::Update()
 		if (m_CurrentTime >= WAVETHREE)
 		{
 			m_CurrentWave = WAVE_FOUR;
+
+
+			m_pEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_FOUR:
@@ -100,6 +109,9 @@ void GameTimer::Update()
 		if (m_CurrentTime >= WAVEFOUR)
 		{
 			m_CurrentWave = WAVE_MAX;
+
+
+			m_pEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_MAX:
@@ -112,6 +124,9 @@ void GameTimer::Update()
 		if (m_CurrentTime >= WAVEMAX)
 		{
 			m_CurrentWave = GAME_END;
+
+
+			m_pEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case GAME_END:

@@ -15,6 +15,7 @@
 #include "scene.h"
 #include "attackbase.h"
 #include "player.h"
+#include "camera.h"
 #include "score.h"
 #include "hp_ui.h"
 #include "explosion_particle.h"
@@ -22,17 +23,15 @@
 #include "game.h"
 #include "fade.h"
 #include "model_manager.h"
+#include "manager_shader.h"
 #include <vector>
+
+#define ENEMY_LIVINGFRAME (5400) //約９０秒
 
 class BaseEnemy : public GameObject
 {
 protected:
-	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
-	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト
-	ID3D11InputLayout* m_VertexLayout; //頂点レイアウトオブジェクト
 
-	ID3D11VertexShader* m_VertexShaderEdge; //輪郭線用頂点シェーダーオブジェクト
-	ID3D11PixelShader* m_PixelShaderEdge; //輪郭線用ピクセルシェーダーオブジェクト
 
 	//ModelRenderer* m_pModelRenderer = nullptr;
 
@@ -40,6 +39,8 @@ protected:
 	float m_EnemySpeed = 0.03f;
 	int m_Points;
 	ModelTags m_ModelTag;
+	Shader m_Shader;
+	int m_FrameCount = 0;
 public:
 	~BaseEnemy() = default;
 
@@ -110,6 +111,7 @@ public:
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
 				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 				{
@@ -119,20 +121,28 @@ public:
 				}
 			}
 		}
+
+		m_FrameCount++;
+		if (m_FrameCount >= ENEMY_LIVINGFRAME)
+		{
+			m_IsDestroy = true;
+		}
 	}
 
 
 	//全て同じ処理でドローするのでここで一括で書く
 	void Draw()	override
 	{
+
+		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+		Vector3 vector = p_player->GetPosition() - m_Position;
+		float length = vector.length();
+
+		if (length > 30) return;
+
 		{//通常の描画
-			//入力レイアウト設定
-			Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-
-			//シェーダ設定
-			Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
-
+			ModelManager::SetShaders(m_ModelTag, m_Shader);
 
 			//平行移動行列の作成（表示座標を決める）
 			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
@@ -162,10 +172,8 @@ public:
 
 
 		{//輪郭線の描画
-			//頂点シェーダーをセット
-			Renderer::GetDeviceContext()->VSSetShader(m_VertexShaderEdge, NULL, 0);
-			//ピクセルシェーダーをセット
-			Renderer::GetDeviceContext()->PSSetShader(m_PixelShaderEdge, NULL, 0);
+			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+
 
 			Renderer::SetCullMode(D3D11_CULL_FRONT);
 

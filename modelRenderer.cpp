@@ -37,6 +37,8 @@ void ModelRenderer::Draw()
 		if(m_Model->SubsetArray[i].Material.Texture)
 			Renderer::GetDeviceContext()->PSSetShaderResources( 0, 1, &m_Model->SubsetArray[i].Material.Texture );
 
+
+
 		// ポリゴン描画
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
@@ -134,6 +136,7 @@ void ModelRenderer::LoadModel( const char *FileName, MODEL *Model)
 		sd.pSysMem = modelObj.IndexArray;
 
 		Renderer::GetDevice()->CreateBuffer( &bd, &sd, &Model->IndexBuffer );
+
 	}
 
 	// サブセット設定

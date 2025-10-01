@@ -20,6 +20,7 @@ public:
 	~EnemyManager();
 
 	void SpawnEnemy();
+	void DestroyFarEnemy();
 private:
 	void WaveOne();
 	void WaveTwo();
@@ -34,6 +35,7 @@ private:
 	void LevelFourEnemySpawner(int);
 	void LevelFiveEnemySpawner(int);
 	void GameEnderEnemySpawner(int);
+
 
 };
 

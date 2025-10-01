@@ -13,18 +13,11 @@
 
 LevelThreeEnemy::LevelThreeEnemy()
 {
-	//m_pModelRenderer = new ModelRenderer();
-	//m_pModelRenderer->Load("asset\\model\\EnemyTypeGreen.obj");
+	
 
 	m_Scale = { 0.5f , 0.5f , 0.5f };
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\toon1VS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\toon1PS.cso");
-
-	Renderer::CreateVertexShader(&m_VertexShaderEdge, &m_VertexLayout, "shader\\ToonVSEdge.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShaderEdge, "shader\\ToonPSEdge.cso");
+	m_Shader = SHADER_TOON;
 
 	m_HP = 6;
 	m_EnemySpeed = 0.03f;
@@ -34,14 +27,7 @@ LevelThreeEnemy::LevelThreeEnemy()
 
 LevelThreeEnemy::~LevelThreeEnemy()
 {
-	/*delete m_pModelRenderer;
-	m_pModelRenderer = nullptr;*/
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-	m_VertexShaderEdge->Release();
-	m_PixelShaderEdge->Release();
+	
 }
 
 void LevelThreeEnemy::EnemyItemDrop()

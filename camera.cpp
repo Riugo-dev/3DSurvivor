@@ -129,9 +129,19 @@ void Camera::Update()
 	if (m_Mode == CAMERA_MODE_TP)
 	{
 		Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+		if (player == nullptr) return;
+
 		m_Target = player->GetPosition() + Vector3{ 0.0f , 1.0f ,0.0f };
 
+		//カメラシェイク
+		m_Target += m_ShakeVector * cosf(m_ShakeTime);
+		m_ShakeTime += 1.0f;//揺らす速さ
+		m_ShakeVector *= 0.9f;
+
 		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f) };
+
+
 
 		/*if(!IsRotating)
 		{
@@ -145,7 +155,15 @@ void Camera::Update()
 	else if (m_Mode == CAMERA_MODE_FP)
 	{
 		Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+		if (player == nullptr) return;
+
 		m_Position = { player->GetPosition().m_x, player->GetPosition().m_y + CAMERA_LENGTH_FP_Y ,player->GetPosition().m_z };
+
+		//カメラシェイク
+		m_Target += m_ShakeVector * cosf(m_ShakeTime);
+		m_ShakeTime += 1.0f;//揺らす速さ
+		m_ShakeVector *= 0.9f;
 
 		/*m_Target = player->GetPosition() + Vector3{ CAMERA_TARGET_FP_X + (sinf(m_Rotation.m_y)* 5.0f), CAMERA_TARGET_FP_Y , CAMERA_TARGET_FP_Z + (cosf(m_Rotation.m_y) * 5.0f) };*/
 		m_Target = m_Position + Vector3{(sinf(m_Rotation.m_y) * 5.0f), 0.0f,(cosf(m_Rotation.m_y) * 5.0f)};
@@ -243,5 +261,12 @@ void Camera::Draw()
 	m_View = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*) &m_Position), XMLoadFloat3((XMFLOAT3*) &m_Target), XMLoadFloat3(&up));//カメラの設定をするためのマトリックス　ココがかなり大事☆
 
 	Renderer::SetViewMatrix(m_View);
+}
+
+void Camera::CameraShake(Vector3 shake)//引数が揺れの大きさ
+{
+	m_ShakeVector = shake;
+	m_ShakeTime = 0.0f;
+
 }
 
