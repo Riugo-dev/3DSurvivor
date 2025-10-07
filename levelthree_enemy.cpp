@@ -15,7 +15,7 @@ LevelThreeEnemy::LevelThreeEnemy()
 {
 	
 
-	m_Scale = { 0.5f , 0.5f , 0.5f };
+	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
@@ -37,10 +37,10 @@ void LevelThreeEnemy::EnemyItemDrop()
 
 	if (drop <= 20)
 	{
-		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
+		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
+		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
 	}
 }

@@ -37,6 +37,9 @@
     <Filter Include="オーディオ">
       <UniqueIdentifier>{b152f653-99a0-4373-bdc2-b51bfa36184c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="エネミー関係\射撃エネミー">
+      <UniqueIdentifier>{206e119f-ce75-46ac-ab0a-08af236db65c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -197,6 +200,24 @@
     </ClCompile>
     <ClCompile Include="exp_ui.cpp">
       <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_bullet.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelone_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="leveltwo_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelthree_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfour_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfive_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +397,27 @@
     </ClInclude>
     <ClInclude Include="exp_ui.h">
       <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="shooterenemybase.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_bullet.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelone_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="leveltwo_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelthree_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfour_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfive_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

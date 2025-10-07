@@ -1,35 +1,36 @@
 //********************************************************************************
 //
-// levelfour_enemy.cpp[レベル4敵クラス]
+// levelfour_shooterenemy.h[レベル4射撃敵クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/11
+//															Date   :2025/10/07
 //********************************************************************************
+
 #include <random>
-#include "midtier_exp_item.h"
 #include "hightier_exp_item.h"
+#include "midtier_exp_item.h"
 
-#include "levelfour_enemy.h"
+#include "levelfour_shooterenemy.h"
 
-LevelFourEnemy::LevelFourEnemy()
+LevelFourShooterEnemy::LevelFourShooterEnemy()
 {
-
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 8;
-	m_EnemySpeed = 0.04f;
+	m_HP = 4;
 	m_Points = 40;
-	m_ModelTag = ENEMY_PURPLE;
+	m_ModelTag = SHOOTER_ENEMY_PURPLE;
+
+	m_ShotCoolDown = 150;
+	m_Speed = 0.25f;
 }
 
-LevelFourEnemy::~LevelFourEnemy()
+LevelFourShooterEnemy::~LevelFourShooterEnemy()
 {
-	
 }
 
-void LevelFourEnemy::EnemyItemDrop()
+void LevelFourShooterEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
 	int drop = rd() % 100 + 1;
@@ -43,4 +44,3 @@ void LevelFourEnemy::EnemyItemDrop()
 		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
 	}
 }
-

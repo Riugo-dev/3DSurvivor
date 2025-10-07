@@ -36,6 +36,8 @@
 #include "controller.h"
 #include "title.h"
 
+#include "levelfive_shooterenemy.h"
+
 #include "game.h"
 //********************************************************************************
 //ÉOÉçÅ[ÉoÉãïœêî
@@ -62,6 +64,7 @@ void Game::Init(Input* input)
 	//AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
 	AddGameObject<StageField>();
+	AddGameObject<LevelFiveShooterEnemy>()->SetPosition({4.0f , 0.5f , 4.0f});
 
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);
@@ -107,6 +110,7 @@ void Game::Update()
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PAUSE;
+
 		}
 	}
 	else if (m_State == GAME_PAUSE)

@@ -62,17 +62,38 @@ ModelManager::ModelManager()
 	m_pModelRenderers[ENEMY_BLACK]->Load("asset\\model\\EnemyTypeBlack.obj");
 	m_pModelShaders[ENEMY_BLACK] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
 
+	m_pModelRenderers[SHOOTER_ENEMY_RED] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHOOTER_ENEMY_RED]->Load("asset\\model\\EnemyShooterRed.obj");
+	m_pModelShaders[SHOOTER_ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[SHOOTER_ENEMY_BLUE] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHOOTER_ENEMY_BLUE]->Load("asset\\model\\EnemyShooterBlue.obj");
+	m_pModelShaders[SHOOTER_ENEMY_BLUE] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[SHOOTER_ENEMY_GREEN] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHOOTER_ENEMY_GREEN]->Load("asset\\model\\EnemyShooterGreen.obj");
+	m_pModelShaders[SHOOTER_ENEMY_GREEN] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[SHOOTER_ENEMY_PURPLE] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHOOTER_ENEMY_PURPLE]->Load("asset\\model\\EnemyShooterPurple.obj");
+	m_pModelShaders[SHOOTER_ENEMY_PURPLE] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[SHOOTER_ENEMY_SILVER] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHOOTER_ENEMY_SILVER]->Load("asset\\model\\EnemyShooterMetal.obj");
+	m_pModelShaders[SHOOTER_ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+
+
 	m_pModelRenderers[BULLET] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[BULLET]->Load("asset\\model\\bullet.obj");
-	m_pModelShaders[BULLET] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[BULLET] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
 
 	m_pModelRenderers[SHURIKEN] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SHURIKEN]->Load("asset\\model\\AttackTypeShuriken.obj");
-	m_pModelShaders[SHURIKEN] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[SHURIKEN] = std::make_unique<ShaderManager>(SHADER_TOON);
 
 	m_pModelRenderers[SWORD] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SWORD]->Load("asset\\model\\AttackTypeSword.obj");
-	m_pModelShaders[SWORD] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[SWORD] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
 
 
 	m_pModelRenderers[SKYDOME] = std::make_unique<ModelRenderer>();

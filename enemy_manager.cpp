@@ -128,7 +128,8 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 		Vector3 spawnpoint = p_player->GetPosition();
 
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
+
 
 		if (leftright == 0)
 		{
@@ -167,7 +168,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		int z = rd() % 5 + 4;
 
 		Vector3 spawnpoint = p_player->GetPosition();
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
 
 		if (leftright == 0)
 		{
@@ -206,7 +207,8 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		int z = rd() % 3 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
+
 
 		if (leftright == 0)
 		{
@@ -245,7 +247,8 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		int z = rd() % 3 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
+
 
 		if (leftright == 0)
 		{
@@ -284,7 +287,8 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		int z = rd() % 5 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
+
 
 		if (leftright == 0)
 		{
@@ -323,7 +327,8 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		int z = rd() % 5 + 5;
 
 		Vector3 spawnpoint = p_player->GetPosition();
-		spawnpoint.m_y += 1.0f;
+		spawnpoint.m_y = 0.75f;
+
 
 		if (leftright == 0)
 		{

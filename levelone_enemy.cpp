@@ -15,7 +15,7 @@
 LevelOneEnemy::LevelOneEnemy()
 {
 
-	m_Scale = { 0.5f , 0.5f , 0.5f };
+	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
@@ -37,6 +37,6 @@ void LevelOneEnemy::EnemyItemDrop()
 
 	if (drop <= 80)
 	{
-		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
+		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z});
 	}
 }
