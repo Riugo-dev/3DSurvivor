@@ -8,7 +8,7 @@
 #ifndef _MODEL_MANAGER_H_
 #define _MODEL_MANAGER_H_
 
-#include "manager_shader.h"
+#include "shader_manager.h"
 #include	<unordered_map>
 #include	<memory>
 
@@ -31,6 +31,16 @@ typedef enum
 	ENEMY_PURPLE,
 	ENEMY_SILVER,
 	ENEMY_BLACK,
+
+	//射撃敵モデル
+	SHOOTER_ENEMY_RED,
+	SHOOTER_ENEMY_BLUE,
+	SHOOTER_ENEMY_GREEN,
+	SHOOTER_ENEMY_PURPLE,
+	SHOOTER_ENEMY_SILVER,
+
+	//スワーム敵モデル
+	SWARM_ENEMY_RED,
 
 	//武器モデル
 	BULLET,

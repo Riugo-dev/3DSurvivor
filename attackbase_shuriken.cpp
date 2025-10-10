@@ -17,7 +17,7 @@ BaseAttackShuriken::BaseAttackShuriken()
 
 	m_Scale = { 1.0f , 1.0f ,1.0f };
 
-	m_Shader = SHADER_BLINNPHONG;
+	m_Shader = SHADER_TOON;
 
 	m_Velocity = { 0.0f , 0.0f , 0.0f };
 	m_Position = { 0.0f , 0.0f , 0.0f };

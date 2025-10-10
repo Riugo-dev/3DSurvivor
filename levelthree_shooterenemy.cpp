@@ -1,40 +1,41 @@
 //********************************************************************************
 //
-// levelone_enemy.cpp[レベル2敵クラス]
+// levelthree_shooterenemy.cpp[レベル3射撃敵クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/11
+//															Date   :2025/10/07
 //********************************************************************************
+
 #include <random>
 #include "lowtier_exp_item.h"
 #include "midtier_exp_item.h"
 
-#include "leveltwo_enemy.h"
+#include "levelthree_shooterenemy.h"
 
-LevelTwoEnemy::LevelTwoEnemy()
+LevelThreeShooterEnemy::LevelThreeShooterEnemy()
 {
-
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
 	m_HP = 3;
-	m_EnemySpeed = 0.02f;
-	m_Points = 20;
-	m_ModelTag = ENEMY_BLUE;
+	m_Points = 30;
+	m_ModelTag = SHOOTER_ENEMY_GREEN;
+
+	m_ShotCoolDown = 150;
+	m_Speed = 0.2f;
 }
 
-LevelTwoEnemy::~LevelTwoEnemy()
+LevelThreeShooterEnemy::~LevelThreeShooterEnemy()
 {
-	
 }
 
-void LevelTwoEnemy::EnemyItemDrop()
+void LevelThreeShooterEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
 	int drop = rd() % 100 + 1;
 
-	if (drop <= 80)
+	if (drop <= 20)
 	{
 		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
 	}

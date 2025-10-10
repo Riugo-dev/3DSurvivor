@@ -108,7 +108,7 @@ void ShurikenAttack::Update()
 				BaseAttackShuriken* shuriken = Manager::GetScene()->AddGameObject<BaseAttackShuriken>();
 				shuriken->SetLivingFrames(60);
 				shuriken->SetShuriken(2.0f, 0.1f, pos, i * (XM_2PI / 4));
-				shuriken->SetAttackHP(2);
+				shuriken->SetAttackHP(3);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ void ShurikenAttack::Update()
 				BaseAttackShuriken* shuriken = Manager::GetScene()->AddGameObject<BaseAttackShuriken>();
 				shuriken->SetLivingFrames(60);
 				shuriken->SetShuriken(2.0f, 0.2f, pos, i * (XM_2PI / 5));
-				shuriken->SetAttackHP(2);
+				shuriken->SetAttackHP(4);
 			}
 		}
 	}

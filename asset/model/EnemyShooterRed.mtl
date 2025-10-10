@@ -1,0 +1,19 @@
+newmtl TEMPORARY_IMPORT_NAMESPACE__G_l_____p______1:lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl TEMPORARY_IMPORT_NAMESPACE__G_l_____p______1:lambert3SG
+illum 4
+Kd 1.00 0.10 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl blinn1SG
+illum 4
+Kd 0.17 0.15 0.08
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50

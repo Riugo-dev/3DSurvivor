@@ -1,35 +1,35 @@
 //********************************************************************************
 //
-// levelone_enemy.cpp[レベル2敵クラス]
+// leveltwo_shooterenemy.cpp[レベル2射撃敵クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/11
+//															Date   :2025/10/07
 //********************************************************************************
 #include <random>
 #include "lowtier_exp_item.h"
 #include "midtier_exp_item.h"
 
-#include "leveltwo_enemy.h"
+#include "leveltwo_shooterenemy.h"
 
-LevelTwoEnemy::LevelTwoEnemy()
+LevelTwoShooterEnemy::LevelTwoShooterEnemy()
 {
-
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 3;
-	m_EnemySpeed = 0.02f;
+	m_HP = 2;
 	m_Points = 20;
-	m_ModelTag = ENEMY_BLUE;
+	m_ModelTag = SHOOTER_ENEMY_BLUE;
+
+	m_ShotCoolDown = 180;
+	m_Speed = 0.15f;
 }
 
-LevelTwoEnemy::~LevelTwoEnemy()
+LevelTwoShooterEnemy::~LevelTwoShooterEnemy()
 {
-	
 }
 
-void LevelTwoEnemy::EnemyItemDrop()
+void LevelTwoShooterEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
 	int drop = rd() % 100 + 1;

@@ -1,12 +1,12 @@
 //********************************************************************************
 //
-// enemybase.h[敵の基底クラス]
+// shooterenemybase.h[射撃敵の基底クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/08
+//															Date   :2025/10/05
 //********************************************************************************
-#ifndef _ENEMYBASE_H_
-#define _ENEMYBASE_H_
+#ifndef _SHOOTERENEMYBASE_H_
+#define _SHOOTERENEMYBASE_H_
 
 #include "main.h"
 #include "gameobject.h"
@@ -24,11 +24,12 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "enemy_bullet.h"
 #include <vector>
 
-#define ENEMY_LIVINGFRAME (5400) //約９０秒
+#define ENEMY_LIVINGFRAME (7200) //約 120 秒
 
-class BaseEnemy : public GameObject
+class ShooterBaseEnemy : public GameObject
 {
 protected:
 
@@ -36,28 +37,29 @@ protected:
 	//ModelRenderer* m_pModelRenderer = nullptr;
 
 	int m_HP;
-	float m_EnemySpeed = 0.03f;
+	int m_ShotCoolDown = 120;
 	int m_Points;
 	ModelTags m_ModelTag;
 	Shader m_Shader;
 	int m_FrameCount = 0;
 	bool m_GetBig = false;
+	float m_Speed = 0.5f;
 public:
-	~BaseEnemy() = default;
+	~ShooterBaseEnemy() = default;
 
 	void Init(Input*) override {};
 	void Uninit() override {};
 
 	//アップデートも基本プレイヤーを追いかけるだけなので基本的にここで一括でいい
-	void Update() override 
+	void Update() override
 	{
 		if (!m_GetBig)
 		{
-			m_Scale += {0.025f , 0.025f , 0.025f};
+			m_Scale += {0.03f, 0.03f, 0.03f};
 
-			if (m_Scale.m_x >= 0.5f)
+			if (m_Scale.m_x >= 0.6f)
 			{
-				m_Scale = {0.5f , 0.5f , 0.5f};
+				m_Scale = { 0.6f , 0.6f , 0.6f };
 				m_GetBig = true;
 			}
 
@@ -65,7 +67,7 @@ public:
 		}
 
 		if (m_IsDestroy)return;
-		
+
 		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
 		for (auto itr : p_attacks)
@@ -74,13 +76,13 @@ public:
 
 			Vector3 d = itr->GetPosition() - m_Position;
 			float length = d.length();
-			if (length < 1.0f)
+			if (length < 1.3f)
 			{
 				m_HP -= itr->GetStrength();
 				itr->SubtractHP();
 				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
-				if(m_HP <= 0)
+				if (m_HP <= 0)
 				{
 					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 					boom->SetPosition(m_Position);
@@ -91,37 +93,28 @@ public:
 					EnemyItemDrop();
 				}
 
-				
+
 				return;
 			}
 		}
 
-		
+
 
 		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
 		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
 
-		m_Position = m_Position + to_player * m_EnemySpeed;
-
 		float angle_y, angle_x, angle_z;
 
-
 		angle_y = atan2(to_player.m_x, to_player.m_z);
-		/*angle_x = atan2(to_player.m_y, to_player.m_z);
-		angle_z = atan2(to_player.m_x, to_player.m_y);*/
 
 		m_Rotation.m_y = angle_y;
-		/*m_Rotation.m_x = angle_x;
-		m_Rotation.m_z = angle_z;*/
-
-
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
 		if (length < m_Scale.m_y * 2.5f)
 		{
-			if(!p_player->GetIsInvincible())
+			if (!p_player->GetIsInvincible())
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
@@ -137,10 +130,23 @@ public:
 		}
 
 		m_FrameCount++;
+
+		if ( m_FrameCount % m_ShotCoolDown == 0)
+		{
+
+			to_player *= m_Speed;
+			to_player.m_y = 0.0f;
+			//エネミーの弾射出コードをここに書く
+			EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
+			bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
+			bullet->SetBullet(to_player);
+		}
+
 		if (m_FrameCount >= ENEMY_LIVINGFRAME)
 		{
 			m_IsDestroy = true;
 		}
+
 	}
 
 
@@ -207,8 +213,8 @@ public:
 	int GetEnemyHp() { return m_HP; }
 
 	virtual void EnemyItemDrop() = 0;
-	
+
 };
 
-#endif // !_ENEMYBASE_H_
 
+#endif // !_SHOOTERENEMYBASE_H_

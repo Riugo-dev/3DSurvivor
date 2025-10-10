@@ -1,12 +1,12 @@
 //********************************************************************************
 //
-// enemybase.h[敵の基底クラス]
+// swarmenemybase.h[敵の基底クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/08
+//															Date   :2025/10/09
 //********************************************************************************
-#ifndef _ENEMYBASE_H_
-#define _ENEMYBASE_H_
+#ifndef _SWARMENEMYBASE_H_
+#define _SWARMENEMYBASE_H_
 
 #include "main.h"
 #include "gameobject.h"
@@ -26,9 +26,9 @@
 #include "shader_manager.h"
 #include <vector>
 
-#define ENEMY_LIVINGFRAME (5400) //約９０秒
+#define ENEMY_LIVINGFRAME (600) //約1０秒
 
-class BaseEnemy : public GameObject
+class SwarmBaseEnemy : public GameObject
 {
 protected:
 
@@ -42,22 +42,23 @@ protected:
 	Shader m_Shader;
 	int m_FrameCount = 0;
 	bool m_GetBig = false;
+	Vector3 m_Velocity = { 0.0f , 0.0f , 0.0f };
 public:
-	~BaseEnemy() = default;
+	~SwarmBaseEnemy() = default;
 
 	void Init(Input*) override {};
 	void Uninit() override {};
 
 	//アップデートも基本プレイヤーを追いかけるだけなので基本的にここで一括でいい
-	void Update() override 
+	void Update() override
 	{
 		if (!m_GetBig)
 		{
-			m_Scale += {0.025f , 0.025f , 0.025f};
+			m_Scale += {0.025f, 0.025f, 0.025f};
 
 			if (m_Scale.m_x >= 0.5f)
 			{
-				m_Scale = {0.5f , 0.5f , 0.5f};
+				m_Scale = { 0.5f , 0.5f , 0.5f };
 				m_GetBig = true;
 			}
 
@@ -65,7 +66,7 @@ public:
 		}
 
 		if (m_IsDestroy)return;
-		
+
 		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
 		for (auto itr : p_attacks)
@@ -80,7 +81,7 @@ public:
 				itr->SubtractHP();
 				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
-				if(m_HP <= 0)
+				if (m_HP <= 0)
 				{
 					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 					boom->SetPosition(m_Position);
@@ -91,37 +92,23 @@ public:
 					EnemyItemDrop();
 				}
 
-				
+
 				return;
 			}
 		}
 
-		
+		m_Position += m_Velocity * m_EnemySpeed;
 
 		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
 		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
-
-		m_Position = m_Position + to_player * m_EnemySpeed;
-
-		float angle_y, angle_x, angle_z;
-
-
-		angle_y = atan2(to_player.m_x, to_player.m_z);
-		/*angle_x = atan2(to_player.m_y, to_player.m_z);
-		angle_z = atan2(to_player.m_x, to_player.m_y);*/
-
-		m_Rotation.m_y = angle_y;
-		/*m_Rotation.m_x = angle_x;
-		m_Rotation.m_z = angle_z;*/
-
 
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
 		if (length < m_Scale.m_y * 2.5f)
 		{
-			if(!p_player->GetIsInvincible())
+			if (!p_player->GetIsInvincible())
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
@@ -199,6 +186,8 @@ public:
 		}
 	}
 
+	void SetVelocity(Vector3 vel) { m_Velocity = vel; }
+	void SetSpeed(float speed) { m_EnemySpeed = speed; }
 
 	void DamageEnemy(int damage)
 	{
@@ -207,8 +196,9 @@ public:
 	int GetEnemyHp() { return m_HP; }
 
 	virtual void EnemyItemDrop() = 0;
-	
+
 };
 
 #endif // !_ENEMYBASE_H_
+
 

@@ -36,6 +36,7 @@
 #include "controller.h"
 #include "title.h"
 
+
 #include "game.h"
 //********************************************************************************
 //ƒOƒ[ƒoƒ‹•Ï”
@@ -107,6 +108,7 @@ void Game::Update()
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PAUSE;
+
 		}
 	}
 	else if (m_State == GAME_PAUSE)

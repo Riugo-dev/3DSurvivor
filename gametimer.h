@@ -27,6 +27,8 @@ class GameTimer
 {
 private:
 	class EnemyManager* m_pEnemyManager;
+	class ShooterEnemyManager* m_pShooterEnemyManager;
+	class SwarmEnemyManager* m_pSwarmEnemyManager;
 	int m_FrameCount;
 	int m_CurrentTime;
 	Wave m_CurrentWave = WAVE_ONE;

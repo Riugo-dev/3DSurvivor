@@ -37,6 +37,12 @@
     <Filter Include="オーディオ">
       <UniqueIdentifier>{b152f653-99a0-4373-bdc2-b51bfa36184c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="エネミー関係\射撃エネミー">
+      <UniqueIdentifier>{206e119f-ce75-46ac-ab0a-08af236db65c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="エネミー関係\横切りエネミー">
+      <UniqueIdentifier>{d13b5183-749b-40bf-b030-efc46ddd8676}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -192,11 +198,38 @@
     <ClCompile Include="audio.cpp">
       <Filter>オーディオ</Filter>
     </ClCompile>
-    <ClCompile Include="manager_shader.cpp">
+    <ClCompile Include="shader_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="exp_ui.cpp">
       <Filter>UI関連</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_bullet.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelone_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="leveltwo_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelthree_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfour_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelfive_shooterenemy.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="shooterenemy_manager.cpp">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelone_swarmenemy.cpp">
+      <Filter>エネミー関係\横切りエネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="swarmenemy_manager.cpp">
+      <Filter>エネミー関係\横切りエネミー</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,11 +404,44 @@
     <ClInclude Include="manager_soundeffect.h">
       <Filter>オーディオ</Filter>
     </ClInclude>
-    <ClInclude Include="manager_shader.h">
+    <ClInclude Include="shader_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="exp_ui.h">
       <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="shooterenemybase.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_bullet.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelone_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="leveltwo_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelthree_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfour_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelfive_shooterenemy.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="shooterenemy_manager.h">
+      <Filter>エネミー関係\射撃エネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="swarmenemybase.h">
+      <Filter>エネミー関係\横切りエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelone_swarmenemy.h">
+      <Filter>エネミー関係\横切りエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="swarmenemy_manager.h">
+      <Filter>エネミー関係\横切りエネミー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,35 +1,34 @@
 //********************************************************************************
 //
-// levelone_enemy.cpp[レベル2敵クラス]
+// levelone_swarmenemy.h[レベル１ダッシュ敵クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/11
+//															Date   :2025/10/09
 //********************************************************************************
 #include <random>
 #include "lowtier_exp_item.h"
-#include "midtier_exp_item.h"
 
-#include "leveltwo_enemy.h"
+#include "levelone_swarmenemy.h"
 
-LevelTwoEnemy::LevelTwoEnemy()
+LevelOneSwarmEnemy::LevelOneSwarmEnemy()
 {
 
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 3;
-	m_EnemySpeed = 0.02f;
-	m_Points = 20;
-	m_ModelTag = ENEMY_BLUE;
+	m_HP = 1;
+	m_EnemySpeed = 0.01f;
+	m_Points = 10;
+	m_ModelTag = SWARM_ENEMY_RED;
 }
 
-LevelTwoEnemy::~LevelTwoEnemy()
+LevelOneSwarmEnemy::~LevelOneSwarmEnemy()
 {
-	
+
 }
 
-void LevelTwoEnemy::EnemyItemDrop()
+void LevelOneSwarmEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
 	int drop = rd() % 100 + 1;
@@ -37,9 +36,5 @@ void LevelTwoEnemy::EnemyItemDrop()
 	if (drop <= 80)
 	{
 		Manager::GetScene()->AddGameObject<LowTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
-	}
-	else
-	{
-		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
 	}
 }

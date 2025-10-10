@@ -7,6 +7,8 @@
 //********************************************************************************
 #include "player.h"
 #include "enemy_manager.h"
+#include "shooterenemy_manager.h"
+#include "swarmenemy_manager.h"
 
 
 #include "gametimer.h"
@@ -42,10 +44,18 @@ GameTimer::GameTimer()
 	m_FrameCount = 0;
 
 	m_pEnemyManager = new EnemyManager(this);
+	m_pShooterEnemyManager = new ShooterEnemyManager(this);
+	m_pSwarmEnemyManager = new SwarmEnemyManager(this);
 }
 
 GameTimer::~GameTimer()
 {
+	delete m_pSwarmEnemyManager;
+	m_pSwarmEnemyManager = nullptr;
+
+	delete m_pShooterEnemyManager;
+	m_pShooterEnemyManager = nullptr;
+
 	delete m_pEnemyManager;
 	m_pEnemyManager = nullptr;
 }
@@ -60,6 +70,7 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEONE)
@@ -67,6 +78,7 @@ void GameTimer::Update()
 			m_CurrentWave = WAVE_TWO;
 
 			m_pEnemyManager->DestroyFarEnemy();
+			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_TWO:
@@ -74,6 +86,7 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETWO)
@@ -82,6 +95,7 @@ void GameTimer::Update()
 
 
 			m_pEnemyManager->DestroyFarEnemy();
+			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_THREE:
@@ -89,6 +103,7 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETHREE)
@@ -97,6 +112,7 @@ void GameTimer::Update()
 
 
 			m_pEnemyManager->DestroyFarEnemy();
+			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_FOUR:
@@ -104,6 +120,7 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEFOUR)
@@ -112,6 +129,7 @@ void GameTimer::Update()
 
 
 			m_pEnemyManager->DestroyFarEnemy();
+			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case WAVE_MAX:
@@ -119,6 +137,7 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEMAX)
@@ -127,6 +146,7 @@ void GameTimer::Update()
 
 
 			m_pEnemyManager->DestroyFarEnemy();
+			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case GAME_END:
@@ -136,10 +156,16 @@ void GameTimer::Update()
 		break;
 	}
 
+	
+
 	m_FrameCount++;
 
 	m_CurrentTime = m_FrameCount / 60;
 
+	if (m_CurrentTime % 50 == 0 && m_CurrentTime >= 50)
+	{
+		m_pSwarmEnemyManager->SpawnEnemy();
+	}
 }
 
 void GameTimer::Draw()
