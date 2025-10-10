@@ -81,7 +81,10 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SHOOTER_ENEMY_SILVER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SHOOTER_ENEMY_SILVER]->Load("asset\\model\\EnemyShooterMetal.obj");
 	m_pModelShaders[SHOOTER_ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
-
+	
+	m_pModelRenderers[SWARM_ENEMY_RED] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SWARM_ENEMY_RED]->Load("asset\\model\\EnemySwarmRed.obj");
+	m_pModelShaders[SWARM_ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_TOON, true);
 
 	m_pModelRenderers[BULLET] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[BULLET]->Load("asset\\model\\bullet.obj");

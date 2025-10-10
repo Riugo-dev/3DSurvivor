@@ -1,12 +1,12 @@
 //********************************************************************************
 //
-// shooterenemybase.h[ŽËŒ‚“G‚ÌŠî’êƒNƒ‰ƒX]
+// swarmenemybase.h[“G‚ÌŠî’êƒNƒ‰ƒX]
 //
 //															Author :Riugo Honda
-//															Date   :2025/10/05
+//															Date   :2025/10/09
 //********************************************************************************
-#ifndef _SHOOTERENEMYBASE_H_
-#define _SHOOTERENEMYBASE_H_
+#ifndef _SWARMENEMYBASE_H_
+#define _SWARMENEMYBASE_H_
 
 #include "main.h"
 #include "gameobject.h"
@@ -24,12 +24,11 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "shader_manager.h"
-#include "enemy_bullet.h"
 #include <vector>
 
-#define ENEMY_LIVINGFRAME (7200) //–ñ 120 •b
+#define ENEMY_LIVINGFRAME (600) //–ñ1‚O•b
 
-class ShooterBaseEnemy : public GameObject
+class SwarmBaseEnemy : public GameObject
 {
 protected:
 
@@ -37,15 +36,15 @@ protected:
 	//ModelRenderer* m_pModelRenderer = nullptr;
 
 	int m_HP;
-	int m_ShotCoolDown = 120;
+	float m_EnemySpeed = 0.03f;
 	int m_Points;
 	ModelTags m_ModelTag;
 	Shader m_Shader;
 	int m_FrameCount = 0;
 	bool m_GetBig = false;
-	float m_Speed = 0.5f;
+	Vector3 m_Velocity = { 0.0f , 0.0f , 0.0f };
 public:
-	~ShooterBaseEnemy() = default;
+	~SwarmBaseEnemy() = default;
 
 	void Init(Input*) override {};
 	void Uninit() override {};
@@ -55,11 +54,11 @@ public:
 	{
 		if (!m_GetBig)
 		{
-			m_Scale += {0.03f, 0.03f, 0.03f};
+			m_Scale += {0.025f, 0.025f, 0.025f};
 
-			if (m_Scale.m_x >= 0.6f)
+			if (m_Scale.m_x >= 0.5f)
 			{
-				m_Scale = { 0.6f , 0.6f , 0.6f };
+				m_Scale = { 0.5f , 0.5f , 0.5f };
 				m_GetBig = true;
 			}
 
@@ -76,7 +75,7 @@ public:
 
 			Vector3 d = itr->GetPosition() - m_Position;
 			float length = d.length();
-			if (length < 1.3f)
+			if (length < 1.0f)
 			{
 				m_HP -= itr->GetStrength();
 				itr->SubtractHP();
@@ -98,17 +97,12 @@ public:
 			}
 		}
 
-
+		m_Position += m_Velocity * m_EnemySpeed;
 
 		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
 		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
 
-		float angle_y, angle_x, angle_z;
-
-		angle_y = atan2(to_player.m_x, to_player.m_z);
-
-		m_Rotation.m_y = angle_y;
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
@@ -130,23 +124,10 @@ public:
 		}
 
 		m_FrameCount++;
-
-		if ( m_FrameCount % m_ShotCoolDown == 0)
-		{
-
-			to_player *= m_Speed;
-			to_player.m_y = 0.0f;
-			//ƒGƒlƒ~[‚Ì’eŽËoƒR[ƒh‚ð‚±‚±‚É‘‚­
-			EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
-			bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
-			bullet->SetBullet(to_player);
-		}
-
 		if (m_FrameCount >= ENEMY_LIVINGFRAME)
 		{
 			m_IsDestroy = true;
 		}
-
 	}
 
 
@@ -205,6 +186,8 @@ public:
 		}
 	}
 
+	void SetVelocity(Vector3 vel) { m_Velocity = vel; }
+	void SetSpeed(float speed) { m_EnemySpeed = speed; }
 
 	void DamageEnemy(int damage)
 	{
@@ -216,5 +199,6 @@ public:
 
 };
 
+#endif // !_ENEMYBASE_H_
 
-#endif // !_SHOOTERENEMYBASE_H_
+

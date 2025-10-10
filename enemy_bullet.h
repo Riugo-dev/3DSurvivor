@@ -10,7 +10,7 @@
 
 #include "gameobject.h"
 #include "model_manager.h"
-#include "manager_shader.h"
+#include "shader_manager.h"
 
 class EnemyBullet : public GameObject
 {

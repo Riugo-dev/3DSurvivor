@@ -36,7 +36,6 @@
 #include "controller.h"
 #include "title.h"
 
-#include "levelfive_shooterenemy.h"
 
 #include "game.h"
 //********************************************************************************
@@ -64,7 +63,6 @@ void Game::Init(Input* input)
 	//AddGameObject<Field>();
 	AddGameObject<Player>()->Init(input);
 	AddGameObject<StageField>();
-	AddGameObject<LevelFiveShooterEnemy>()->SetPosition({4.0f , 0.5f , 4.0f});
 
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);

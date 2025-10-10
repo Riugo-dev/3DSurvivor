@@ -160,6 +160,7 @@
     <ClCompile Include="levelfour_shooterenemy.cpp" />
     <ClCompile Include="levelone_enemy.cpp" />
     <ClCompile Include="levelone_shooterenemy.cpp" />
+    <ClCompile Include="levelone_swarmenemy.cpp" />
     <ClCompile Include="levelthree_enemy.cpp" />
     <ClCompile Include="levelthree_shooterenemy.cpp" />
     <ClCompile Include="leveltwo_enemy.cpp" />
@@ -167,7 +168,7 @@
     <ClCompile Include="lowtier_exp_item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
-    <ClCompile Include="manager_shader.cpp" />
+    <ClCompile Include="shader_manager.cpp" />
     <ClCompile Include="manager_soundeffect.cpp" />
     <ClCompile Include="midtier_exp_item.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
@@ -181,9 +182,11 @@
     <ClCompile Include="result_ui.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="shooterenemy_manager.cpp" />
     <ClCompile Include="shurikenattack.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="stage_field.cpp" />
+    <ClCompile Include="swarmenemy_manager.cpp" />
     <ClCompile Include="swordattack.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
@@ -226,6 +229,7 @@
     <ClInclude Include="levelfour_shooterenemy.h" />
     <ClInclude Include="levelone_enemy.h" />
     <ClInclude Include="levelone_shooterenemy.h" />
+    <ClInclude Include="levelone_swarmenemy.h" />
     <ClInclude Include="levelthree_enemy.h" />
     <ClInclude Include="levelthree_shooterenemy.h" />
     <ClInclude Include="leveltwo_enemy.h" />
@@ -233,7 +237,7 @@
     <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
-    <ClInclude Include="manager_shader.h" />
+    <ClInclude Include="shader_manager.h" />
     <ClInclude Include="manager_soundeffect.h" />
     <ClInclude Include="midtier_exp_item.h" />
     <ClInclude Include="modelRenderer.h" />
@@ -248,9 +252,12 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shooterenemybase.h" />
+    <ClInclude Include="shooterenemy_manager.h" />
     <ClInclude Include="shurikenattack.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="stage_field.h" />
+    <ClInclude Include="swarmenemybase.h" />
+    <ClInclude Include="swarmenemy_manager.h" />
     <ClInclude Include="swordattack.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />

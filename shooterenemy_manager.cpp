@@ -1,51 +1,53 @@
 //********************************************************************************
 //
-// enemy_manager.h[敵管理クラス]
+// shooterenemy_manager.h[敵管理クラス]
 //
 //															Author :Riugo Honda
-//															Date   :2025/09/11
+//															Date   :2025/10/07
 //********************************************************************************
 #include "main.h"
 #include "manager.h"
 #include "scene.h"
 #include "player.h"
-#include "enemybase.h"
-#include "levelone_enemy.h"
-#include "leveltwo_enemy.h"
-#include "levelthree_enemy.h"
-#include "levelfour_enemy.h"
-#include "levelfive_enemy.h"
-#include "gameender_enemy.h"
-#include "bullet.h"
+#include "shooterenemybase.h"
+#include "levelone_shooterenemy.h"
+#include "leveltwo_shooterenemy.h"
+#include "levelthree_shooterenemy.h"
+#include "levelfour_shooterenemy.h"
+#include "levelfive_shooterenemy.h"
 #include "gametimer.h"
 #include <random>
 #include <cmath>
 #include <vector>
 
 
-#include "enemy_manager.h"
+#include "shooterenemy_manager.h"
 
 #define ENEMY_DESTORY_LENGTH (50.0f)
-#define ENEMY_MAX_NUM (350)
+#define ENEMY_MAX_NUM (10)
 
 //********************************************************************************
 //プライベート関数
 //********************************************************************************
 
-void EnemyManager::WaveOne()
+void ShooterEnemyManager::WaveOne()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 15;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5;//スポーンさせる敵の数
+	
+	if (enemyspawnedcount == 0) return;
 
 	LevelOneEnemySpawner(enemyspawnedcount);
 }
 
-void EnemyManager::WaveTwo()
+void ShooterEnemyManager::WaveTwo()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 20;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 3 + 5;//レベル２エネミーのスポーン数
+	if (enemyspawnedcount == 0) return;
+
+	int leveltwocount = rd() % 3;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
 
@@ -54,14 +56,14 @@ void EnemyManager::WaveTwo()
 
 }
 
-void EnemyManager::WaveThree()
+void ShooterEnemyManager::WaveThree()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 25;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 5;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 3 + 5;
+	int levelthreecount = rd() % 3;
 
-	int leveltwocount = rd() % 7 + 7;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 2;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
 
@@ -70,16 +72,16 @@ void EnemyManager::WaveThree()
 	LevelThreeEnemySpawner(levelthreecount);
 }
 
-void EnemyManager::WaveFour()
+void ShooterEnemyManager::WaveFour()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 25;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 3 + 7;//スポーンさせる敵の数
 
-	int levelfourcount = rd() % 3 + 5;
+	int levelfourcount = rd() % 2;
 
-	int levelthreecount = rd() % 7 + 3;
+	int levelthreecount = rd() % 2;
 
-	int leveltwocount = rd() % 2 + 5;//レベル２エネミーのスポーン数
+	int leveltwocount =  3;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
 
@@ -89,16 +91,16 @@ void EnemyManager::WaveFour()
 	LevelFourEnemySpawner(levelfourcount);
 }
 
-void EnemyManager::WaveMax()
+void ShooterEnemyManager::WaveMax()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 30;//スポーンさせる敵の数
+	int enemyspawnedcount = 10;//スポーンさせる敵の数
 
-	int levelfivecount = rd() % 3 + 3;
+	int levelfivecount = rd() % 2 + 1;
 
-	int levelfourcount = rd() % 7 + 5;
+	int levelfourcount = rd() % 2 + 2;
 
-	int levelthreecount = rd() % 2 + 7;
+	int levelthreecount =  3;
 
 	int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
 
@@ -108,34 +110,8 @@ void EnemyManager::WaveMax()
 	LevelFiveEnemySpawner(levelfivecount);
 }
 
-void EnemyManager::WaveEnd()
-{
-	GameEnderEnemySpawner(1);
-}
 
-void EnemyManager::LevelOneEnemySpawner(int count)
-{
-	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
-
-	std::random_device rd;
-	std::mt19937 mt(rd());
-	std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);//実数の一様分布、指定した範囲 [a, b] の整数を等確率で返す
-
-	for (int i = 0; i < count; i++)
-	{
-		int distance = rd() % 7 + 8;//rd() % 7 + 7
-		float angle = randangle(mt);
-
-		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
-
-		Manager::GetScene()->AddGameObject<LevelOneEnemy>()->SetPosition(spawnpoint);
-	}
-}
-
-void EnemyManager::LevelTwoEnemySpawner(int count)
+void ShooterEnemyManager::LevelOneEnemySpawner(int count)
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -145,7 +121,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 8;
+		int distance = rd() % 4 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -153,11 +129,11 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		spawnpoint.m_y = 0.75f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelTwoEnemy>()->SetPosition(spawnpoint);
+		Manager::GetScene()->AddGameObject<LevelOneShooterEnemy>()->SetPosition(spawnpoint);
 	}
 }
 
-void EnemyManager::LevelThreeEnemySpawner(int count)
+void ShooterEnemyManager::LevelTwoEnemySpawner(int count)
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -167,7 +143,7 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 9;
+		int distance = rd() % 4 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -175,11 +151,11 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		spawnpoint.m_y = 0.75f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelThreeEnemy>()->SetPosition(spawnpoint);
+		Manager::GetScene()->AddGameObject<LevelTwoShooterEnemy>()->SetPosition(spawnpoint);
 	}
 }
 
-void EnemyManager::LevelFourEnemySpawner(int count)
+void ShooterEnemyManager::LevelThreeEnemySpawner(int count)
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -189,7 +165,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 9;
+		int distance = rd() % 4 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -197,11 +173,11 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		spawnpoint.m_y = 0.75f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFourEnemy>()->SetPosition(spawnpoint);
+		Manager::GetScene()->AddGameObject<LevelThreeShooterEnemy>()->SetPosition(spawnpoint);
 	}
 }
 
-void EnemyManager::LevelFiveEnemySpawner(int count)
+void ShooterEnemyManager::LevelFourEnemySpawner(int count)
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -211,7 +187,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 10;
+		int distance = rd() % 4 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -219,11 +195,11 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		spawnpoint.m_y = 0.75f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFiveEnemy>()->SetPosition(spawnpoint);
+		Manager::GetScene()->AddGameObject<LevelFourShooterEnemy>()->SetPosition(spawnpoint);
 	}
 }
 
-void EnemyManager::GameEnderEnemySpawner(int count)
+void ShooterEnemyManager::LevelFiveEnemySpawner(int count)
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -231,10 +207,9 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 	std::mt19937 mt(rd());
 	std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);
 
-
-	if (Manager::GetScene()->GetGameObject<GameEnderEnemy>() == nullptr)
+	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 8;
+		int distance = rd() % 4 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -242,16 +217,16 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		spawnpoint.m_y = 0.75f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<GameEnderEnemy>()->SetPosition(spawnpoint);
+		Manager::GetScene()->AddGameObject<LevelFiveShooterEnemy>()->SetPosition(spawnpoint);
 	}
-
 }
 
-void EnemyManager::DestroyFarEnemy()
-{
-	
 
-	std::vector<BaseEnemy*> p_enemys = Manager::GetScene()->GetGameObjects<BaseEnemy>();
+void ShooterEnemyManager::DestroyFarEnemy()
+{
+
+
+	std::vector<ShooterBaseEnemy*> p_enemys = Manager::GetScene()->GetGameObjects<ShooterBaseEnemy>();
 	if (p_enemys.size() < ENEMY_MAX_NUM) return;
 
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
@@ -259,7 +234,7 @@ void EnemyManager::DestroyFarEnemy()
 	for (auto itr : p_enemys)
 	{
 		Vector3 vector = p_player->GetPosition() - itr->GetPosition();
-		
+
 		float length = vector.length();
 
 		if (length > ENEMY_DESTORY_LENGTH)
@@ -274,18 +249,20 @@ void EnemyManager::DestroyFarEnemy()
 //********************************************************************************
 //関数
 //********************************************************************************
-EnemyManager::EnemyManager(GameTimer* timer)
+ShooterEnemyManager::ShooterEnemyManager(GameTimer* timer)
 {
 	m_pGameTimer = timer;
 }
 
-EnemyManager::~EnemyManager()
+ShooterEnemyManager::~ShooterEnemyManager()
 {
 }
 
-void EnemyManager::SpawnEnemy()
+void ShooterEnemyManager::SpawnEnemy()
 {
-	
+
+	std::vector<ShooterBaseEnemy*> p_enemys = Manager::GetScene()->GetGameObjects<ShooterBaseEnemy>();
+	if (p_enemys.size() > ENEMY_MAX_NUM) return;
 
 	switch (m_pGameTimer->GetCurrentWave())
 	{
@@ -303,10 +280,6 @@ void EnemyManager::SpawnEnemy()
 		break;
 	case WAVE_MAX:
 		WaveMax();
-		break;
-	case GAME_END:
-		//ここに強制終了エネミーを出現させる
-		WaveEnd();
 		break;
 	}
 }

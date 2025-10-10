@@ -12,7 +12,7 @@
 #include "manager.h"
 #include "scene.h"
 #include "modelRenderer.h"
-#include "manager_shader.h"
+#include "shader_manager.h"
 #include "player.h"
 
 #include "skydome.h"

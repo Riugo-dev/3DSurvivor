@@ -23,7 +23,7 @@
 #include "game.h"
 #include "fade.h"
 #include "model_manager.h"
-#include "manager_shader.h"
+#include "shader_manager.h"
 #include <vector>
 
 #define ENEMY_LIVINGFRAME (5400) //–ñ‚X‚O•b
