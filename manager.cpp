@@ -56,12 +56,13 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
+	m_Scene->Uninit();
+
 	m_pAudio->UninitMaster();
 	delete m_pAudio;
 
-	delete m_pSoundEffect;
 
-	m_Scene->Uninit();
+	delete m_pSoundEffect;
 
 	Texture::ReleaseAll();
 

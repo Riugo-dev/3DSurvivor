@@ -8,6 +8,7 @@
 #include "manager.h"
 #include "scene.h"
 #include "player.h"
+#include "manager_soundeffect.h"
 
 #include "attackbase_shuriken.h"
 
@@ -28,6 +29,8 @@ BaseAttackShuriken::BaseAttackShuriken()
 	m_angle = 0.0f;
 	m_rotationspeed = 1.0f;
 	m_Strength = 1;
+
+	SoundEffectManager::PlaySE(SE_SHURIKENTHROW);
 }
 
 BaseAttackShuriken::~BaseAttackShuriken()

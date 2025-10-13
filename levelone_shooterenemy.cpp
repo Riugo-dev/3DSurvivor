@@ -17,7 +17,7 @@ LevelOneShooterEnemy::LevelOneShooterEnemy()
 	m_Shader = SHADER_TOON;
 
 	m_HP = 1;
-	m_Points = 10;
+	m_Points = 50;
 	m_ModelTag = SHOOTER_ENEMY_RED;
 
 	m_ShotCoolDown = 180;

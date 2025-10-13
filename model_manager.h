@@ -42,6 +42,9 @@ typedef enum
 	//スワーム敵モデル
 	SWARM_ENEMY_RED,
 
+	//中ボス敵モデル
+	MIDBOSS_RED,
+
 	//武器モデル
 	BULLET,
 	SHURIKEN,

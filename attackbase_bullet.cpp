@@ -5,7 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/12
 //********************************************************************************
-
+#include "manager_soundeffect.h"
 #include "attackbase_bullet.h"
 
 BaseAttackBullet::BaseAttackBullet()
@@ -23,6 +23,8 @@ BaseAttackBullet::BaseAttackBullet()
 	m_FrameCount = 0;
 	m_LivingFrames = 0;
 	m_Strength = 1;
+
+	SoundEffectManager::PlaySE(SE_BULLETSHOT);
 }
 
 BaseAttackBullet::~BaseAttackBullet()

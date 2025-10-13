@@ -159,6 +159,7 @@
     <ClCompile Include="levelfour_enemy.cpp" />
     <ClCompile Include="levelfour_shooterenemy.cpp" />
     <ClCompile Include="levelone_enemy.cpp" />
+    <ClCompile Include="levelone_midboss.cpp" />
     <ClCompile Include="levelone_shooterenemy.cpp" />
     <ClCompile Include="levelone_swarmenemy.cpp" />
     <ClCompile Include="levelthree_enemy.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="lowtier_exp_item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="midboss_manager.cpp" />
     <ClCompile Include="shader_manager.cpp" />
     <ClCompile Include="manager_soundeffect.cpp" />
     <ClCompile Include="midtier_exp_item.cpp" />
@@ -228,6 +230,7 @@
     <ClInclude Include="levelfour_enemy.h" />
     <ClInclude Include="levelfour_shooterenemy.h" />
     <ClInclude Include="levelone_enemy.h" />
+    <ClInclude Include="levelone_midboss.h" />
     <ClInclude Include="levelone_shooterenemy.h" />
     <ClInclude Include="levelone_swarmenemy.h" />
     <ClInclude Include="levelthree_enemy.h" />
@@ -237,6 +240,8 @@
     <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="midbossbase.h" />
+    <ClInclude Include="midboss_manager.h" />
     <ClInclude Include="shader_manager.h" />
     <ClInclude Include="manager_soundeffect.h" />
     <ClInclude Include="midtier_exp_item.h" />

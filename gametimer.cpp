@@ -6,28 +6,30 @@
 //															Date   :2025/09/11
 //********************************************************************************
 #include "player.h"
+#include "enemybase.h"
 #include "enemy_manager.h"
 #include "shooterenemy_manager.h"
 #include "swarmenemy_manager.h"
-
+#include "midboss_manager.h"
+#include <vector>
 
 #include "gametimer.h"
 //********************************************************************************
 //定数の定義
 //********************************************************************************
 //フレーム換算
-#define WAVEONECOOLTIME (600)
-#define WAVETWOCOOLTIME (600)
-#define WAVETHREECOOLTIME (480)
-#define WAVEFOURCOOLTIME (480)
-#define WAVEMAXCOOLTIME (420)
+#define WAVEONECOOLTIME (60 * 30)
+#define WAVETWOCOOLTIME (60 * 30)
+#define WAVETHREECOOLTIME (60 * 30)
+#define WAVEFOURCOOLTIME (60 * 30)
+#define WAVEMAXCOOLTIME (60 * 30)
 
 //秒換算
-#define WAVEONE (60)
-#define WAVETWO (120)
-#define WAVETHREE (180)
-#define WAVEFOUR (240)
-#define WAVEMAX (300)
+#define WAVEONE (50)
+#define WAVETWO (110)
+#define WAVETHREE (170)
+#define WAVEFOUR (230)
+#define WAVEMAX (290)
 //********************************************************************************
 //グローバル変数
 //********************************************************************************
@@ -46,10 +48,14 @@ GameTimer::GameTimer()
 	m_pEnemyManager = new EnemyManager(this);
 	m_pShooterEnemyManager = new ShooterEnemyManager(this);
 	m_pSwarmEnemyManager = new SwarmEnemyManager(this);
+	m_pMidBossManager = new MidBossManager(this);
 }
 
 GameTimer::~GameTimer()
 {
+	delete m_pMidBossManager;
+	m_pMidBossManager = nullptr;
+
 	delete m_pSwarmEnemyManager;
 	m_pSwarmEnemyManager = nullptr;
 
@@ -66,7 +72,7 @@ void GameTimer::Update()
 	switch (m_CurrentWave)
 	{
 	case WAVE_ONE:
-		if (m_FrameCount % WAVEONECOOLTIME == 0)
+		if (m_FrameCount % WAVEONECOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
@@ -82,7 +88,7 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_TWO:
-		if (m_FrameCount % WAVETWOCOOLTIME == 0)
+		if (m_FrameCount % WAVETWOCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
@@ -99,7 +105,7 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_THREE:
-		if (m_FrameCount % WAVETHREECOOLTIME == 0)
+		if (m_FrameCount % WAVETHREECOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
@@ -116,7 +122,7 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_FOUR:
-		if (m_FrameCount % WAVEFOURCOOLTIME == 0)
+		if (m_FrameCount % WAVEFOURCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
@@ -133,7 +139,7 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_MAX:
-		if (m_FrameCount % WAVEMAXCOOLTIME == 0)
+		if (m_FrameCount % WAVEMAXCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
@@ -165,6 +171,11 @@ void GameTimer::Update()
 	if (m_CurrentTime % 50 == 0 && m_CurrentTime >= 50)
 	{
 		m_pSwarmEnemyManager->SpawnEnemy();
+	}
+
+	if (m_CurrentTime % 150 == 0 && m_CurrentTime >= 150)
+	{
+		m_pMidBossManager->SpawnEnemy();
 	}
 }
 

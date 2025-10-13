@@ -19,7 +19,7 @@ LevelOneSwarmEnemy::LevelOneSwarmEnemy()
 
 	m_HP = 1;
 	m_EnemySpeed = 0.01f;
-	m_Points = 10;
+	m_Points = 50;
 	m_ModelTag = SWARM_ENEMY_RED;
 }
 

@@ -35,9 +35,7 @@ using namespace DirectX;
 #endif
 
 
-
-
-
+#include <random>
 
 #pragma comment (lib, "winmm.lib")
 
@@ -50,3 +48,10 @@ HWND GetWindow();
 
 void Invoke(std::function<void()> Function, int Time);
 
+inline float RandomFloat(float min, float max)
+{
+    static std::random_device rd;
+    static std::mt19937 mt(rd());
+    std::uniform_real_distribution<float> dist(min, max);
+    return dist(mt);
+}
