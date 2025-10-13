@@ -20,7 +20,7 @@ LevelFiveEnemy::LevelFiveEnemy()
 
 	m_HP = 10;
 	m_EnemySpeed = 0.05f;
-	m_Points = 100;
+	m_Points = 1000;
 	m_ModelTag = ENEMY_SILVER;
 }
 

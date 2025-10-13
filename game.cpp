@@ -35,7 +35,7 @@
 #include "model_manager.h"
 #include "controller.h"
 #include "title.h"
-
+#include "audio.h"
 
 #include "game.h"
 //********************************************************************************
@@ -75,10 +75,14 @@ void Game::Init(Input* input)
 	m_pModelManager = new ModelManager;
 
 	m_State = GAME_FADEIN;
+
+	Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
+	Manager::GetAudio()->Play(true);
 }
 
 void Game::Uninit()
 {
+	Manager::GetAudio()->Uninit();
 	delete m_pTimer;
 	m_pTimer = nullptr;
 

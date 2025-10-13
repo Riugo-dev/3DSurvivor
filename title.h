@@ -20,7 +20,9 @@ class Title :public Scene
 private:
 	Input* m_Input;
 public:
+
 	void Init(Input*) override;		//‰Šú‰»
+	void Uninit() override; 
 	void Update() override;
 };
 

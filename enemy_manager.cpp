@@ -35,7 +35,7 @@
 void EnemyManager::WaveOne()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 15;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
 
 	LevelOneEnemySpawner(enemyspawnedcount);
 }
@@ -43,9 +43,9 @@ void EnemyManager::WaveOne()
 void EnemyManager::WaveTwo()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 20;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 3 + 5;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
 
@@ -57,11 +57,11 @@ void EnemyManager::WaveTwo()
 void EnemyManager::WaveThree()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 25;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 3 + 5;
+	int levelthreecount = rd() % 3 + 15;
 
-	int leveltwocount = rd() % 7 + 7;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
 
@@ -73,13 +73,13 @@ void EnemyManager::WaveThree()
 void EnemyManager::WaveFour()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 25;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
 
-	int levelfourcount = rd() % 3 + 5;
+	int levelfourcount = rd() % 3 + 15;
 
-	int levelthreecount = rd() % 7 + 3;
+	int levelthreecount = rd() % 7 + 13;
 
-	int leveltwocount = rd() % 2 + 5;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 2 + 15;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
 
@@ -92,13 +92,13 @@ void EnemyManager::WaveFour()
 void EnemyManager::WaveMax()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 30;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
-	int levelfivecount = rd() % 3 + 3;
+	int levelfivecount = rd() % 3 + 13;
 
-	int levelfourcount = rd() % 7 + 5;
+	int levelfourcount = rd() % 7 + 15;
 
-	int levelthreecount = rd() % 2 + 7;
+	int levelthreecount = rd() % 2 + 17;
 
 	int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
 
@@ -123,7 +123,7 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 8;//rd() % 7 + 7
+		int distance = rd() % 10 + 8;//rd() % 7 + 7
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -145,7 +145,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 8;
+		int distance = rd() % 15 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -167,7 +167,7 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 9;
+		int distance = rd() % 15 + 9;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -189,7 +189,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 9;
+		int distance = rd() % 15 + 9;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -211,7 +211,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 7 + 10;
+		int distance = rd() % 15 + 10;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;

@@ -19,7 +19,7 @@ LevelThreeShooterEnemy::LevelThreeShooterEnemy()
 	m_Shader = SHADER_TOON;
 
 	m_HP = 3;
-	m_Points = 30;
+	m_Points = 250;
 	m_ModelTag = SHOOTER_ENEMY_GREEN;
 
 	m_ShotCoolDown = 150;

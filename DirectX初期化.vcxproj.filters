@@ -43,6 +43,9 @@
     <Filter Include="エネミー関係\横切りエネミー">
       <UniqueIdentifier>{d13b5183-749b-40bf-b030-efc46ddd8676}</UniqueIdentifier>
     </Filter>
+    <Filter Include="エネミー関係\中ボスエネミー">
+      <UniqueIdentifier>{378a665c-fbfa-4642-9267-65951badbab4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -230,6 +233,12 @@
     </ClCompile>
     <ClCompile Include="swarmenemy_manager.cpp">
       <Filter>エネミー関係\横切りエネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="levelone_midboss.cpp">
+      <Filter>エネミー関係\中ボスエネミー</Filter>
+    </ClCompile>
+    <ClCompile Include="midboss_manager.cpp">
+      <Filter>エネミー関係\中ボスエネミー</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +451,15 @@
     </ClInclude>
     <ClInclude Include="swarmenemy_manager.h">
       <Filter>エネミー関係\横切りエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="midbossbase.h">
+      <Filter>エネミー関係\中ボスエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="levelone_midboss.h">
+      <Filter>エネミー関係\中ボスエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="midboss_manager.h">
+      <Filter>エネミー関係\中ボスエネミー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ LevelFourEnemy::LevelFourEnemy()
 
 	m_HP = 8;
 	m_EnemySpeed = 0.04f;
-	m_Points = 40;
+	m_Points = 400;
 	m_ModelTag = ENEMY_PURPLE;
 }
 

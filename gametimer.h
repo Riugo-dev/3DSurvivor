@@ -29,6 +29,7 @@ private:
 	class EnemyManager* m_pEnemyManager;
 	class ShooterEnemyManager* m_pShooterEnemyManager;
 	class SwarmEnemyManager* m_pSwarmEnemyManager;
+	class MidBossManager* m_pMidBossManager;
 	int m_FrameCount;
 	int m_CurrentTime;
 	Wave m_CurrentWave = WAVE_ONE;

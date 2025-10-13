@@ -20,7 +20,7 @@ LevelTwoEnemy::LevelTwoEnemy()
 
 	m_HP = 3;
 	m_EnemySpeed = 0.02f;
-	m_Points = 20;
+	m_Points = 200;
 	m_ModelTag = ENEMY_BLUE;
 }
 

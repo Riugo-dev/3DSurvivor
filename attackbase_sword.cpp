@@ -8,6 +8,7 @@
 #include "manager.h"
 #include "scene.h"
 #include "player.h"
+#include "manager_soundeffect.h"
 
 #include "attackbase_sword.h"
 
@@ -28,6 +29,8 @@ BaseAttackSword::BaseAttackSword()
 	m_LivingFrames = 0;
 	m_angle = 0.0f;
 	m_rotationspeed = 1.0f;
+
+	SoundEffectManager::PlaySE(SE_SWORDTHROW);
 }
 
 BaseAttackSword::~BaseAttackSword()

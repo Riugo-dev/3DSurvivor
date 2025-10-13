@@ -21,7 +21,7 @@ LevelThreeEnemy::LevelThreeEnemy()
 
 	m_HP = 6;
 	m_EnemySpeed = 0.03f;
-	m_Points = 30;
+	m_Points = 300;
 	m_ModelTag = ENEMY_GREEN;
 }
 

@@ -126,7 +126,7 @@ void ShooterEnemyManager::LevelOneEnemySpawner(int count)
 
 		Vector3 spawnpoint;
 		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
+		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<LevelOneShooterEnemy>()->SetPosition(spawnpoint);
@@ -148,7 +148,7 @@ void ShooterEnemyManager::LevelTwoEnemySpawner(int count)
 
 		Vector3 spawnpoint;
 		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
+		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<LevelTwoShooterEnemy>()->SetPosition(spawnpoint);
@@ -170,7 +170,7 @@ void ShooterEnemyManager::LevelThreeEnemySpawner(int count)
 
 		Vector3 spawnpoint;
 		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
+		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<LevelThreeShooterEnemy>()->SetPosition(spawnpoint);
@@ -192,7 +192,7 @@ void ShooterEnemyManager::LevelFourEnemySpawner(int count)
 
 		Vector3 spawnpoint;
 		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
+		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<LevelFourShooterEnemy>()->SetPosition(spawnpoint);
@@ -214,7 +214,7 @@ void ShooterEnemyManager::LevelFiveEnemySpawner(int count)
 
 		Vector3 spawnpoint;
 		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
+		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<LevelFiveShooterEnemy>()->SetPosition(spawnpoint);
