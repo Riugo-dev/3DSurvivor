@@ -18,7 +18,7 @@ LevelFiveEnemy::LevelFiveEnemy()
 
 	m_Shader = SHADER_BLINNPHONG;
 
-	m_HP = 10;
+	m_HP = 1 * 600;
 	m_EnemySpeed = 0.05f;
 	m_Points = 1000;
 	m_ModelTag = ENEMY_SILVER;

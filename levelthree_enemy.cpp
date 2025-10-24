@@ -19,7 +19,7 @@ LevelThreeEnemy::LevelThreeEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 6;
+	m_HP = 6 * 60;
 	m_EnemySpeed = 0.03f;
 	m_Points = 300;
 	m_ModelTag = ENEMY_GREEN;

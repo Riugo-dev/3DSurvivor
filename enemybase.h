@@ -42,6 +42,7 @@ protected:
 	Shader m_Shader;
 	int m_FrameCount = 0;
 	bool m_GetBig = false;
+	const float m_Radius = 1.0f;
 public:
 	~BaseEnemy() = default;
 
@@ -72,9 +73,11 @@ public:
 		{
 			if (itr->GetDestroy())continue;
 
-			Vector3 d = itr->GetPosition() - m_Position;
-			float length = d.length();
-			if (length < 1.0f)
+			/*Vector3 d = itr->GetPosition() - m_Position;
+			float length = d.length();*/
+
+
+			if (itr->CircleCollider(m_Position , m_Radius))
 			{
 				m_HP -= itr->GetStrength();
 				itr->SubtractHP();
@@ -89,10 +92,11 @@ public:
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
+
+					return;
 				}
 
-				
-				return;
+
 			}
 		}
 

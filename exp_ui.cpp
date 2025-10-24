@@ -95,7 +95,7 @@ void EXPUI::Update()
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
-	if(p_player->GetPlayerLevel() != LEVEL_FIFTEEN && p_player->GetPlayerLevel() != LEVEL_MAX)
+	if(/*p_player->GetPlayerLevel() != LEVEL_FIFTEEN &&*/ p_player->GetPlayerLevel() != LEVEL_MAX)
 	{
 
 		m_expinterpolation = p_player->GetCurrentExpPercentage();

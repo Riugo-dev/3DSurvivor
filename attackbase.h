@@ -34,6 +34,7 @@ protected:
 	int m_Strength;//çUåÇÇÃà–óÕ
 
 	ModelTags m_ModelTag;
+	float m_Radius;
 public:
 	virtual ~BaseAttack() = default;
 
@@ -96,6 +97,22 @@ public:
 	void SetVelocity(Vector3 vel) { m_Velocity = vel;}
 
 	void SetLivingFrames(int frames) { m_LivingFrames = frames; }
+
+	bool CircleCollider(Vector3 enemypos, float radius)
+	{
+		Vector3 vector = m_Position - enemypos;
+		float length = vector.length();
+
+		if (length < radius + m_Radius)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	float GetRadius() { return m_Radius; }
+	void SetRadius(float radius) { m_Radius = radius; }
 };
 
 #endif // !_ATTACKBASE_H_

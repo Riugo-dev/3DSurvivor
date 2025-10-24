@@ -18,7 +18,7 @@ LevelTwoEnemy::LevelTwoEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 3;
+	m_HP = 3 * 60;
 	m_EnemySpeed = 0.02f;
 	m_Points = 200;
 	m_ModelTag = ENEMY_BLUE;

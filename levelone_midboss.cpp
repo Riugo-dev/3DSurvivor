@@ -16,7 +16,7 @@ LevelOneMidBoss::LevelOneMidBoss()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 100;
+	m_HP = 150 * 60;
 	m_EnemySpeed = 0.5f;
 	m_Points = 5000;
 	m_ModelTag = MIDBOSS_RED;

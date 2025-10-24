@@ -18,7 +18,7 @@ LevelFourEnemy::LevelFourEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 8;
+	m_HP = 8 * 60;
 	m_EnemySpeed = 0.04f;
 	m_Points = 400;
 	m_ModelTag = ENEMY_PURPLE;

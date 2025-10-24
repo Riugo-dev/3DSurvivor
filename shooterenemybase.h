@@ -44,6 +44,7 @@ protected:
 	int m_FrameCount = 0;
 	bool m_GetBig = false;
 	float m_Speed = 0.5f;
+	const float m_Radius = 0.9f;
 public:
 	~ShooterBaseEnemy() = default;
 
@@ -74,9 +75,7 @@ public:
 		{
 			if (itr->GetDestroy())continue;
 
-			Vector3 d = itr->GetPosition() - m_Position;
-			float length = d.length();
-			if (length < 1.3f)
+			if (itr->CircleCollider(m_Position, m_Radius))
 			{
 				m_HP -= itr->GetStrength();
 				itr->SubtractHP();
@@ -91,10 +90,10 @@ public:
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
+
+
+					return;
 				}
-
-
-				return;
 			}
 		}
 

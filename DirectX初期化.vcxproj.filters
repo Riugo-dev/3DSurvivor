@@ -240,6 +240,15 @@
     <ClCompile Include="midboss_manager.cpp">
       <Filter>エネミー関係\中ボスエネミー</Filter>
     </ClCompile>
+    <ClCompile Include="fire_particle.cpp">
+      <Filter>パーティクル</Filter>
+    </ClCompile>
+    <ClCompile Include="attackbase_slipdamage.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
+    <ClCompile Include="bombattack.cpp">
+      <Filter>攻撃関連</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -460,6 +469,15 @@
     </ClInclude>
     <ClInclude Include="midboss_manager.h">
       <Filter>エネミー関係\中ボスエネミー</Filter>
+    </ClInclude>
+    <ClInclude Include="attackbase_slipdamage.h">
+      <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="fire_particle.h">
+      <Filter>パーティクル</Filter>
+    </ClInclude>
+    <ClInclude Include="bombattack.h">
+      <Filter>攻撃関連</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

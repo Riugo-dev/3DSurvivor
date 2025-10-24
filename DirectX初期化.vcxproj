@@ -131,9 +131,11 @@
   <ItemGroup>
     <ClCompile Include="attackbase_bullet.cpp" />
     <ClCompile Include="attackbase_shuriken.cpp" />
+    <ClCompile Include="attackbase_slipdamage.cpp" />
     <ClCompile Include="attackbase_sword.cpp" />
     <ClCompile Include="attack_manager.cpp" />
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="bombattack.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bulletattack.cpp" />
@@ -148,6 +150,7 @@
     <ClCompile Include="exp_ui.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="fire_particle.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameender_enemy.cpp" />
     <ClCompile Include="gametimer.cpp" />
@@ -198,9 +201,11 @@
     <ClInclude Include="attackbase.h" />
     <ClInclude Include="attackbase_bullet.h" />
     <ClInclude Include="attackbase_shuriken.h" />
+    <ClInclude Include="attackbase_slipdamage.h" />
     <ClInclude Include="attackbase_sword.h" />
     <ClInclude Include="attack_manager.h" />
     <ClInclude Include="audio.h" />
+    <ClInclude Include="bombattack.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="bulletattack.h" />
@@ -268,6 +273,7 @@
     <ClInclude Include="title.h" />
     <ClInclude Include="vector3.h" />
     <ClInclude Include="exp_ui.h" />
+    <ClInclude Include="fire_particle.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">

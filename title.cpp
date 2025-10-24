@@ -48,5 +48,18 @@ void Title::Update()
 		}
 	}
 
+	if (m_Input->GetKeyPress(KK_LEFT))
+	{
+		Manager::GetAudio()->AddVolume(0.01f);
+		//Manager::GetAudio()->SetVolumeMax();
+	}
+
+	if (m_Input->GetKeyPress(KK_RIGHT))
+	{
+		Manager::GetAudio()->LowerVolume(0.01f);
+		//Manager::GetAudio()->SetVolumeZero();
+	}
+
+
 	Manager::GetScene()->GetGameObject<Fade>()->Update();
 }

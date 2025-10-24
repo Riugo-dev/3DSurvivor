@@ -189,7 +189,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 9;
+		int distance = rd() % 15 + 10;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -211,7 +211,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 10;
+		int distance = rd() % 15 + 11;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;

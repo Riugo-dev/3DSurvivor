@@ -1,14 +1,21 @@
-
+//********************************************************************************
+//
+// audio.cpp[音クラス]
+//
+//															Author :Riugo Honda
+//															Date   :2025/10/14
+//********************************************************************************
 #include "main.h"
 #include "audio.h"
 
-
+#define MAX_VOLUME (2.0f)
+#define MIN_VOLUME (0.0f)
 
 
 
 IXAudio2*				Audio::m_Xaudio = NULL;
 IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;
-
+float Audio::m_Volume;
 
 void Audio::InitMaster()
 {
@@ -20,6 +27,8 @@ void Audio::InitMaster()
 
 	// マスタリングボイス生成
 	m_Xaudio->CreateMasteringVoice(&m_MasteringVoice);
+
+	m_Volume = 0.0f;
 }
 
 
@@ -115,6 +124,7 @@ void Audio::Uninit()
 
 void Audio::Play(bool Loop)
 {
+
 	m_SourceVoice->Stop();
 	m_SourceVoice->FlushSourceBuffers();
 
@@ -144,10 +154,54 @@ void Audio::Play(bool Loop)
 	//m_SourceVoice->SetVolume(0.1f);
 */
 
+	m_SourceVoice->SetVolume(m_Volume);
 
 	// 再生
 	m_SourceVoice->Start();
 
+}
+
+void Audio::AddVolume(float volume)
+{
+	m_Volume += volume;
+
+	if (m_Volume >= MAX_VOLUME)
+	{
+		m_Volume = MAX_VOLUME;
+	}
+
+	m_SourceVoice->SetVolume(m_Volume);
+}
+
+void Audio::LowerVolume(float volume)
+{
+	m_Volume -= volume;
+
+	if (m_Volume <= MIN_VOLUME)
+	{
+		m_Volume = MIN_VOLUME;
+	}
+
+	m_SourceVoice->SetVolume(m_Volume);
+}
+
+void Audio::SetVolumeMax()
+{
+	m_Volume = MAX_VOLUME;
+	
+	m_SourceVoice->SetVolume(m_Volume);
+}
+
+void Audio::SetVolumeZero()
+{
+	m_Volume = MIN_VOLUME;
+
+	m_SourceVoice->SetVolume(m_Volume);
+}
+
+float Audio::GetVolume()
+{
+	return m_Volume;
 }
 
 

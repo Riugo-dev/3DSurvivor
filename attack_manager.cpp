@@ -15,6 +15,7 @@
 #include "bulletattack.h"
 #include "swordattack.h"
 #include "shurikenattack.h"
+#include "bombattack.h"
 #include "player.h"
 #include "controller.h"
 
@@ -77,12 +78,14 @@ AttackManager::AttackManager()
 	m_TextureShuriken = Texture::Load("asset\\texture\\shuriken.png");
 	m_TextureSword = Texture::Load("asset\\texture\\sword.png");
 	m_TextureBullet = Texture::Load("asset\\texture\\bullet.png");
+	m_TextureBomb = Texture::Load("asset\\texture\\bomb.png");
 	m_TexturePowerUp = Texture::Load("asset\\texture\\LevelUp.png");
 	m_TextureLVMAX = Texture::Load("asset\\texture\\LVMAX.png");
 	m_TextureSelect = Texture::Load("asset\\texture\\select.png");
 
 	m_SelectNumber = 0;
 
+	Manager::GetScene()->AddGameObject<BombAttack>(5);
 	Manager::GetScene()->AddGameObject<SwordAttack>(5);
 	Manager::GetScene()->AddGameObject<BulletAttack>(5);
 	Manager::GetScene()->AddGameObject<ShurikenAttack>(5);
@@ -108,7 +111,7 @@ void AttackManager::Update()
 		{
 			m_SelectNumber++;
 
-			if (m_SelectNumber > 2)
+			if (m_SelectNumber > 3)
 			{
 				m_SelectNumber = 0;
 			}
@@ -119,7 +122,7 @@ void AttackManager::Update()
 
 			if (m_SelectNumber < 0)
 			{
-				m_SelectNumber = 2;
+				m_SelectNumber = 3;
 			}
 		}
 
@@ -141,6 +144,18 @@ void AttackManager::Update()
 				break;
 			case 1:
 			{
+				if (Manager::GetScene()->GetGameObject<BombAttack>()->GetLevel() == ATT_LVMAX) return;
+
+				Manager::GetScene()->GetGameObject<BombAttack>()->SetToNextLevel();
+
+				Game::SetGameState(GAME_PLAY);
+
+				//もし過剰に経験値がある場合の確認処理
+				Manager::GetScene()->GetGameObject<Player>()->GivePlayerExp(0);
+			}
+				break;
+			case 2:
+			{
 				if (Manager::GetScene()->GetGameObject<SwordAttack>()->GetLevel() == ATT_LVMAX) return;
 
 				Manager::GetScene()->GetGameObject<SwordAttack>()->SetToNextLevel();
@@ -151,7 +166,7 @@ void AttackManager::Update()
 				Manager::GetScene()->GetGameObject<Player>()->GivePlayerExp(0);
 			}
 				break;
-			case 2:
+			case 3:
 			{
 				if (Manager::GetScene()->GetGameObject<ShurikenAttack>()->GetLevel() == ATT_LVMAX) return;
 
@@ -332,10 +347,59 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4);//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
 		float w = 100.0f;//描画物の幅
 		float h = 100.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+
+	{//剣
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextureBomb);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) + 175.0f;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
+		float w = 75.0f;//描画物の幅
+		float h = 75.0f;//描画物の高さ
 
 		float tw = 1;
 		float th = 1;
@@ -381,7 +445,7 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 285.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 350.0f;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
 		float w = 75.0f;//描画物の幅
 		float h = 75.0f;//描画物の高さ
@@ -420,6 +484,7 @@ void AttackManager::drawicon()
 		Renderer::GetDeviceContext()->Draw(4, 0);
 	}
 
+
 	{//手裏剣
 		//テクスチャ設定
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextureShuriken);
@@ -430,7 +495,7 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 500.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 525.0f;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
 		float w = 75.0f;//描画物の幅
 		float h = 75.0f;//描画物の高さ
@@ -482,7 +547,18 @@ void AttackManager::drawselect()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 50.0f + (425 / 2) * m_SelectNumber;//描画開始位置・・・X座標
+		float x = 0;
+
+		if (m_SelectNumber == 0 || m_SelectNumber == 3)
+		{
+			x = (SCREEN_WIDTH / 4) + (515 / 3) * m_SelectNumber;//描画開始位置・・・X座標
+		}
+		else //if (m_SelectNumber == 2)
+		{
+			x = (SCREEN_WIDTH / 4) -12.5f + (515 / 3) * m_SelectNumber;//描画開始位置・・・X座標
+		}
+
+		
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
 		float w = 100.0f;//描画物の幅
 		float h = 100.0f;//描画物の高さ
@@ -544,8 +620,65 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4);//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4)  + 50.0f;//描画開始位置・・・Y座標
+		float w = 100.0f;//描画物の幅
+		float h = 100.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+
+	{//sword
+		if (Manager::GetScene()->GetGameObject<BombAttack>()->GetLevel() != ATT_LVMAX)
+		{
+			//テクスチャ設定
+			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TexturePowerUp);
+		}
+		else
+		{
+			//テクスチャ設定
+			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextureLVMAX);
+		}
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) + 160.0f;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
 		float w = 100.0f;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
@@ -601,7 +734,7 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 260.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 335.0f;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
 		float w = 100.0f;//描画物の幅
 		float h = 100.0f;//描画物の高さ
@@ -640,6 +773,7 @@ void AttackManager::drawoption()
 		Renderer::GetDeviceContext()->Draw(4, 0);
 	}
 
+
 	{//sword
 		if (Manager::GetScene()->GetGameObject<ShurikenAttack>()->GetLevel() != ATT_LVMAX)
 		{
@@ -658,7 +792,7 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 475.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 515.0f;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
 		float w = 100.0f;//描画物の幅
 		float h = 100.0f;//描画物の高さ
