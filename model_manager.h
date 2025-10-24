@@ -49,6 +49,7 @@ typedef enum
 	BULLET,
 	SHURIKEN,
 	SWORD,
+	BOMB,
 
 	//その他のオブジェクト
 	SKYDOME,

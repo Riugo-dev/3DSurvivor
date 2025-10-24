@@ -18,7 +18,7 @@ LevelFourShooterEnemy::LevelFourShooterEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 4;
+	m_HP = 4 * 60;
 	m_Points = 350;
 	m_ModelTag = SHOOTER_ENEMY_PURPLE;
 

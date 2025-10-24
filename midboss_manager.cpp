@@ -59,7 +59,7 @@ void MidBossManager::SpawnEnemy()
 	std::mt19937 mt(rd());
 	std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);
 
-	int distance = 25;
+	int distance = 41;
 	float angle = randangle(mt);
 
 	Vector3 spawnpoint;

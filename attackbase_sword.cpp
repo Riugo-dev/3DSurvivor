@@ -30,6 +30,8 @@ BaseAttackSword::BaseAttackSword()
 	m_angle = 0.0f;
 	m_rotationspeed = 1.0f;
 
+	m_Radius = 0.25;
+
 	SoundEffectManager::PlaySE(SE_SWORDTHROW);
 }
 

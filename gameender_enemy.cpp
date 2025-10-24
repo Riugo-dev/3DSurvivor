@@ -16,9 +16,9 @@ GameEnderEnemy::GameEnderEnemy()
 
 	m_Shader = SHADER_BLINNPHONG;
 
-	m_HP = 100;
+	m_HP = 100 * 60;
 	m_EnemySpeed = 0.4f;
-	m_Points = 10000;
+	m_Points = 10000 ;
 	m_ModelTag = ENEMY_BLACK;
 }
 

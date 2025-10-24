@@ -102,6 +102,10 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SWORD]->Load("asset\\model\\AttackTypeSword.obj");
 	m_pModelShaders[SWORD] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
 
+	m_pModelRenderers[BOMB] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[BOMB]->Load("asset\\model\\AttackTypeBomb.obj");
+	m_pModelShaders[BOMB] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
+
 
 	m_pModelRenderers[SKYDOME] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SKYDOME]->Load("asset\\model\\sky.obj");

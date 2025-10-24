@@ -55,6 +55,9 @@ protected:
 	float m_RotationSpeed;
 	Vector3 m_EndPoint;
 	MidBossState m_State;
+	bool m_IsPlayerFar = false;
+	bool m_DashingIn = true;
+	const float m_Radius = 1.5f;
 public:
 	~BaseMidBoss() = default;
 
@@ -85,9 +88,8 @@ public:
 		{
 			if (itr->GetDestroy())continue;
 
-			Vector3 d = itr->GetPosition() - m_Position;
-			float attlength = d.length();
-			if (attlength < m_Scale.m_y * 2.5f)
+
+			if (itr->CircleCollider(m_Position, m_Radius))
 			{
 				m_HP -= itr->GetStrength();
 				itr->SubtractHP();
@@ -120,9 +122,10 @@ public:
 		case CHARGING:
 		{
 			Vector3 distance = p_player->GetPosition() - m_Position;
+			distance.m_y = 0.0f;
 			float length = distance.length();
 
-			if (length > 28)
+			if (length > 40)
 			{
 				m_State = WARPING;
 				return;
@@ -174,15 +177,25 @@ public:
 
 			if (length > 28)
 			{
-				m_State = WARPING;
-				return;
+				m_IsPlayerFar = true;
 			}
 
 			bool hitwall = false;
 
-			m_Rotation.m_y += m_RotationSpeed;
 
-			m_Position += m_Velocity * m_EnemySpeed;
+			if (m_IsPlayerFar)
+			{
+				m_Rotation.m_y += m_RotationSpeed;
+
+				m_Position += m_Velocity * m_EnemySpeed *3.0f;
+			}
+			else
+			{
+				m_Rotation.m_y += m_RotationSpeed;
+
+				m_Position += m_Velocity * m_EnemySpeed;
+			}
+			
 
 			if (length < m_Scale.m_y * 2.5f)
 			{
@@ -201,47 +214,22 @@ public:
 				}
 			}
 
-			if (length >= 20) return;
-
-			Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
-			Vector3 camforward = p_camera->GetFoward();
-			camforward.m_y = 0.0f;
-			camforward = camforward.normalized();
-			Vector3 camright = p_camera->GetRight();
-			camright.m_y = 0.0f;
-			camright = camright.normalized();
-
-			//ボスのカメラから見たいち
-			Vector3 realpos = m_Position - playerpos;
-			realpos.m_y = 0.0f;
-
-			float fowarddist = Vector3::dot(realpos, camforward);
-			float sidedist = Vector3::dot(realpos, camright);
-
-			if (fowarddist > LIMIT_Z)
+			if (m_DashingIn)
 			{
-				m_Position -= camforward * (fowarddist - LIMIT_Z);
-				m_Position.m_y = 0.0f;
-				hitwall = true;
+				if (length < 16.0f)
+				{
+					m_DashingIn = false;
+				}
 			}
-			else if (fowarddist < -LIMIT_Z)
+			else
 			{
-				m_Position -= camforward * (fowarddist + LIMIT_Z);
-				m_Position.m_y = 0.0f;
-				hitwall = true;
-			}
+				Vector3 nextdistance = distance + (m_Velocity * m_EnemySpeed);
+				float nextlength = nextdistance.length();
 
-			if (sidedist > LIMIT_X)
-			{
-				m_Position -= camright * (sidedist - LIMIT_X);
-				m_Position.m_y = 0.0f;
-				hitwall = true;
-			}
-			else if (sidedist < -LIMIT_X)
-			{
-				m_Position -= camright * (sidedist + LIMIT_X);
-				m_Position.m_y = 0.0f;
-				hitwall = true;
+				if (nextlength > 16.0f)
+				{
+					hitwall = true;
+				}
 			}
 
 
@@ -251,6 +239,8 @@ public:
 				m_FrameCount = 0;
 				m_Rotation.m_y = 0;
 				m_RotationSpeed = 0;
+				m_IsPlayerFar = false;
+				m_DashingIn = true;
 			}
 		}
 			break;
@@ -274,7 +264,7 @@ public:
 			// (3) 再出現後の初期設定
 			m_State = WALKING;
 			m_FrameCount = 0;
-			m_RotationSpeed = 0.02f;
+			m_RotationSpeed = 0.0f;
 			m_Velocity = (p_player->GetPosition() - m_Position).normalized();
 
 			return; // 今フレームはここで終了
@@ -282,7 +272,7 @@ public:
 			break;
 		case WALKING:
 		{
-			m_Position = m_Position + to_player * m_EnemySpeed;
+			m_Position = m_Position + to_player * m_EnemySpeed /3;
 
 			float angle_y, angle_x, angle_z;
 
@@ -296,7 +286,7 @@ public:
 			Vector3 distance = p_player->GetPosition() - m_Position;
 			float length = distance.length();
 
-			if (length <= 10)
+			if (length <= 6)
 			{
 				m_State = CHARGING;
 				m_FrameCount = 0;

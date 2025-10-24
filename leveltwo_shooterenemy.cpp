@@ -17,7 +17,7 @@ LevelTwoShooterEnemy::LevelTwoShooterEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 2;
+	m_HP = 2 * 60;
 	m_Points = 150;
 	m_ModelTag = SHOOTER_ENEMY_BLUE;
 

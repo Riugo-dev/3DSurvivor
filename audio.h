@@ -1,3 +1,11 @@
+//********************************************************************************
+//
+// audio.h[‰¹ƒNƒ‰ƒX]
+//
+//															Author :Riugo Honda
+//															Date   :2025/10/14
+//********************************************************************************
+
 #pragma once
 
 #include <xaudio2.h>
@@ -17,6 +25,7 @@ private:
 	int						m_Length{};
 	int						m_PlayLength{};
 
+	static float					m_Volume;
 
 public:
 	static void InitMaster();
@@ -29,6 +38,11 @@ public:
 	void Load(const char *FileName);
 	void Play(bool Loop = false);
 
+	void AddVolume(float);
+	void LowerVolume(float);
+	void SetVolumeMax();
+	void SetVolumeZero();
 
+	float GetVolume();
 };
 

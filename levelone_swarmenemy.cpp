@@ -17,7 +17,7 @@ LevelOneSwarmEnemy::LevelOneSwarmEnemy()
 
 	m_Shader = SHADER_TOON;
 
-	m_HP = 1;
+	m_HP = 1 * 60;
 	m_EnemySpeed = 0.01f;
 	m_Points = 50;
 	m_ModelTag = SWARM_ENEMY_RED;

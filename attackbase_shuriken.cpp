@@ -28,7 +28,9 @@ BaseAttackShuriken::BaseAttackShuriken()
 	m_LivingFrames = 0;
 	m_angle = 0.0f;
 	m_rotationspeed = 1.0f;
-	m_Strength = 1;
+	m_Strength = 1 * 60;
+
+	m_Radius = 1.0f;
 
 	SoundEffectManager::PlaySE(SE_SHURIKENTHROW);
 }

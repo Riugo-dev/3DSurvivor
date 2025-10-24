@@ -18,7 +18,7 @@ LevelFiveShooterEnemy::LevelFiveShooterEnemy()
 
 	m_Shader = SHADER_BLINNPHONG;
 
-	m_HP = 5;
+	m_HP = 5 * 60;
 	m_Points = 450;
 	m_ModelTag = SHOOTER_ENEMY_SILVER;
 

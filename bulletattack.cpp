@@ -126,6 +126,7 @@ void BulletAttack::Update()
 				BaseAttackBullet* bullet = Manager::GetScene()->AddGameObject<BaseAttackBullet>();
 				bullet->SetPosition(pos);
 				bullet->SetVelocity(vel);
+				bullet->SetAttackHP(2);
 				bullet->SetLivingFrames(60);
 			}
 		}
@@ -150,6 +151,7 @@ void BulletAttack::Update()
 
 				BaseAttackBullet* bullet = Manager::GetScene()->AddGameObject<BaseAttackBullet>();
 				bullet->SetPosition(pos);
+				bullet->SetAttackHP(2);
 				bullet->SetVelocity(vel);
 				bullet->SetLivingFrames(60);
 			}

@@ -171,12 +171,14 @@ void Player::GivePlayerExp(int gainingexp)
 		m_PrevousExpCount = m_NecessaryExpForNextLevel;
 		m_NecessaryExpForNextLevel += 100 * (m_PlayerCurrentLevel + 1);
 
+
+		Game::SetGameState(PLAYER_LEVELUP);
 		switch (m_PlayerCurrentLevel)
 		{
 		case LEVEL_ONE:
 			m_PlayerCurrentLevel = LEVEL_TWO;
 			//ここのタイミングレベルアップのアイテム選択をさせる
-			Game::SetGameState(PLAYER_LEVELUP);
+			
 			break;
 		case LEVEL_TWO:
 			m_PlayerCurrentLevel = LEVEL_THREE;
@@ -244,9 +246,32 @@ void Player::GivePlayerExp(int gainingexp)
 			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_FIFTEEN:
+			m_PlayerCurrentLevel = LEVEL_SIXTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_SIXTEEN:
+			m_PlayerCurrentLevel = LEVEL_SEVENTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_SEVENTEEN:
+			m_PlayerCurrentLevel = LEVEL_EIGHTTEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_EIGHTTEEN:
+			m_PlayerCurrentLevel = LEVEL_NINETEEN;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_NINETEEN:
 			m_PlayerCurrentLevel = LEVEL_MAX;
 			//ここのタイミングレベルアップのアイテム選択をさせる
-			//Game::SetGameState(PLAYER_LEVELUP);
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_MAX:
+			
 			break;
 		}
 

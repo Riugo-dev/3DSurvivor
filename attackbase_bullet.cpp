@@ -22,14 +22,15 @@ BaseAttackBullet::BaseAttackBullet()
 
 	m_FrameCount = 0;
 	m_LivingFrames = 0;
-	m_Strength = 1;
+	m_Strength = 1 * 60;
 
 	SoundEffectManager::PlaySE(SE_BULLETSHOT);
+
+	m_Radius = 0.5f;
 }
 
 BaseAttackBullet::~BaseAttackBullet()
 {
-	
 }
 
 void BaseAttackBullet::Update()

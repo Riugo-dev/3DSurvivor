@@ -18,11 +18,11 @@
 //定数の定義
 //********************************************************************************
 //フレーム換算
-#define WAVEONECOOLTIME (60 * 30)
-#define WAVETWOCOOLTIME (60 * 30)
-#define WAVETHREECOOLTIME (60 * 30)
-#define WAVEFOURCOOLTIME (60 * 30)
-#define WAVEMAXCOOLTIME (60 * 30)
+#define WAVEONECOOLTIME (1800)
+#define WAVETWOCOOLTIME (1800)
+#define WAVETHREECOOLTIME (1800)
+#define WAVEFOURCOOLTIME (1800)
+#define WAVEMAXCOOLTIME (1800)
 
 //秒換算
 #define WAVEONE (50)
@@ -30,6 +30,9 @@
 #define WAVETHREE (170)
 #define WAVEFOUR (230)
 #define WAVEMAX (290)
+
+#define SWARMCOOLTIME (50)
+#define MIDBOSSCOOLTIME (120)
 //********************************************************************************
 //グローバル変数
 //********************************************************************************
@@ -72,11 +75,15 @@ void GameTimer::Update()
 	switch (m_CurrentWave)
 	{
 	case WAVE_ONE:
-		if (m_FrameCount % WAVEONECOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
+		if (m_FrameCount % WAVEONECOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
+		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEONE)
@@ -88,11 +95,15 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_TWO:
-		if (m_FrameCount % WAVETWOCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
+		if (m_FrameCount % WAVETWOCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
+		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETWO)
@@ -105,11 +116,15 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_THREE:
-		if (m_FrameCount % WAVETHREECOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
+		if (m_FrameCount % WAVETHREECOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
+		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETHREE)
@@ -122,11 +137,15 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_FOUR:
-		if (m_FrameCount % WAVEFOURCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
+		if (m_FrameCount % WAVEFOURCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
+		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEFOUR)
@@ -139,11 +158,15 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_MAX:
-		if (m_FrameCount % WAVEMAXCOOLTIME == 0 || Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1)
+		if (m_FrameCount % WAVEMAXCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
+		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEMAX)
@@ -168,12 +191,12 @@ void GameTimer::Update()
 
 	m_CurrentTime = m_FrameCount / 60;
 
-	if (m_CurrentTime % 50 == 0 && m_CurrentTime >= 50)
+	if (m_CurrentTime % SWARMCOOLTIME == 0 && m_CurrentTime >= SWARMCOOLTIME)
 	{
 		m_pSwarmEnemyManager->SpawnEnemy();
 	}
 
-	if (m_CurrentTime % 150 == 0 && m_CurrentTime >= 150)
+	if (m_CurrentTime % MIDBOSSCOOLTIME == 0 && m_CurrentTime >= MIDBOSSCOOLTIME)
 	{
 		m_pMidBossManager->SpawnEnemy();
 	}
