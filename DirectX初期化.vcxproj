@@ -195,6 +195,7 @@
     <ClCompile Include="swordattack.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="title_camera.cpp" />
     <ClCompile Include="vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +272,7 @@
     <ClInclude Include="swordattack.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="title_camera.h" />
     <ClInclude Include="vector3.h" />
     <ClInclude Include="exp_ui.h" />
     <ClInclude Include="fire_particle.h" />
