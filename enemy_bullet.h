@@ -21,6 +21,7 @@ private:
 	int m_LivingFrame;
 	int m_LifeTime;
 	int m_Hp;
+	const float m_Radius = 0.5f;
 public:
 	EnemyBullet();
 	~EnemyBullet();

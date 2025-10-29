@@ -56,9 +56,9 @@ void EnemyBullet::Update()
 	{
 		if (itr->GetDestroy())continue;
 
-		Vector3 d = itr->GetPosition() - m_Position;
-		float length = d.length();
-		if (length < 1.0f)
+		/*Vector3 d = itr->GetPosition() - m_Position;
+		float length = d.length();*/
+		if (itr->CircleCollider(m_Position, m_Radius))
 		{
 			m_Hp -= itr->GetStrength();
 			itr->SubtractHP();
