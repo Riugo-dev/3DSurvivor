@@ -92,7 +92,8 @@ void Game::Init(Input* input)
 
 	m_State = GAME_FADEIN;
 
-	Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
+	//Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
+	Manager::GetAudio()->Load("asset\\audio\\Devine-Fencer.wav");
 	Manager::GetAudio()->Play(true);
 }
 
