@@ -48,7 +48,7 @@ void SkyDome::Uninit()
 
 void SkyDome::Update()
 {
-	m_Rotation.m_z += 0.001;
+	//m_Rotation.m_z += 0.001;
 	
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
