@@ -90,7 +90,7 @@ void Game::Init(Input* input)
 		std::mt19937 mt(rd());
 		std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);//実数の一様分布、指定した範囲 [a, b] の整数を等確率で返す
 
-		for (float j = 0; j < 6; j+= 0.2)
+		for (float j = 0; j < 6; j+= 0.1f)
 		{
 			int distance = i;//rd() % 7 + 7
 			float angle = j;

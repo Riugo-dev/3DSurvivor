@@ -77,6 +77,23 @@ void Camera::Uninit()
 
 void Camera::Update()
 {
+	if (m_Mode == CAMERA_MODE_TITLE)
+	{
+		m_Target = Vector3{ 0.0f , 1.0f ,0.0f };
+
+		//カメラシェイク
+		m_Target += m_ShakeVector * cosf(m_ShakeTime);
+		m_ShakeTime += 1.0f;//揺らす速さ
+		m_ShakeVector *= 0.9f;
+
+		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f) };
+
+
+		Renderer::SetCameraPosition(m_Position);
+
+		return;
+	}
+
 	Controller* p_contorller = Manager::GetController();
 
 	if (p_contorller->IsConnected())

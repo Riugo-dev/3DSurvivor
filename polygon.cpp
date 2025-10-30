@@ -67,9 +67,16 @@ Polygon2D::Polygon2D(Vector3 size, Vector3 position, int movementx , int movemen
 	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &m_Texture);
 	assert(m_Texture);//ì«Ç›çûÇﬂÇ»Ç©Ç¡ÇΩÇÁÇ±Ç±Ç≈é~ÇﬂÇÊÇ§Ç…assertÇégÇ§
 
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\toon1VS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\toon1PS.cso");*/
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
+
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\toon1VS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\toon1PS.cso");*/
 
 
 	m_movement_x = movementx;

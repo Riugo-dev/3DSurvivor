@@ -22,6 +22,7 @@ typedef enum
 
 	CAMERA_MODE_FP,
 	CAMERA_MODE_TP,
+	CAMERA_MODE_TITLE,
 
 	CAMERA_MODE_MAX = -1,
 }CameraMode;
@@ -59,6 +60,8 @@ public:
 	XMMATRIX GetProjectionMatrix() {return m_Projection;}
 
 	void CameraShake(Vector3);
+
+	void SetMode(CameraMode mode) { m_Mode = mode; }
 
 private:
 

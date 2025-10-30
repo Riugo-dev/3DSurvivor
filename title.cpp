@@ -13,6 +13,7 @@
 #include "input.h"
 #include "game.h"
 #include "polygon.h"
+#include "camera.h"
 #include "fade.h"
 #include "controller.h"
 #include "audio.h"
@@ -21,6 +22,7 @@
 
 void Title::Init(Input*)
 {
+	//AddGameObject<Camera>(0)->SetMode(CAMERA_MODE_TITLE);
 	AddGameObject<Polygon2D>(2)->SetPosition({ SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 , 1.0f});
 	AddGameObject<Fade>(2)->SetFade(FADE_IN);
 	Manager::GetAudio()->Load("asset\\audio\\titlebgm.wav");
