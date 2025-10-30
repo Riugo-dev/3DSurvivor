@@ -14,7 +14,6 @@ class ResultUI :public GameObject
 {
 private:
 	ID3D11Buffer* m_VertexBuffer;
-	ID3D11Buffer* m_VertexBufferResultUI;
 
 	ID3D11VertexShader* m_VertexShader; //頂点シェーダーオブジェクト
 	ID3D11PixelShader* m_PixelShader; //ピクセルシェーダーオブジェクト

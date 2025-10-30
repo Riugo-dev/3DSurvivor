@@ -12,7 +12,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "game.h"
-#include "polygon.h"
+#include "title_ui.h"
 #include "fade.h"
 #include "controller.h"
 #include "audio.h"
@@ -21,7 +21,7 @@
 
 void Title::Init(Input*)
 {
-	AddGameObject<Polygon2D>(2)->SetPosition({ SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2 , 1.0f});
+	AddGameObject<TitleUI>(2);
 	AddGameObject<Fade>(2)->SetFade(FADE_IN);
 	Manager::GetAudio()->Load("asset\\audio\\titlebgm.wav");
 	Manager::GetAudio()->Play(true);
