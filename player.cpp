@@ -41,6 +41,13 @@ Player::Player(Vector3 size, Vector3 position)
 	m_InvinceibleFrameCount = 0;
 	m_IsInvinceble = false;
 	m_ModelTag = PLAYER;
+	
+	m_Radius = 0.75f;
+
+	m_Speed = 0.1f;
+	m_BoostFrameCount = 0;
+	m_BoostTime = 0;
+	m_IsBoost = false;
 }
 
 Player::~Player()
@@ -63,44 +70,34 @@ void Player::Update()
 	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
 	Controller* p_controller = Manager::GetController();
 
+	if (m_IsBoost)
+	{
+		boostchecker();
+	}
+
 	if ((m_pInput->GetKeyPress(KK_A) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsLeft())
 	{
-		//m_Position += Vector3(-1.0f, 0.0f, 0.0f);
-		m_Position += -p_camera->GetRight() * 0.1f;
+		m_Position += -p_camera->GetRight() * m_Speed;
 	}
 	
 	if ((m_pInput->GetKeyPress(KK_D) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsRight())
 	{
-		//m_Position += Vector3(1.0f, 0.0f, 0.0f);
-		m_Position += p_camera->GetRight() * 0.1f;
+		m_Position += p_camera->GetRight() * m_Speed;
 	}
 	
 	if ((m_pInput->GetKeyPress(KK_W) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsUp())
 	{
-		//m_Position += Vector3(0.0f, 0.0f, 1.0f);
-		m_Position += p_camera->GetFoward() * 0.1f;
+		m_Position += p_camera->GetFoward() * m_Speed;
 	}
 	
 	if ((m_pInput->GetKeyPress(KK_S) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsDown())
 	{
-		//m_Position += Vector3(0.0f, 0.0f, -1.0f);
-		m_Position += -p_camera->GetFoward() * 0.1f;
+		m_Position += -p_camera->GetFoward() * m_Speed;
 	}
 
 	Vector3 rotation = p_camera->GetRotation();
 	m_Rotation.m_y = rotation.m_y;
 
-	//if (m_pInput->GetKeyTrigger(KK_SPACE))
-	//{
-	//	Manager::GetScene()->AddGameObject<Bullet>();
-
-	//	//エルミーと用
-	//	/*Bullet* bullet = Manager::AddGameObject<Bullet>();
-	//	bullet->SetPosition(m_Position);
-	//	
-	//	Enemy* enemy = Manager::GetGameObject<Enemy>();
-	//	bullet->Shot(m_Position, enemy->GetPosition());*/
-	//}
 
 	if (m_IsInvinceble)
 	{
@@ -113,11 +110,6 @@ void Player::Update()
 		}
 	}
 
-	/*m_Rotation.m_x += 0.1f;
-	m_Rotation.m_y += 0.1f;*/
-	//m_Rotation.z += 0.1f;
-
-	//updateposition();
 }
 
 void Player::Draw()
@@ -290,4 +282,27 @@ void Player::DamagePlayer()
 
 	m_IsInvinceble = true;
 	m_InvinceibleFrameCount = 0;
+}
+
+void Player::SetBoost()
+{
+	m_Speed = 0.15f;
+
+	m_BoostFrameCount = 0;
+
+	m_BoostTime = 5 * 60;
+
+	m_IsBoost = true;
+}
+
+void Player::boostchecker()
+{
+	if (m_BoostFrameCount % m_BoostTime == 0 && m_BoostFrameCount >= 60)
+	{
+		m_IsBoost = false;
+
+		m_Speed = 0.1f;
+	}
+
+	m_BoostFrameCount++;
 }

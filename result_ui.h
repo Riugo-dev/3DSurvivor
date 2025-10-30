@@ -10,6 +10,12 @@
 
 #include "gameobject.h"
 
+enum State
+{
+	RESULT = 0,
+	RANKING,
+};
+
 class ResultUI :public GameObject
 {
 private:
@@ -24,12 +30,17 @@ private:
 	ID3D11ShaderResourceView* m_TextureResultTotalScore;//•¶Žš
 	ID3D11ShaderResourceView* m_TextureNumbers;//•¶Žš
 	ID3D11ShaderResourceView* m_TextureBG;//”wŒi‰æ
+	ID3D11ShaderResourceView* m_RankText[5];//”wŒi‰æ
 
 	XMFLOAT3 m_VertexPosition[4] = {};
 
 	int m_Score;
 	int m_EXPBonus;
 	int m_TotalScore;
+	int m_Ranking[5];
+	float m_Height;
+	bool m_IsRising;
+	State m_State = RESULT;
 public:
 	ResultUI();
 	~ResultUI() override;
@@ -43,12 +54,19 @@ public:
 	void SetScore(int score) { m_Score = score; }
 	void SetBonusScore(int bonus) { m_EXPBonus = bonus; }
 	void CalcTotal() { m_TotalScore = m_Score + m_EXPBonus; }
+	int GetTotal() { return m_TotalScore; }
+
+	void SetState(State state);
+	State GetState() { return m_State; }
+	bool GetIsRising() { return m_IsRising; }
 private:
 	void drawnumbers();
 	void drawscore();
 	void drawbonus();
 	void drawtotal();
 	void drawbg();
+	void drawranks();
+	void drawranknumbers();
 };
 
 #endif // !_RESULT_UI_H_

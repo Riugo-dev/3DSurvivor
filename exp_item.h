@@ -31,6 +31,10 @@ protected:
 	
 	ModelTags m_ModelTag;
 
+	float m_GatherSpeed;
+
+	bool m_IsGathering = false;
+
 	/*Vector3 m_Position = { 0.0f , 0.0f , 0.0f };
 	Vector3 m_Size = {1.0f , 1.0f ,1.0f};*/
 
@@ -50,17 +54,25 @@ public:
 
 		Player* player = Manager::GetScene()->GetGameObject<Player>();
 
-		Vector3 distance = player->GetPosition() - m_Position;
-		float length = distance.length();
-
-		if (length < m_Scale.m_y * 1.65f)
+		if (m_IsGathering)
 		{
+			Vector3 to_player = player->GetPosition() - m_Position;
+
+			to_player = to_player.normalized();
+
+			m_Position += to_player * m_GatherSpeed;
+		}
+
+		if(CircleCollider(player->GetPosition(), player->GetRadius()))
+		{
+			//SoundEffectManager::PlaySE(SE_EXP);
+
 			player->GivePlayerExp(m_Exp);
 
 			m_IsDestroy = true;
 		}
 
-		if (m_FrameCount > 3000)
+		if (m_FrameCount > 3000 && !m_IsGathering)
 		{
 			m_IsDestroy = true;
 		}
@@ -127,6 +139,12 @@ public:
 
 			Renderer::SetCullMode(D3D11_CULL_BACK);
 		}
+	}
+
+	void SetGather(bool flag = true, float gatherspeed = 0.3f)
+	{
+		m_IsGathering = flag;
+		m_GatherSpeed = gatherspeed;
 	}
 };
 

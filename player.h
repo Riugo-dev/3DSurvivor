@@ -69,6 +69,13 @@ private:
 	int m_InvinceibleFrameCount = 0;
 	bool m_IsInvinceble = false;
 	ModelTags m_ModelTag;
+
+	//‘¬“xŠÖŒW
+	float m_Speed = 0.1f;
+	bool m_IsBoost = false;
+	int m_BoostTime = 0;
+	int m_BoostFrameCount = 0;
+
 public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.5f , 0.0f });
 	~Player();
@@ -96,8 +103,11 @@ public:
 
 		return percetage; 
 	}
-private:
 
+	void SetBoost();
+
+private:
+	void boostchecker();
 };
 
 #endif // !_PLAYER_H_
