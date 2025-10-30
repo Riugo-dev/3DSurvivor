@@ -22,17 +22,7 @@ public:
 	void SpawnEnemy();
 	void DestroyFarEnemy();
 private:
-	/*void WaveOne();
-	void WaveTwo();
-	void WaveThree();
-	void WaveFour();
-	void WaveMax();*/
 
-	void LevelOneEnemySpawner(int);
-	/*void LevelTwoEnemySpawner(int);
-	void LevelThreeEnemySpawner(int);
-	void LevelFourEnemySpawner(int);
-	void LevelFiveEnemySpawner(int);*/
 };
 
 #endif // !_SWARMENEMY_MANAGER_H_

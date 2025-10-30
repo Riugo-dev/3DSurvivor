@@ -6,17 +6,18 @@
 //															Date   :2025/10/24
 //********************************************************************************
 #include "hp_ui.h"
+#include"manager_soundeffect.h"
 
 #include "heal_item.h"
-#include"manager_soundeffect.h"
+
 
 HealItem::HealItem()
 {
-	m_Scale = { 1.25f , 1.25f , 1.25f };
+	m_Scale = { 0.5f , 0.5f , 0.5f };
 
-	m_Shader = SHADER_BLINNPHONG;
+	m_Shader = SHADER_TOON;
 
-	m_ModelTag = HEAL_ITEM;
+	m_ModelTag = ITEM_HEAL;
 
 	m_Radius = 0.625f;
 }
@@ -37,7 +38,7 @@ void HealItem::Update()
 
 	if (CircleCollider(player->GetPosition(), player->GetRadius()))
 	{
-		SoundEffectManager::PlaySE(SE_HEAL);
+		//SoundEffectManager::PlaySE(SE_HEAL);
 
 		Manager::GetScene()->GetGameObject<HPUI>()->AddHP();
 

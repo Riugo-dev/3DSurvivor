@@ -136,6 +136,7 @@
     <ClCompile Include="attack_manager.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="bombattack.cpp" />
+    <ClCompile Include="boost_item.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bulletattack.cpp" />
@@ -154,9 +155,11 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameender_enemy.cpp" />
     <ClCompile Include="gametimer.cpp" />
+    <ClCompile Include="heal_item.cpp" />
     <ClCompile Include="hightier_exp_item.cpp" />
     <ClCompile Include="hp_ui.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="itemdrop_swarmenemy.cpp" />
     <ClCompile Include="levelfive_enemy.cpp" />
     <ClCompile Include="levelfive_shooterenemy.cpp" />
     <ClCompile Include="levelfour_enemy.cpp" />
@@ -173,6 +176,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="midboss_manager.cpp" />
+    <ClCompile Include="ranking.cpp" />
     <ClCompile Include="shader_manager.cpp" />
     <ClCompile Include="manager_soundeffect.cpp" />
     <ClCompile Include="midtier_exp_item.cpp" />
@@ -195,7 +199,8 @@
     <ClCompile Include="swordattack.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
-    <ClCompile Include="title_camera.cpp" />
+    <ClCompile Include="title_ui.cpp" />
+    <ClCompile Include="vacuum_item.cpp" />
     <ClCompile Include="vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +212,7 @@
     <ClInclude Include="attack_manager.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="bombattack.h" />
+    <ClInclude Include="boost_item.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="bulletattack.h" />
@@ -221,16 +227,17 @@
     <ClInclude Include="explosion.h" />
     <ClInclude Include="explosion_particle.h" />
     <ClInclude Include="exp_item.h" />
-    <ClInclude Include="exp_item_manager.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameender_enemy.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gametimer.h" />
+    <ClInclude Include="heal_item.h" />
     <ClInclude Include="hightier_exp_item.h" />
     <ClInclude Include="hp_ui.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="itemdrop_swarmenemy.h" />
     <ClInclude Include="levelfive_enemy.h" />
     <ClInclude Include="levelfive_shooterenemy.h" />
     <ClInclude Include="levelfour_enemy.h" />
@@ -248,6 +255,7 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="midbossbase.h" />
     <ClInclude Include="midboss_manager.h" />
+    <ClInclude Include="ranking.h" />
     <ClInclude Include="shader_manager.h" />
     <ClInclude Include="manager_soundeffect.h" />
     <ClInclude Include="midtier_exp_item.h" />
@@ -272,7 +280,8 @@
     <ClInclude Include="swordattack.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
-    <ClInclude Include="title_camera.h" />
+    <ClInclude Include="title_ui.h" />
+    <ClInclude Include="vacuum_item.h" />
     <ClInclude Include="vector3.h" />
     <ClInclude Include="exp_ui.h" />
     <ClInclude Include="fire_particle.h" />

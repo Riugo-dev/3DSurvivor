@@ -14,13 +14,13 @@
 
 VacuumItem::VacuumItem()
 {
-	m_Scale = { 0.25f , 0.25f , 0.25f };
+	m_Scale = { 0.45f , 0.45f , 0.45f };
 
 	m_Shader = SHADER_BLINNPHONG;
 
-	m_ModelTag = VACUUM_ITEM;
+	m_ModelTag = ITEM_VACUUM;
 
-	m_Radius = 0.75f;
+	m_Radius = 0.625f;
 }
 
 VacuumItem::~VacuumItem()
@@ -38,7 +38,7 @@ void VacuumItem::Update()
 
 	if (CircleCollider(player->GetPosition(), player->GetRadius()))
 	{
-		SoundEffectManager::PlaySE(SE_VACUUM);
+		//SoundEffectManager::PlaySE(SE_VACUUM);
 		std::vector<ExpItem*> items = Manager::GetScene()->GetGameObjects<ExpItem>();
 
 		for (auto itr : items)

@@ -36,6 +36,8 @@ protected:
 	bool m_IsDestroy = false;
 
 	Input* m_pInput;
+	float m_Radius;
+
 public:
 
 	virtual ~GameObject() = default;
@@ -88,6 +90,23 @@ public:
 	{
 		Vector3 direction = m_Position - position;
 		return Vector3::dot(direction, foward);
+	}
+
+
+	float GetRadius() { return m_Radius; }
+	void SetRadius(float radius) { m_Radius = radius; }
+
+	bool CircleCollider(Vector3 enemypos, float radius)
+	{
+		Vector3 vector = m_Position - enemypos;
+		float length = vector.length();
+
+		if (length < radius + m_Radius)
+		{
+			return true;
+		}
+
+		return false;
 	}
 };
 

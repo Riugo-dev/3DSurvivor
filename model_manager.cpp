@@ -34,6 +34,18 @@ ModelManager::ModelManager()
 	m_pModelRenderers[HIGHTIER_EXP]->Load("asset\\model\\HighTierEXPItem.obj");
 	m_pModelShaders[HIGHTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
 
+	m_pModelRenderers[ITEM_HEAL] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[ITEM_HEAL]->Load("asset\\model\\ItemTypeHeal.obj");
+	m_pModelShaders[ITEM_HEAL] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[ITEM_VACUUM] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[ITEM_VACUUM]->Load("asset\\model\\ItemTypeGather.obj");
+	m_pModelShaders[ITEM_VACUUM] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+
+	m_pModelRenderers[ITEM_BOOST] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[ITEM_BOOST]->Load("asset\\model\\ItemTypeBoost.obj");
+	m_pModelShaders[ITEM_BOOST] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
 	m_pModelRenderers[PLAYER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[PLAYER]->Load("asset\\model\\player.obj");
 	m_pModelShaders[PLAYER] = std::make_unique<ShaderManager>(SHADER_TOON);
@@ -85,6 +97,10 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SWARM_ENEMY_RED] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SWARM_ENEMY_RED]->Load("asset\\model\\EnemySwarmRed.obj");
 	m_pModelShaders[SWARM_ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+
+	m_pModelRenderers[SWARM_ENEMY_SILVER] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SWARM_ENEMY_SILVER]->Load("asset\\model\\EnemySwarmMetal.obj");
+	m_pModelShaders[SWARM_ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
 
 	m_pModelRenderers[MIDBOSS_RED] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[MIDBOSS_RED]->Load("asset\\model\\EnemyBossRed.obj");

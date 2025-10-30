@@ -14,9 +14,9 @@ BoostItem::BoostItem()
 {
 	m_Scale = { 0.25f , 0.25f , 0.25f };
 
-	m_Shader = SHADER_BLINNPHONG;
+	m_Shader = SHADER_TOON;
 
-	m_ModelTag = SPEEDBOOST_ITEM;
+	m_ModelTag = ITEM_BOOST;
 
 	m_Radius = 0.75f;
 }

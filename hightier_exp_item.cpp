@@ -21,6 +21,9 @@ HighTierExpItem::HighTierExpItem()
 	std::random_device rd;
 	m_Exp = rd() % 100 + 51;
 	m_ModelTag = HIGHTIER_EXP;
+
+
+	m_Radius = 0.31f;
 }
 
 HighTierExpItem::~HighTierExpItem()

@@ -21,6 +21,8 @@ MidTierExpItem::MidTierExpItem()
 	std::random_device rd;
 	m_Exp = rd() % 60 + 21;
 	m_ModelTag = MIDTIER_EXP;
+
+	m_Radius = 0.31f;
 }
 
 MidTierExpItem::~MidTierExpItem()

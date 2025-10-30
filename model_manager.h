@@ -21,6 +21,11 @@ typedef enum
 	MIDTIER_EXP,
 	HIGHTIER_EXP,
 
+	//その他ドロップアイテム
+	ITEM_HEAL,
+	ITEM_VACUUM,
+	ITEM_BOOST,
+
 	//プレイヤーモデル
 	PLAYER,
 
@@ -41,6 +46,7 @@ typedef enum
 
 	//スワーム敵モデル
 	SWARM_ENEMY_RED,
+	SWARM_ENEMY_SILVER,
 
 	//中ボス敵モデル
 	MIDBOSS_RED,

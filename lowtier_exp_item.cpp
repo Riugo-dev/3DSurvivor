@@ -21,6 +21,8 @@ LowTierExpItem::LowTierExpItem()
 	std::random_device rd;
 	m_Exp = rd() % 30 + 5;
 	m_ModelTag = LOWTIER_EXP;
+
+	m_Radius = 0.31f;
 }
 
 LowTierExpItem::~LowTierExpItem()

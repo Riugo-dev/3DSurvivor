@@ -37,8 +37,6 @@
 #include "title.h"
 #include "audio.h"
 
-#include "levelone_midboss.h"
-#include "attackbase_slipdamage.h"
 
 #include "game.h"
 //********************************************************************************
@@ -67,18 +65,6 @@ void Game::Init(Input* input)
 	AddGameObject<Player>()->Init(input);
 	AddGameObject<StageField>();
 
-
-	/*for(int i = -12 ; i < 13 ; i+=6)
-	{
-		BaseAttackSlipDamage* slipdamage = AddGameObject<BaseAttackSlipDamage>();
-		slipdamage->SetPosition({ (float)i , 5.0f , 5.0f });
-		slipdamage->SetVelocity({ 0.0f , -0.25f , 0.0f });
-		slipdamage->SetScale({ 0.5f , 0.5f ,0.5f });
-		slipdamage->SetRadius(3.0f);
-		slipdamage->SetLivingFrames(3000);
-	}*/
-
-	/*AddGameObject<LevelOneMidBoss>()->SetPosition({ 40.0f, 0.5f, 40.0f });*/
 
 	AddGameObject<Score>(4);
 	AddGameObject<HPUI>(4);
