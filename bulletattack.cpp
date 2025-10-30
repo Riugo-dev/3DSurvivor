@@ -38,22 +38,22 @@ void BulletAttack::Update()
 	{
 	case ATT_LV1:
 	{
-		if (m_FrameCount % COOLDOWN_LEVELONE == 0)
-		{
-			//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
-			Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
-			Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
+		//if (m_FrameCount % COOLDOWN_LEVELONE == 0)
+		//{
+		//	//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
+		//	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+		//	Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
 
-			Vector3 pos = player->GetPosition() + (p_camera->GetFoward() * 0.05f);
-			pos.m_y += 0.5f;
+		//	Vector3 pos = player->GetPosition() + (p_camera->GetFoward() * 0.05f);
+		//	pos.m_y += 0.5f;
 
-			Vector3 vel = p_camera->GetFoward() * 0.5f;
+		//	Vector3 vel = p_camera->GetFoward() * 0.5f;
 
-			BaseAttackBullet* bullet = Manager::GetScene()->AddGameObject<BaseAttackBullet>();
-			bullet->SetPosition(pos);
-			bullet->SetVelocity(vel);
-			bullet->SetLivingFrames(60);
-		}
+		//	BaseAttackBullet* bullet = Manager::GetScene()->AddGameObject<BaseAttackBullet>();
+		//	bullet->SetPosition(pos);
+		//	bullet->SetVelocity(vel);
+		//	bullet->SetLivingFrames(60);
+		//}
 	}
 		break;
 	case ATT_LV2:

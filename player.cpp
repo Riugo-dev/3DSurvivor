@@ -30,7 +30,7 @@
 Player::Player(Vector3 size, Vector3 position) 
 {
 	m_Scale = size;
-	m_Position = position;
+	m_Position = { -3.5f , 0.5f , 0.0f };
 	m_Rotation = { 0.0f , 0.0f , 0.0f };
 
 	m_NecessaryExpForNextLevel = 100;//次のレベルまでの必要経験値
@@ -132,7 +132,7 @@ void Player::Draw()
 		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
 		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y * XM_PI, m_Rotation.m_z);
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
 		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);

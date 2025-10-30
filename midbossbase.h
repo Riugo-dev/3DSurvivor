@@ -80,7 +80,7 @@ public:
 			return;
 		}
 
-		if (m_IsDestroy)return;
+	/*	if (m_IsDestroy)return;
 
 		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
@@ -108,7 +108,7 @@ public:
 					return;
 				}
 			}
-		}
+		}*/
 
 		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -117,185 +117,191 @@ public:
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		switch (m_State)
-		{
-		case CHARGING:
-		{
-			Vector3 distance = p_player->GetPosition() - m_Position;
-			distance.m_y = 0.0f;
-			float length = distance.length();
+		float angle_y, angle_x, angle_z;
 
-			if (length > 40)
-			{
-				m_State = WARPING;
-				return;
-			}
+		angle_y = atan2(to_player.m_x, to_player.m_z);
 
-			if (m_FrameCount % 15 == 0)
-			{
-				m_RotationSpeed += 0.04;
+		m_Rotation.m_y = angle_y;
 
-			}
+		//switch (m_State)
+		//{
+		//case CHARGING:
+		//{
+		//	Vector3 distance = p_player->GetPosition() - m_Position;
+		//	distance.m_y = 0.0f;
+		//	float length = distance.length();
 
-			m_Rotation.m_y += m_RotationSpeed;
+		//	if (length > 40)
+		//	{
+		//		m_State = WARPING;
+		//		return;
+		//	}
 
-			if (length < m_Scale.m_y * 2.5f)
-			{
-				if (!p_player->GetIsInvincible())
-				{
-					p_player->SetInvincibilty(true);
-					Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-					Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+		//	if (m_FrameCount % 15 == 0)
+		//	{
+		//		m_RotationSpeed += 0.04;
 
-					if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
-					{
-						Manager::SetScene<Result>();
-						Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-						Game::SetGameState(GAME_FADEOUT);
-					}
-				}
-			}
+		//	}
 
-			m_FrameCount++;
+		//	m_Rotation.m_y += m_RotationSpeed;
 
-			if (m_FrameCount == m_ChargeTime)
-			{
-				m_State = DASHING;
+		//	if (length < m_Scale.m_y * 2.5f)
+		//	{
+		//		if (!p_player->GetIsInvincible())
+		//		{
+		//			p_player->SetInvincibilty(true);
+		//			Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+		//			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
-				m_Velocity = distance.normalized();
-				m_Velocity.m_y = 0.0f;
+		//			if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+		//			{
+		//				Manager::SetScene<Result>();
+		//				Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+		//				Game::SetGameState(GAME_FADEOUT);
+		//			}
+		//		}
+		//	}
 
-				m_EndPoint = p_player->GetPosition();
-				m_EndPoint += (m_Velocity * m_EnemySpeed) * 2.0f;
-			}
-		}
-			break;
-		case DASHING:
-		{
-			Vector3 distance = p_player->GetPosition() - m_Position;
-			float length = distance.length();
+		//	m_FrameCount++;
 
-			if (length > 28)
-			{
-				m_IsPlayerFar = true;
-			}
+		//	if (m_FrameCount == m_ChargeTime)
+		//	{
+		//		m_State = DASHING;
 
-			bool hitwall = false;
+		//		m_Velocity = distance.normalized();
+		//		m_Velocity.m_y = 0.0f;
 
+		//		m_EndPoint = p_player->GetPosition();
+		//		m_EndPoint += (m_Velocity * m_EnemySpeed) * 2.0f;
+		//	}
+		//}
+		//	break;
+		//case DASHING:
+		//{
+		//	Vector3 distance = p_player->GetPosition() - m_Position;
+		//	float length = distance.length();
 
-			if (m_IsPlayerFar)
-			{
-				m_Rotation.m_y += m_RotationSpeed;
+		//	if (length > 28)
+		//	{
+		//		m_IsPlayerFar = true;
+		//	}
 
-				m_Position += m_Velocity * m_EnemySpeed *3.0f;
-			}
-			else
-			{
-				m_Rotation.m_y += m_RotationSpeed;
-
-				m_Position += m_Velocity * m_EnemySpeed;
-			}
-			
-
-			if (length < m_Scale.m_y * 2.5f)
-			{
-				if (!p_player->GetIsInvincible())
-				{
-					p_player->SetInvincibilty(true);
-					Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP(2);
-					Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
-
-					if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
-					{
-						Manager::SetScene<Result>();
-						Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-						Game::SetGameState(GAME_FADEOUT);
-					}
-				}
-			}
-
-			if (m_DashingIn)
-			{
-				if (length < 16.0f)
-				{
-					m_DashingIn = false;
-				}
-			}
-			else
-			{
-				Vector3 nextdistance = distance + (m_Velocity * m_EnemySpeed);
-				float nextlength = nextdistance.length();
-
-				if (nextlength > 16.0f)
-				{
-					hitwall = true;
-				}
-			}
+		//	bool hitwall = false;
 
 
-			if (hitwall)
-			{
-				m_State = CHARGING;
-				m_FrameCount = 0;
-				m_Rotation.m_y = 0;
-				m_RotationSpeed = 0;
-				m_IsPlayerFar = false;
-				m_DashingIn = true;
-			}
-		}
-			break;
-		case WARPING:
-		{
-			// (2) ランダムな画面端の前あたりに再配置
-			
-			Vector3 offset = { 0.0f, 0.0f , 0.0f };
+		//	if (m_IsPlayerFar)
+		//	{
+		//		m_Rotation.m_y += m_RotationSpeed;
 
-			int side = rand() % 4;
-			switch (side)
-			{
-			case 0: offset = { LIMIT_X - 2.0f, 0.0f, RandomFloat(-LIMIT_Z + 2.0f, LIMIT_Z - 2.0f) }; break; // 右
-			case 1: offset = { -LIMIT_X + 2.0f, 0.0f, RandomFloat(-LIMIT_Z + 2.0f, LIMIT_Z - 2.0f) }; break; // 左
-			case 2: offset = { RandomFloat(-LIMIT_X + 2.0f, LIMIT_X - 2.0f), 0.0f, LIMIT_Z - 2.0f }; break; // 上
-			case 3: offset = { RandomFloat(-LIMIT_X + 2.0f, LIMIT_X - 2.0f), 0.0f, -LIMIT_Z + 2.0f }; break; // 下
-			}
+		//		m_Position += m_Velocity * m_EnemySpeed *3.0f;
+		//	}
+		//	else
+		//	{
+		//		m_Rotation.m_y += m_RotationSpeed;
 
-			m_Position = p_player->GetPosition() + offset;
+		//		m_Position += m_Velocity * m_EnemySpeed;
+		//	}
+		//	
 
-			// (3) 再出現後の初期設定
-			m_State = WALKING;
-			m_FrameCount = 0;
-			m_RotationSpeed = 0.0f;
-			m_Velocity = (p_player->GetPosition() - m_Position).normalized();
+		//	if (length < m_Scale.m_y * 2.5f)
+		//	{
+		//		if (!p_player->GetIsInvincible())
+		//		{
+		//			p_player->SetInvincibilty(true);
+		//			Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP(2);
+		//			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
-			return; // 今フレームはここで終了
-		}
-			break;
-		case WALKING:
-		{
-			m_Position = m_Position + to_player * m_EnemySpeed /3;
+		//			if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+		//			{
+		//				Manager::SetScene<Result>();
+		//				Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+		//				Game::SetGameState(GAME_FADEOUT);
+		//			}
+		//		}
+		//	}
 
-			float angle_y, angle_x, angle_z;
+		//	if (m_DashingIn)
+		//	{
+		//		if (length < 16.0f)
+		//		{
+		//			m_DashingIn = false;
+		//		}
+		//	}
+		//	else
+		//	{
+		//		Vector3 nextdistance = distance + (m_Velocity * m_EnemySpeed);
+		//		float nextlength = nextdistance.length();
+
+		//		if (nextlength > 16.0f)
+		//		{
+		//			hitwall = true;
+		//		}
+		//	}
 
 
-			angle_y = atan2(to_player.m_x, to_player.m_z);
+		//	if (hitwall)
+		//	{
+		//		m_State = CHARGING;
+		//		m_FrameCount = 0;
+		//		m_Rotation.m_y = 0;
+		//		m_RotationSpeed = 0;
+		//		m_IsPlayerFar = false;
+		//		m_DashingIn = true;
+		//	}
+		//}
+		//	break;
+		//case WARPING:
+		//{
+		//	// (2) ランダムな画面端の前あたりに再配置
+		//	
+		//	Vector3 offset = { 0.0f, 0.0f , 0.0f };
+
+		//	int side = rand() % 4;
+		//	switch (side)
+		//	{
+		//	case 0: offset = { LIMIT_X - 2.0f, 0.0f, RandomFloat(-LIMIT_Z + 2.0f, LIMIT_Z - 2.0f) }; break; // 右
+		//	case 1: offset = { -LIMIT_X + 2.0f, 0.0f, RandomFloat(-LIMIT_Z + 2.0f, LIMIT_Z - 2.0f) }; break; // 左
+		//	case 2: offset = { RandomFloat(-LIMIT_X + 2.0f, LIMIT_X - 2.0f), 0.0f, LIMIT_Z - 2.0f }; break; // 上
+		//	case 3: offset = { RandomFloat(-LIMIT_X + 2.0f, LIMIT_X - 2.0f), 0.0f, -LIMIT_Z + 2.0f }; break; // 下
+		//	}
+
+		//	m_Position = p_player->GetPosition() + offset;
+
+		//	// (3) 再出現後の初期設定
+		//	m_State = WALKING;
+		//	m_FrameCount = 0;
+		//	m_RotationSpeed = 0.0f;
+		//	m_Velocity = (p_player->GetPosition() - m_Position).normalized();
+
+		//	return; // 今フレームはここで終了
+		//}
+		//	break;
+		//case WALKING:
+		//{
+		//	m_Position = m_Position + to_player * m_EnemySpeed /3;
+
+		//	float angle_y, angle_x, angle_z;
 
 
-			m_Rotation.m_y = angle_y;
+		//	angle_y = atan2(to_player.m_x, to_player.m_z);
 
 
-			Vector3 distance = p_player->GetPosition() - m_Position;
-			float length = distance.length();
+		//	m_Rotation.m_y = angle_y;
 
-			if (length <= 6)
-			{
-				m_State = CHARGING;
-				m_FrameCount = 0;
-				m_Rotation.m_y = 0;
-				m_RotationSpeed = 0;
-			}
-		}
-			break;
-		}
+
+		//	Vector3 distance = p_player->GetPosition() - m_Position;
+		//	float length = distance.length();
+
+		//	if (length <= 6)
+		//	{
+		//		m_State = CHARGING;
+		//		m_FrameCount = 0;
+		//		m_Rotation.m_y = 0;
+		//		m_RotationSpeed = 0;
+		//	}
+		//}
+		//	break;
+		//}
 	
 	}
 
@@ -341,18 +347,18 @@ public:
 		}
 
 
-		{//輪郭線の描画
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+		//{//輪郭線の描画
+		//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+		//	Renderer::SetCullMode(D3D11_CULL_FRONT);
 
-			//描画
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
+		//	//描画
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
-		}
+		//	Renderer::SetCullMode(D3D11_CULL_BACK);
+		//}
 	}
 
 	void SetVelocity(Vector3 vel) { m_Velocity = vel; }

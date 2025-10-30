@@ -67,38 +67,38 @@ public:
 
 		if (m_IsDestroy)return;
 		
-		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+		//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-		for (auto itr : p_attacks)
-		{
-			if (itr->GetDestroy())continue;
+		//for (auto itr : p_attacks)
+		//{
+		//	if (itr->GetDestroy())continue;
 
-			/*Vector3 d = itr->GetPosition() - m_Position;
-			float length = d.length();*/
-
-
-			if (itr->CircleCollider(m_Position , m_Radius))
-			{
-				m_HP -= itr->GetStrength();
-				itr->SubtractHP();
-				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
-
-				if(m_HP <= 0)
-				{
-					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
-					boom->SetPosition(m_Position);
-					boom->SetScale({ 0.1f , 0.1f , 0.1f });
-
-					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
-					m_IsDestroy = true;
-					EnemyItemDrop();
-
-					return;
-				}
+		//	/*Vector3 d = itr->GetPosition() - m_Position;
+		//	float length = d.length();*/
 
 
-			}
-		}
+		//	if (itr->CircleCollider(m_Position , m_Radius))
+		//	{
+		//		m_HP -= itr->GetStrength();
+		//		itr->SubtractHP();
+		//		if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
+
+		//		if(m_HP <= 0)
+		//		{
+		//			ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+		//			boom->SetPosition(m_Position);
+		//			boom->SetScale({ 0.1f , 0.1f , 0.1f });
+
+		//			Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
+		//			m_IsDestroy = true;
+		//			EnemyItemDrop();
+
+		//			return;
+		//		}
+
+
+		//	}
+		//}
 
 		
 
@@ -106,7 +106,7 @@ public:
 
 		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
 
-		m_Position = m_Position + to_player * m_EnemySpeed;
+		//m_Position = m_Position + to_player * m_EnemySpeed;
 
 		float angle_y, angle_x, angle_z;
 
@@ -123,7 +123,7 @@ public:
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		if (length < m_Scale.m_y * 2.5f)
+	/*	if (length < m_Scale.m_y * 2.5f)
 		{
 			if(!p_player->GetIsInvincible())
 			{
@@ -144,7 +144,7 @@ public:
 		if (m_FrameCount >= ENEMY_LIVINGFRAME)
 		{
 			m_IsDestroy = true;
-		}
+		}*/
 	}
 
 
@@ -189,18 +189,18 @@ public:
 		}
 
 
-		{//—ÖŠsü‚Ì•`‰æ
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+		//{//—ÖŠsü‚Ì•`‰æ
+		//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+		//	Renderer::SetCullMode(D3D11_CULL_FRONT);
 
-			//•`‰æ
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
+		//	//•`‰æ
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
-		}
+		//	Renderer::SetCullMode(D3D11_CULL_BACK);
+		//}
 	}
 
 

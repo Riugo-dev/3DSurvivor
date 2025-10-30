@@ -69,7 +69,7 @@ public:
 
 		if (m_IsDestroy)return;
 
-		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+		/*std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
 		for (auto itr : p_attacks)
 		{
@@ -95,7 +95,7 @@ public:
 					return;
 				}
 			}
-		}
+		}*/
 
 
 
@@ -108,43 +108,43 @@ public:
 		angle_y = atan2(to_player.m_x, to_player.m_z);
 
 		m_Rotation.m_y = angle_y;
-		Vector3 distance = p_player->GetPosition() - m_Position;
-		float length = distance.length();
+		//Vector3 distance = p_player->GetPosition() - m_Position;
+		//float length = distance.length();
 
-		if (length < m_Scale.m_y * 2.5f)
-		{
-			if (!p_player->GetIsInvincible())
-			{
-				p_player->SetInvincibilty(true);
-				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+		//if (length < m_Scale.m_y * 2.5f)
+		//{
+		//	if (!p_player->GetIsInvincible())
+		//	{
+		//		p_player->SetInvincibilty(true);
+		//		Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+		//		Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
-				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
-				{
-					Manager::SetScene<Result>();
-					Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-					Game::SetGameState(GAME_FADEOUT);
-				}
-			}
-		}
+		//		if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+		//		{
+		//			Manager::SetScene<Result>();
+		//			Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+		//			Game::SetGameState(GAME_FADEOUT);
+		//		}
+		//	}
+		//}
 
-		m_FrameCount++;
+		//m_FrameCount++;
 
-		if ( m_FrameCount % m_ShotCoolDown == 0)
-		{
+		//if ( m_FrameCount % m_ShotCoolDown == 0)
+		//{
 
-			to_player *= m_Speed;
-			to_player.m_y = 0.0f;
-			//ƒGƒlƒ~[‚Ì’eŽËoƒR[ƒh‚ð‚±‚±‚É‘‚­
-			EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
-			bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
-			bullet->SetBullet(to_player);
-		}
+		//	to_player *= m_Speed;
+		//	to_player.m_y = 0.0f;
+		//	//ƒGƒlƒ~[‚Ì’eŽËoƒR[ƒh‚ð‚±‚±‚É‘‚­
+		//	EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
+		//	bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
+		//	bullet->SetBullet(to_player);
+		//}
 
-		if (m_FrameCount >= ENEMY_LIVINGFRAME)
-		{
-			m_IsDestroy = true;
-		}
+		//if (m_FrameCount >= ENEMY_LIVINGFRAME)
+		//{
+		//	m_IsDestroy = true;
+		//}
 
 	}
 
@@ -190,18 +190,18 @@ public:
 		}
 
 
-		{//—ÖŠsü‚Ì•`‰æ
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+		//{//—ÖŠsü‚Ì•`‰æ
+		//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+		//	Renderer::SetCullMode(D3D11_CULL_FRONT);
 
-			//•`‰æ
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
+		//	//•`‰æ
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
-		}
+		//	Renderer::SetCullMode(D3D11_CULL_BACK);
+		//}
 	}
 
 

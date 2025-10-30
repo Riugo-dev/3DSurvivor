@@ -125,6 +125,7 @@ void StageField::Draw()
 	//°‚ðƒJƒƒ‰‚É’Ç]‚³‚¹‚é
 	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
 	Vector3 campos = p_camera->GetPosition();
+	campos.m_y = 24.0f;
 
 	XMMATRIX view = p_camera->GetViewMatrix();
 	XMMATRIX proj = p_camera->GetProjectionMatrix();

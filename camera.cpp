@@ -18,7 +18,7 @@
 #include "camera.h"
 
 #define CAMERA_LENGTH_TP_X	(0.0f)
-#define CAMERA_LENGTH_TP_Y	(24.0f)
+#define CAMERA_LENGTH_TP_Y	(12.0f)
 #define CAMERA_LENGTH_TP_Z	(-15.0f)
 
 #define CAMERA_LENGTH_FP_X	(0.0f)
@@ -141,7 +141,7 @@ void Camera::Update()
 
 		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f) };
 
-
+		//m_Position = { -12.7 , 12.5 , -0.47 };
 
 		/*if(!IsRotating)
 		{
