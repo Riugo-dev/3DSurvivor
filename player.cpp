@@ -19,6 +19,7 @@
 #include "controller.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "manager_soundeffect.h"
 
 #include "player.h"
 
@@ -163,7 +164,7 @@ void Player::GivePlayerExp(int gainingexp)
 		m_PrevousExpCount = m_NecessaryExpForNextLevel;
 		m_NecessaryExpForNextLevel += 100 * (m_PlayerCurrentLevel + 1);
 
-
+		Manager::GetSoundEffect()->PlaySE(SE_LEVELUP);
 		Game::SetGameState(PLAYER_LEVELUP);
 		switch (m_PlayerCurrentLevel)
 		{

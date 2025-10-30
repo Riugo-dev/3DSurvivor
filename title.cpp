@@ -48,13 +48,13 @@ void Title::Update()
 		}
 	}
 
-	if (m_Input->GetKeyPress(KK_LEFT))
+	if (m_Input->GetKeyPress(KK_UP) || Manager::GetController()->Controller_IsButtonDown(XINPUT_GAMEPAD_DPAD_UP))
 	{
 		Manager::GetAudio()->AddVolume(0.01f);
 		//Manager::GetAudio()->SetVolumeMax();
 	}
 
-	if (m_Input->GetKeyPress(KK_RIGHT))
+	if (m_Input->GetKeyPress(KK_DOWN) || Manager::GetController()->Controller_IsButtonDown(XINPUT_GAMEPAD_DPAD_DOWN))
 	{
 		Manager::GetAudio()->LowerVolume(0.01f);
 		//Manager::GetAudio()->SetVolumeZero();

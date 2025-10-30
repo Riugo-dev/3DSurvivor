@@ -38,7 +38,8 @@ void VacuumItem::Update()
 
 	if (CircleCollider(player->GetPosition(), player->GetRadius()))
 	{
-		//SoundEffectManager::PlaySE(SE_VACUUM);
+		SoundEffectManager::PlaySE(SE_GATHER);
+
 		std::vector<ExpItem*> items = Manager::GetScene()->GetGameObjects<ExpItem>();
 
 		for (auto itr : items)

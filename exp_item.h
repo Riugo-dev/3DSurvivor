@@ -17,6 +17,7 @@
 #include "player.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "manager_soundeffect.h"
 
 class ExpItem:public GameObject
 {
@@ -68,7 +69,7 @@ public:
 			//SoundEffectManager::PlaySE(SE_EXP);
 
 			player->GivePlayerExp(m_Exp);
-
+			Manager::GetSoundEffect()->PlaySE(SE_EXPGET);
 			m_IsDestroy = true;
 		}
 

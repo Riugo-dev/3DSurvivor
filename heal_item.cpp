@@ -38,7 +38,7 @@ void HealItem::Update()
 
 	if (CircleCollider(player->GetPosition(), player->GetRadius()))
 	{
-		//SoundEffectManager::PlaySE(SE_HEAL);
+		SoundEffectManager::PlaySE(SE_HEAL);
 
 		Manager::GetScene()->GetGameObject<HPUI>()->AddHP();
 

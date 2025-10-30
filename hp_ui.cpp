@@ -8,6 +8,8 @@
 #include "main.h"
 #include "renderer.h"
 #include "texture.h"
+#include "manager.h"
+#include "manager_soundeffect.h"
 
 #include "hp_ui.h"
 //********************************************************************************
@@ -138,6 +140,13 @@ void HPUI::Draw()
 		drawthreehp();
 		break;
 	}
+}
+
+void HPUI::SubtractHP(int hp)
+{
+	if (m_HP <= 0) { m_HP = 0; return; }
+	Manager::GetSoundEffect()->PlaySE(SE_PLAYERDAMAGE);
+	m_HP -= hp;
 }
 
 //********************************************************************************

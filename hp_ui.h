@@ -10,6 +10,7 @@
 
 #include "gameobject.h"
 
+
 #define PLAYER_HP_MAX (3)
 
 class HPUI : public GameObject
@@ -38,11 +39,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void SubtractHP(int hp = 1) 
-	{
-		if (m_HP <= 0) { m_HP = 0; return; }
-		m_HP -= hp; 
-	}
+	void SubtractHP(int hp = 1);
+
 	void AddHP(int hp = 1) 
 	{ 
 		if (m_HP >= PLAYER_HP_MAX) 

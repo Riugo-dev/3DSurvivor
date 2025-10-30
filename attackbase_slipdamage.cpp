@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "fire_particle.h"
 #include "explosion_particle.h"
+#include "manager_soundeffect.h"
 
 #include "attackbase_slipdamage.h"
 
@@ -30,6 +31,8 @@ BaseAttackSlipDamage::BaseAttackSlipDamage()
 	m_BombExplode = false;
 
 	m_HP = 1000000;
+
+	Manager::GetSoundEffect()->PlaySE(SE_BOMB);
 }
 
 BaseAttackSlipDamage::~BaseAttackSlipDamage()
