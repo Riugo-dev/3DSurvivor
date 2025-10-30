@@ -37,7 +37,7 @@ void BoostItem::Update()
 
 	if (CircleCollider(player->GetPosition(), player->GetRadius()))
 	{
-		//SoundEffectManager::PlaySE(SE_HEAL);
+		SoundEffectManager::PlaySE(SE_BOOST);
 
 		player->SetBoost();
 

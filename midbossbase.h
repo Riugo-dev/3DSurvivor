@@ -25,6 +25,7 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "manager_soundeffect.h"
 #include <vector>
 
 enum MidBossState
@@ -101,6 +102,7 @@ public:
 					boom->SetPosition(m_Position);
 					boom->SetScale({ 0.3f , 0.3f , 0.3f });
 
+					Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					MidBossItemDrop();

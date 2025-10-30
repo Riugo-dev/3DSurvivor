@@ -33,6 +33,7 @@
 #include "attack_manager.h"
 #include "fade.h"
 #include "model_manager.h"
+#include "manager_soundeffect.h"
 #include "controller.h"
 #include "title.h"
 #include "audio.h"
@@ -115,7 +116,7 @@ void Game::Update()
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PAUSE;
-
+			Manager::GetSoundEffect()->PlaySE(SE_PAUSE);
 		}
 	}
 	else if (m_State == GAME_PAUSE)

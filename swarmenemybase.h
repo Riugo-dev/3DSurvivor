@@ -24,6 +24,7 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "manager_soundeffect.h"
 #include <vector>
 
 #define ENEMY_LIVINGFRAME (600) //–ñ1‚O•b
@@ -85,7 +86,7 @@ public:
 					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 					boom->SetPosition(m_Position);
 					boom->SetScale({ 0.1f , 0.1f , 0.1f });
-
+					Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();

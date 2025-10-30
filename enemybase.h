@@ -24,6 +24,7 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "shader_manager.h"
+#include "manager_soundeffect.h"
 #include <vector>
 
 #define ENEMY_LIVINGFRAME (5400) //–ñ‚X‚O•b
@@ -92,6 +93,8 @@ public:
 					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 					m_IsDestroy = true;
 					EnemyItemDrop();
+
+					Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 
 					return;
 				}
