@@ -63,9 +63,6 @@
     <ClCompile Include="field.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="vector3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -249,6 +246,27 @@
     <ClCompile Include="bombattack.cpp">
       <Filter>攻撃関連</Filter>
     </ClCompile>
+    <ClCompile Include="boost_item.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="heal_item.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="itemdrop_swarmenemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="precompileheader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="title_ui.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="vacuum_item.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -321,9 +339,6 @@
       <Filter>アイテム関係</Filter>
     </ClInclude>
     <ClInclude Include="hightier_exp_item.h">
-      <Filter>アイテム関係</Filter>
-    </ClInclude>
-    <ClInclude Include="exp_item_manager.h">
       <Filter>アイテム関係</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
@@ -478,6 +493,24 @@
     </ClInclude>
     <ClInclude Include="bombattack.h">
       <Filter>攻撃関連</Filter>
+    </ClInclude>
+    <ClInclude Include="boost_item.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="heal_item.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="itemdrop_swarmenemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="title_ui.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="vacuum_item.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
