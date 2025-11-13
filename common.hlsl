@@ -4,8 +4,6 @@
 //
 //															Author :Riugo Honda
 //															Date   :2025/04/23
-// -------------------------------------------------------------------------------
-//															Last Edited:2025/04/23
 //********************************************************************************
 
 
@@ -87,6 +85,7 @@ struct VS_IN
 	float4 Normal		: NORMAL0;
 	float4 Diffuse		: COLOR0;
 	float2 TexCoord		: TEXCOORD0;
+    float4x4 World      : TEXCOORD1;
 };
 
 

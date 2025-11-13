@@ -11,6 +11,7 @@
 #include "renderer.h"
 #include <io.h>
 
+#define ENEMY_MAX_COUNT (1000)
 
 D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
@@ -26,6 +27,7 @@ ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
 ID3D11Buffer*			Renderer::m_MaterialBuffer{};
 ID3D11Buffer*			Renderer::m_LightBuffer{};
 ID3D11Buffer*			Renderer::m_CameraBuffer{};
+ID3D11Buffer*			Renderer::m_InstanceBuffer{};
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
 ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
@@ -239,6 +241,17 @@ void Renderer::Init()
 	m_DeviceContext->VSSetConstantBuffers(5, 1, &m_CameraBuffer);
 	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_CameraBuffer);
 
+
+	//GPUインスタンシング用のバッファ生成
+	D3D11_BUFFER_DESC instanceBufferDesc{};
+	instanceBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	instanceBufferDesc.ByteWidth = sizeof(INSTANCE) * ENEMY_MAX_COUNT;
+	instanceBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	instanceBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	instanceBufferDesc.MiscFlags = 0;
+
+	m_Device->CreateBuffer(&instanceBufferDesc, nullptr, &m_InstanceBuffer);
+
 	// ライト初期化
 	LIGHT light{};
 	light.Enable = true;
@@ -270,7 +283,7 @@ void Renderer::Uninit()
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
-
+	m_InstanceBuffer->Release();
 
 	m_DeviceContext->ClearState();
 	m_RenderTargetView->Release();
@@ -365,6 +378,11 @@ void Renderer::SetMaterial( MATERIAL Material )
 void Renderer::SetLight( LIGHT Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void Renderer::SetInstance(INSTANCE instance)
+{
+	m_DeviceContext->UpdateSubresource(m_InstanceBuffer, 0, NULL, &instance, 0, 0);
 }
 
 void Renderer::SetCameraPosition(Vector3 CameraPosition)
