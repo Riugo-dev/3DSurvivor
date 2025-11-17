@@ -85,7 +85,7 @@ struct VS_IN
 	float4 Normal		: NORMAL0;
 	float4 Diffuse		: COLOR0;
 	float2 TexCoord		: TEXCOORD0;
-    float4x4 World      : TEXCOORD1;
+    float4x4 World      : TEXCOORD1;//GPUインスタンシング用
 };
 
 

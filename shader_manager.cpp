@@ -101,6 +101,17 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 		Renderer::CreatePixelShader(&ps, "shader\\vertexDirectionalLightingPS.cso");
 		m_pShaderPointers[SHADER_DIRECTIONLIGHTING]->SetShaderPointers(vs, ps, vl);
 	}
+	case SHADER_INSTANCETOON:
+	{
+		m_pShaderPointers[SHADER_INSTANCETOON] = new ShaderPointers;
+		ID3D11VertexShader* vs;
+		ID3D11PixelShader* ps;
+		ID3D11InputLayout* vl;
+		Renderer::CreateVertexShader(&vs, &vl, "shader\\instancetoonVS.cso");
+		Renderer::CreatePixelShader(&ps, "shader\\toon1PS.cso");
+		m_pShaderPointers[SHADER_INSTANCETOON]->SetShaderPointers(vs, ps, vl);
+
+	}
 		break;
 	}
 
