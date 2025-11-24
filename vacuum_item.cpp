@@ -5,7 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/10/24
 //********************************************************************************
-
+#include "main.h"
 #include "hp_ui.h"
 #include <vector>
 #include "exp_item.h"

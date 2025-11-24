@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/12
 //********************************************************************************
+#include "main.h"
 #include "manager_soundeffect.h"
 #include "attackbase_bullet.h"
 
