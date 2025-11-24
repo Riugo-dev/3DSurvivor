@@ -46,6 +46,40 @@ void ModelRenderer::Draw()
 
 }
 
+void ModelRenderer::DrawInstanced(std::list< ID3D11Buffer*> instacebuffers)
+{
+	// 頂点バッファ
+	UINT stride[2] = { sizeof(VERTEX_3D), sizeof(INSTANCE) };
+	UINT offset[2] = { 0, 0 };
+
+	ID3D11Buffer* buffers[2] = { m_Model->VertexBuffer, instanceBuffer };
+
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, stride, offset);
+
+	Renderer::GetDeviceContext()->IASetIndexBuffer(m_Model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
+	{
+		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
+
+		if (m_Model->SubsetArray[i].Material.Texture)
+		{
+			Renderer::GetDeviceContext()->PSSetShaderResources(
+				0, 1, &m_Model->SubsetArray[i].Material.Texture);
+		}
+
+		Renderer::GetDeviceContext()->DrawIndexedInstanced(
+			m_Model->SubsetArray[i].IndexNum,
+			instanceCount,
+			m_Model->SubsetArray[i].StartIndex,
+			0,
+			0
+		);
+	}
+}
+
 void ModelRenderer::Preload(const char *FileName)
 {
 	if (m_ModelPool.count(FileName) > 0)

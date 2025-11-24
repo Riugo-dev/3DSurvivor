@@ -72,5 +72,6 @@ public:
 
 	void Load( const char *FileName );
 	void Draw() override;
+	void DrawInstanced(std::list< ID3D11Buffer*>);
 
 };
