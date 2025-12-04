@@ -48,7 +48,8 @@ GameTimer::GameTimer()
 	m_CurrentWave = WAVE_ONE;
 	m_FrameCount = 0;
 
-	m_pEnemyManager = new EnemyManager(this);
+	
+	EnemyManager::GetInstance().Init(this) ;//シングルトンに要るエネミーの初期化処理
 	m_pShooterEnemyManager = new ShooterEnemyManager(this);
 	m_pSwarmEnemyManager = new SwarmEnemyManager(this);
 	m_pMidBossManager = new MidBossManager(this);
@@ -65,8 +66,9 @@ GameTimer::~GameTimer()
 	delete m_pShooterEnemyManager;
 	m_pShooterEnemyManager = nullptr;
 
-	delete m_pEnemyManager;
-	m_pEnemyManager = nullptr;
+	EnemyManager::GetInstance().Uninit();
+	//delete m_pEnemyManager;
+	//m_pEnemyManager = nullptr;
 }
 
 void GameTimer::Update()
@@ -78,19 +80,19 @@ void GameTimer::Update()
 		if (m_FrameCount % WAVEONECOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEONE)
 		{
 			m_CurrentWave = WAVE_TWO;
 
-			m_pEnemyManager->DestroyFarEnemy();
+			EnemyManager::GetInstance().DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
@@ -98,12 +100,12 @@ void GameTimer::Update()
 		if (m_FrameCount % WAVETWOCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETWO)
@@ -111,7 +113,7 @@ void GameTimer::Update()
 			m_CurrentWave = WAVE_THREE;
 
 
-			m_pEnemyManager->DestroyFarEnemy();
+			EnemyManager::GetInstance().DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
@@ -119,12 +121,12 @@ void GameTimer::Update()
 		if (m_FrameCount % WAVETHREECOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVETHREE)
@@ -132,7 +134,7 @@ void GameTimer::Update()
 			m_CurrentWave = WAVE_FOUR;
 
 
-			m_pEnemyManager->DestroyFarEnemy();
+			EnemyManager::GetInstance().DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
@@ -140,12 +142,12 @@ void GameTimer::Update()
 		if (m_FrameCount % WAVEFOURCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEFOUR)
@@ -153,7 +155,7 @@ void GameTimer::Update()
 			m_CurrentWave = WAVE_MAX;
 
 
-			m_pEnemyManager->DestroyFarEnemy();
+			EnemyManager::GetInstance().DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
@@ -161,12 +163,12 @@ void GameTimer::Update()
 		if (m_FrameCount % WAVEMAXCOOLTIME == 0)
 		{
 			//ここでエネミースポナーを呼び出す
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 1 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
-			m_pEnemyManager->SpawnEnemy();
+			EnemyManager::GetInstance().SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEMAX)
@@ -174,13 +176,13 @@ void GameTimer::Update()
 			m_CurrentWave = GAME_END;
 
 
-			m_pEnemyManager->DestroyFarEnemy();
+			EnemyManager::GetInstance().DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
 		break;
 	case GAME_END:
 		//ここに強制終了エネミーを出現させる
-		m_pEnemyManager->SpawnEnemy();
+		EnemyManager::GetInstance().SpawnEnemy();
 	default:
 		break;
 	}

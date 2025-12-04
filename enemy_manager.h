@@ -15,13 +15,23 @@ class EnemyManager
 {
 private:
 	class GameTimer* m_pGameTimer;
+	std::unordered_map<ModelTags, std::vector<BaseEnemy*>> map_Enemies;
+	std::unordered_map<ModelTags, ID3D11Buffer*> map_InstanceBuffer;
 public:
-	EnemyManager(GameTimer*);
 	~EnemyManager();
 
+	//ƒVƒ“ƒOƒ‹ƒgƒ“ˆ—
+	static EnemyManager& GetInstance();
+
+	void Init(GameTimer*);
+	void Uninit();
 	void SpawnEnemy();
 	void DestroyFarEnemy();
+	void RegisterEnemyInstance(ModelTags, BaseEnemy*);
+	void Draw();
 private:
+	EnemyManager() {};
+
 	void WaveOne();
 	void WaveTwo();
 	void WaveThree();

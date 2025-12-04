@@ -21,6 +21,7 @@
 #include <random>
 #include <cmath>
 #include <vector>
+#include <map>
 
 
 #include "enemy_manager.h"
@@ -271,16 +272,43 @@ void EnemyManager::DestroyFarEnemy()
 
 }
 
+void EnemyManager::RegisterEnemyInstance(ModelTags tags, BaseEnemy* penemy)
+{
+	map_Enemies[tags].push_back(penemy);
+}
+
+void EnemyManager::Draw()
+{
+	for (auto itr : map_Enemies)
+	{
+		ModelTags tag = itr.first;
+		std::vector <BaseEnemy*> enemies = itr.second;
+
+
+	}
+}
+
 //********************************************************************************
 //ŠÖ”
 //********************************************************************************
-EnemyManager::EnemyManager(GameTimer* timer)
-{
-	m_pGameTimer = timer;
-}
 
 EnemyManager::~EnemyManager()
 {
+}
+
+EnemyManager& EnemyManager::GetInstance()
+{
+	static EnemyManager instance;
+	return instance;
+}
+
+void EnemyManager::Init(GameTimer* timer)
+{//‰Šú‰»ˆ—
+	m_pGameTimer = timer;
+}
+
+void EnemyManager::Uninit()
+{//I—¹ˆ—
 }
 
 void EnemyManager::SpawnEnemy()
