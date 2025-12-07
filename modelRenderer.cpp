@@ -5,9 +5,8 @@
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
-
-#include "renderer.h"
 #include "modelRenderer.h"
+
 
 
 
@@ -46,13 +45,13 @@ void ModelRenderer::Draw()
 
 }
 
-void ModelRenderer::DrawInstanced(std::list< ID3D11Buffer*> instacebuffers)
+void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer )
 {
 	// 頂点バッファ
 	UINT stride[2] = { sizeof(VERTEX_3D), sizeof(INSTANCE) };
 	UINT offset[2] = { 0, 0 };
 
-	ID3D11Buffer* buffers[2] = { m_Model->VertexBuffer, instanceBuffer };
+	ID3D11Buffer* buffers[2] = {m_Model->VertexBuffer , instancebuffer };
 
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, stride, offset);
 
@@ -72,7 +71,7 @@ void ModelRenderer::DrawInstanced(std::list< ID3D11Buffer*> instacebuffers)
 
 		Renderer::GetDeviceContext()->DrawIndexedInstanced(
 			m_Model->SubsetArray[i].IndexNum,
-			instanceCount,
+			count,
 			m_Model->SubsetArray[i].StartIndex,
 			0,
 			0

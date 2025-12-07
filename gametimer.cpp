@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/11
 //********************************************************************************
+#include "main.h"
 #include "player.h"
 #include "enemybase.h"
 #include "enemy_manager.h"

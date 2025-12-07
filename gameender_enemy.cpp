@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/12
 //********************************************************************************
+#include "main.h"
 #include "hightier_exp_item.h"
 
 #include "gameender_enemy.h"

@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/10/06
 //********************************************************************************
+#include "main.h"
 #include <random>
 #include "lowtier_exp_item.h"
 

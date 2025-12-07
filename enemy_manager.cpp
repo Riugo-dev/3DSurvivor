@@ -10,6 +10,8 @@
 #include "scene.h"
 #include "player.h"
 #include "enemybase.h"
+#include "model_manager.h"
+#include "modelRenderer.h"
 #include "levelone_enemy.h"
 #include "leveltwo_enemy.h"
 #include "levelthree_enemy.h"
@@ -248,6 +250,100 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 
 }
 
+void EnemyManager::UpdatInstanceBuffers()
+{
+	for (auto& itr : map_InstanceBuffers)
+	{
+		ModelTags tag = itr.first;
+		InstanceBufferData& inst = itr.second;
+
+		if (inst.Data.empty()) continue;//データが無ければ処理を飛ばす
+
+
+		if (inst.Buffer)//バッファが残ってた場合ように消去処理
+		{
+			inst.Buffer->Release();
+			inst.Buffer = nullptr;
+		}
+
+		//バッファの作成
+		D3D11_BUFFER_DESC desc{};
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.ByteWidth = sizeof(INSTANCE) * inst.Data.size();//ワールド行列のバイトサイズ＊データの個数
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA init{};
+		init.pSysMem = inst.Data.data();
+
+		Renderer::GetDevice()->CreateBuffer(&desc, &init, &inst.Buffer);
+
+	}
+}
+
+void EnemyManager::DrawInstanceBuffers()
+{
+	for (auto& itr : map_InstanceBuffers)
+	{
+		ModelTags tag = itr.first;
+		InstanceBufferData& inst = itr.second;
+
+		//インスタンスが無ければ描画処理を飛ばす
+		if (inst.Data.empty() || inst.Buffer == nullptr) continue;
+
+		int instancecount = (int)inst.Data.size();
+
+		ModelRenderer* renderer = ModelManager::GetModel(tag);
+
+		if (!renderer) continue;
+
+		renderer->DrawInstanced(instancecount, inst.Buffer);
+
+	}
+
+	for (auto& itr : map_InstanceBuffers)
+	{
+		itr.second.Data.clear();
+	}
+
+}
+
+void EnemyManager::RegisterInstance(ModelTags model, XMMATRIX world)
+{
+	//送りやすいようにデータを格納
+	INSTANCE inst;
+	inst.WorldMatrix = world;
+
+	map_InstanceBuffers[model].Data.push_back(inst);
+}
+
+std::string EnemyManager::GetModelNameByTag(ModelTags tags)
+{
+	switch (tags)
+	{
+	case ENEMY_RED:
+		return "asset\\model\\EnemyTypeRed.obj";
+		break;
+	case ENEMY_BLUE:
+		return "asset\\model\\EnemyTypeBlue.obj";
+		break;
+	case ENEMY_GREEN:
+		return "asset\\model\\EnemyTypeGreen.obj";
+		break;
+	case ENEMY_PURPLE:
+		return "asset\\model\\EnemyTypePurple.obj";
+		break;
+	case ENEMY_SILVER:
+		return "asset\\model\\EnemyTypeSilver.obj";
+		break;
+	case ENEMY_BLACK:
+		return "asset\\model\\EnemyTypeBlack.obj";
+		break;
+	default:
+		return NULL;
+		break;
+	}
+}
+
 void EnemyManager::DestroyFarEnemy()
 {
 	
@@ -279,13 +375,11 @@ void EnemyManager::RegisterEnemyInstance(ModelTags tags, BaseEnemy* penemy)
 
 void EnemyManager::Draw()
 {
-	for (auto itr : map_Enemies)
-	{
-		ModelTags tag = itr.first;
-		std::vector <BaseEnemy*> enemies = itr.second;
+	//インスタンスバッファの更新処理
+	UpdatInstanceBuffers();
 
-
-	}
+	//インスタンシングしたものの描画
+	DrawInstanceBuffers();
 }
 
 //********************************************************************************

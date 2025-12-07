@@ -99,9 +99,9 @@ void Manager::Draw()
 			m_Scene->Uninit();
 			delete m_Scene;
 
-			Texture::ReleaseAll();
+			//Texture::ReleaseAll();
 
-			ModelRenderer::UnloadAll();
+			//ModelRenderer::UnloadAll();
 
 			m_Scene = m_NextScene;
 			m_Scene->Init(m_Input);

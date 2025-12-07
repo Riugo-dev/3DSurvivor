@@ -8,9 +8,13 @@
 #ifndef _MODEL_MANAGER_H_
 #define _MODEL_MANAGER_H_
 
+#include "modelRenderer.h"
 #include "shader_manager.h"
 #include	<unordered_map>
 #include	<memory>
+
+class ModelRenderer;
+
 
 typedef enum
 {
@@ -66,7 +70,7 @@ class ModelManager
 {
 private:
 
-	static std::unordered_map<ModelTags , std::unique_ptr<class ModelRenderer>> m_pModelRenderers;
+	static std::unordered_map<ModelTags , std::unique_ptr<ModelRenderer>> m_pModelRenderers;
 	static std::unordered_map< ModelTags, std::unique_ptr<class ShaderManager>> m_pModelShaders;
 public:
 	ModelManager();
@@ -75,6 +79,9 @@ public:
 
 	static void ModelDraw(ModelTags);
 	static void SetShaders(ModelTags, Shader);
+
+	static class ShaderManager* GetShaders(ModelTags tag) {return m_pModelShaders[tag].get();}
+	static class ModelRenderer* GetModel(ModelTags tag) { return m_pModelRenderers[tag].get(); }
 };
 
 #endif // !_MODEL_MANAGER_H_

@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/10/28
 //********************************************************************************
+#include "main.h"
 #include <string>
 #include <iostream>
 #include <fstream>

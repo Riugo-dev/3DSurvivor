@@ -7,7 +7,7 @@
 //********************************************************************************
 #include "main.h"
 #include "renderer.h"
-#include"modelRenderer.h"
+
 
 
 #include "model_manager.h"
@@ -136,7 +136,7 @@ ModelManager::~ModelManager()
 	m_pModelRenderers.clear();
 	m_pModelShaders.clear();
 
-	ModelRenderer::UnloadAll();
+	//ModelRenderer::UnloadAll();
 }
 
 void ModelManager::ModelDraw(ModelTags modeltag)
@@ -154,3 +154,13 @@ void ModelManager::SetShaders(ModelTags model, Shader shader)
 		m_pModelShaders[model]->SetShaders(shader);
 	}
 }
+
+//ShaderManager* ModelManager::GetShaders(ModelTags model)
+//{
+//	return m_pModelShaders[model];
+//}
+//
+//ModelRenderer* ModelManager::GetModel(ModelTags model)
+//{
+//	return m_pModelRenderers[model];
+//}

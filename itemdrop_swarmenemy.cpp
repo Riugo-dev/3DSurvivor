@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/10/30
 //********************************************************************************
+#include "main.h"
 #include <random>
 #include "heal_item.h"
 #include "vacuum_item.h"

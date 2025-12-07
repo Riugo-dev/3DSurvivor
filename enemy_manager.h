@@ -9,6 +9,7 @@
 #ifndef _ENEMY_MANAGER_H_
 #define _ENEMY_MANAGER_H_
 
+class BaseEnemy;
 
 
 class EnemyManager
@@ -16,7 +17,13 @@ class EnemyManager
 private:
 	class GameTimer* m_pGameTimer;
 	std::unordered_map<ModelTags, std::vector<BaseEnemy*>> map_Enemies;
-	std::unordered_map<ModelTags, ID3D11Buffer*> map_InstanceBuffer;
+	struct InstanceBufferData
+	{
+		ID3D11Buffer* Buffer = nullptr;
+		std::vector<INSTANCE> Data;
+	};
+	std::unordered_map < ModelTags, InstanceBufferData> map_InstanceBuffers;
+
 public:
 	~EnemyManager();
 
@@ -46,7 +53,10 @@ private:
 	void LevelFiveEnemySpawner(int);
 	void GameEnderEnemySpawner(int);
 
-
+	void UpdatInstanceBuffers();
+	void DrawInstanceBuffers();
+	void RegisterInstance(ModelTags , XMMATRIX);
+	std::string GetModelNameByTag(ModelTags);
 };
 
 #endif // !_ENEMY_MANAGER_H_

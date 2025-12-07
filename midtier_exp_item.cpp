@@ -5,7 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/04
 //********************************************************************************
-
+#include "main.h"
 #include <random>
 
 #include "midtier_exp_item.h"

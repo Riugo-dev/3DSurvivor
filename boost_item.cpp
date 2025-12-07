@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/10/29
 //********************************************************************************
+#include "main.h"
 #include "hp_ui.h"
 #include"manager_soundeffect.h"
 
