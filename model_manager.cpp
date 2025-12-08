@@ -52,19 +52,19 @@ ModelManager::ModelManager()
 
 	m_pModelRenderers[ENEMY_RED] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_RED]->Load("asset\\model\\EnemyTypeRed.obj");
-	m_pModelShaders[ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+	m_pModelShaders[ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_INSTANCETOON, true);
 
 	m_pModelRenderers[ENEMY_BLUE] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_BLUE]->Load("asset\\model\\EnemyTypeBlue.obj");
-	m_pModelShaders[ENEMY_BLUE] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+	m_pModelShaders[ENEMY_BLUE] = std::make_unique<ShaderManager>(SHADER_INSTANCETOON, true);
 
 	m_pModelRenderers[ENEMY_GREEN] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_GREEN]->Load("asset\\model\\EnemyTypeGreen.obj");
-	m_pModelShaders[ENEMY_GREEN] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+	m_pModelShaders[ENEMY_GREEN] = std::make_unique<ShaderManager>(SHADER_INSTANCETOON, true);
 
 	m_pModelRenderers[ENEMY_PURPLE] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_PURPLE]->Load("asset\\model\\EnemyTypePurple.obj");
-	m_pModelShaders[ENEMY_PURPLE] = std::make_unique<ShaderManager>(SHADER_TOON, true);
+	m_pModelShaders[ENEMY_PURPLE] = std::make_unique<ShaderManager>(SHADER_INSTANCETOON, true);
 
 	m_pModelRenderers[ENEMY_SILVER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_SILVER]->Load("asset\\model\\EnemyTypeMetal.obj");

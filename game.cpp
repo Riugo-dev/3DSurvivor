@@ -34,6 +34,7 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "manager_soundeffect.h"
+#include "enemy_manager.h"
 #include "controller.h"
 #include "title.h"
 #include "audio.h"
@@ -174,5 +175,7 @@ void Game::Update()
 void Game::Draw()
 {
 	Scene::Draw();
+
+	EnemyManager::GetInstance().Draw();
 }
 

@@ -47,6 +47,8 @@ void ModelRenderer::Draw()
 
 void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer )
 {
+	//Renderer::GetDeviceContext()->IASetInputLayout
+
 	// 頂点バッファ
 	UINT stride[2] = { sizeof(VERTEX_3D), sizeof(INSTANCE) };
 	UINT offset[2] = { 0, 0 };

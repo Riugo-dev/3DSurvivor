@@ -2,16 +2,25 @@
 void main(in VS_IN In, out PS_IN Out)
 {
     //インスタンシング
-    matrix InstanceWorld = In.World;
+    float4x4 InstanceWorld =
+    {
+        In.Instance0,
+        In.Instance1,
+        In.Instance2,
+        In.Instance3
+    };
+    
+    
+    InstanceWorld = transpose(InstanceWorld);
     
 	//ここで頂点変換
 	//頂点座標を出力
 	//頂点変換処理  この処理は必ず必要
-    matrix wvp; //行列変数を作成
-    wvp = mul(InstanceWorld, View); //wvp = ワールド行列＊カメラ行列
+    float4x4 wvp; //行列変数を作成
+    wvp = View /*mul(InstanceWorld, View)*/; //wvp = ワールド行列＊カメラ行列
     wvp = mul(wvp, Projection); //wvp = wvp *プロジェクション行列
     Out.Position = mul(In.Position, wvp); //変換結果を出力する
-
+    
 	//頂点法線をワールド行列で回転させる(頂点と同じ回転をさせる)
     float4 worldNormal, normal; //ローカル変数を作成
     normal = float4(In.Normal.xyz, 0.0); //入力法線ベクトルのwを0としてコピー（平行移動しないため)

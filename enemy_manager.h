@@ -53,7 +53,8 @@ private:
 	void LevelFiveEnemySpawner(int);
 	void GameEnderEnemySpawner(int);
 
-	void UpdatInstanceBuffers();
+	void RegisterToInstanceData();
+	void UpdateInstanceBuffers();
 	void DrawInstanceBuffers();
 	void RegisterInstance(ModelTags , XMMATRIX);
 	std::string GetModelNameByTag(ModelTags);

@@ -246,11 +246,33 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
 		Manager::GetScene()->AddGameObject<GameEnderEnemy>()->SetPosition(spawnpoint);
+
 	}
 
 }
 
-void EnemyManager::UpdatInstanceBuffers()
+void EnemyManager::RegisterToInstanceData()
+{//ここで各登録されたエネミーをデータとして登録する
+	for (auto& itr : map_Enemies)
+	{
+		ModelTags tag = itr.first;
+		std::vector<BaseEnemy*> enemies = itr.second;
+
+		if (enemies.empty()) continue;
+
+		for (auto enemy : enemies)//エネミーのベクターを回す
+		{
+			RegisterInstance(tag, enemy->GetWorldMatrix());
+		}
+	}
+
+	for (auto& itr : map_Enemies)
+	{
+		itr.second.clear();
+	}
+}
+
+void EnemyManager::UpdateInstanceBuffers()
 {
 	for (auto& itr : map_InstanceBuffers)
 	{
@@ -295,6 +317,8 @@ void EnemyManager::DrawInstanceBuffers()
 		ModelRenderer* renderer = ModelManager::GetModel(tag);
 
 		if (!renderer) continue;
+
+		ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
 
 		renderer->DrawInstanced(instancecount, inst.Buffer);
 
@@ -375,8 +399,11 @@ void EnemyManager::RegisterEnemyInstance(ModelTags tags, BaseEnemy* penemy)
 
 void EnemyManager::Draw()
 {
+	//イスタンスバッファのデータ登録
+	RegisterToInstanceData();
+
 	//インスタンスバッファの更新処理
-	UpdatInstanceBuffers();
+	UpdateInstanceBuffers();
 
 	//インスタンシングしたものの描画
 	DrawInstanceBuffers();
