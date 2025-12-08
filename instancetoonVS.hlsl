@@ -10,16 +10,17 @@ void main(in VS_IN In, out PS_IN Out)
         In.Instance3
     };
     
-    
-    InstanceWorld = transpose(InstanceWorld);
-    
 	//ここで頂点変換
 	//頂点座標を出力
 	//頂点変換処理  この処理は必ず必要
-    float4x4 wvp; //行列変数を作成
-    wvp = View /*mul(InstanceWorld, View)*/; //wvp = ワールド行列＊カメラ行列
-    wvp = mul(wvp, Projection); //wvp = wvp *プロジェクション行列
-    Out.Position = mul(In.Position, wvp); //変換結果を出力する
+    float4 worldpos = mul(In.Position, InstanceWorld);
+    float4 viewpos = mul(worldpos, View);
+    Out.Position = mul(viewpos, Projection);
+    
+    //float4x4 wvp; //行列変数を作成
+    //wvp = View /*mul(InstanceWorld, View)*/; //wvp = ワールド行列＊カメラ行列
+    //wvp = mul(wvp, Projection); //wvp = wvp *プロジェクション行列
+    //Out.Position = mul(In.Position, wvp); //変換結果を出力する
     
 	//頂点法線をワールド行列で回転させる(頂点と同じ回転をさせる)
     float4 worldNormal, normal; //ローカル変数を作成

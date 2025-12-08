@@ -281,23 +281,11 @@ void EnemyManager::UpdateInstanceBuffers()
 
 		if (inst.Data.empty()) continue;//データが無ければ処理を飛ばす
 
-
-		if (inst.Buffer)//バッファが残ってた場合ように消去処理
-		{
-			inst.Buffer->Release();
-			inst.Buffer = nullptr;
-		}
-
-		//バッファの作成
-		D3D11_BUFFER_DESC desc{};
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.ByteWidth = sizeof(INSTANCE) * inst.Data.size();//ワールド行列のバイトサイズ＊データの個数
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-		D3D11_SUBRESOURCE_DATA init{};
-		init.pSysMem = inst.Data.data();
-
-		Renderer::GetDevice()->CreateBuffer(&desc, &init, &inst.Buffer);
+		D3D11_MAPPED_SUBRESOURCE ms;
+		
+		Renderer::GetDeviceContext()->Map(inst.Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+		memcpy(ms.pData, inst.Data.data(), sizeof(INSTANCE) * inst.Data.size());
+		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);
 
 	}
 }
@@ -335,7 +323,7 @@ void EnemyManager::RegisterInstance(ModelTags model, XMMATRIX world)
 {
 	//送りやすいようにデータを格納
 	INSTANCE inst;
-	inst.WorldMatrix = world;
+	inst.WorldMatrix = XMMatrixTranspose(world);//座標データを転置して格納
 
 	map_InstanceBuffers[model].Data.push_back(inst);
 }
@@ -426,6 +414,27 @@ EnemyManager& EnemyManager::GetInstance()
 void EnemyManager::Init(GameTimer* timer)
 {//初期化処理
 	m_pGameTimer = timer;
+	
+	//各バッファの最大数を確保
+	const int maxinstance = 500;
+
+	for (int tag = ENEMY_RED ; tag < SHOOTER_ENEMY_RED ; tag++)
+	{
+		map_InstanceBuffers[(ModelTags)tag] = InstanceBufferData();
+
+		auto& inst = map_InstanceBuffers[(ModelTags)tag];
+
+		//バッファの作成
+		D3D11_BUFFER_DESC desc{};
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.ByteWidth = sizeof(INSTANCE) * maxinstance;//ワールド行列のバイトサイズ＊データの個数
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.Buffer);
+
+	}
+
 }
 
 void EnemyManager::Uninit()
