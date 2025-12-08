@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/12
 //********************************************************************************
+#include "main.h"
 #include "manager.h"
 #include "scene.h"
 #include "fire_particle.h"

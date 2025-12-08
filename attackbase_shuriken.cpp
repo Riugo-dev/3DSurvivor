@@ -5,6 +5,7 @@
 //															Author :Riugo Honda
 //															Date   :2025/09/14
 //********************************************************************************
+#include "main.h"
 #include "manager.h"
 #include "scene.h"
 #include "player.h"
