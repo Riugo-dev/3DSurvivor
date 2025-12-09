@@ -15,6 +15,14 @@ class EnemyManager
 {
 private:
 	class GameTimer* m_pGameTimer;
+
+	ID3D11Buffer* m_InstanceBuffer;
+	ID3D11ShaderResourceView* m_EnemySRV;
+	//必要なこと
+	//失敗したときのインスタンシング同様全てのエネミー用のバッファとシェーダーリソースビュー
+	//Initの作成及びシングルトン設計化
+	//動画②も観て明日中に完成
+
 public:
 	EnemyManager(GameTimer*);
 	~EnemyManager();
