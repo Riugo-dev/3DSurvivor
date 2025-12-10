@@ -262,7 +262,7 @@ void EnemyManager::RegisterToInstanceData()
 
 		for (auto enemy : enemies)//エネミーのベクターを回す
 		{
-			RegisterInstance(tag, enemy->GetWorldMatrix());
+			RegisterInstance(tag, enemy->GetPosition());
 		}
 	}
 
@@ -279,12 +279,12 @@ void EnemyManager::UpdateInstanceBuffers()
 		ModelTags tag = itr.first;
 		InstanceBufferData& inst = itr.second;
 
-		if (inst.Data.empty()) continue;//データが無ければ処理を飛ばす
+		if (inst.EnemyPosData.empty()) continue;//データが無ければ処理を飛ばす
 
 		D3D11_MAPPED_SUBRESOURCE ms;
 		
 		Renderer::GetDeviceContext()->Map(inst.Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
-		memcpy(ms.pData, inst.Data.data(), sizeof(INSTANCE) * inst.Data.size());
+		memcpy(ms.pData, inst.EnemyPosData.data(), sizeof(INSTANCE) * inst.EnemyPosData.size());
 		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);
 
 	}
@@ -298,9 +298,9 @@ void EnemyManager::DrawInstanceBuffers()
 		InstanceBufferData& inst = itr.second;
 
 		//インスタンスが無ければ描画処理を飛ばす
-		if (inst.Data.empty() || inst.Buffer == nullptr) continue;
+		if (inst.EnemyPosData.empty() || inst.Buffer == nullptr) continue;
 
-		int instancecount = (int)inst.Data.size();
+		int instancecount = (int)inst.EnemyPosData.size();
 
 		ModelRenderer* renderer = ModelManager::GetModel(tag);
 
@@ -314,18 +314,18 @@ void EnemyManager::DrawInstanceBuffers()
 
 	for (auto& itr : map_InstanceBuffers)
 	{
-		itr.second.Data.clear();
+		itr.second.EnemyPosData.clear();
 	}
 
 }
 
-void EnemyManager::RegisterInstance(ModelTags model, XMMATRIX world)
+void EnemyManager::RegisterInstance(ModelTags model, Vector3 world)
 {
 	//送りやすいようにデータを格納
-	INSTANCE inst;
-	inst.WorldMatrix = XMMatrixTranspose(world);//座標データを転置して格納
+	Vector3 inst;
+	inst = world;//座標データを転置して格納
 
-	map_InstanceBuffers[model].Data.push_back(inst);
+	map_InstanceBuffers[model].EnemyPosData.push_back(inst);
 }
 
 std::string EnemyManager::GetModelNameByTag(ModelTags tags)
@@ -427,12 +427,25 @@ void EnemyManager::Init(GameTimer* timer)
 		//バッファの作成
 		D3D11_BUFFER_DESC desc{};
 		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.ByteWidth = sizeof(INSTANCE) * maxinstance;//ワールド行列のバイトサイズ＊データの個数
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		desc.ByteWidth = sizeof(Vector3) * maxinstance;//ワールド行列のバイトサイズ＊データの個数
+		desc.StructureByteStride = sizeof(Vector3);
+		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.Buffer);
+		D3D11_SUBRESOURCE_DATA sd{};
+		sd.pSysMem = ;//ここにポジションのデータ
 
+		Renderer::GetDevice()->CreateBuffer(&desc, &sd, &inst.Buffer);
+
+		//シェーダーリソースビュー
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd{};
+		srvd.Format = DXGI_FORMAT_UNKNOWN;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		srvd.Buffer.FirstElement = 0;
+		srvd.Buffer.NumElements = maxinstance;
+
+		Renderer::GetDevice()->CreateShaderResourceView(inst.Buffer, &srvd, &inst.EnemySRV);
 	}
 
 }

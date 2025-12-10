@@ -20,7 +20,8 @@ private:
 	struct InstanceBufferData
 	{
 		ID3D11Buffer* Buffer = nullptr;
-		std::vector<INSTANCE> Data;
+		ID3D11ShaderResourceView* EnemySRV = nullptr;
+		std::list<Vector3> EnemyPosData;
 	};
 	std::unordered_map < ModelTags, InstanceBufferData> map_InstanceBuffers;
 
@@ -56,7 +57,7 @@ private:
 	void RegisterToInstanceData();
 	void UpdateInstanceBuffers();
 	void DrawInstanceBuffers();
-	void RegisterInstance(ModelTags , XMMATRIX);
+	void RegisterInstance(ModelTags , Vector3);
 	std::string GetModelNameByTag(ModelTags);
 };
 
