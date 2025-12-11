@@ -21,7 +21,7 @@ private:
 	{
 		ID3D11Buffer* Buffer = nullptr;
 		ID3D11ShaderResourceView* EnemySRV = nullptr;
-		std::list<Vector3> EnemyPosData;
+		std::vector<Vector3> EnemyPosData;
 	};
 	std::unordered_map < ModelTags, InstanceBufferData> map_InstanceBuffers;
 

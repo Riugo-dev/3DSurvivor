@@ -44,6 +44,7 @@ struct MODEL
 	ID3D11Buffer* VertexBuffer;
 	ID3D11Buffer* IndexBuffer;
 
+	unsigned int VertexNum;
 	SUBSET* SubsetArray;
 	unsigned int	SubsetNum;
 };
@@ -72,7 +73,7 @@ public:
 
 	void Load(const char* FileName);
 	void Draw() override;
-	void DrawInstanced(int, ID3D11Buffer*);
+	void DrawInstanced(int, ID3D11Buffer* , ID3D11ShaderResourceView*);
 
 };
 

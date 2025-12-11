@@ -101,6 +101,7 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 		Renderer::CreatePixelShader(&ps, "shader\\vertexDirectionalLightingPS.cso");
 		m_pShaderPointers[SHADER_DIRECTIONLIGHTING]->SetShaderPointers(vs, ps, vl);
 	}
+		break;
 	case SHADER_INSTANCETOON:
 	{
 		m_pShaderPointers[SHADER_INSTANCETOON] = new ShaderPointers;

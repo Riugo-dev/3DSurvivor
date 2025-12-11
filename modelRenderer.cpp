@@ -45,40 +45,89 @@ void ModelRenderer::Draw()
 
 }
 
-void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer )
+void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer , ID3D11ShaderResourceView* srv)
 {
+	//シェーダーの設定は外部でやったのでOKなはず
+
 	//Renderer::GetDeviceContext()->IASetInputLayout
+	
+	//ワールド設定は必要なのか？
+	//// 平行移動行列の作成（表示座標を決める）
+	//XMMATRIX	TranslationMatrix = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+
+	////回転行列（Z回転）行列の作成
+	//XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
+
+	////スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	//XMMATRIX	ScalingMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+
+	////ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	//XMMATRIX world = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+	//Renderer::SetWorldMatrix(world);
+
+	//マテリアル設定
+	/*MATERIAL material{};
+	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+	material.TextureEnable = false;
+	Renderer::SetMaterial(material);*/
+
 
 	// 頂点バッファ
-	UINT stride[2] = { sizeof(VERTEX_3D), sizeof(INSTANCE) };
-	UINT offset[2] = { 0, 0 };
-
-	ID3D11Buffer* buffers[2] = {m_Model->VertexBuffer , instancebuffer };
-
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, stride, offset);
-
-	Renderer::GetDeviceContext()->IASetIndexBuffer(m_Model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &instancebuffer, &stride, &offset);
+	
 	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
 	{
 		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
 		if (m_Model->SubsetArray[i].Material.Texture)
 		{
-			Renderer::GetDeviceContext()->PSSetShaderResources(
-				0, 1, &m_Model->SubsetArray[i].Material.Texture);
+			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
 		}
 
-		Renderer::GetDeviceContext()->DrawIndexedInstanced(
-			m_Model->SubsetArray[i].IndexNum,
-			count,
-			m_Model->SubsetArray[i].StartIndex,
-			0,
-			0
-		);
+
 	}
+
+	//ストラクチャードバッファ設定
+	Renderer::GetDeviceContext()->VSSetShaderResources(2, 1, &srv);
+
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	Renderer::GetDeviceContext()->DrawInstanced(m_Model->VertexNum, count, 0, 0);
+
+	//前回パターン
+	//// 頂点バッファ
+	//UINT stride[2] = { sizeof(VERTEX_3D), sizeof(INSTANCE) };
+	//UINT offset[2] = { 0, 0 };
+
+	//ID3D11Buffer* buffers[2] = {m_Model->VertexBuffer , instancebuffer };
+
+	//Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, stride, offset);
+
+	//Renderer::GetDeviceContext()->IASetIndexBuffer(m_Model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
+	//{
+	//	Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
+
+	//	if (m_Model->SubsetArray[i].Material.Texture)
+	//	{
+	//		Renderer::GetDeviceContext()->PSSetShaderResources(
+	//			0, 1, &m_Model->SubsetArray[i].Material.Texture);
+	//	}
+
+	//	Renderer::GetDeviceContext()->DrawIndexedInstanced(
+	//		m_Model->SubsetArray[i].IndexNum,
+	//		count,
+	//		m_Model->SubsetArray[i].StartIndex,
+	//		0,
+	//		0
+	//	);
+	//}
 }
 
 void ModelRenderer::Preload(const char *FileName)
@@ -209,6 +258,8 @@ void ModelRenderer::LoadModel( const char *FileName, MODEL *Model)
 
 		}
 	}
+
+	Model->VertexNum = modelObj.VertexNum;
 
 	delete[] modelObj.VertexArray;
 	delete[] modelObj.IndexArray;

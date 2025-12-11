@@ -259,6 +259,7 @@ void EnemyManager::RegisterToInstanceData()
 		std::vector<BaseEnemy*> enemies = itr.second;
 
 		if (enemies.empty()) continue;
+		//現在登録情報は配列ではなくvectorではあるが変更するべきか聞く必要あり
 
 		for (auto enemy : enemies)//エネミーのベクターを回す
 		{
@@ -280,11 +281,13 @@ void EnemyManager::UpdateInstanceBuffers()
 		InstanceBufferData& inst = itr.second;
 
 		if (inst.EnemyPosData.empty()) continue;//データが無ければ処理を飛ばす
+		//ココよくわからない
+
 
 		D3D11_MAPPED_SUBRESOURCE ms;
 		
 		Renderer::GetDeviceContext()->Map(inst.Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
-		memcpy(ms.pData, inst.EnemyPosData.data(), sizeof(INSTANCE) * inst.EnemyPosData.size());
+		memcpy(ms.pData, &inst.EnemyPosData, sizeof(Vector3) * inst.EnemyPosData.size());
 		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);
 
 	}
@@ -308,7 +311,7 @@ void EnemyManager::DrawInstanceBuffers()
 
 		ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
 
-		renderer->DrawInstanced(instancecount, inst.Buffer);
+		renderer->DrawInstanced(instancecount, inst.Buffer , inst.EnemySRV);
 
 	}
 
@@ -434,7 +437,7 @@ void EnemyManager::Init(GameTimer* timer)
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		D3D11_SUBRESOURCE_DATA sd{};
-		sd.pSysMem = ;//ここにポジションのデータ
+		sd.pSysMem = &inst.EnemyPosData;//ここにポジションのデータ
 
 		Renderer::GetDevice()->CreateBuffer(&desc, &sd, &inst.Buffer);
 
