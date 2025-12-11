@@ -73,7 +73,7 @@ public:
 
 	void Load(const char* FileName);
 	void Draw() override;
-	void DrawInstanced(int, ID3D11Buffer* , ID3D11ShaderResourceView*);
+	void DrawInstanced(int, ID3D11ShaderResourceView*);
 
 };
 

@@ -287,7 +287,7 @@ void EnemyManager::UpdateInstanceBuffers()
 		D3D11_MAPPED_SUBRESOURCE ms;
 		
 		Renderer::GetDeviceContext()->Map(inst.Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
-		memcpy(ms.pData, &inst.EnemyPosData, sizeof(Vector3) * inst.EnemyPosData.size());
+		memcpy(ms.pData, inst.EnemyPosData.data(), sizeof(Vector3) * inst.EnemyPosData.size());
 		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);
 
 	}
@@ -311,7 +311,7 @@ void EnemyManager::DrawInstanceBuffers()
 
 		ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
 
-		renderer->DrawInstanced(instancecount, inst.Buffer , inst.EnemySRV);
+		renderer->DrawInstanced(instancecount, inst.EnemySRV);
 
 	}
 
@@ -437,7 +437,7 @@ void EnemyManager::Init(GameTimer* timer)
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 		D3D11_SUBRESOURCE_DATA sd{};
-		sd.pSysMem = &inst.EnemyPosData;//ここにポジションのデータ
+		sd.pSysMem = inst.EnemyPosData.data();//ここにポジションのデータ
 
 		Renderer::GetDevice()->CreateBuffer(&desc, &sd, &inst.Buffer);
 

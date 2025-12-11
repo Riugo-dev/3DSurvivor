@@ -45,7 +45,7 @@ void ModelRenderer::Draw()
 
 }
 
-void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer , ID3D11ShaderResourceView* srv)
+void ModelRenderer::DrawInstanced(int count , ID3D11ShaderResourceView* srv)
 {
 	//シェーダーの設定は外部でやったのでOKなはず
 
@@ -76,8 +76,13 @@ void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer , ID3D
 	// 頂点バッファ
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &instancebuffer, &stride, &offset);
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_Model->VertexBuffer, &stride, &offset);
 	
+	//ストラクチャードバッファ設定
+	Renderer::GetDeviceContext()->VSSetShaderResources(2, 1, &srv);
+
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
 	{
 		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
@@ -87,15 +92,12 @@ void ModelRenderer::DrawInstanced(int count, ID3D11Buffer* instancebuffer , ID3D
 			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
 		}
 
-
+		Renderer::GetDeviceContext()->DrawInstanced(m_Model->SubsetArray[i].IndexNum, count, m_Model->SubsetArray[i].StartIndex, 0);
 	}
 
-	//ストラクチャードバッファ設定
-	Renderer::GetDeviceContext()->VSSetShaderResources(2, 1, &srv);
-
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
-	Renderer::GetDeviceContext()->DrawInstanced(m_Model->VertexNum, count, 0, 0);
+	
+	//Renderer::GetDeviceContext()->DrawInstanced(m_Model->VertexNum, count, 0, 0);
 
 	//前回パターン
 	//// 頂点バッファ
