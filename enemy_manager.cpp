@@ -283,12 +283,12 @@ void EnemyManager::UpdateInstanceBuffers()
 		if (inst.EnemyPosData.empty()) continue;//データが無ければ処理を飛ばす
 		//ココよくわからない
 
-
-		D3D11_MAPPED_SUBRESOURCE ms;
+		Renderer::GetDeviceContext()->UpdateSubresource(inst.Buffer, 0, nullptr, inst.EnemyPosData.data(), 0, 0);
+		/*D3D11_MAPPED_SUBRESOURCE ms;
 		
 		Renderer::GetDeviceContext()->Map(inst.Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
 		memcpy(ms.pData, inst.EnemyPosData.data(), sizeof(Vector3) * inst.EnemyPosData.size());
-		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);
+		Renderer::GetDeviceContext()->Unmap(inst.Buffer, 0);*/
 
 	}
 }
@@ -421,6 +421,7 @@ void EnemyManager::Init(GameTimer* timer)
 	//各バッファの最大数を確保
 	const int maxinstance = 500;
 
+	//この時点でちゃんと登録されていないことが確認できた
 	for (int tag = ENEMY_RED ; tag < SHOOTER_ENEMY_RED ; tag++)
 	{
 		map_InstanceBuffers[(ModelTags)tag] = InstanceBufferData();
@@ -429,17 +430,17 @@ void EnemyManager::Init(GameTimer* timer)
 
 		//バッファの作成
 		D3D11_BUFFER_DESC desc{};
-		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.ByteWidth = sizeof(Vector3) * maxinstance;//ワールド行列のバイトサイズ＊データの個数
 		desc.StructureByteStride = sizeof(Vector3);
 		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.CPUAccessFlags = 0;
 
-		D3D11_SUBRESOURCE_DATA sd{};
-		sd.pSysMem = inst.EnemyPosData.data();//ここにポジションのデータ
+		//D3D11_SUBRESOURCE_DATA sd{};
+		//sd.pSysMem = inst.EnemyPosData.data();//ここにポジションのデータ
 
-		Renderer::GetDevice()->CreateBuffer(&desc, &sd, &inst.Buffer);
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.Buffer);
 
 		//シェーダーリソースビュー
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvd{};
@@ -449,6 +450,17 @@ void EnemyManager::Init(GameTimer* timer)
 		srvd.Buffer.NumElements = maxinstance;
 
 		Renderer::GetDevice()->CreateShaderResourceView(inst.Buffer, &srvd, &inst.EnemySRV);
+	}
+
+	for (auto& itr : map_InstanceBuffers)
+	{
+		ModelTags tag = itr.first;
+		InstanceBufferData& inst = itr.second;
+
+		//インスタンスが無ければ描画処理を飛ばす
+		if (inst.EnemyPosData.empty() || inst.Buffer == nullptr) continue;
+
+		int instancecount = (int)inst.EnemyPosData.size();
 	}
 
 }

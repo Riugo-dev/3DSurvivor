@@ -192,18 +192,18 @@ public:
 		}
 
 
-		{//—ÖŠsü‚Ì•`‰æ
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+		//{//—ÖŠsü‚Ì•`‰æ
+		//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+		//	Renderer::SetCullMode(D3D11_CULL_FRONT);
 
-			//•`‰æ
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
+		//	//•`‰æ
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
-		}
+		//	Renderer::SetCullMode(D3D11_CULL_BACK);
+		//}
 	}
 
 

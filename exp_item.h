@@ -130,15 +130,15 @@ public:
 			//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
 			//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
 
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+			//ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+			//Renderer::SetCullMode(D3D11_CULL_FRONT);
 
-			//•`‰æ
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
+			////•`‰æ
+			////m_pModelRenderer->Draw();
+			//ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
+			//Renderer::SetCullMode(D3D11_CULL_BACK);
 		}
 	}
 

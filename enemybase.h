@@ -86,7 +86,7 @@ public:
 				itr->SubtractHP();
 				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
-				if(m_HP <= 0)
+			/*	if(m_HP <= 0)
 				{
 					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 					boom->SetPosition(m_Position);
@@ -99,7 +99,7 @@ public:
 					Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 
 					return;
-				}
+				}*/
 
 
 			}
