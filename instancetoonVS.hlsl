@@ -4,12 +4,14 @@ StructuredBuffer<float3> Position : register(t2);
 
 void main(in VS_IN In, out PS_IN Out)
 {
-    Out.Position = mul(In.Position, World);
+    float3 instancePos = Position[In.InstanceId];
     
-    Out.Position = mul(Out.Position, View);
-    Out.Position = mul(Out.Position, Projection);
+    float4 worldPos = In.Position;
+    worldPos.xyz += instancePos;
     
-    Out.Position.xyz += Position[In.InstanceId];
+    worldPos = mul(worldPos, World);
+    worldPos = mul(worldPos, View);
+    Out.Position = mul(worldPos, Projection);
     
     Out.TexCoord = In.TexCoord;
     Out.Diffuse = In.Diffuse * Material.Diffuse;

@@ -303,7 +303,7 @@ void EnemyManager::DrawInstanceBuffers()
 		//インスタンスが無ければ描画処理を飛ばす
 		if (inst.EnemyPosData.empty() || inst.Buffer == nullptr) continue;
 
-		int instancecount = (int)inst.EnemyPosData.size();
+		int instancecount = inst.EnemyPosData.size();
 
 		ModelRenderer* renderer = ModelManager::GetModel(tag);
 
