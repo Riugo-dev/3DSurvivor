@@ -73,7 +73,7 @@ public:
 	~ModelManager();
 
 
-	static void ModelDraw(ModelTags);
+	static void ModelDraw(ModelTags, float aplha = 1.0f);
 	static void SetShaders(ModelTags, Shader);
 };
 

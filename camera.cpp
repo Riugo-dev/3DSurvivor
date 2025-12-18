@@ -18,8 +18,8 @@
 #include "camera.h"
 
 #define CAMERA_LENGTH_TP_X	(0.0f)
-#define CAMERA_LENGTH_TP_Y	(24.0f)
-#define CAMERA_LENGTH_TP_Z	(-15.0f)
+#define CAMERA_LENGTH_TP_Y	(18.0f)
+#define CAMERA_LENGTH_TP_Z	(-5.0f)
 
 #define CAMERA_LENGTH_FP_X	(0.0f)
 #define CAMERA_LENGTH_FP_Y	(2.0f)
@@ -139,9 +139,10 @@ void Camera::Update()
 		m_ShakeTime += 1.0f;//揺らす速さ
 		m_ShakeVector *= 0.9f;
 
-		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f) };
+		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f)};
 
-
+		//カメラは必ずプレイヤーの後ろからとるように設定
+		m_Position += -player->GetFoward() * 5.0f;
 
 		/*if(!IsRotating)
 		{

@@ -49,6 +49,8 @@ Player::Player(Vector3 size, Vector3 position)
 	m_BoostFrameCount = 0;
 	m_BoostTime = 0;
 	m_IsBoost = false;
+
+	m_Aplha = 1.0f;
 }
 
 Player::~Player()
@@ -103,6 +105,7 @@ void Player::Update()
 	if (m_IsInvinceble)
 	{
 		m_InvinceibleFrameCount++;
+		
 
 		if (m_InvinceibleFrameCount >= INVINCIBLEFRAME_AFTERDAMAGE)
 		{

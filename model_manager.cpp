@@ -139,11 +139,19 @@ ModelManager::~ModelManager()
 	ModelRenderer::UnloadAll();
 }
 
-void ModelManager::ModelDraw(ModelTags modeltag)
+void ModelManager::ModelDraw(ModelTags modeltag , float alpha)
 {
 	if (m_pModelRenderers.count(modeltag))
 	{
-		m_pModelRenderers[modeltag]->Draw();
+		if (modeltag == PLAYER)
+		{
+			m_pModelRenderers[modeltag]->Draw(alpha);
+		}
+		else
+		{
+			m_pModelRenderers[modeltag]->Draw();
+		}
+		
 	}
 }
 

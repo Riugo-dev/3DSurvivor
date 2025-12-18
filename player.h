@@ -75,6 +75,7 @@ private:
 	bool m_IsBoost = false;
 	int m_BoostTime = 0;
 	int m_BoostFrameCount = 0;
+	float m_Aplha = 1.0f;
 
 public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.5f , 0.0f });
