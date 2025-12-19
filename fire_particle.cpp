@@ -28,10 +28,10 @@ FireParticle::FireParticle(Vector3 size, Vector3 position, int movementx, int mo
 	m_Position = position;
 	VERTEX_3D vertex[4];
 	//上面
-	m_VertexPosition[0] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[1] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[2] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
-	m_VertexPosition[3] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
+	m_VertexPosition[0] = XMFLOAT3(position.x - m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[1] = XMFLOAT3(position.x + m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[2] = XMFLOAT3(position.x - m_Scale.x, position.y - m_Scale.y, position.z);
+	m_VertexPosition[3] = XMFLOAT3(position.x + m_Scale.x, position.y - m_Scale.y, position.z);
 
 	//vertex[0].Position = XMFLOAT3(-10.0f, 0.0f, 10.0f);
 	vertex[0].Position = m_VertexPosition[0];
@@ -150,9 +150,9 @@ void FireParticle::Update()
 			std::uniform_real_distribution<float> randdist(-m_Radius, m_Radius);
 			float distance = randdist(mt);
 
-			m_Particle[i].Position.m_x = m_SpawnerCenterPoint.m_x + cosf(angle) * distance;
-			m_Particle[i].Position.m_y = 0.1f;
-			m_Particle[i].Position.m_z = m_SpawnerCenterPoint.m_z + sinf(angle) * distance;
+			m_Particle[i].Position.x = m_SpawnerCenterPoint.x + cosf(angle) * distance;
+			m_Particle[i].Position.y = 0.1f;
+			m_Particle[i].Position.z = m_SpawnerCenterPoint.z + sinf(angle) * distance;
 
 			m_Particle[i].Enable = true;
 			m_Particle[i].LifeFrame = FIRE_PARTICLE_LIFESPAN_MAX;
@@ -167,9 +167,9 @@ void FireParticle::Update()
 
 			float size = randsize(mt);
 
-			m_ParticleSize[i].m_x = size;
-			m_ParticleSize[i].m_y = size;
-			m_ParticleSize[i].m_z = size;
+			m_ParticleSize[i].x = size;
+			m_ParticleSize[i].y = size;
+			m_ParticleSize[i].z = size;
 			
 			m_Particle[i].Velocity = Vector3(0.0f, 0.1f, 0.0f);
 			//m_Particle[i].Velocity = Vector3(0.3f, 0.3f, 0.3f);
@@ -194,7 +194,7 @@ void FireParticle::Update()
 
 			m_Particle[i].LifeFrame--;
 
-			if (m_Particle[i].LifeFrame == 0 || m_Particle[i].Position.m_y >= 5.0f)
+			if (m_Particle[i].LifeFrame == 0 || m_Particle[i].Position.y >= 5.0f)
 			{
 				m_Particle[i].Enable = false;
 			}
@@ -234,7 +234,7 @@ void FireParticle::Draw()
 {
 	{//地面部分
 		//ワールド行列
-		XMMATRIX world = XMMatrixTranslation(m_FloorTopLeft.m_x, m_FloorTopLeft.m_y, m_FloorTopLeft.m_z);
+		XMMATRIX world = XMMatrixTranslation(m_FloorTopLeft.x, m_FloorTopLeft.y, m_FloorTopLeft.z);
 		Renderer::SetWorldMatrix(world);
 
 		// 頂点バッファ＆インデックス
@@ -269,22 +269,22 @@ void FireParticle::Draw()
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 		{
 			vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
-			vertex[0].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+			vertex[0].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 			vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[1].Position = XMFLOAT3(1.0f, 1.0f, 0.0f);
-			vertex[1].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+			vertex[1].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 			vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
 			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[2].Position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
-			vertex[2].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+			vertex[2].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 			vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
 			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[3].Position = XMFLOAT3(1.0f, -1.0f, 0.0f);
-			vertex[3].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+			vertex[3].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 			vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
 			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 		}
@@ -339,10 +339,10 @@ void FireParticle::Draw()
 			if (m_Particle[i].Enable == true)
 			{
 				//平行移動行列の作成（表示座標を決める）
-				XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.m_x, m_Particle[i].Position.m_y, m_Particle[i].Position.m_z);
+				XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);
 
 				//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-				XMMATRIX	ScalingMatrix = XMMatrixScaling(m_ParticleSize[i].m_x, m_ParticleSize[i].m_y, m_ParticleSize[i].m_z);
+				XMMATRIX	ScalingMatrix = XMMatrixScaling(m_ParticleSize[i].x, m_ParticleSize[i].y, m_ParticleSize[i].z);
 
 				//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 				XMMATRIX	WorldMatrix = ScalingMatrix * inView * TranslationMatrix;
@@ -370,22 +370,22 @@ void FireParticle::SetParticle(int life, Vector3 centerpos, float radius)
 	VERTEX_3D vertex[4];
 
 	//1chunk用の頂点データ
-	vertex[0].Position = XMFLOAT3(m_SpawnerCenterPoint.m_x - m_Radius, 0.0f, m_SpawnerCenterPoint.m_z - m_Radius);
+	vertex[0].Position = XMFLOAT3(m_SpawnerCenterPoint.x - m_Radius, 0.0f, m_SpawnerCenterPoint.z - m_Radius);
 	vertex[0].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	vertex[0].Diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 
-	vertex[1].Position = XMFLOAT3(m_SpawnerCenterPoint.m_x + m_Radius, 0.0f, m_SpawnerCenterPoint.m_z - m_Radius);
+	vertex[1].Position = XMFLOAT3(m_SpawnerCenterPoint.x + m_Radius, 0.0f, m_SpawnerCenterPoint.z - m_Radius);
 	vertex[1].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	vertex[1].Diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
 
-	vertex[2].Position = XMFLOAT3(m_SpawnerCenterPoint.m_x - m_Radius, 0.0f, m_SpawnerCenterPoint.m_z + m_Radius);
+	vertex[2].Position = XMFLOAT3(m_SpawnerCenterPoint.x - m_Radius, 0.0f, m_SpawnerCenterPoint.z + m_Radius);
 	vertex[2].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	vertex[2].Diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
 
-	vertex[3].Position = XMFLOAT3(m_SpawnerCenterPoint.m_x + m_Radius, 0.0f, m_SpawnerCenterPoint.m_z + m_Radius);
+	vertex[3].Position = XMFLOAT3(m_SpawnerCenterPoint.x + m_Radius, 0.0f, m_SpawnerCenterPoint.z + m_Radius);
 	vertex[3].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	vertex[3].Diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);

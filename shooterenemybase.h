@@ -59,7 +59,7 @@ public:
 		{
 			m_Scale += {0.03f, 0.03f, 0.03f};
 
-			if (m_Scale.m_x >= 0.6f)
+			if (m_Scale.x >= 0.6f)
 			{
 				m_Scale = { 0.6f , 0.6f , 0.6f };
 				m_GetBig = true;
@@ -107,13 +107,13 @@ public:
 
 		float angle_y, angle_x, angle_z;
 
-		angle_y = atan2(to_player.m_x, to_player.m_z);
+		angle_y = atan2(to_player.x, to_player.z);
 
-		m_Rotation.m_y = angle_y;
+		m_Rotation.y = angle_y;
 		Vector3 distance = p_player->GetPosition() - m_Position;
 		float length = distance.length();
 
-		if (length < m_Scale.m_y * 2.5f)
+		if (length < m_Scale.y * 2.5f)
 		{
 			if (!p_player->GetIsInvincible())
 			{
@@ -136,10 +136,10 @@ public:
 		{
 
 			to_player *= m_Speed;
-			to_player.m_y = 0.0f;
+			to_player.y = 0.0f;
 			//エネミーの弾射出コードをここに書く
 			EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
-			bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
+			bullet->SetPosition({m_Position.x , 1.25f , m_Position.z});
 			bullet->SetBullet(to_player);
 		}
 
@@ -166,13 +166,13 @@ public:
 			ModelManager::SetShaders(m_ModelTag, m_Shader);
 
 			//平行移動行列の作成（表示座標を決める）
-			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 			//回転行列（Z回転）行列の作成
-			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;

@@ -50,7 +50,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     {
         // テクスチャ無し → マテリアルカラーのみ
         outDiffuse = Material.Diffuse;
-        outDiffuse.a = Material.Diffuse.a;
     }
     //視線ベクトル
     float4 eyev = In.WorldPosition - CameraPosition;

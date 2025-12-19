@@ -21,6 +21,10 @@
 #define CAMERA_LENGTH_TP_Y	(18.0f)
 #define CAMERA_LENGTH_TP_Z	(-5.0f)
 
+#define CAMERA_LENGTH_TITLE_X	(0.0f)
+#define CAMERA_LENGTH_TITLE_Y	(1.0f)
+#define CAMERA_LENGTH_TITLE_Z	(-5.0f)
+
 #define CAMERA_LENGTH_FP_X	(0.0f)
 #define CAMERA_LENGTH_FP_Y	(2.0f)
 #define CAMERA_LENGTH_FP_Z	(2.0f)
@@ -83,12 +87,12 @@ void Camera::Update()
 	{
 		if (p_contorller->Controller_RightStickIsLeft())
 		{
-			m_Rotation.m_y += -0.05f;
+			m_Rotation.y += -0.05f;
 			IsRotating = true;
 		}
 		else if (p_contorller->Controller_RightStickIsRight())
 		{
-			m_Rotation.m_y += 0.05f;
+			m_Rotation.y += 0.05f;
 			IsRotating = true;
 		}
 	}
@@ -96,25 +100,25 @@ void Camera::Update()
 	{
 		if (m_pInput->GetKeyPress(KK_LEFT))
 		{
-			m_Rotation.m_y += -0.05f;
+			m_Rotation.y += -0.05f;
 			IsRotating = true;
 		}
 		else if (m_pInput->GetKeyPress(KK_RIGHT))
 		{
-			m_Rotation.m_y += 0.05f;
+			m_Rotation.y += 0.05f;
 			IsRotating = true;
 		}
 	}
 	/*else if (m_pInput->GetKeyPress(KK_RIGHTSHIFT))
 	{
-		m_Rotation.m_y = 0.0f;
+		m_Rotation.y = 0.0f;
 		IsRotating = false;
 	}*/
 
 
 	if (m_pInput->GetKeyPress(KK_ENTER))
 	{
-		m_Position.m_z += 0.1f;
+		m_Position.z += 0.1f;
 	}
 
 	if (m_pInput->GetKeyTrigger(KK_D1))
@@ -139,18 +143,18 @@ void Camera::Update()
 		m_ShakeTime += 1.0f;//揺らす速さ
 		m_ShakeVector *= 0.9f;
 
-		m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f)};
+		m_Position = { m_Target.x + (-sinf(m_Rotation.y) * 5.0f), m_Target.y + CAMERA_LENGTH_TP_Y , m_Target.z + (-cosf(m_Rotation.y) * 5.0f)};
 
 		//カメラは必ずプレイヤーの後ろからとるように設定
 		m_Position += -player->GetFoward() * 5.0f;
 
 		/*if(!IsRotating)
 		{
-			m_Position = { m_Target.m_x + CAMERA_LENGTH_TP_X , m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + CAMERA_LENGTH_TP_Z };
+			m_Position = { m_Target.x + CAMERA_LENGTH_TP_X , m_Target.y + CAMERA_LENGTH_TP_Y , m_Target.z + CAMERA_LENGTH_TP_Z };
 		}
 		else 
 		{
-			m_Position = { m_Target.m_x + (-sinf(m_Rotation.m_y) * 5.0f), m_Target.m_y + CAMERA_LENGTH_TP_Y , m_Target.m_z + (-cosf(m_Rotation.m_y) * 5.0f) };
+			m_Position = { m_Target.x + (-sinf(m_Rotation.y) * 5.0f), m_Target.y + CAMERA_LENGTH_TP_Y , m_Target.z + (-cosf(m_Rotation.y) * 5.0f) };
 		}*/
 	}
 	else if (m_Mode == CAMERA_MODE_FP)
@@ -159,18 +163,35 @@ void Camera::Update()
 
 		if (player == nullptr) return;
 
-		m_Position = { player->GetPosition().m_x, player->GetPosition().m_y + CAMERA_LENGTH_FP_Y ,player->GetPosition().m_z };
+		m_Position = { player->GetPosition().x, player->GetPosition().y + CAMERA_LENGTH_FP_Y ,player->GetPosition().z };
 
 		//カメラシェイク
 		m_Target += m_ShakeVector * cosf(m_ShakeTime);
 		m_ShakeTime += 1.0f;//揺らす速さ
 		m_ShakeVector *= 0.9f;
 
-		/*m_Target = player->GetPosition() + Vector3{ CAMERA_TARGET_FP_X + (sinf(m_Rotation.m_y)* 5.0f), CAMERA_TARGET_FP_Y , CAMERA_TARGET_FP_Z + (cosf(m_Rotation.m_y) * 5.0f) };*/
-		m_Target = m_Position + Vector3{(sinf(m_Rotation.m_y) * 5.0f), 0.0f,(cosf(m_Rotation.m_y) * 5.0f)};
+		/*m_Target = player->GetPosition() + Vector3{ CAMERA_TARGET_FP_X + (sinf(m_Rotation.y)* 5.0f), CAMERA_TARGET_FP_Y , CAMERA_TARGET_FP_Z + (cosf(m_Rotation.y) * 5.0f) };*/
+		m_Target = m_Position + Vector3{(sinf(m_Rotation.y) * 5.0f), 0.0f,(cosf(m_Rotation.y) * 5.0f)};
 
 
-		//m_Position = { player->GetPosition().m_x + CAMERA_LENGTH_FP_X , player->GetPosition().m_y + CAMERA_LENGTH_FP_Y , player->GetPosition().m_z + CAMERA_LENGTH_FP_Z };
+		//m_Position = { player->GetPosition().x + CAMERA_LENGTH_FP_X , player->GetPosition().y + CAMERA_LENGTH_FP_Y , player->GetPosition().z + CAMERA_LENGTH_FP_Z };
+		
+	}
+	else if (m_Mode == CAMERA_MODE_TITLE)
+	{
+		Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+		if (player == nullptr) return;
+
+		/*m_Target = player->GetRight()* 5.0f;
+		m_Target.y = 1.0f;*/
+
+		m_Target = player->GetPosition() * 5.0f;
+
+		//m_Position = { m_Target.x + (-sinf(m_Rotation.y) * 5.0f), m_Target.y + CAMERA_LENGTH_TITLE_Y , m_Target.z + (-cosf(m_Rotation.y) * 5.0f) };
+
+		//カメラは必ずプレイヤーの右からとるように設定
+		m_Position = { 0.0f , 3.0f , 0.0f };
 		
 	}
 

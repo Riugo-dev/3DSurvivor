@@ -109,7 +109,7 @@ void EXPUI::Update()
 		colorchange();
 	}
 
-	//m_Position.m_x = (SCREEN_WIDTH - 210.0f) - (EXP_BAR_WIDTH - m_expbarwidth);
+	//m_Position.x = (SCREEN_WIDTH - 210.0f) - (EXP_BAR_WIDTH - m_expbarwidth);
 }
 
 void EXPUI::Draw()
@@ -228,22 +228,22 @@ void EXPUI::drawexpbar()
 
 	{
 		vertex[0].Position = XMFLOAT3(x, y, 0.0f);
-		vertex[0].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[0].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[0].TexCoord = XMFLOAT2(tx, ty);
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
-		vertex[1].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[1].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
 		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
-		vertex[2].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[2].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
 		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
-		vertex[3].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[3].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
 		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	}
@@ -279,22 +279,22 @@ void EXPUI::drawexpbarmax()
 
 	{
 		vertex[0].Position = XMFLOAT3(x, y, 0.0f);
-		vertex[0].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[0].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[0].TexCoord = XMFLOAT2(tx, ty);
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
-		vertex[1].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[1].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
 		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
-		vertex[2].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[2].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
 		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
-		vertex[3].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, 1.0f);
+		vertex[3].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
 		vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
 		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	}
@@ -319,11 +319,11 @@ void EXPUI::colorchange()
 	{//とりあえずカラーチェンジ後々一定の強さで打たないと出ないように
 		if (RedToOrange)
 		{
-			m_color.m_y += 0.01f;
+			m_color.y += 0.01f;
 
-			if (m_color.m_y >= 0.5f)
+			if (m_color.y >= 0.5f)
 			{
-				m_color.m_y = 0.5f;
+				m_color.y = 0.5f;
 
 				RedToOrange = false;
 				OrangeToYellow = true;
@@ -331,11 +331,11 @@ void EXPUI::colorchange()
 		}
 		else if (OrangeToYellow)
 		{
-			m_color.m_y += 0.01f;
+			m_color.y += 0.01f;
 
-			if (m_color.m_y >= 1.0f)
+			if (m_color.y >= 1.0f)
 			{
-				m_color.m_y = 1.0f;
+				m_color.y = 1.0f;
 
 				OrangeToYellow = false;
 				YellowToGreen = true;
@@ -343,11 +343,11 @@ void EXPUI::colorchange()
 		}
 		else if (YellowToGreen)
 		{
-			m_color.m_x -= 0.02f;
+			m_color.x -= 0.02f;
 
-			if (m_color.m_x <= 0.0f)
+			if (m_color.x <= 0.0f)
 			{
-				m_color.m_x = 0.0f;
+				m_color.x = 0.0f;
 
 				YellowToGreen = false;
 				GreenToLightBlue = true;
@@ -355,11 +355,11 @@ void EXPUI::colorchange()
 		}
 		else if (GreenToLightBlue)
 		{
-			m_color.m_z += 0.02f;
+			m_color.z += 0.02f;
 
-			if (m_color.m_z >= 1.0f)
+			if (m_color.z >= 1.0f)
 			{
-				m_color.m_z = 1.0f;
+				m_color.z = 1.0f;
 
 				GreenToLightBlue = false;
 				LightBlueToBlue = true;
@@ -367,11 +367,11 @@ void EXPUI::colorchange()
 		}
 		else if (LightBlueToBlue)
 		{
-			m_color.m_y -= 0.02f;
+			m_color.y -= 0.02f;
 
-			if (m_color.m_y <= 0.0f)
+			if (m_color.y <= 0.0f)
 			{
-				m_color.m_y = 0.0f;
+				m_color.y = 0.0f;
 
 				LightBlueToBlue = false;
 				BlueToPurple = true;
@@ -379,13 +379,13 @@ void EXPUI::colorchange()
 		}
 		else if (BlueToPurple)
 		{
-			m_color.m_x += 0.005f;
-			m_color.m_z -= 0.005f;
+			m_color.x += 0.005f;
+			m_color.z -= 0.005f;
 
-			if (m_color.m_x >= 0.5f)
+			if (m_color.x >= 0.5f)
 			{
-				m_color.m_x = 0.5f;
-				m_color.m_z = 0.5f;
+				m_color.x = 0.5f;
+				m_color.z = 0.5f;
 
 				BlueToPurple = false;
 				PurpleToRed = true;
@@ -393,13 +393,13 @@ void EXPUI::colorchange()
 		}
 		else if (PurpleToRed)
 		{
-			m_color.m_x += 0.005f;
-			m_color.m_z -= 0.005f;
+			m_color.x += 0.005f;
+			m_color.z -= 0.005f;
 
-			if (m_color.m_x >= 1.0f)
+			if (m_color.x >= 1.0f)
 			{
-				m_color.m_x = 1.0f;
-				m_color.m_z = 0.0f;
+				m_color.x = 1.0f;
+				m_color.z = 0.0f;
 
 				PurpleToRed = false;
 				RedToOrange = true;

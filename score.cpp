@@ -22,10 +22,10 @@ Score::Score(Vector3 size, Vector3 position, int movementx, int movementy, Vecto
 	m_Position = position;
 	VERTEX_3D vertex[24];
 	//上面
-	m_VertexPosition[0] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[1] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[2] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
-	m_VertexPosition[3] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
+	m_VertexPosition[0] = XMFLOAT3(position.x - m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[1] = XMFLOAT3(position.x + m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[2] = XMFLOAT3(position.x - m_Scale.x, position.y - m_Scale.y, position.z);
+	m_VertexPosition[3] = XMFLOAT3(position.x + m_Scale.x, position.y - m_Scale.y, position.z);
 
 	//vertex[0].Position = XMFLOAT3(-10.0f, 0.0f, 10.0f);
 	vertex[0].Position = m_VertexPosition[0];
@@ -103,12 +103,12 @@ void Score::Uninit()
 void Score::Update()
 {
 
-	//m_Position.m_x += m_movement_x;
-	//m_Position.m_y += m_movement_y;
+	//m_Position.x += m_movement_x;
+	//m_Position.y += m_movement_y;
 
-	//if (m_Rotation.m_x > 0.0f)
+	//if (m_Rotation.x > 0.0f)
 	//{
-	//	m_Rotation.m_x += 1.0f / 360.0f;
+	//	m_Rotation.x += 1.0f / 360.0f;
 	//}
 
 	//updateposition();
@@ -130,13 +130,13 @@ void Score::Draw()
 	Renderer::SetWorldViewProjection2D();
 
 	//平行移動行列の作成（表示座標を決める）
-	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, 0.0f);
+	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, 0.0f);
 
 	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, m_Rotation.m_z);
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, m_Rotation.z);
 
 	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, 1.0f);
+	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
 
 	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
@@ -268,13 +268,13 @@ void Score::Draw()
 
 void Score::SetScore(float x, float y, float width, float height, const char* filename)
 {
-	///*m_Scale.m_x = width;
-	//m_Scale.m_y = height;
-	//m_Scale.m_z = 1.0f;
+	///*m_Scale.x = width;
+	//m_Scale.y = height;
+	//m_Scale.z = 1.0f;
 
-	//m_Position.m_x = x;
-	//m_Position.m_y = y;
-	//m_Position.m_z = 1.0f;
+	//m_Position.x = x;
+	//m_Position.y = y;
+	//m_Position.z = 1.0f;
 
 	//テクスチャ読み込み
 	//m_Texture = Texture::Load(filename);

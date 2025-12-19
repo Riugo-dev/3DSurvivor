@@ -45,22 +45,22 @@ Fade::Fade()
 		float ty = 0;
 
 		vertex[0].Position = XMFLOAT3(x, y, 0.0f);
-		vertex[0].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);;
+		vertex[0].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);;
 		vertex[0].TexCoord = XMFLOAT2(tx, ty);
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
-		vertex[1].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);
+		vertex[1].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);
 		vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
 		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
-		vertex[2].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);;
+		vertex[2].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);;
 		vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
 		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
-		vertex[3].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);;
+		vertex[3].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);;
 		vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
 		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
@@ -125,7 +125,7 @@ void Fade::Draw()
 
 		//É}ÉeÉäÉAÉãê›íË
 		MATERIAL material{};
-		material.Diffuse = { m_color.m_x, m_color.m_y, m_color.m_z, m_trans };
+		material.Diffuse = { m_color.x, m_color.y, m_color.z, m_trans };
 		material.TextureEnable = true;
 		Renderer::SetMaterial(material);
 
@@ -157,22 +157,22 @@ void Fade::Draw()
 
 
 		vertex[0].Position = XMFLOAT3(x, y, 0.0f);
-		vertex[0].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);
+		vertex[0].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);
 		vertex[0].TexCoord = XMFLOAT2(tx, ty);
 		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
-		vertex[1].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);
+		vertex[1].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);
 		vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
 		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
-		vertex[2].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);
+		vertex[2].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);
 		vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
 		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 		vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
-		vertex[3].Diffuse = XMFLOAT4(m_color.m_x, m_color.m_y, m_color.m_z, m_trans);
+		vertex[3].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, m_trans);
 		vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
 		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 

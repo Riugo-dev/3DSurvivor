@@ -62,7 +62,7 @@ public:
 	Vector3 GetRight()
 	{
 		XMMATRIX matrix;
-		matrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		matrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		Vector3 right;
 		XMStoreFloat3((XMFLOAT3*)&right, matrix.r[0]);
@@ -73,7 +73,7 @@ public:
 	Vector3 GetFoward()
 	{
 		XMMATRIX matrix;
-		matrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		matrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		Vector3 foward;
 		XMStoreFloat3((XMFLOAT3*)&foward, matrix.r[2]);

@@ -36,6 +36,7 @@ public:
 	~Polygon2D();
 
 	void Init(Input*) override;
+	void Initialize(float, float, float, float, const char*);
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

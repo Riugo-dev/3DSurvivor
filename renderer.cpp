@@ -30,9 +30,16 @@ ID3D11Buffer*			Renderer::m_CameraBuffer{};
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
 ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
 
+ID3D11DepthStencilState* Renderer::m_StencilWrite{};
+ID3D11DepthStencilState* Renderer::m_StencilRead{};
 
 ID3D11BlendState*		Renderer::m_BlendState{};
 ID3D11BlendState*		Renderer::m_BlendStateATC{};
+ID3D11BlendState* Renderer::m_BlendStateAdd{};
+ID3D11BlendState* Renderer::m_BlendStateMask{};
+
+ID3D11RasterizerState* Renderer::m_RasterizerStateCullBack{};
+ID3D11RasterizerState* Renderer::m_RasterizerStateCullNone{};
 
 
 
@@ -59,7 +66,7 @@ void Renderer::Init()
 	swapChainDesc.Windowed = TRUE;
 
 	hr = D3D11CreateDeviceAndSwapChain
-	( 
+	(
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
@@ -71,7 +78,7 @@ void Renderer::Init()
 		&m_SwapChain,
 		&m_Device,
 		&m_FeatureLevel,
-		&m_DeviceContext );
+		&m_DeviceContext);
 
 
 
@@ -80,8 +87,8 @@ void Renderer::Init()
 
 	// レンダーターゲットビュー作成
 	ID3D11Texture2D* renderTarget{};
-	m_SwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&renderTarget );
-	m_Device->CreateRenderTargetView( renderTarget, NULL, &m_RenderTargetView );
+	m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&renderTarget);
+	m_Device->CreateRenderTargetView(renderTarget, NULL, &m_RenderTargetView);
 	renderTarget->Release();
 
 
@@ -92,7 +99,7 @@ void Renderer::Init()
 	textureDesc.Height = swapChainDesc.BufferDesc.Height;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_D16_UNORM;
+	textureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;//ステンシルバッファ作成		（過去のもの）DXGI_FORMAT_D16_UNORM
 	textureDesc.SampleDesc = swapChainDesc.SampleDesc;
 	textureDesc.Usage = D3D11_USAGE_DEFAULT;
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
@@ -123,21 +130,23 @@ void Renderer::Init()
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	m_DeviceContext->RSSetViewports( 1, &viewport );
+	m_DeviceContext->RSSetViewports(1, &viewport);
 
 
 
 	// ラスタライザステート設定
 	D3D11_RASTERIZER_DESC rasterizerDesc{};
-	rasterizerDesc.FillMode = D3D11_FILL_SOLID; 
-	rasterizerDesc.CullMode = D3D11_CULL_BACK; 
-	rasterizerDesc.DepthClipEnable = TRUE; 
-	rasterizerDesc.MultisampleEnable = FALSE; 
+	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+	rasterizerDesc.DepthClipEnable = TRUE;
+	rasterizerDesc.MultisampleEnable = FALSE;
 
-	ID3D11RasterizerState *rs;
-	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
+	rasterizerDesc.CullMode = D3D11_CULL_BACK; //D3D11_CULL_FRONTで描画する部分が反転する（裏面描画）
+	m_Device->CreateRasterizerState(&rasterizerDesc, &m_RasterizerStateCullBack);
 
-	m_DeviceContext->RSSetState( rs );
+	rasterizerDesc.CullMode = D3D11_CULL_NONE; //D3D11_CULL_FRONTで描画する部分が反転する（裏面描画）→これは古く現在は同時描画が可能なので D3D11_CULL_NONE 良い
+	m_Device->CreateRasterizerState(&rasterizerDesc, &m_RasterizerStateCullNone);
+
+	m_DeviceContext->RSSetState(m_RasterizerStateCullBack);
 
 
 
@@ -155,13 +164,21 @@ void Renderer::Init()
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	m_Device->CreateBlendState( &blendDesc, &m_BlendState );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendState);
+
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateAdd);
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0;
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateMask);
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	blendDesc.AlphaToCoverageEnable = TRUE;
-	m_Device->CreateBlendState( &blendDesc, &m_BlendStateATC );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateATC);
 
-	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff );
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
 
 
@@ -170,19 +187,42 @@ void Renderer::Init()
 	// デプスステンシルステート設定
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
 	depthStencilDesc.DepthEnable = TRUE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	depthStencilDesc.StencilEnable = FALSE;
 
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateEnable );//深度有効ステート
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateEnable);//深度有効ステート
 
 	//depthStencilDesc.DepthEnable = FALSE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateDisable );//深度無効ステート
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateDisable);//深度無効ステート
 
-	m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
+	m_DeviceContext->OMSetDepthStencilState(m_DepthStateEnable, NULL);
 
+	//ステンシル設定
+	depthStencilDesc.DepthEnable = TRUE;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;//参照はするけど書き込みはしない設定
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
+	depthStencilDesc.StencilEnable = TRUE;
+	depthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	depthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR;//+1の描画をする
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_DECR;//-1の描画する
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilWrite);
+
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_LESS;
+
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilRead);
 
 
 	// サンプラーステート設定
@@ -195,9 +235,9 @@ void Renderer::Init()
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	ID3D11SamplerState* samplerState{};
-	m_Device->CreateSamplerState( &samplerDesc, &samplerState );
+	m_Device->CreateSamplerState(&samplerDesc, &samplerState);
 
-	m_DeviceContext->PSSetSamplers( 0, 1, &samplerState );
+	m_DeviceContext->PSSetSamplers(0, 1, &samplerState);
 
 
 
@@ -210,39 +250,40 @@ void Renderer::Init()
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = sizeof(float);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_WorldBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 0, 1, &m_WorldBuffer);
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_WorldBuffer);
+	m_DeviceContext->VSSetConstantBuffers(0, 1, &m_WorldBuffer);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_ViewBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 1, 1, &m_ViewBuffer );
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_ViewBuffer);
+	m_DeviceContext->VSSetConstantBuffers(1, 1, &m_ViewBuffer);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_ProjectionBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 2, 1, &m_ProjectionBuffer );
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_ProjectionBuffer);
+	m_DeviceContext->VSSetConstantBuffers(2, 1, &m_ProjectionBuffer);
 
+	bufferDesc.ByteWidth = sizeof(XMFLOAT4);
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_CameraBuffer);
+	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_CameraBuffer);
 
 	bufferDesc.ByteWidth = sizeof(MATERIAL);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_MaterialBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 3, 1, &m_MaterialBuffer );
-	m_DeviceContext->PSSetConstantBuffers( 3, 1, &m_MaterialBuffer );
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_MaterialBuffer);
+	m_DeviceContext->VSSetConstantBuffers(3, 1, &m_MaterialBuffer);
+	m_DeviceContext->PSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 
 
 	bufferDesc.ByteWidth = sizeof(LIGHT);
 
-	m_Device->CreateBuffer( &bufferDesc, NULL, &m_LightBuffer );
-	m_DeviceContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
-	m_DeviceContext->PSSetConstantBuffers( 4, 1, &m_LightBuffer );
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_LightBuffer);
+	m_DeviceContext->VSSetConstantBuffers(4, 1, &m_LightBuffer);
+	m_DeviceContext->PSSetConstantBuffers(4, 1, &m_LightBuffer);
 
-	bufferDesc.ByteWidth = sizeof(XMFLOAT4);
 
-	m_Device->CreateBuffer(&bufferDesc, NULL, &m_CameraBuffer);
-	m_DeviceContext->VSSetConstantBuffers(5, 1, &m_CameraBuffer);
-	m_DeviceContext->PSSetConstantBuffers(5, 1, &m_CameraBuffer);
+
+
 
 	// ライト初期化
 	LIGHT light{};
 	light.Enable = true;
-	light.Direction = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
+	light.Direction = XMFLOAT4(1.0f, -1.0f, 0.5f, 0.0f);//長さはⅠにしないといけないからシェーダーでも変更
 	light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = XMFLOAT4(1.5f, 1.5f, 1.5f, 1.0f);
 	SetLight(light);
@@ -255,7 +296,7 @@ void Renderer::Init()
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
-	
+
 
 
 }
@@ -270,6 +311,19 @@ void Renderer::Uninit()
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
+	m_CameraBuffer->Release();
+
+
+	m_DepthStateEnable->Release();
+	m_DepthStateDisable->Release();
+	m_StencilWrite->Release();
+	m_StencilRead->Release();
+	m_BlendState->Release();
+	m_BlendStateATC->Release();
+	m_BlendStateAdd->Release();
+	m_BlendStateMask->Release();
+	m_RasterizerStateCullBack->Release();
+	m_RasterizerStateCullNone->Release();
 
 
 	m_DeviceContext->ClearState();
@@ -285,7 +339,8 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
-	float clearColor[4] = { 0.1f, 0.1f, 0.9f, 1.0f };
+	//float clearColor[4] = { 0.1f, 0.1f, 0.9f, 1.0f };
+	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
 	m_DeviceContext->ClearRenderTargetView( m_RenderTargetView, clearColor );
 	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
@@ -321,6 +376,39 @@ void Renderer::SetATCEnable( bool Enable )
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
 }
+
+void Renderer::SetStencilShadowWrite()
+{
+	//カラーバッファの書き込み無効
+	float blendFactor[4] = { 0.0f , 0.0f , 0.0f , 0.0f };
+	m_DeviceContext->OMSetBlendState(m_BlendStateMask, blendFactor, 0xffffffff);
+
+	//カリングOFF（両面描画）
+	m_DeviceContext->RSSetState(m_RasterizerStateCullNone);
+
+	//ステンシル書き込み
+	m_DeviceContext->OMSetDepthStencilState(m_StencilWrite, NULL);
+}
+
+void Renderer::SetStencilShadowRead()
+{
+	//カラーバッファの書き込み有効
+	float blendFactor[4] = { 0.0f , 0.0f , 0.0f , 0.0f };
+	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
+
+	//カリングON（表面描画）
+	m_DeviceContext->RSSetState(m_RasterizerStateCullBack);
+
+	//ステンシル書き込み
+	m_DeviceContext->OMSetDepthStencilState(m_StencilRead, NULL);
+}
+
+void Renderer::SetStencilShadowNone()
+{
+	//ステンシル無効
+	m_DeviceContext->OMSetDepthStencilState(m_DepthStateEnable, NULL);
+}
+
 
 void Renderer::SetWorldViewProjection2D()
 {
@@ -369,7 +457,7 @@ void Renderer::SetLight( LIGHT Light )
 
 void Renderer::SetCameraPosition(Vector3 CameraPosition)
 {
-	const XMFLOAT4	temp = XMFLOAT4(CameraPosition.m_x, CameraPosition.m_y, CameraPosition.m_z, 0.0f);
+	const XMFLOAT4	temp = XMFLOAT4(CameraPosition.x, CameraPosition.y, CameraPosition.z, 0.0f);
 	m_DeviceContext->UpdateSubresource(m_CameraBuffer, 0, NULL, &temp, 0, 0);
 }
 

@@ -41,6 +41,15 @@ enum Level
 	LEVEL_MAX,
 };
 
+typedef enum
+{
+	NONE,
+	TITLE,
+	GAME,
+
+	MAX,
+}PlayerMode;
+
 
 class Player:public GameObject
 {
@@ -70,13 +79,18 @@ private:
 	bool m_IsInvinceble = false;
 	ModelTags m_ModelTag;
 
+	PlayerMode m_Mode;
 	//‘¬“xŠÖŒW
 	float m_Speed = 0.1f;
 	bool m_IsBoost = false;
 	int m_BoostTime = 0;
 	int m_BoostFrameCount = 0;
-	float m_Aplha = 1.0f;
+	float m_Alpha = 1.0f;
+	bool m_AlphaAdd = false;
 
+	//ƒ^ƒCƒgƒ‹‚ÌŽ©“®ˆÚ“®ŠÖŒW
+	float m_Radian;
+	float m_RotationAngle;
 public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.5f , 0.0f });
 	~Player();
@@ -107,6 +121,7 @@ public:
 
 	void SetBoost();
 
+	void SetMode(PlayerMode mode) { m_Mode = mode; }
 private:
 	void boostchecker();
 };

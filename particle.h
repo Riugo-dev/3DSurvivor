@@ -40,6 +40,8 @@ protected:
 		int LifeFrame;//生存フレーム数
 		Vector3 Position;//現在位置
 		Vector3 Velocity;//速度
+		float Rotation;
+		float RotationSpeed;
 	};
 
 	PARTICLE m_Particle[PARTICLE_MAX];

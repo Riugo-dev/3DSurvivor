@@ -41,7 +41,7 @@ void LevelFiveEnemy::EnemyItemDrop()
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 }
 

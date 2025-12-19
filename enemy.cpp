@@ -69,13 +69,13 @@ void Enemy::Update()
 	float angle_y , angle_x , angle_z;
 
 	
-	angle_y = atan2(to_player.m_x, to_player.m_z);
-	/*angle_x = atan2(to_player.m_y, to_player.m_z);
-	angle_z = atan2(to_player.m_x, to_player.m_y);*/
+	angle_y = atan2(to_player.x, to_player.z);
+	/*angle_x = atan2(to_player.y, to_player.z);
+	angle_z = atan2(to_player.x, to_player.y);*/
 
-	m_Rotation.m_y = angle_y;
-	/*m_Rotation.m_x = angle_x;
-	m_Rotation.m_z = angle_z;*/
+	m_Rotation.y = angle_y;
+	/*m_Rotation.x = angle_x;
+	m_Rotation.z = angle_z;*/
 
 	//Camera* p_camera = Manager::GetGameObject<Camera>();
 
@@ -104,10 +104,10 @@ void Enemy::Update()
 	//}
 
 	//Vector3 rotation = p_camera->GetRotation();
-	//m_Rotation.m_y = rotation.m_y;
+	//m_Rotation.y = rotation.y;
 
-	/*m_Rotation.m_x += 0.1f;
-	m_Rotation.m_y += 0.1f;*/
+	/*m_Rotation.x += 0.1f;
+	m_Rotation.y += 0.1f;*/
 	//m_Rotation.z += 0.1f;
 
 	//updateposition();
@@ -126,13 +126,13 @@ void Enemy::Draw()
 
 
 	//平行移動行列の作成（表示座標を決める）
-	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 	//回転行列（Z回転）行列の作成
-	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;

@@ -36,11 +36,11 @@ void LevelOneMidBoss::MidBossItemDrop()
 
 	if (drop <= 20)
 	{
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.m_x + 0.25f , 1.0f , m_Position.m_z});
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.m_x - 0.25f , 1.0f , m_Position.m_z});
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.x + 0.25f , 1.0f , m_Position.z});
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.x - 0.25f , 1.0f , m_Position.z});
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 }

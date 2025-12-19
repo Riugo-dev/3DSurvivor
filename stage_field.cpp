@@ -138,8 +138,8 @@ void StageField::Draw()
 		{
 		
 			//チャンクの中心座標
-			float offsetX = floorf(campos.m_x / m_FloorSize) * m_FloorSize + i * m_FloorSize;
-			float offsetZ = floorf(campos.m_z / m_FloorSize) * m_FloorSize + j * m_FloorSize;
+			float offsetX = floorf(campos.x / m_FloorSize) * m_FloorSize + i * m_FloorSize;
+			float offsetZ = floorf(campos.z / m_FloorSize) * m_FloorSize + j * m_FloorSize;
 			Vector3 chunkCenter{ offsetX , 0.0f , offsetZ };
 			
 			//カメラ→チャンク方向ベクトル

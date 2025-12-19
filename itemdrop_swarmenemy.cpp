@@ -38,15 +38,15 @@ void ItemDropSwarmEnemy::EnemyItemDrop()
 
 	if (drop >= 1 && drop < 31)
 	{
-		Manager::GetScene()->AddGameObject<HealItem>()->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<HealItem>()->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 	else if (drop >= 31 && drop < 71)
 	{
-		Manager::GetScene()->AddGameObject<VacuumItem>()->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<VacuumItem>()->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<BoostItem>()->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<BoostItem>()->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 	
 }

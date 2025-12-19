@@ -22,9 +22,25 @@ std::unordered_map< ModelTags, std::unique_ptr<ShaderManager>> ModelManager::m_p
 //********************************************************************************
 ModelManager::ModelManager()
 {
+	
+
+
+
+}
+
+ModelManager::~ModelManager()
+{
+	m_pModelRenderers.clear();
+	m_pModelShaders.clear();
+
+	ModelRenderer::UnloadAll();
+}
+
+void ModelManager::Init()
+{
 	m_pModelRenderers[LOWTIER_EXP] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[LOWTIER_EXP]->Load("asset\\model\\LowTierEXPItem.obj");
-	m_pModelShaders[LOWTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG , true);
+	m_pModelShaders[LOWTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
 
 	m_pModelRenderers[MIDTIER_EXP] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[MIDTIER_EXP]->Load("asset\\model\\MidTierEXPItem.obj");
@@ -93,7 +109,7 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SHOOTER_ENEMY_SILVER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SHOOTER_ENEMY_SILVER]->Load("asset\\model\\EnemyShooterMetal.obj");
 	m_pModelShaders[SHOOTER_ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
-	
+
 	m_pModelRenderers[SWARM_ENEMY_RED] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SWARM_ENEMY_RED]->Load("asset\\model\\EnemySwarmRed.obj");
 	m_pModelShaders[SWARM_ENEMY_RED] = std::make_unique<ShaderManager>(SHADER_TOON, true);
@@ -126,32 +142,36 @@ ModelManager::ModelManager()
 	m_pModelRenderers[SKYDOME] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SKYDOME]->Load("asset\\model\\sky.obj");
 	m_pModelShaders[SKYDOME] = std::make_unique<ShaderManager>(SHADER_UNLITTEXT);
-
-
-
 }
 
-ModelManager::~ModelManager()
+void ModelManager::InitTitle()
 {
-	m_pModelRenderers.clear();
-	m_pModelShaders.clear();
+	m_pModelRenderers[PLAYER] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[PLAYER]->Load("asset\\model\\player.obj");
+	m_pModelShaders[PLAYER] = std::make_unique<ShaderManager>(SHADER_TOON);
 
-	ModelRenderer::UnloadAll();
+	m_pModelRenderers[SKYDOME] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SKYDOME]->Load("asset\\model\\sky.obj");
+	m_pModelShaders[SKYDOME] = std::make_unique<ShaderManager>(SHADER_UNLITTEXT);
+
+	m_pModelRenderers[SHADOW] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[SHADOW]->Load("asset\\model\\cylinder.obj");
+	m_pModelShaders[SHADOW] = std::make_unique<ShaderManager>(SHADER_DIRECTIONLIGHTING);
 }
 
-void ModelManager::ModelDraw(ModelTags modeltag , float alpha)
+void ModelManager::ModelDraw(ModelTags modeltag)
 {
 	if (m_pModelRenderers.count(modeltag))
 	{
-		if (modeltag == PLAYER)
-		{
-			m_pModelRenderers[modeltag]->Draw(alpha);
-		}
-		else
-		{
-			m_pModelRenderers[modeltag]->Draw();
-		}
-		
+		m_pModelRenderers[modeltag]->Draw();
+	}
+}
+
+void ModelManager::ModelDrawAlpha(ModelTags modeltag, float alpha)
+{
+	if (m_pModelRenderers.count(modeltag))
+	{
+		m_pModelRenderers[modeltag]->Draw(alpha);
 	}
 }
 

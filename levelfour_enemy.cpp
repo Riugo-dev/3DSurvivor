@@ -37,11 +37,11 @@ void LevelFourEnemy::EnemyItemDrop()
 
 	if (drop <= 20)
 	{
-		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 	else
 	{
-		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		Manager::GetScene()->AddGameObject<MidTierExpItem>(1)->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 }
 

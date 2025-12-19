@@ -18,19 +18,19 @@ class Vector3
 {
 public:
 	//パブリックな表現：ここに書かれるものは、多くない
-	float m_x;
-	float m_y;
-	float m_z;
+	float x;
+	float y;
+	float z;
 
 //コンストラクタ
 	//デフォルトのコンストラクタはベクトルは未決定な状態になる
 	Vector3() {}
 
 	//コピーコンストラクタ
- 	Vector3(const Vector3& a) : m_x(a.m_x), m_y(a.m_y), m_z(a.m_z) {}
+ 	Vector3(const Vector3& a) : x(a.x), y(a.y), z(a.z) {}
 
 	//三つの値で作成する
-	Vector3(float x, float y, float z) : m_x(x), m_y(y), m_z(z) {}
+	Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 //標準的なオブジェクトの保守
 
@@ -38,9 +38,9 @@ public:
 
 	Vector3& operator = (const Vector3& a)
 	{
-		m_x = a.m_x;
-		m_y = a.m_y;
-		m_z = a.m_z;
+		x = a.x;
+		y = a.y;
+		z = a.z;
 		return *this;
 	}
 
@@ -48,47 +48,47 @@ public:
 
 	bool operator == (const Vector3& a) const
 	{
-		return m_x == a.m_x && m_y == a.m_y && m_z == a.m_z;
+		return x == a.x && y == a.y && z == a.z;
 	}
 
 	bool operator != (const Vector3& a) const
 	{
-		return m_x != a.m_x || m_y != a.m_y || m_z != a.m_z;
+		return x != a.x || y != a.y || z != a.z;
 	}
 
 //ベクトルの操作
 	//ベクトルを０に設定する
 
-	void Zero() { m_x = m_y = m_z = 0.0f; }
+	void Zero() { x = y = z = 0.0f; }
 
 	//単項式のマイナスは、反転したベクトルを返す
 
-	Vector3 operator -() const { return Vector3(-m_x, -m_y, -m_z); }
+	Vector3 operator -() const { return Vector3(-x, -y, -z); }
 
 	//二項式の＋と－はベクトルを加算し、減算する
 
 	Vector3 operator + (const Vector3& a) const
 	{
-		return Vector3(m_x + a.m_x, m_y + a.m_y, m_z + a.m_z);
+		return Vector3(x + a.x, y + a.y, z + a.z);
 	}
 
 	Vector3 operator - (const Vector3& a) const
 	{
-		return Vector3(m_x - a.m_x, m_y - a.m_y, m_z - a.m_z);
+		return Vector3(x - a.x, y - a.y, z - a.z);
 	}
 
 	//スカラーによる乗算と除算
 
 	Vector3 operator * (float a) const
 	{
-		return Vector3(m_x * a, m_y * a, m_z * a);
+		return Vector3(x * a, y * a, z * a);
 	}
 
 	Vector3 operator / (float a) const
 	{
 		float oneOverA = 1.0f / a;//ここではゼロ除算をチェックしてはならない
 		
-		return Vector3(m_x * oneOverA, m_y * oneOverA, m_z * oneOverA);
+		return Vector3(x * oneOverA, y * oneOverA, z * oneOverA);
 				
 	}
 
@@ -96,27 +96,27 @@ public:
 
 	Vector3& operator += (const Vector3& a)
 	{
-		m_x += a.m_x;
-		m_y += a.m_y;
-		m_z += a.m_z;
+		x += a.x;
+		y += a.y;
+		z += a.z;
 		return *this;
 	}
 
 
 	Vector3& operator -= (const Vector3& a)
 	{
-		m_x -= a.m_x;
-		m_y -= a.m_y;
-		m_z -= a.m_z;
+		x -= a.x;
+		y -= a.y;
+		z -= a.z;
 		return *this;
 	}
 
 
 	Vector3& operator *= (float a)
 	{
-		m_x *= a;
-		m_y *= a;
-		m_z *= a;
+		x *= a;
+		y *= a;
+		z *= a;
 		return *this;
 	}
 
@@ -124,9 +124,9 @@ public:
 	{
 		float oneOverA = 1.0f / a;//ここではゼロ除算をチェックしてはならない
 
-		m_x *= oneOverA;
-		m_y *= oneOverA;
-		m_z *= oneOverA;
+		x *= oneOverA;
+		y *= oneOverA;
+		z *= oneOverA;
 
 		return *this;
 
@@ -135,34 +135,34 @@ public:
 	//ベクトルを正規化する
 	void normalize()
 	{
-		float magSq = m_x * m_x + m_y * m_y + m_z * m_z;
+		float magSq = x * x + y * y + z * z;
 		if (magSq > 0.0f)
 		{
 			//０除算をチェックする
 			float oneOverMag = 1.0f / sqrt(magSq);
-			m_x *= oneOverMag;
-			m_y *= oneOverMag;
-			m_z *= oneOverMag;
+			x *= oneOverMag;
+			y *= oneOverMag;
+			z *= oneOverMag;
 		}
 	}
 
 	Vector3 normalized()
 	{
-		float magSq = m_x * m_x + m_y * m_y + m_z * m_z;
+		float magSq = x * x + y * y + z * z;
 		if (magSq > 0.0f)
 		{
 			//０除算をチェックする
 			float oneOverMag = 1.0f / sqrt(magSq);
-			m_x *= oneOverMag;
-			m_y *= oneOverMag;
-			m_z *= oneOverMag;
+			x *= oneOverMag;
+			y *= oneOverMag;
+			z *= oneOverMag;
 		}
-		return{ m_x , m_y , m_z };
+		return{ x , y , z };
 	}
 
 	float length() const
 	{
-		return sqrtf(m_x * m_x + m_y * m_y + m_z * m_z);
+		return sqrtf(x * x + y * y + z * z);
 	}
 	
 	////ベクトルの内積・・・標準の乗算記号をこれにオーバーロードする
@@ -170,7 +170,7 @@ public:
 	//ベクトルの内積計算
 	static float dot(const Vector3& a, const Vector3& b)
 	{
-		return a.m_x * b.m_x + a.m_y * b.m_y + a.m_z * b.m_z;
+		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
 
@@ -179,9 +179,9 @@ public:
 	static Vector3 cross(const Vector3& a, const Vector3& b)
 	{
 		Vector3 ret;
-		ret.m_x = a.m_y * b.m_z - a.m_z * b.m_y;
-		ret.m_y = a.m_z * b.m_x - a.m_x * b.m_z;
-		ret.m_z = a.m_x * b.m_y - a.m_y * b.m_x;
+		ret.x = a.y * b.z - a.z * b.y;
+		ret.y = a.z * b.x - a.x * b.z;
+		ret.z = a.x * b.y - a.y * b.x;
 		return ret;
 	}
 };

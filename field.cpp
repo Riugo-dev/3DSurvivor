@@ -22,10 +22,10 @@ Field::Field(Vector3 size , Vector3 position , int movementx , int movementy , V
 	m_Position = position;
 	VERTEX_3D vertex[24];
 	//上面
-	m_VertexPosition[0] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y , position.m_z + m_Scale.m_z);
-	m_VertexPosition[1] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y , position.m_z + m_Scale.m_z);
-	m_VertexPosition[2] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y , position.m_z - m_Scale.m_z);
-	m_VertexPosition[3] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y , position.m_z - m_Scale.m_z);
+	m_VertexPosition[0] = XMFLOAT3(position.x - m_Scale.x, position.y , position.z + m_Scale.z);
+	m_VertexPosition[1] = XMFLOAT3(position.x + m_Scale.x, position.y , position.z + m_Scale.z);
+	m_VertexPosition[2] = XMFLOAT3(position.x - m_Scale.x, position.y , position.z - m_Scale.z);
+	m_VertexPosition[3] = XMFLOAT3(position.x + m_Scale.x, position.y , position.z - m_Scale.z);
 
 	/*m_Position[0] = XMFLOAT3(position.x - m_Size.x, position.y , position.z - m_Size.z);
 	m_Position[1] = XMFLOAT3(position.x + m_Size.x, position.y , position.z - m_Size.z);
@@ -149,7 +149,7 @@ void Field::Draw()
 
 
 	//平行移動行列の作成（表示座標を決める）
-	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x , m_Position.m_y, m_Position.m_z);
+	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x , m_Position.y, m_Position.z);
 
 	//回転行列（Z回転）行列の作成
 	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);

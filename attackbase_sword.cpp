@@ -45,11 +45,11 @@ void BaseAttackSword::Update()
 {
 	float dt = 0.1f;
 
-	m_Velocity.m_y += m_gravity * dt;
+	m_Velocity.y += m_gravity * dt;
 	m_Position += m_Velocity * dt;
-	m_Rotation.m_z += 1.0f;
+	m_Rotation.z += 1.0f;
 
-	if (m_Position.m_y <= -1.0f)
+	if (m_Position.y <= -1.0f)
 	{
 		m_IsDestroy = true;
 	}

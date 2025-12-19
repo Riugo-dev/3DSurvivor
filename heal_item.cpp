@@ -32,7 +32,7 @@ HealItem::~HealItem()
 
 void HealItem::Update()
 {
-	m_Rotation.m_y += 0.1f;
+	m_Rotation.y += 0.1f;
 
 	Player* player = Manager::GetScene()->GetGameObject<Player>();
 	

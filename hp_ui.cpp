@@ -25,10 +25,10 @@ HPUI::HPUI()
 	m_Position = { 0.0f , 0.0f , 0.0f };
 	VERTEX_3D vertex[4];
 	//è„ñ 
-	m_VertexPosition[0] = XMFLOAT3(m_Position.m_x - m_Scale.m_x, m_Position.m_y + m_Scale.m_y, m_Position.m_z);
-	m_VertexPosition[1] = XMFLOAT3(m_Position.m_x + m_Scale.m_x, m_Position.m_y + m_Scale.m_y, m_Position.m_z);
-	m_VertexPosition[2] = XMFLOAT3(m_Position.m_x - m_Scale.m_x, m_Position.m_y - m_Scale.m_y, m_Position.m_z);
-	m_VertexPosition[3] = XMFLOAT3(m_Position.m_x + m_Scale.m_x, m_Position.m_y - m_Scale.m_y, m_Position.m_z);
+	m_VertexPosition[0] = XMFLOAT3(m_Position.x - m_Scale.x, m_Position.y + m_Scale.y, m_Position.z);
+	m_VertexPosition[1] = XMFLOAT3(m_Position.x + m_Scale.x, m_Position.y + m_Scale.y, m_Position.z);
+	m_VertexPosition[2] = XMFLOAT3(m_Position.x - m_Scale.x, m_Position.y - m_Scale.y, m_Position.z);
+	m_VertexPosition[3] = XMFLOAT3(m_Position.x + m_Scale.x, m_Position.y - m_Scale.y, m_Position.z);
 
 	//vertex[0].Position = XMFLOAT3(-10.0f, 0.0f, 10.0f);
 	vertex[0].Position = m_VertexPosition[0];

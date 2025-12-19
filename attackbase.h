@@ -58,13 +58,13 @@ public:
 			//Manager::GetShaders()->SetShaders(m_Shader);
 
 			//平行移動行列の作成（表示座標を決める）
-			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 			//回転行列（Z回転）行列の作成
-			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;

@@ -27,10 +27,10 @@ Particle::Particle(Vector3 size, Vector3 position, int movementx, int movementy,
 	m_Position = position;
 	VERTEX_3D vertex[24];
 	//上面
-	m_VertexPosition[0] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[1] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y + m_Scale.m_y, position.m_z);
-	m_VertexPosition[2] = XMFLOAT3(position.m_x - m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
-	m_VertexPosition[3] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y - m_Scale.m_y, position.m_z);
+	m_VertexPosition[0] = XMFLOAT3(position.x - m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[1] = XMFLOAT3(position.x + m_Scale.x, position.y + m_Scale.y, position.z);
+	m_VertexPosition[2] = XMFLOAT3(position.x - m_Scale.x, position.y - m_Scale.y, position.z);
+	m_VertexPosition[3] = XMFLOAT3(position.x + m_Scale.x, position.y - m_Scale.y, position.z);
 
 	//vertex[0].Position = XMFLOAT3(-10.0f, 0.0f, 10.0f);
 	vertex[0].Position = m_VertexPosition[0];
@@ -224,22 +224,22 @@ void Particle::Draw()
 	//VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 	//{
 	//	vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
-	//	vertex[0].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+	//	vertex[0].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 	//	vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 	//	vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	//	vertex[1].Position = XMFLOAT3(1.0f, 1.0f, 0.0f);
-	//	vertex[1].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+	//	vertex[1].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 	//	vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
 	//	vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	//	vertex[2].Position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
-	//	vertex[2].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+	//	vertex[2].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 	//	vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
 	//	vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 	//	vertex[3].Position = XMFLOAT3(1.0f, -1.0f, 0.0f);
-	//	vertex[3].Diffuse = XMFLOAT4(m_RGB.m_x, m_RGB.m_y, m_RGB.m_z, 1.0f);
+	//	vertex[3].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
 	//	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
 	//	vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	//}
@@ -294,10 +294,10 @@ void Particle::Draw()
 		if (m_Particle[i].Enable == true)
 		{
 			//平行移動行列の作成（表示座標を決める）
-			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.m_x, m_Particle[i].Position.m_y, m_Particle[i].Position.m_z);
+			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);
 
 			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 			XMMATRIX	WorldMatrix = ScalingMatrix * inView * TranslationMatrix;

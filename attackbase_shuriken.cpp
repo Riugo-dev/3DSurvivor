@@ -49,13 +49,13 @@ void BaseAttackShuriken::Update()
 
 	m_angle += m_rotationspeed;
 
-	m_Position.m_x = pos.m_x + cosf(m_angle) * m_radius;
+	m_Position.x = pos.x + cosf(m_angle) * m_radius;
 
-	m_Position.m_z = pos.m_z + sinf(m_angle) * m_radius;
+	m_Position.z = pos.z + sinf(m_angle) * m_radius;
 
-	m_Position.m_y = pos.m_y;
+	m_Position.y = pos.y;
 
-	m_Rotation.m_y += 2.0f;
+	m_Rotation.y += 2.0f;
 
 	if (m_FrameCount >= m_LivingFrames)
 	{
@@ -72,9 +72,9 @@ void BaseAttackShuriken::SetShuriken(float rad, float speed, Vector3 pos, float 
 
 	m_angle = angle;
 
-	m_Position.m_x = pos.m_x + cosf(m_angle) * m_radius;
+	m_Position.x = pos.x + cosf(m_angle) * m_radius;
 
-	m_Position.m_z = pos.m_z + sinf(m_angle) * m_radius;
+	m_Position.z = pos.z + sinf(m_angle) * m_radius;
 
-	m_Position.m_y = pos.m_y;
+	m_Position.y = pos.y;
 }

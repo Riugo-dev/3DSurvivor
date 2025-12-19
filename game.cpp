@@ -76,6 +76,7 @@ void Game::Init(Input* input)
 	GetGameObject<Fade>()->SetFade(FADE_IN);
 
 	m_pModelManager = new ModelManager;
+	m_pModelManager->Init();
 
 	m_State = GAME_FADEIN;
 
@@ -92,6 +93,8 @@ void Game::Uninit()
 
 	delete m_pModelManager;
 	m_pModelManager = nullptr;
+
+	Renderer::Uninit();
 
 	Scene::Uninit();
 
