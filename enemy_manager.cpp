@@ -436,7 +436,7 @@ void EnemyManager::Init(GameTimer* timer)
 
 		//バッファの作成
 		D3D11_BUFFER_DESC desc{};
-		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.Usage = D3D11_USAGE_DYNAMIC;
 		desc.ByteWidth = sizeof(Vector3) * maxinstance;//ワールド行列のバイトサイズ＊データの個数
 		desc.StructureByteStride = sizeof(Vector3);
 		desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;

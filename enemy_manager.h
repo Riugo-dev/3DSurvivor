@@ -20,7 +20,6 @@ private:
 	struct InstanceBufferData
 	{
 		ID3D11Buffer* Buffer = nullptr;
-		ID3D11ShaderResourceView* EnemySRV = nullptr;
 		std::vector<Vector3> EnemyPosData;
 		ModelRenderer* Model = nullptr;
 		ID3D11VertexShader* VertexShader = nullptr;
