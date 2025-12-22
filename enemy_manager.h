@@ -22,6 +22,10 @@ private:
 		ID3D11Buffer* Buffer = nullptr;
 		ID3D11ShaderResourceView* EnemySRV = nullptr;
 		std::vector<Vector3> EnemyPosData;
+		ModelRenderer* Model = nullptr;
+		ID3D11VertexShader* VertexShader = nullptr;
+		ID3D11PixelShader* PixelShader = nullptr;
+		ID3D11InputLayout* InputLayout = nullptr;
 	};
 	std::unordered_map < ModelTags, InstanceBufferData> map_InstanceBuffers;
 
@@ -58,7 +62,7 @@ private:
 	void UpdateInstanceBuffers();
 	void DrawInstanceBuffers();
 	void RegisterInstance(ModelTags , Vector3);
-	std::string GetModelNameByTag(ModelTags);
+	const char* GetModelNameByTag(ModelTags);
 };
 
 #endif // !_ENEMY_MANAGER_H_

@@ -305,13 +305,19 @@ void EnemyManager::DrawInstanceBuffers()
 
 		int instancecount = inst.EnemyPosData.size();
 
-		ModelRenderer* renderer = ModelManager::GetModel(tag);
+		//ModelRenderer* renderer = ModelManager::GetModel(tag);
 
-		if (!renderer) continue;
+		if (!inst.Model) continue;
 
-		ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
+		//ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
 
-		renderer->DrawInstanced(instancecount, inst.EnemySRV);
+
+		Renderer::GetDeviceContext()->IASetInputLayout(inst.InputLayout);
+
+		Renderer::GetDeviceContext()->VSSetShader(inst.VertexShader, NULL, 0);
+		Renderer::GetDeviceContext()->PSSetShader(inst.PixelShader, NULL, 0);
+
+		inst.Model->DrawInstanced(instancecount, inst.EnemySRV);
 
 	}
 
@@ -331,7 +337,7 @@ void EnemyManager::RegisterInstance(ModelTags model, Vector3 world)
 	map_InstanceBuffers[model].EnemyPosData.push_back(inst);
 }
 
-std::string EnemyManager::GetModelNameByTag(ModelTags tags)
+const char* EnemyManager::GetModelNameByTag(ModelTags tags)
 {
 	switch (tags)
 	{
@@ -348,13 +354,13 @@ std::string EnemyManager::GetModelNameByTag(ModelTags tags)
 		return "asset\\model\\EnemyTypePurple.obj";
 		break;
 	case ENEMY_SILVER:
-		return "asset\\model\\EnemyTypeSilver.obj";
+		return "asset\\model\\EnemyTypeMetal.obj";
 		break;
 	case ENEMY_BLACK:
 		return "asset\\model\\EnemyTypeBlack.obj";
 		break;
 	default:
-		return NULL;
+		return nullptr;
 		break;
 	}
 }
@@ -450,18 +456,27 @@ void EnemyManager::Init(GameTimer* timer)
 		srvd.Buffer.NumElements = maxinstance;
 
 		Renderer::GetDevice()->CreateShaderResourceView(inst.Buffer, &srvd, &inst.EnemySRV);
+
+		inst.Model = new ModelRenderer;
+
+		inst.Model->Load(GetModelNameByTag((ModelTags)tag));
+
+		Renderer::CreateVertexShader(&inst.VertexShader, &inst.InputLayout, "shader\\instancetoonVS.cso");
+
+		Renderer::CreatePixelShader(&inst.PixelShader, "shader\\toon1PS.cso");
+
 	}
 
-	for (auto& itr : map_InstanceBuffers)
-	{
-		ModelTags tag = itr.first;
-		InstanceBufferData& inst = itr.second;
+	//for (auto& itr : map_InstanceBuffers)
+	//{
+	//	ModelTags tag = itr.first;
+	//	InstanceBufferData& inst = itr.second;
 
-		//インスタンスが無ければ描画処理を飛ばす
-		if (inst.EnemyPosData.empty() || inst.Buffer == nullptr) continue;
+	//	//インスタンスが無ければ描画処理を飛ばす
+	//	if (inst.EnemyPosData.empty() || inst.Buffer == nullptr) continue;
 
-		int instancecount = (int)inst.EnemyPosData.size();
-	}
+	//	int instancecount = (int)inst.EnemyPosData.size();
+	//}
 
 }
 

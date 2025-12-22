@@ -77,6 +77,8 @@ void ModelRenderer::DrawInstanced(int count , ID3D11ShaderResourceView* srv)
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_Model->VertexBuffer, &stride, &offset);
+
+	Renderer::GetDeviceContext()->IASetIndexBuffer(m_Model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	
 	//ストラクチャードバッファ設定
 	Renderer::GetDeviceContext()->VSSetShaderResources(2, 1, &srv);
