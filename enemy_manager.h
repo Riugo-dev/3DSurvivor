@@ -39,6 +39,7 @@ public:
 	void Uninit();
 	void SpawnEnemy();
 	void DestroyFarEnemy();
+	void Update();
 	void RegisterEnemyInstance(ModelTags, BaseEnemy*);
 	void Draw();
 private:

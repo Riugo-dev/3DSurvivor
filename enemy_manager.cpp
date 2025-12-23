@@ -253,6 +253,12 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 
 void EnemyManager::RegisterToInstanceData()
 {//ここで各登録されたエネミーをデータとして登録する
+	
+	for (auto& itr : map_InstanceBuffers)
+	{
+		itr.second.EnemyPosData.clear();
+	}
+
 	for (auto& itr : map_Enemies)
 	{
 		ModelTags tag = itr.first;
@@ -305,27 +311,22 @@ void EnemyManager::DrawInstanceBuffers()
 
 		int instancecount = inst.EnemyPosData.size();
 
-		//ModelRenderer* renderer = ModelManager::GetModel(tag);
+		ModelRenderer* renderer = ModelManager::GetModel(tag);
 
 		if (!inst.Model) continue;
 
-		//ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
+		ModelManager::SetShaders(tag, SHADER_INSTANCETOON);
 
 
-		Renderer::GetDeviceContext()->IASetInputLayout(inst.InputLayout);
+		/*Renderer::GetDeviceContext()->IASetInputLayout(inst.InputLayout);
 
 		Renderer::GetDeviceContext()->VSSetShader(inst.VertexShader, NULL, 0);
-		Renderer::GetDeviceContext()->PSSetShader(inst.PixelShader, NULL, 0);
+		Renderer::GetDeviceContext()->PSSetShader(inst.PixelShader, NULL, 0);*/
 
-		inst.Model->DrawInstanced(instancecount, inst.EnemySRV);
-
+		//ModelRenderer::DrawInstanced(instancecount, inst.EnemySRV);
+		
+		renderer->DrawInstanced(instancecount, inst.EnemySRV);
 	}
-
-	for (auto& itr : map_InstanceBuffers)
-	{
-		itr.second.EnemyPosData.clear();
-	}
-
 }
 
 void EnemyManager::RegisterInstance(ModelTags model, Vector3 world)
@@ -389,6 +390,12 @@ void EnemyManager::DestroyFarEnemy()
 
 }
 
+void EnemyManager::Update()
+{
+	//イスタンスバッファのデータ登録
+	RegisterToInstanceData();
+}
+
 void EnemyManager::RegisterEnemyInstance(ModelTags tags, BaseEnemy* penemy)
 {
 	map_Enemies[tags].push_back(penemy);
@@ -396,9 +403,6 @@ void EnemyManager::RegisterEnemyInstance(ModelTags tags, BaseEnemy* penemy)
 
 void EnemyManager::Draw()
 {
-	//イスタンスバッファのデータ登録
-	RegisterToInstanceData();
-
 	//インスタンスバッファの更新処理
 	UpdateInstanceBuffers();
 

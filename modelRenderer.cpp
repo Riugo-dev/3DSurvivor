@@ -94,7 +94,7 @@ void ModelRenderer::DrawInstanced(int count , ID3D11ShaderResourceView* srv)
 			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
 		}
 
-		Renderer::GetDeviceContext()->DrawInstanced(m_Model->SubsetArray[i].IndexNum, count, m_Model->SubsetArray[i].StartIndex, 0);
+		Renderer::GetDeviceContext()->DrawInstanced(m_Model->SubsetArray[i].IndexNum, (UINT)count, m_Model->SubsetArray[i].StartIndex, 0);
 	}
 
 	
