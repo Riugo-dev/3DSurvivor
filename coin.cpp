@@ -48,7 +48,7 @@ Coin::~Coin()
 	m_PixelShader->Release();
 }
 
-void Coin::Init(Input* p_input)
+void Coin::Init()
 {
 	//m_pInput = p_input;
 }

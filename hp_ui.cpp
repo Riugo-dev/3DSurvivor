@@ -87,7 +87,7 @@ HPUI::~HPUI()
 	m_PixelShader->Release();
 }
 
-void HPUI::Init(Input*)
+void HPUI::Init()
 {
 }
 

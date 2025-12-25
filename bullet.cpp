@@ -57,7 +57,7 @@ Bullet::~Bullet()
 	m_PixelShader->Release();
 }
 
-void Bullet::Init(Input* p_input)
+void Bullet::Init()
 {
 	//m_pInput = p_input;
 }

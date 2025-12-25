@@ -14,8 +14,13 @@
 class LevelThreeShooterEnemy : public ShooterBaseEnemy
 {
 public:
-	LevelThreeShooterEnemy();
+	LevelThreeShooterEnemy() = default;
 	~LevelThreeShooterEnemy()override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

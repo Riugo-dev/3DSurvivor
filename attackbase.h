@@ -38,7 +38,7 @@ protected:
 public:
 	virtual ~BaseAttack() = default;
 
-	void Init(Input*)override {};
+	void Init()override {};
 	void Uninit() override {};
 	virtual void Update() = 0;
 

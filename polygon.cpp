@@ -87,7 +87,7 @@ Polygon2D::~Polygon2D()
 	m_PixelShader->Release();
 }
 
-void Polygon2D::Init(Input*)
+void Polygon2D::Init()
 {
 }
 

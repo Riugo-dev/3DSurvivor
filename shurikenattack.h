@@ -22,7 +22,7 @@ public:
 	ShurikenAttack();
 	~ShurikenAttack() override {};
 
-	void Init(Input*) override {};
+	void Init() override {};
 	void Uninit() override {};
 	void Update() override;
 	void Draw() override {};

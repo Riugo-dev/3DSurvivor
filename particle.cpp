@@ -113,7 +113,7 @@ Particle::~Particle()
 	m_PixelShader->Release();
 }
 
-void Particle::Init(Input*)
+void Particle::Init()
 {
 }
 

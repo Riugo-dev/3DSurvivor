@@ -14,8 +14,13 @@
 class LevelFourShooterEnemy : public ShooterBaseEnemy
 {
 public:
-	LevelFourShooterEnemy();
+	LevelFourShooterEnemy() = default;
 	~LevelFourShooterEnemy()override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

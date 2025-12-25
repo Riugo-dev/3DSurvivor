@@ -40,8 +40,10 @@ public:
 	virtual void Update();	//更新処理
 	virtual void Draw();		//描画処理
 
+	Input* GetInput() { return m_Input; }
+
 	SceneType GetSceneType() { return m_type; }
-	void GetSceneType(SceneType type) { m_type = type; }
+	void SetSceneType(SceneType type) { m_type = type; }
 
 	template <typename T>//テンプレート
 	T* AddGameObject(int Layer = 1)

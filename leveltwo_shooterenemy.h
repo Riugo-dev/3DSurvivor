@@ -14,8 +14,13 @@
 class LevelTwoShooterEnemy : public ShooterBaseEnemy
 {
 public:
-	LevelTwoShooterEnemy();
+	LevelTwoShooterEnemy() = default;
 	~LevelTwoShooterEnemy()override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

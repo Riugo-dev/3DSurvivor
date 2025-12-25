@@ -14,8 +14,13 @@
 class LowTierExpItem : public ExpItem
 {
 public:
-	LowTierExpItem();
+	LowTierExpItem() = default;
 	~LowTierExpItem() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 };
 
 
