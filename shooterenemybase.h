@@ -49,104 +49,104 @@ protected:
 public:
 	~ShooterBaseEnemy() = default;
 
-	void Init(Input*) override {};
+	void Init() override {};
 	void Uninit() override {};
 
 	//アップデートも基本プレイヤーを追いかけるだけなので基本的にここで一括でいい
 	void Update() override
 	{
-		if (!m_GetBig)
-		{
-			m_Scale += {0.03f, 0.03f, 0.03f};
+		//if (!m_GetBig)
+		//{
+		//	m_Scale += {0.03f, 0.03f, 0.03f};
 
-			if (m_Scale.m_x >= 0.6f)
-			{
-				m_Scale = { 0.6f , 0.6f , 0.6f };
-				m_GetBig = true;
-			}
+		//	if (m_Scale.m_x >= 0.6f)
+		//	{
+		//		m_Scale = { 0.6f , 0.6f , 0.6f };
+		//		m_GetBig = true;
+		//	}
 
-			return;
-		}
+		//	return;
+		//}
 
-		if (m_IsDestroy)return;
+		//if (m_IsDestroy)return;
 
-		std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+		//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-		for (auto itr : p_attacks)
-		{
-			if (itr->GetDestroy())continue;
+		//for (auto itr : p_attacks)
+		//{
+		//	if (itr->GetDestroy())continue;
 
-			if (itr->CircleCollider(m_Position, m_Radius))
-			{
-				m_HP -= itr->GetStrength();
-				itr->SubtractHP();
-				if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
+		//	if (itr->CircleCollider(m_Position, m_Radius))
+		//	{
+		//		m_HP -= itr->GetStrength();
+		//		itr->SubtractHP();
+		//		if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
-				if (m_HP <= 0)
-				{
-					ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
-					boom->SetPosition(m_Position);
-					boom->SetScale({ 0.1f , 0.1f , 0.1f });
-					Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
+		//		if (m_HP <= 0)
+		//		{
+		//			ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+		//			boom->SetPosition(m_Position);
+		//			boom->SetScale({ 0.1f , 0.1f , 0.1f });
+		//			Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 
-					Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
-					m_IsDestroy = true;
-					EnemyItemDrop();
-
-
-					return;
-				}
-			}
-		}
+		//			Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
+		//			m_IsDestroy = true;
+		//			EnemyItemDrop();
 
 
+		//			return;
+		//		}
+		//	}
+		//}
 
-		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
-		Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
 
-		float angle_y, angle_x, angle_z;
+		//Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
-		angle_y = atan2(to_player.m_x, to_player.m_z);
+		//Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
 
-		m_Rotation.m_y = angle_y;
-		Vector3 distance = p_player->GetPosition() - m_Position;
-		float length = distance.length();
+		//float angle_y, angle_x, angle_z;
 
-		if (length < m_Scale.m_y * 2.5f)
-		{
-			if (!p_player->GetIsInvincible())
-			{
-				p_player->SetInvincibilty(true);
-				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+		//angle_y = atan2(to_player.m_x, to_player.m_z);
 
-				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
-				{
-					Manager::SetScene<Result>();
-					Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
-					Game::SetGameState(GAME_FADEOUT);
-				}
-			}
-		}
+		//m_Rotation.m_y = angle_y;
+		//Vector3 distance = p_player->GetPosition() - m_Position;
+		//float length = distance.length();
 
-		m_FrameCount++;
+		//if (length < m_Scale.m_y * 2.5f)
+		//{
+		//	if (!p_player->GetIsInvincible())
+		//	{
+		//		p_player->SetInvincibilty(true);
+		//		Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+		//		Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
 
-		if ( m_FrameCount % m_ShotCoolDown == 0)
-		{
+		//		if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+		//		{
+		//			Manager::SetScene<Result>();
+		//			Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+		//			Game::SetGameState(GAME_FADEOUT);
+		//		}
+		//	}
+		//}
 
-			to_player *= m_Speed;
-			to_player.m_y = 0.0f;
-			//エネミーの弾射出コードをここに書く
-			EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
-			bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
-			bullet->SetBullet(to_player);
-		}
+		//m_FrameCount++;
 
-		if (m_FrameCount >= ENEMY_LIVINGFRAME)
-		{
-			m_IsDestroy = true;
-		}
+		//if ( m_FrameCount % m_ShotCoolDown == 0)
+		//{
+
+		//	to_player *= m_Speed;
+		//	to_player.m_y = 0.0f;
+		//	//エネミーの弾射出コードをここに書く
+		//	EnemyBullet* bullet = Manager::GetScene()->AddGameObject<EnemyBullet>();
+		//	bullet->SetPosition({m_Position.m_x , 1.25f , m_Position.m_z});
+		//	bullet->SetBullet(to_player);
+		//}
+
+		//if (m_FrameCount >= ENEMY_LIVINGFRAME)
+		//{
+		//	m_IsDestroy = true;
+		//}
 
 	}
 
@@ -155,55 +155,55 @@ public:
 	void Draw()	override
 	{
 
-		Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+		//Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
-		Vector3 vector = p_player->GetPosition() - m_Position;
-		float length = vector.length();
+		//Vector3 vector = p_player->GetPosition() - m_Position;
+		//float length = vector.length();
 
-		if (length > 30) return;
+		//if (length > 30) return;
 
-		{//通常の描画
-			ModelManager::SetShaders(m_ModelTag, m_Shader);
+		//{//通常の描画
+		//	ModelManager::SetShaders(m_ModelTag, m_Shader);
 
-			//平行移動行列の作成（表示座標を決める）
-			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+		//	//平行移動行列の作成（表示座標を決める）
+		//	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
 
-			//回転行列（Z回転）行列の作成
-			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		//	//回転行列（Z回転）行列の作成
+		//	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
 
-			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+		//	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+		//	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
 
-			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+		//	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+		//	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-			//マテリアル設定
-			MATERIAL material{};
-			material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-			material.TextureEnable = false;
-			Renderer::SetMaterial(material);
-
-
-
-			Renderer::SetWorldMatrix(WorldMatrix);
-
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
-		}
+		//	//マテリアル設定
+		//	MATERIAL material{};
+		//	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+		//	material.TextureEnable = false;
+		//	Renderer::SetMaterial(material);
 
 
-		{//輪郭線の描画
-			ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+
+		//	Renderer::SetWorldMatrix(WorldMatrix);
+
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
+		//}
 
 
-			Renderer::SetCullMode(D3D11_CULL_FRONT);
+		//{//輪郭線の描画
+		//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
 
-			//描画
-			//m_pModelRenderer->Draw();
-			ModelManager::ModelDraw(m_ModelTag);
 
-			Renderer::SetCullMode(D3D11_CULL_BACK);
-		}
+		//	Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+		//	//描画
+		//	//m_pModelRenderer->Draw();
+		//	ModelManager::ModelDraw(m_ModelTag);
+
+		//	Renderer::SetCullMode(D3D11_CULL_BACK);
+		//}
 	}
 
 

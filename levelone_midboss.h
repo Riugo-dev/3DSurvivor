@@ -14,8 +14,13 @@
 class LevelOneMidBoss : public BaseMidBoss
 {
 public:
-	LevelOneMidBoss();
+	LevelOneMidBoss() = default;
 	~LevelOneMidBoss() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void MidBossItemDrop() override;
 };

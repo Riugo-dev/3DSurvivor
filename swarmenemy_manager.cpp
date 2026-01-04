@@ -76,6 +76,7 @@ void SwarmEnemyManager::SpawnEnemy()
 			if (count == itemenemy)
 			{
 				ItemDropSwarmEnemy* enemy = Manager::GetScene()->AddGameObject<ItemDropSwarmEnemy>();
+				enemy->Init();
 				enemy->SetPosition({ spawnpoint.m_x + x , spawnpoint.m_y , spawnpoint.m_z + z });
 				enemy->SetVelocity(vel);
 				enemy->SetSpeed(0.2f);
@@ -84,6 +85,7 @@ void SwarmEnemyManager::SpawnEnemy()
 			else
 			{
 				LevelOneSwarmEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneSwarmEnemy>();
+				enemy->Init();
 				enemy->SetPosition({ spawnpoint.m_x + x , spawnpoint.m_y , spawnpoint.m_z + z });
 				enemy->SetVelocity(vel);
 				enemy->SetSpeed(0.2f);

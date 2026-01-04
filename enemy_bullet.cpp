@@ -20,7 +20,12 @@
 
 #include "enemy_bullet.h"
 
-EnemyBullet::EnemyBullet()
+
+EnemyBullet::~EnemyBullet()
+{
+}
+
+void EnemyBullet::Init()
 {
 	m_ModelTag = BULLET;
 	m_Shader = SHADER_BLINNPHONG;
@@ -31,15 +36,6 @@ EnemyBullet::EnemyBullet()
 	m_LivingFrame = 0;
 	m_LifeTime = 120;
 	m_Hp = 1;
-
-}
-
-EnemyBullet::~EnemyBullet()
-{
-}
-
-void EnemyBullet::Init(Input*)
-{
 }
 
 void EnemyBullet::Uninit()

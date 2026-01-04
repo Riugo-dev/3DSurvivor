@@ -14,8 +14,13 @@
 class LevelOneShooterEnemy : public ShooterBaseEnemy
 {
 public :
-	LevelOneShooterEnemy();
+	LevelOneShooterEnemy() = default;
 	~LevelOneShooterEnemy()override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

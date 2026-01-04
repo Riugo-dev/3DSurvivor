@@ -42,9 +42,10 @@ public:
 
 	virtual ~GameObject() = default;
 
-	virtual void Init(Input*) = 0;
+	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;
+	//virtual void LateUpdate() = 0;//インスタンシングなど後の更新が必要なもの用の更新処理
 	virtual void Draw() = 0;
 
 	Vector3 GetPosition() { return m_Position; }
@@ -108,6 +109,9 @@ public:
 
 		return false;
 	}
+
+	void SetInput(Input* input) { m_pInput = input; }
+	Input* GetInput() { return m_pInput; }
 };
 
 

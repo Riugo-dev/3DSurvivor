@@ -7,34 +7,215 @@
 //********************************************************************************
 #include "main.h"
 #include "hightier_exp_item.h"
+#include "attackbase.h"
+#include "player.h"
+#include "camera.h"
+#include "score.h"
+#include "hp_ui.h"
+#include "explosion_particle.h"
+#include "result.h"
+#include "game.h"
+#include "fade.h"
+#include "manager_soundeffect.h"
+#include <vector>
 
 #include "gameender_enemy.h"
 
-GameEnderEnemy::GameEnderEnemy()
-{
-
-	m_Scale = { 0.5f , 0.5f , 0.5f };
-
-	m_Shader = SHADER_BLINNPHONG;
-
-	m_HP = 100 * 60;
-	m_EnemySpeed = 0.4f;
-	m_Points = 10000 ;
-	m_ModelTag = ENEMY_BLACK;
-}
 
 GameEnderEnemy::~GameEnderEnemy()
 {
 	
 }
 
+void GameEnderEnemy::Init()
+{
+	m_Scale = { 0.5f , 0.5f , 0.5f };
+
+	m_Shader = SHADER_BLINNPHONG;
+
+	m_HP = 100 * 60;
+	m_EnemySpeed = 0.4f;
+	m_Points = 10000;
+	m_ModelTag = ENEMY_BLACK;
+}
+
+void GameEnderEnemy::Uninit()
+{
+}
+
+void GameEnderEnemy::Update()
+{
+	if (!m_GetBig)
+	{
+		m_Scale += {0.025f, 0.025f, 0.025f};
+
+		if (m_Scale.m_x >= 0.5f)
+		{
+			m_Scale = { 0.5f , 0.5f , 0.5f };
+			m_GetBig = true;
+		}
+
+		return;
+	}
+
+	if (m_IsDestroy)return;
+
+	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+
+	for (auto itr : p_attacks)
+	{
+		if (itr->GetDestroy())continue;
+
+		/*Vector3 d = itr->GetPosition() - m_Position;
+		float length = d.length();*/
+
+
+		if (itr->CircleCollider(m_Position, m_Radius))
+		{
+			m_HP -= itr->GetStrength();
+			itr->SubtractHP();
+			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
+
+			if (m_HP <= 0)
+			{
+				ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+				boom->SetPosition(m_Position);
+				boom->SetScale({ 0.1f , 0.1f , 0.1f });
+
+				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
+				m_IsDestroy = true;
+				EnemyItemDrop();
+
+				Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
+
+				return;
+			}
+
+
+		}
+	}
+
+
+
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	Vector3 to_player = (p_player->GetPosition() - m_Position).normalized();
+
+	m_Position = m_Position + to_player * m_EnemySpeed;
+
+	float angle_y, angle_x, angle_z;
+
+
+	angle_y = atan2(to_player.m_x, to_player.m_z);
+	/*angle_x = atan2(to_player.m_y, to_player.m_z);
+	angle_z = atan2(to_player.m_x, to_player.m_y);*/
+
+	m_Rotation.m_y = angle_y;
+	/*m_Rotation.m_x = angle_x;
+	m_Rotation.m_z = angle_z;*/
+
+
+	Vector3 distance = p_player->GetPosition() - m_Position;
+	float length = distance.length();
+
+	if (length < m_Scale.m_y * 2.5f)
+	{
+		if (!p_player->GetIsInvincible())
+		{
+			p_player->SetInvincibilty(true);
+			Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
+			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+
+			if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
+			{
+				Manager::SetScene<Result>();
+				Manager::GetScene()->GetGameObject<Fade>()->SetFade(FADE_OUT);
+				Game::SetGameState(GAME_FADEOUT);
+			}
+		}
+	}
+
+	m_FrameCount++;
+	if (m_FrameCount >= ENEMY_LIVINGFRAME)
+	{
+		m_IsDestroy = true;
+	}
+}
+
+void GameEnderEnemy::Draw()
+{
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	Vector3 vector = p_player->GetPosition() - m_Position;
+	float length = vector.length();
+
+	if (length > 30) return;
+
+	{//通常の描画
+		ModelManager::SetShaders(m_ModelTag, m_Shader);
+
+		//平行移動行列の作成（表示座標を決める）
+		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+
+		//回転行列（Z回転）行列の作成
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+
+		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+
+		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+		//マテリアル設定
+		MATERIAL material{};
+		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+		material.TextureEnable = false;
+		Renderer::SetMaterial(material);
+
+
+
+		Renderer::SetWorldMatrix(WorldMatrix);
+
+		//m_pModelRenderer->Draw();
+		ModelManager::ModelDraw(m_ModelTag);
+	}
+
+
+	{//輪郭線の描画
+		ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+
+
+		Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+		//描画
+		//m_pModelRenderer->Draw();
+		ModelManager::ModelDraw(m_ModelTag);
+
+		Renderer::SetCullMode(D3D11_CULL_BACK);
+	}
+}
+
 void GameEnderEnemy::EnemyItemDrop()
 {
-	Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(0.25f, 0.5f, 0.25f));
-	Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(-0.25f, 0.5f, -0.25f));
-	Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(0.25f, 0.5f, -0.25f));
-	Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(-0.25f, 0.5f, 0.25f));
-	Manager::GetScene()->AddGameObject<HighTierExpItem>(1)->SetPosition(m_Position + Vector3(-0.0f, 0.5f, 0.0f));
+	HighTierExpItem* item1 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
+	item1->Init();
+	item1->SetPosition(m_Position + Vector3(0.25f, 0.5f, 0.25f));
+	
+	HighTierExpItem* item2 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
+	item2->Init();
+	item2->SetPosition(m_Position + Vector3(-0.25f, 0.5f, -0.25f));
+	
+	HighTierExpItem* item3 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
+	item3->Init();
+	item3->SetPosition(m_Position + Vector3(0.25f, 0.5f, -0.25f));
+	
+	HighTierExpItem* item4 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
+	item4->Init();
+	item4->SetPosition(m_Position + Vector3(-0.25f, 0.5f, 0.25f));
+	
+	HighTierExpItem* item5 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
+	item5->Init();
+	item5->SetPosition(m_Position + Vector3(0.0f, 0.5f, 0.0f));
 
 }
 

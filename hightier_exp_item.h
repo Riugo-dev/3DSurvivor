@@ -14,8 +14,13 @@
 class HighTierExpItem : public ExpItem
 {
 public:
-	HighTierExpItem();
+	HighTierExpItem() = default;
 	~HighTierExpItem() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 };
 
 

@@ -37,7 +37,7 @@ public:
 	Fade();
 	~Fade();
 
-	void Init(Input* p_input) { m_pInput = p_input; }
+	void Init() override {};
 	void Uninit() override {};
 	void Update() override;
 	void Draw() override;

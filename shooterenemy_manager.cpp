@@ -129,7 +129,9 @@ void ShooterEnemyManager::LevelOneEnemySpawner(int count)
 		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelOneShooterEnemy>()->SetPosition(spawnpoint);
+		LevelOneShooterEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneShooterEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -151,7 +153,9 @@ void ShooterEnemyManager::LevelTwoEnemySpawner(int count)
 		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelTwoShooterEnemy>()->SetPosition(spawnpoint);
+		LevelTwoShooterEnemy* enemy = Manager::GetScene()->AddGameObject<LevelTwoShooterEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -173,7 +177,9 @@ void ShooterEnemyManager::LevelThreeEnemySpawner(int count)
 		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelThreeShooterEnemy>()->SetPosition(spawnpoint);
+		LevelThreeShooterEnemy* enemy = Manager::GetScene()->AddGameObject<LevelThreeShooterEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -195,7 +201,9 @@ void ShooterEnemyManager::LevelFourEnemySpawner(int count)
 		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFourShooterEnemy>()->SetPosition(spawnpoint);
+		LevelFourShooterEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFourShooterEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -217,7 +225,9 @@ void ShooterEnemyManager::LevelFiveEnemySpawner(int count)
 		spawnpoint.m_y = 0.1f;
 		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFiveShooterEnemy>()->SetPosition(spawnpoint);
+		LevelFiveShooterEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFiveShooterEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 

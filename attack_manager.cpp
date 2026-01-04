@@ -85,6 +85,8 @@ AttackManager::AttackManager()
 
 	m_SelectNumber = 0;
 
+	m_pInput = Manager::GetScene()->GetInput();
+
 	Manager::GetScene()->AddGameObject<BombAttack>(5);
 	Manager::GetScene()->AddGameObject<SwordAttack>(5);
 	Manager::GetScene()->AddGameObject<BulletAttack>(5);

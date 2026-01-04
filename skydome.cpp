@@ -36,7 +36,7 @@ SkyDome::~SkyDome()
 	
 }
 
-void SkyDome::Init(Input* p_input)
+void SkyDome::Init()
 {
 	//m_pInput = p_input;
 }

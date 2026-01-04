@@ -40,7 +40,7 @@ public:
 	Explosion(Vector3 size = { 5.0f , 5.0f , 5.0f }, Vector3 position = { 0.0f , 0.0f , 0.0f }, int movementx = 0, int movementy = 0, Vector3 rotation = { 0.0f , 0.0f , 0.0f });
 	~Explosion();
 
-	void Init(Input*) override;
+	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

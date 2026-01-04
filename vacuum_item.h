@@ -14,10 +14,13 @@
 class VacuumItem : public ExpItem
 {
 public:
-	VacuumItem();
+	VacuumItem() = default;
 	~VacuumItem() override;
 
+	void Init() override;
+	void Uninit() override;
 	void Update() override;
+	void Draw() override;
 };
 
 

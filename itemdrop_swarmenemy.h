@@ -14,8 +14,13 @@
 class ItemDropSwarmEnemy : public SwarmBaseEnemy
 {
 public:
-	ItemDropSwarmEnemy();
+	ItemDropSwarmEnemy() = default;
 	~ItemDropSwarmEnemy() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

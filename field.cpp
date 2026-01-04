@@ -120,7 +120,7 @@ Field::~Field()
 	m_PixelShader->Release();
 }
 
-void Field::Init(Input*)
+void Field::Init()
 {
 }
 
