@@ -73,10 +73,16 @@ private:
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
+	static ID3D11DepthStencilState* m_StencilWrite;
+	static ID3D11DepthStencilState* m_StencilRead;
+
 	static ID3D11BlendState*		m_BlendState;
 	static ID3D11BlendState*		m_BlendStateATC;
+	static ID3D11BlendState*		m_BlendStateAdd;
+	static ID3D11BlendState*		m_BlendStateMask;
 
-
+	static ID3D11RasterizerState* m_RasterizerStateCullBack;
+	static ID3D11RasterizerState* m_RasterizerStateCullNone;
 
 public:
 	static void Init();
@@ -85,6 +91,11 @@ public:
 	static void End();
 
 	static void SetDepthEnable(bool Enable);
+	
+	static void SetStencilShadowWrite();
+	static void SetStencilShadowRead();
+	static void SetStencilShadowNone();
+	
 	static void SetATCEnable(bool Enable);
 	static void SetWorldViewProjection2D();
 	static void SetWorldMatrix(XMMATRIX WorldMatrix);

@@ -54,7 +54,7 @@ void LevelOneMidBoss::Update()
 	{
 		m_Scale += {0.025f, 0.025f, 0.025f};
 
-		if (m_Scale.m_x >= 0.75f)
+		if (m_Scale.x >= 0.75f)
 		{
 			m_Scale = { 0.75f , 0.75f , 0.75f };
 			m_GetBig = true;
@@ -106,7 +106,7 @@ void LevelOneMidBoss::Update()
 	case CHARGING:
 	{
 		Vector3 distance = p_player->GetPosition() - m_Position;
-		distance.m_y = 0.0f;
+		distance.y = 0.0f;
 		float length = distance.length();
 
 		if (length > 40)
@@ -121,9 +121,9 @@ void LevelOneMidBoss::Update()
 
 		}
 
-		m_Rotation.m_y += m_RotationSpeed;
+		m_Rotation.y += m_RotationSpeed;
 
-		if (length < m_Scale.m_y * 2.5f)
+		if (length < m_Scale.y * 2.5f)
 		{
 			if (!p_player->GetIsInvincible())
 			{
@@ -147,7 +147,7 @@ void LevelOneMidBoss::Update()
 			m_State = DASHING;
 
 			m_Velocity = distance.normalized();
-			m_Velocity.m_y = 0.0f;
+			m_Velocity.y = 0.0f;
 
 			m_EndPoint = p_player->GetPosition();
 			m_EndPoint += (m_Velocity * m_EnemySpeed) * 2.0f;
@@ -169,19 +169,19 @@ void LevelOneMidBoss::Update()
 
 		if (m_IsPlayerFar)
 		{
-			m_Rotation.m_y += m_RotationSpeed;
+			m_Rotation.y += m_RotationSpeed;
 
 			m_Position += m_Velocity * m_EnemySpeed * 3.0f;
 		}
 		else
 		{
-			m_Rotation.m_y += m_RotationSpeed;
+			m_Rotation.y += m_RotationSpeed;
 
 			m_Position += m_Velocity * m_EnemySpeed;
 		}
 
 
-		if (length < m_Scale.m_y * 2.5f)
+		if (length < m_Scale.y * 2.5f)
 		{
 			if (!p_player->GetIsInvincible())
 			{
@@ -221,7 +221,7 @@ void LevelOneMidBoss::Update()
 		{
 			m_State = CHARGING;
 			m_FrameCount = 0;
-			m_Rotation.m_y = 0;
+			m_Rotation.y = 0;
 			m_RotationSpeed = 0;
 			m_IsPlayerFar = false;
 			m_DashingIn = true;
@@ -261,10 +261,10 @@ void LevelOneMidBoss::Update()
 		float angle_y, angle_x, angle_z;
 
 
-		angle_y = atan2(to_player.m_x, to_player.m_z);
+		angle_y = atan2(to_player.x, to_player.z);
 
 
-		m_Rotation.m_y = angle_y;
+		m_Rotation.y = angle_y;
 
 
 		Vector3 distance = p_player->GetPosition() - m_Position;
@@ -274,7 +274,7 @@ void LevelOneMidBoss::Update()
 		{
 			m_State = CHARGING;
 			m_FrameCount = 0;
-			m_Rotation.m_y = 0;
+			m_Rotation.y = 0;
 			m_RotationSpeed = 0;
 		}
 	}
@@ -295,13 +295,13 @@ void LevelOneMidBoss::Draw()
 		ModelManager::SetShaders(m_ModelTag, m_Shader);
 
 		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
@@ -354,6 +354,6 @@ void LevelOneMidBoss::MidBossItemDrop()
 	{
 		HighTierExpItem* item = Manager::GetScene()->AddGameObject<HighTierExpItem>();
 		item->Init();
-		item->SetPosition({ m_Position.m_x , 1.0f , m_Position.m_z });
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
 }

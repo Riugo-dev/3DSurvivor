@@ -59,9 +59,9 @@ void BombAttack::Update()
 
 			Vector3 bombpos = p_player->GetPosition();
 
-			bombpos.m_x = bombpos.m_x + cosf(angle) * distance;
-			bombpos.m_y = 5.0f;
-			bombpos.m_z = bombpos.m_z + sinf(angle) * distance;
+			bombpos.x = bombpos.x + cosf(angle) * distance;
+			bombpos.y = 5.0f;
+			bombpos.z = bombpos.z + sinf(angle) * distance;
 
 			BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
 			bomb->SetPosition(bombpos);
@@ -95,9 +95,9 @@ void BombAttack::Update()
 
 				Vector3 bombpos = p_player->GetPosition();
 
-				bombpos.m_x = bombpos.m_x + cosf(angle) * distance;
-				bombpos.m_y = 5.0f;
-				bombpos.m_z = bombpos.m_z + sinf(angle) * distance;
+				bombpos.x = bombpos.x + cosf(angle) * distance;
+				bombpos.y = 5.0f;
+				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
 				bomb->SetPosition(bombpos);
@@ -132,9 +132,9 @@ void BombAttack::Update()
 
 				Vector3 bombpos = p_player->GetPosition();
 
-				bombpos.m_x = bombpos.m_x + cosf(angle) * distance;
-				bombpos.m_y = 5.0f;
-				bombpos.m_z = bombpos.m_z + sinf(angle) * distance;
+				bombpos.x = bombpos.x + cosf(angle) * distance;
+				bombpos.y = 5.0f;
+				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
 				bomb->SetPosition(bombpos);
@@ -169,9 +169,9 @@ void BombAttack::Update()
 
 				Vector3 bombpos = p_player->GetPosition();
 
-				bombpos.m_x = bombpos.m_x + cosf(angle) * distance;
-				bombpos.m_y = 5.0f;
-				bombpos.m_z = bombpos.m_z + sinf(angle) * distance;
+				bombpos.x = bombpos.x + cosf(angle) * distance;
+				bombpos.y = 5.0f;
+				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
 				bomb->SetPosition(bombpos);
@@ -206,9 +206,9 @@ void BombAttack::Update()
 
 				Vector3 bombpos = p_player->GetPosition();
 
-				bombpos.m_x = bombpos.m_x + cosf(angle) * distance;
-				bombpos.m_y = 5.0f;
-				bombpos.m_z = bombpos.m_z + sinf(angle) * distance;
+				bombpos.x = bombpos.x + cosf(angle) * distance;
+				bombpos.y = 5.0f;
+				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
 				bomb->SetPosition(bombpos);

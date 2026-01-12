@@ -127,9 +127,9 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		LevelOneEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneEnemy>();
 		enemy->Init();
@@ -151,9 +151,9 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		LevelTwoEnemy* enemy = Manager::GetScene()->AddGameObject<LevelTwoEnemy>();
 		enemy->Init();
@@ -175,9 +175,9 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		LevelThreeEnemy* enemy = Manager::GetScene()->AddGameObject<LevelThreeEnemy>();
 		enemy->Init();
@@ -199,9 +199,9 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		LevelFourEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFourEnemy>();
 		enemy->Init();
@@ -223,9 +223,9 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		LevelFiveEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFiveEnemy>();
 		enemy->Init();
@@ -248,9 +248,9 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
-		spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-		spawnpoint.m_y = 0.75f;
-		spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+		spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+		spawnpoint.y = 0.75f;
+		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 		GameEnderEnemy* enemy = Manager::GetScene()->AddGameObject<GameEnderEnemy>();
 		enemy->Init();

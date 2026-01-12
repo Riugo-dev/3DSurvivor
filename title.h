@@ -19,6 +19,7 @@ class Title :public Scene
 {
 private:
 	Input* m_Input;
+	class ModelManager* m_pModelManager;
 public:
 
 	void Init(Input*) override;		//‰Šú‰»

@@ -58,9 +58,9 @@ void SwordAttack::Update()
 				//float angleXZ = angle * XM_2PI;
 
 				Vector3 vel = { 0.5f , 0.0f , 0.5f };
-				vel.m_x = cosf(angle) * vel.m_x;
-				vel.m_z = sinf(angle) * vel.m_z;
-				vel.m_y = 2.0f;
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(5 * 60);
@@ -89,9 +89,9 @@ void SwordAttack::Update()
 				//float angleXZ = angle * XM_2PI;
 
 				Vector3 vel = { 0.5f , 0.0f , 0.5f };
-				vel.m_x = cosf(angle) * vel.m_x;
-				vel.m_z = sinf(angle) * vel.m_z;
-				vel.m_y = 2.0f;
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(6 * 60);
@@ -119,9 +119,9 @@ void SwordAttack::Update()
 				//float angleXZ = angle * XM_2PI;
 
 				Vector3 vel = { 0.5f , 0.0f , 0.5f };
-				vel.m_x = cosf(angle) * vel.m_x;
-				vel.m_z = sinf(angle) * vel.m_z;
-				vel.m_y = 2.0f;
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(7 * 60);
@@ -149,9 +149,9 @@ void SwordAttack::Update()
 				//float angleXZ = angle * XM_2PI;
 
 				Vector3 vel = { 0.5f , 0.0f , 0.5f };
-				vel.m_x = cosf(angle) * vel.m_x;
-				vel.m_z = sinf(angle) * vel.m_z;
-				vel.m_y = 2.0f;
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(8 * 60);
@@ -177,9 +177,9 @@ void SwordAttack::Update()
 				int angle = rd() % 360;
 
 				Vector3 vel = { 0.5f , 0.0f , 0.5f };
-				vel.m_x = cosf(angle) * vel.m_x;
-				vel.m_z = sinf(angle) * vel.m_z;
-				vel.m_y = 2.0f;
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(9 * 60);

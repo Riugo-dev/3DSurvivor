@@ -23,8 +23,14 @@
 
 #include "player.h"
 
+//********************************************************************************
+//マクロ定義
+//********************************************************************************
 #define INVINCIBLEFRAME_AFTERDAMAGE (90)
 
+#define PLAYER_ROTATING_RADIUS (15.0f)
+#define ANGLE_INCREASERATE (0.5f)
+#define RADIAN (XM_PI / 180.0f)
 //********************************************************************************
 //関数
 //********************************************************************************
@@ -32,7 +38,7 @@ Player::Player(Vector3 size, Vector3 position)
 {
 	m_Scale = size;
 	m_Position = position;
-	m_Rotation = { 0.0f , 0.0f , 0.0f };
+	m_Rotation = { 0.0f , 0.0 , 0.0f };
 
 	m_NecessaryExpForNextLevel = 100;//次のレベルまでの必要経験値
 	m_PlayerCurrentLevel = LEVEL_ONE;//現在のレベル表記用に使用
@@ -49,6 +55,12 @@ Player::Player(Vector3 size, Vector3 position)
 	m_BoostFrameCount = 0;
 	m_BoostTime = 0;
 	m_IsBoost = false;
+
+	//α値の変更プログラム
+	m_Alpha = 1.0f;
+	m_AlphaAdd = false;
+
+	m_Mode = GAME;
 }
 
 Player::~Player()
@@ -73,46 +85,87 @@ void Player::Update()
 	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
 	Controller* p_controller = Manager::GetController();
 
-	if (m_IsBoost)
+	if(m_Mode == GAME)
 	{
-		boostchecker();
-	}
-
-	if ((m_pInput->GetKeyPress(KK_A) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsLeft())
-	{
-		m_Position += -p_camera->GetRight() * m_Speed;
-	}
-	
-	if ((m_pInput->GetKeyPress(KK_D) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsRight())
-	{
-		m_Position += p_camera->GetRight() * m_Speed;
-	}
-	
-	if ((m_pInput->GetKeyPress(KK_W) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsUp())
-	{
-		m_Position += p_camera->GetFoward() * m_Speed;
-	}
-	
-	if ((m_pInput->GetKeyPress(KK_S) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsDown())
-	{
-		m_Position += -p_camera->GetFoward() * m_Speed;
-	}
-
-	Vector3 rotation = p_camera->GetRotation();
-	m_Rotation.m_y = rotation.m_y;
-
-
-	if (m_IsInvinceble)
-	{
-		m_InvinceibleFrameCount++;
-
-		if (m_InvinceibleFrameCount >= INVINCIBLEFRAME_AFTERDAMAGE)
+		if (m_IsBoost)
 		{
-			m_InvinceibleFrameCount = 0;
-			m_IsInvinceble = false;
+			boostchecker();
+		}
+
+		if ((m_pInput->GetKeyPress(KK_A) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsLeft())
+		{
+			m_Position += -p_camera->GetRight() * m_Speed;
+		}
+
+		if ((m_pInput->GetKeyPress(KK_D) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsRight())
+		{
+			m_Position += p_camera->GetRight() * m_Speed;
+		}
+
+		if ((m_pInput->GetKeyPress(KK_W) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsUp())
+		{
+			m_Position += p_camera->GetFoward() * m_Speed;
+		}
+
+		if ((m_pInput->GetKeyPress(KK_S) && !p_controller->IsConnected()) || p_controller->Controller_LeftStickIsDown())
+		{
+			m_Position += -p_camera->GetFoward() * m_Speed;
+		}
+
+		Vector3 rotation = p_camera->GetRotation();
+		m_Rotation.y = rotation.y;
+
+
+		if (m_IsInvinceble)
+		{
+			m_InvinceibleFrameCount++;
+
+			if (m_AlphaAdd)
+			{
+				m_Alpha += 0.1f;
+				if (m_Alpha >= 1.0f)
+				{
+					m_AlphaAdd = false;
+				}
+			}
+			else
+			{
+				m_Alpha -= 0.1f;
+				if (m_Alpha <= 0.0f)
+				{
+					m_AlphaAdd = true;
+				}
+			}
+
+			if (m_InvinceibleFrameCount >= INVINCIBLEFRAME_AFTERDAMAGE)
+			{
+				m_InvinceibleFrameCount = 0;
+				m_IsInvinceble = false;
+				m_Alpha = 1.0f;
+				m_AlphaAdd = false;
+			}
 		}
 	}
+	else if (m_Mode == TITLE)
+	{
 
+		Vector3 oldpos = m_Position;
+
+		//m_Position.x = 5.0f;
+		m_Position.x =/* p_camera->GetPosition().x*/ + sinf(m_Radian) * PLAYER_ROTATING_RADIUS;
+		m_Position.z = /*p_camera->GetPosition().z */ +-cosf(m_Radian) * PLAYER_ROTATING_RADIUS;
+
+		Vector3 dir;
+		dir.x  = m_Position.x - oldpos.x;
+		dir.z  = m_Position.z - oldpos.z;
+
+
+		m_RotationAngle += ANGLE_INCREASERATE;
+
+		m_Radian = m_RotationAngle * RADIAN;
+
+		m_Rotation.y = atan2f(dir.x, dir.z);
+	}
 }
 
 void Player::Draw()
@@ -124,13 +177,13 @@ void Player::Draw()
 
 
 		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, m_Position.m_z);
+		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.m_x, m_Rotation.m_y, m_Rotation.m_z);
+		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, m_Scale.m_z);
+		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
 		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
@@ -147,7 +200,7 @@ void Player::Draw()
 		Renderer::SetWorldMatrix(WorldMatrix);
 
 		//m_pModelRenderer->Draw();
-		ModelManager::ModelDraw(m_ModelTag);
+		ModelManager::ModelDrawAlpha(m_ModelTag , m_Alpha);
 	}
 
 

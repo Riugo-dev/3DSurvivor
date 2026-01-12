@@ -46,7 +46,7 @@ void BulletAttack::Update()
 			Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
 
 			Vector3 pos = player->GetPosition() + (p_camera->GetFoward() * 0.05f);
-			pos.m_y += 0.5f;
+			pos.y += 0.5f;
 
 			Vector3 vel = p_camera->GetFoward() * 0.5f;
 
@@ -69,7 +69,7 @@ void BulletAttack::Update()
 
 
 				Vector3 pos = player->GetPosition();
-				pos.m_y += 0.5f;
+				pos.y += 0.5f;
 				pos += player->GetRight().normalized() * i * 1.25f;
 
 				Vector3 vel = p_camera->GetFoward() * 0.5f;
@@ -93,7 +93,7 @@ void BulletAttack::Update()
 				Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
 
 				Vector3 pos = player->GetPosition();
-				pos.m_y += 0.5f;
+				pos.y += 0.5f;
 				pos += player->GetRight().normalized() * i * 1.25f;
 
 				Vector3 vel = p_camera->GetFoward() * 0.5f;
@@ -118,7 +118,7 @@ void BulletAttack::Update()
 
 
 				Vector3 pos = player->GetPosition();
-				pos.m_y += 0.5f;
+				pos.y += 0.5f;
 				pos += player->GetRight().normalized() * i * 1.25f;
 
 				Vector3 vel = p_camera->GetFoward() * 0.5f;
@@ -142,7 +142,7 @@ void BulletAttack::Update()
 				Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
 
 				Vector3 pos = player->GetPosition();
-				pos.m_y += 0.5f;
+				pos.y += 0.5f;
 				pos += player->GetRight().normalized() * i * 1.25f;
 
 				Vector3 vel = p_camera->GetFoward() * 0.5f;

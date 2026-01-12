@@ -72,5 +72,5 @@ public:
 
 	void Load( const char *FileName );
 	void Draw() override;
-
+	void Draw(float);
 };

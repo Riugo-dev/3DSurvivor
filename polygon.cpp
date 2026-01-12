@@ -9,6 +9,9 @@
 //********************************************************************************
 #include "main.h"
 #include "renderer.h"
+#include "texture.h"
+#include "manager.h"
+#include "scene.h"
 
 #include "polygon.h"
 
@@ -18,62 +21,107 @@
 //********************************************************************************
 Polygon2D::Polygon2D(Vector3 size, Vector3 position, int movementx , int movementy , Vector3 rotation)
 {
-	m_Scale = size;
-	m_Position = position;
+	//m_Scale = size;
+	//m_Position = position;
 
-	m_Rotation = rotation;
+	//m_Rotation = rotation;
+	//VERTEX_3D vertex[4];
+	//m_VertexPosition[0] = XMFLOAT3(position.x, position.y, 0.0f);
+	//m_VertexPosition[1] = XMFLOAT3(position.x + m_Scale.x, position.y, 0.0f);
+	//m_VertexPosition[2] = XMFLOAT3(position.x, position.y + m_Scale.y, 0.0f);
+	//m_VertexPosition[3] = XMFLOAT3(position.x + m_Scale.x, position.y + m_Scale.y, 0.0f);
+
+	//vertex[0].Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
+
+	//vertex[1].Position = XMFLOAT3(SCREEN_WIDTH, 0.0f, 0.0f);
+	//vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+	//
+	//vertex[2].Position = XMFLOAT3(0.0f, SCREEN_HEIGHT, 0.0f);
+	//vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+	//
+	//vertex[3].Position = XMFLOAT3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+	//vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+	//
+	////頂点バッファ生成
+	//D3D11_BUFFER_DESC bd{};
+	//bd.Usage = D3D11_USAGE_DEFAULT;
+	//bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//bd.CPUAccessFlags = 0;
+
+	//D3D11_SUBRESOURCE_DATA sd{};
+	//sd.pSysMem = vertex;
+
+	//Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+
+	////テクスチャの読み込み
+	//TexMetadata metadata;
+	//ScratchImage image;
+	//LoadFromWICFile(L"asset\\texture\\Title.png", WIC_FLAGS_NONE, &metadata, image);
+	//CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &m_Texture);
+	//assert(m_Texture);//読み込めなかったらここで止めようにassertを使う
+
+	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
+
+	//Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
+
+
+	//m_movement_x = movementx;
+	//m_movement_y = movementy;
+}
+
+void Polygon2D::Initialize(float x, float y, float width, float height, const char* filename)
+{
 	VERTEX_3D vertex[4];
-	m_VertexPosition[0] = XMFLOAT3(position.m_x, position.m_y, 0.0f);
-	m_VertexPosition[1] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y, 0.0f);
-	m_VertexPosition[2] = XMFLOAT3(position.m_x, position.m_y + m_Scale.m_y, 0.0f);
-	m_VertexPosition[3] = XMFLOAT3(position.m_x + m_Scale.m_x, position.m_y + m_Scale.m_y, 0.0f);
 
-	vertex[0].Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	vertex[0].Position = XMFLOAT3(x, y, 0.0f);
 	vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
 
-	vertex[1].Position = XMFLOAT3(SCREEN_WIDTH, 0.0f, 0.0f);
+	vertex[1].Position = XMFLOAT3(x + width, y, 0.0f);
 	vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
-	
-	vertex[2].Position = XMFLOAT3(0.0f, SCREEN_HEIGHT, 0.0f);
+
+	vertex[2].Position = XMFLOAT3(x, y + height, 0.0f);
 	vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
-	
-	vertex[3].Position = XMFLOAT3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+
+	vertex[3].Position = XMFLOAT3(x + width, y + height, 0.0f);
 	vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
-	
+
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
-	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.Usage = D3D11_USAGE_DYNAMIC;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
-	//テクスチャの読み込み
-	TexMetadata metadata;
-	ScratchImage image;
-	LoadFromWICFile(L"asset\\texture\\Title.png", WIC_FLAGS_NONE, &metadata, image);
-	CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &m_Texture);
-	assert(m_Texture);//読み込めなかったらここで止めようにassertを使う
+	//テクスチャ読み込み
+	m_Texture = Texture::Load(filename);
+
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
-
-
-	m_movement_x = movementx;
-	m_movement_y = movementy;
 }
 
 Polygon2D::~Polygon2D()
@@ -99,13 +147,13 @@ void Polygon2D::Uninit()
 void Polygon2D::Update()
 {
 	
-	m_Position.m_x += m_movement_x;
-	m_Position.m_y += m_movement_y;
+	//m_Position.x += m_movement_x;
+	//m_Position.y += m_movement_y;
 
-	if (m_Rotation.m_x > 0.0f)
-	{
-		m_Rotation.m_x += 1.0f/ 360.0f;
-	}
+	//if (m_Rotation.x > 0.0f)
+	//{
+	//	m_Rotation.x += 1.0f/ 360.0f;
+	//}
 
 	//updateposition();
 }
@@ -124,20 +172,20 @@ void Polygon2D::Draw()
 	
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
-	//
-	////平行移動行列の作成（表示座標を決める）
-	//XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.m_x, m_Position.m_y, 0.0f);
+	
+	//平行移動行列の作成（表示座標を決める）
+	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, 0.0f);
 
-	////回転行列（Z回転）行列の作成
-	//XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f , 0.0f, m_Rotation.m_z);
+	//回転行列（Z回転）行列の作成
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f , 0.0f, m_Rotation.z);
 
-	////スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	//XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.m_x, m_Scale.m_y, 1.0f);
+	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
 
-	////ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-	//XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-	//Renderer::SetWorldMatrix(WorldMatrix);
+	Renderer::SetWorldMatrix(WorldMatrix);
 
 	//マテリアル設定
 	MATERIAL material{};

@@ -59,6 +59,7 @@ typedef enum
 
 	//その他のオブジェクト
 	SKYDOME,
+	SHADOW,
 	
 }ModelTags;
 
@@ -72,8 +73,11 @@ public:
 	ModelManager();
 	~ModelManager();
 
+	static void Init();
+	static void InitTitle();
 
 	static void ModelDraw(ModelTags);
+	static void ModelDrawAlpha(ModelTags, float aplha = 1.0f);
 	static void SetShaders(ModelTags, Shader);
 };
 

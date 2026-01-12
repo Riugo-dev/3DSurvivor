@@ -64,18 +64,18 @@ void MidBossManager::SpawnEnemy()
 
 	Vector3 spawnpoint;
 
-	spawnpoint.m_x = p_player->GetPosition().m_x + cosf(angle) * distance;
-	spawnpoint.m_y = 0.0f;
-	spawnpoint.m_z = p_player->GetPosition().m_z + sinf(angle) * distance;
+	spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+	spawnpoint.y = 0.0f;
+	spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
 	Vector3 vel = p_player->GetPosition() - spawnpoint;
 	vel = vel.normalized();
 
-	float angle_y = atan2(vel.m_x, vel.m_z);
+	float angle_y = atan2(vel.x, vel.z);
 
 	LevelOneMidBoss* enemy = Manager::GetScene()->AddGameObject<LevelOneMidBoss>();
 	enemy->Init();
-	enemy->SetPosition({ spawnpoint.m_x , spawnpoint.m_y , spawnpoint.m_z });
+	enemy->SetPosition({ spawnpoint.x , spawnpoint.y , spawnpoint.z });
 
 }
 
