@@ -14,8 +14,13 @@
 class MidTierExpItem : public ExpItem
 {
 public:
-	MidTierExpItem();
+	MidTierExpItem() = default;
 	~MidTierExpItem() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 };
 
 

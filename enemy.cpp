@@ -48,7 +48,7 @@ Enemy::~Enemy()
 	m_PixelShader->Release();
 }
 
-void Enemy::Init(Input* p_input)
+void Enemy::Init()
 {
 	//m_pInput = p_input;
 }

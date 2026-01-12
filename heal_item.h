@@ -14,10 +14,13 @@
 class HealItem : public ExpItem
 {
 public:
-	HealItem();
+	HealItem() = default;
 	~HealItem() override;
 
+	void Init() override;
+	void Uninit() override;
 	void Update() override;
+	void Draw() override;
 };
 
 

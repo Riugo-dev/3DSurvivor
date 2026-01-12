@@ -131,7 +131,9 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelOneEnemy>()->SetPosition(spawnpoint);
+		LevelOneEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -153,7 +155,9 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelTwoEnemy>()->SetPosition(spawnpoint);
+		LevelTwoEnemy* enemy = Manager::GetScene()->AddGameObject<LevelTwoEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -175,7 +179,9 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelThreeEnemy>()->SetPosition(spawnpoint);
+		LevelThreeEnemy* enemy = Manager::GetScene()->AddGameObject<LevelThreeEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -197,7 +203,9 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFourEnemy>()->SetPosition(spawnpoint);
+		LevelFourEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFourEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -219,7 +227,9 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<LevelFiveEnemy>()->SetPosition(spawnpoint);
+		LevelFiveEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFiveEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 }
 
@@ -242,7 +252,9 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		spawnpoint.y = 0.75f;
 		spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
 
-		Manager::GetScene()->AddGameObject<GameEnderEnemy>()->SetPosition(spawnpoint);
+		GameEnderEnemy* enemy = Manager::GetScene()->AddGameObject<GameEnderEnemy>();
+		enemy->Init();
+		enemy->SetPosition(spawnpoint);
 	}
 
 }

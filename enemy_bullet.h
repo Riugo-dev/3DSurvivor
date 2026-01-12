@@ -23,10 +23,10 @@ private:
 	int m_Hp;
 	const float m_Radius = 0.5f;
 public:
-	EnemyBullet();
+	EnemyBullet() = default;
 	~EnemyBullet();
 
-	void Init(Input*) override;
+	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

@@ -32,7 +32,7 @@ public:
 	SkyDome(Vector3 size = { 100.0f , 100.0f , 100.0f }, Vector3 position = { 0.0f , -10.0f , 0.0f });
 	~SkyDome();
 
-	void Init(Input*) override;
+	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

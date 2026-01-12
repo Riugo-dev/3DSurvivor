@@ -95,7 +95,7 @@ public:
 	Player(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.5f , 0.0f });
 	~Player();
 
-	void Init(Input*) override;
+	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

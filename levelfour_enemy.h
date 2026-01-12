@@ -14,8 +14,13 @@
 class LevelFourEnemy : public BaseEnemy
 {
 public:
-	LevelFourEnemy();
+	LevelFourEnemy() = default;
 	~LevelFourEnemy() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

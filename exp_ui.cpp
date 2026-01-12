@@ -81,7 +81,7 @@ EXPUI::~EXPUI()
 	m_PixelShader->Release();
 }
 
-void EXPUI::Init(Input*)
+void EXPUI::Init()
 {
 }
 

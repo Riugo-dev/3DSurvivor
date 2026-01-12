@@ -69,9 +69,9 @@ Camera::~Camera()
 	
 }
 
-void Camera::Init(Input* input)
+void Camera::Init()
 {
-	m_pInput = input;
+	m_pInput = Manager::GetScene()->GetInput();
 }
 
 void Camera::Uninit()

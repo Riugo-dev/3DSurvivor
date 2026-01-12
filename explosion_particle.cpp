@@ -110,7 +110,7 @@ ExplosionParticle::~ExplosionParticle()
 	m_PixelShader->Release();
 }
 
-void ExplosionParticle::Init(Input*)
+void ExplosionParticle::Init()
 {
 }
 

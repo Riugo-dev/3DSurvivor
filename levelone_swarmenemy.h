@@ -14,8 +14,13 @@
 class LevelOneSwarmEnemy : public SwarmBaseEnemy
 {
 public:
-	LevelOneSwarmEnemy();
+	LevelOneSwarmEnemy() = default;
 	~LevelOneSwarmEnemy() override;
+
+	void Init() override;
+	void Uninit() override;
+	void Update() override;
+	void Draw() override;
 
 	void EnemyItemDrop() override;
 };

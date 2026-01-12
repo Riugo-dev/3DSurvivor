@@ -41,7 +41,7 @@ Box::~Box()
 	m_PixelShader->Release();
 }
 
-void Box::Init(Input*)
+void Box::Init()
 {
 }
 

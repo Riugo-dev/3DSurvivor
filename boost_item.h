@@ -14,10 +14,13 @@
 class BoostItem : public ExpItem
 {
 public:
-	BoostItem();
+	BoostItem() = default;
 	~BoostItem() override;
 
+	void Init() override;
+	void Uninit() override;
 	void Update() override;
+	void Draw() override;
 };
 
 

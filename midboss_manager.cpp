@@ -74,7 +74,8 @@ void MidBossManager::SpawnEnemy()
 	float angle_y = atan2(vel.x, vel.z);
 
 	LevelOneMidBoss* enemy = Manager::GetScene()->AddGameObject<LevelOneMidBoss>();
-	enemy->SetPosition({ spawnpoint.x , spawnpoint.y , spawnpoint.z });
+	enemy->Init();
+	enemy->SetPosition({ spawnpoint.m_x , spawnpoint.m_y , spawnpoint.m_z });
 
 }
 

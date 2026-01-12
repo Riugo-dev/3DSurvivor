@@ -132,7 +132,7 @@ Explosion::~Explosion()
 	m_PixelShader->Release();
 }
 
-void Explosion::Init(Input*)
+void Explosion::Init()
 {
 }
 

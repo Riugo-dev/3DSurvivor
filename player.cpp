@@ -68,9 +68,11 @@ Player::~Player()
 	
 }
 
-void Player::Init(Input* p_input)
+void Player::Init()
 {
-	m_pInput = p_input;
+	Input* input = Manager::GetScene()->GetInput();
+
+	m_pInput = input;
 }
 
 void Player::Uninit()

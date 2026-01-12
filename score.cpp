@@ -91,7 +91,7 @@ Score::~Score()
 	m_PixelShader->Release();
 }
 
-void Score::Init(Input*)
+void Score::Init()
 {
 }
 

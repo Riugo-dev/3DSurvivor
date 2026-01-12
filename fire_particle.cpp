@@ -118,7 +118,7 @@ FireParticle::~FireParticle()
 	m_PixelShader->Release();
 }
 
-void FireParticle::Init(Input*)
+void FireParticle::Init()
 {
 }
 

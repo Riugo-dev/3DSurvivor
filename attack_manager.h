@@ -37,7 +37,7 @@ public:
 	AttackManager();
 	~AttackManager() override;
 
-	void Init(Input* p_input) { m_pInput = p_input; }
+	void Init() {};
 	void Uninit() override {};
 	void Update() override;
 	void Draw() override;
