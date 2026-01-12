@@ -79,7 +79,7 @@ private:
 	static ID3D11BlendState*		m_BlendState;
 	static ID3D11BlendState*		m_BlendStateATC;
 	static ID3D11BlendState*		m_BlendStateAdd;
-	static ID3D11BlendState*		 m_BlendStateMask;
+	static ID3D11BlendState*		m_BlendStateMask;
 
 	static ID3D11RasterizerState* m_RasterizerStateCullBack;
 	static ID3D11RasterizerState* m_RasterizerStateCullNone;

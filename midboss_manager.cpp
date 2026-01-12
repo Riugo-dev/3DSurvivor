@@ -75,7 +75,7 @@ void MidBossManager::SpawnEnemy()
 
 	LevelOneMidBoss* enemy = Manager::GetScene()->AddGameObject<LevelOneMidBoss>();
 	enemy->Init();
-	enemy->SetPosition({ spawnpoint.m_x , spawnpoint.m_y , spawnpoint.m_z });
+	enemy->SetPosition({ spawnpoint.x , spawnpoint.y , spawnpoint.z });
 
 }
 

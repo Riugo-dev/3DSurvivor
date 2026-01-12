@@ -35,6 +35,8 @@ public:
 	Polygon2D(Vector3 size = {10.0f , 10.0f , 1.0f} , Vector3 position = { 0.0f , 0.0f , 0.0f}, int movementx = 0, int movementy = 0 , Vector3 rotation = { 0.0f , 0.0f , 0.0f });
 	~Polygon2D();
 
+	void Initialize(float, float, float, float, const char*);
+
 	void Init() override;
 	void Uninit() override;
 	void Update() override;

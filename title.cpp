@@ -30,24 +30,24 @@
 
 void Title::Init(Input* input)
 {
-	Renderer::Init();
+	//Renderer::Init();
 
-	AddGameObject<Camera>(0)->Init(input);
+	AddGameObject<Camera>(0)->Init();
 	GetGameObject<Camera>()->SetCameraMode(CAMERA_MODE_TITLE);
 	
 	AddGameObject<SkyDome>()->SetPosition({ 0.0f , 0.0f , 0.0f });
 	
-	AddGameObject<Player>()->Init(input);
+	AddGameObject<Player>()->Init();
 	GetGameObject<Player>()->SetMode(TITLE);
 
-	AddGameObject<Wave>()->Init(nullptr);
+	AddGameObject<Wave>()->Init();
 	GetGameObject<Wave>()->SetPosition({ 0.0f , -1.0f , 0.0f });
 
 	AddGameObject<TitleUI>(2);
 	AddGameObject<Fade>(2)->SetFade(FADE_IN);
 
 	AddGameObject<PetalParticle>();
-	//AddGameObject<ShadowVolume>()->SetPosition({ 0.0f , -0.5f , 0.0f });
+	AddGameObject<ShadowVolume>()->SetPosition({ 0.0f , -0.5f , 0.0f });
 	
 	MeshField* meshfield = AddGameObject<MeshField>(0);
 

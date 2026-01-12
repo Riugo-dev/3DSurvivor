@@ -57,7 +57,7 @@ void Game::Init(Input* input)
 	m_pTimer = new GameTimer;
 
 
-	Renderer::Init();
+	//Renderer::Init();
 
 	//m_GameObjects.push_back(new Camera(g_Input));
 	AddGameObject<Camera>(0)->Init();
@@ -94,7 +94,7 @@ void Game::Uninit()
 	delete m_pModelManager;
 	m_pModelManager = nullptr;
 
-	Renderer::Uninit();
+	//Renderer::Uninit();
 
 	Scene::Uninit();
 

@@ -25,6 +25,8 @@ private:
 	ID3D11ShaderResourceView* m_EnvTexture{};
 
 	ModelRenderer* m_pModelRenderer;
+	
+	Shader m_Shader;
 
 	ModelTags m_ModelTag;
 
@@ -33,7 +35,7 @@ public:
 	ShadowVolume(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 2.0f , -0.5f , 2.0f });
 	~ShadowVolume();
 
-	void Init(Input*) override;
+	void Init() override;
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;

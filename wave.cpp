@@ -4,7 +4,7 @@
 #include "wave.h"
 
 
-void Wave::Init(Input*)
+void Wave::Init()
 {
 
 	// 頂点バッファ生成

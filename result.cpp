@@ -25,6 +25,8 @@
 
 Result::Result()
 {
+	//Renderer::Init();
+
 	m_score = Manager::GetScene()->GetGameObject<Score>()->GetPoints();
 	m_bonus = Manager::GetScene()->GetGameObject<Player>()->GetTotalEXP();
 

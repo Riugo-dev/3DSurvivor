@@ -34,7 +34,7 @@ public:
 	PetalParticle(Vector3 size = { 0.3f , 0.3f , 0.3f }, Vector3 position = { 0.0f , 0.0f , 0.0f }, int movementx = 0, int movementy = 0, Vector3 rotation = { 0.0f , 0.0f , 0.0f });
 	~PetalParticle() override;
 
-	virtual void Init(Input*) override;
+	virtual void Init() override;
 	virtual void Uninit() override;
 	virtual void Update() override;
 	virtual void Draw() override;

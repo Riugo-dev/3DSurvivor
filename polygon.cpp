@@ -147,13 +147,13 @@ void Polygon2D::Uninit()
 void Polygon2D::Update()
 {
 	
-	m_Position.x += m_movement_x;
-	m_Position.y += m_movement_y;
+	//m_Position.x += m_movement_x;
+	//m_Position.y += m_movement_y;
 
-	if (m_Rotation.x > 0.0f)
-	{
-		m_Rotation.x += 1.0f/ 360.0f;
-	}
+	//if (m_Rotation.x > 0.0f)
+	//{
+	//	m_Rotation.x += 1.0f/ 360.0f;
+	//}
 
 	//updateposition();
 }
@@ -172,20 +172,20 @@ void Polygon2D::Draw()
 	
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
-	//
-	////平行移動行列の作成（表示座標を決める）
-	//XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, 0.0f);
+	
+	//平行移動行列の作成（表示座標を決める）
+	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, 0.0f);
 
-	////回転行列（Z回転）行列の作成
-	//XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f , 0.0f, m_Rotation.z);
+	//回転行列（Z回転）行列の作成
+	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(0.0f , 0.0f, m_Rotation.z);
 
-	////スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-	//XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
+	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
 
-	////ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-	//XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-	//Renderer::SetWorldMatrix(WorldMatrix);
+	Renderer::SetWorldMatrix(WorldMatrix);
 
 	//マテリアル設定
 	MATERIAL material{};

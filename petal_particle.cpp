@@ -117,7 +117,7 @@ PetalParticle::~PetalParticle()
 	m_PixelShader->Release();
 }
 
-void PetalParticle::Init(Input*)
+void PetalParticle::Init()
 {
 }
 

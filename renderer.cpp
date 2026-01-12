@@ -9,6 +9,8 @@
 //********************************************************************************
 #include "main.h"
 #include "renderer.h"
+#include "manager.h"
+#include "scene.h"
 #include <io.h>
 
 
@@ -342,7 +344,8 @@ void Renderer::Begin()
 	//float clearColor[4] = { 0.1f, 0.1f, 0.9f, 1.0f };
 	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
 	m_DeviceContext->ClearRenderTargetView( m_RenderTargetView, clearColor );
-	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	
 }
 
 

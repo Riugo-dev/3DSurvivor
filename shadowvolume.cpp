@@ -13,6 +13,7 @@
 #include "scene.h"
 #include "camera.h"
 #include "modelRenderer.h"
+#include "shader_manager.h"
 #include "input.h"
 #include "model_manager.h"
 #include "bullet.h"
@@ -33,6 +34,10 @@ ShadowVolume::ShadowVolume(Vector3 size, Vector3 position)
 	m_Polygon2D = new Polygon2D();
 	m_Polygon2D->Initialize(0.0f, 0.0f , SCREEN_WIDTH , SCREEN_HEIGHT , "asset\\texture\\black.png");
 
+	m_ModelTag = SHADOW;
+
+	m_Shader = SHADER_DIRECTIONLIGHTING;
+
 	m_Scale = size;
 	m_Position = position;
 	m_Rotation = { 0.0f , 0.0f , 0.0f };
@@ -46,17 +51,22 @@ ShadowVolume::~ShadowVolume()
 	m_Polygon2D->Uninit();
 	delete m_Polygon2D;
 
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
+	//m_VertexLayout->Release();
+	//m_VertexShader->Release();
+	//m_PixelShader->Release();
 }
 
-void ShadowVolume::Init(Input* p_input)
+void ShadowVolume::Init()
 {
 	//m_pInput = p_input;
 }
 
 void ShadowVolume::Uninit()
+{
+	
+}
+
+void ShadowVolume::Update()
 {
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
@@ -64,11 +74,6 @@ void ShadowVolume::Uninit()
 
 	m_Position.x = p_player->GetPosition().x;
 	m_Position.z = p_player->GetPosition().z;
-}
-
-void ShadowVolume::Update()
-{
-	
 }
 
 void ShadowVolume::Draw()
