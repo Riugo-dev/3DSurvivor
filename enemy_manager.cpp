@@ -295,6 +295,14 @@ EnemyManager::~EnemyManager()
 {
 }
 
+void EnemyManager::Init()
+{
+	for (auto& itr : map_Enemies)
+	{
+		auto& inst = itr.second;//\‘¢‘Ì‚Ì•û
+	}
+}
+
 void EnemyManager::SpawnEnemy()
 {
 	

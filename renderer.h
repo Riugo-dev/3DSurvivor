@@ -48,6 +48,16 @@ struct CAMERA
 {
 	XMFLOAT4	CameraPosition;
 };
+
+struct InstanceData
+{
+	XMFLOAT3	Position;
+	float		Scale;
+	XMFLOAT3	Rotation;
+	float		Padding;
+};
+
+
 //********************************************************************************
 //ƒNƒ‰ƒX
 //********************************************************************************
