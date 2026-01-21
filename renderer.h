@@ -52,9 +52,8 @@ struct CAMERA
 struct InstanceData
 {
 	XMFLOAT3	Position;
-	float		Scale;
+	XMFLOAT3	Scale;
 	XMFLOAT3	Rotation;
-	float		Padding;
 };
 
 
@@ -122,6 +121,7 @@ public:
 
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
+	static void CreateInstanceVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 	static void SetCullMode(D3D11_CULL_MODE cull);

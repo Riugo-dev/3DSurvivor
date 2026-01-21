@@ -81,13 +81,18 @@ cbuffer GaussianWeight : register(b7)
 
 
 
-struct VS_IN
-{
-	float4 Position		: POSITION0;
-	float4 Normal		: NORMAL0;
-	float4 Diffuse		: COLOR0;
-	float2 TexCoord		: TEXCOORD0;
-};
+//struct VS_IN
+//{
+//	float4 Position		: POSITION0;
+//	float4 Normal		: NORMAL0;
+//	float4 Diffuse		: COLOR0;
+//	float2 TexCoord		: TEXCOORD0;
+    
+//    //----インスタンスデータ-------
+//    float3 Inst_Position     : INSTANCE_POS;
+//    float3 Inst_Scale        : INSTANCE_SCALE;
+//    float3 Inst_Rotation     : INSTANCE_ROT;
+//};
 
 
 struct PS_IN

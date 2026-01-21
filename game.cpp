@@ -177,5 +177,7 @@ void Game::Update()
 void Game::Draw()
 {
 	Scene::Draw();
+
+	m_pTimer->Draw();
 }
 

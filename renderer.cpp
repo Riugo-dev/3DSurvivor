@@ -494,6 +494,49 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 	};
 	UINT numElements = ARRAYSIZE(layout);
 
+	HRESULT hr = m_Device->CreateInputLayout(layout,
+		numElements,
+		buffer,
+		fsize,
+		VertexLayout);
+
+	assert(SUCCEEDED(hr));
+
+	delete[] buffer;
+}
+
+void Renderer::CreateInstanceVertexShader( ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName )
+{
+
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	assert(file);
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	m_Device->CreateVertexShader(buffer, fsize, NULL, VertexShader);
+
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 6, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 4 * 10, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+
+		//インスタンシングように追加情報
+		{ "INSTANCE_POS" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 1 , 0 , D3D11_INPUT_PER_INSTANCE_DATA, 1},
+		{ "INSTANCE_SCALE" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 1 , 12 , D3D11_INPUT_PER_INSTANCE_DATA, 1},
+		{ "INSTANCE_ROT" , 0 , DXGI_FORMAT_R32G32B32_FLOAT , 1 , 24 , D3D11_INPUT_PER_INSTANCE_DATA, 1},
+
+	};
+	UINT numElements = ARRAYSIZE(layout);
+
 	m_Device->CreateInputLayout(layout,
 		numElements,
 		buffer,

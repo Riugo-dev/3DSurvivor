@@ -10,6 +10,9 @@
 #include "scene.h"
 #include "player.h"
 #include "enemybase.h"
+#include "model_manager.h"
+#include "modelRenderer.h"
+#include "shader_manager.h"
 #include "levelone_enemy.h"
 #include "leveltwo_enemy.h"
 #include "levelthree_enemy.h"
@@ -26,7 +29,7 @@
 #include "enemy_manager.h"
 
 #define ENEMY_DESTORY_LENGTH (50.0f)
-#define ENEMY_MAX_NUM (350)
+#define ENEMY_MAX_NUM (400)
 
 //********************************************************************************
 //プライベート関数
@@ -134,6 +137,7 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 		LevelOneEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 }
 
@@ -158,6 +162,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 		LevelTwoEnemy* enemy = Manager::GetScene()->AddGameObject<LevelTwoEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 }
 
@@ -182,6 +187,7 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 		LevelThreeEnemy* enemy = Manager::GetScene()->AddGameObject<LevelThreeEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 }
 
@@ -206,6 +212,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 		LevelFourEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFourEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 }
 
@@ -230,6 +237,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 		LevelFiveEnemy* enemy = Manager::GetScene()->AddGameObject<LevelFiveEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 }
 
@@ -255,6 +263,7 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		GameEnderEnemy* enemy = Manager::GetScene()->AddGameObject<GameEnderEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
+		AddEnemy(enemy);
 	}
 
 }
@@ -297,9 +306,187 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Init()
 {
+	for (int tag = ENEMY_RED; tag < SHOOTER_ENEMY_RED; tag++)
+	{
+		map_Enemies[(ModelTags)tag] = EnemyInstanceGroup();
+
+		auto& inst = map_Enemies[(ModelTags)tag];
+
+		//エネミーの最大保持数確保
+		inst.Enemies.reserve(ENEMY_MAX_NUM);
+		inst.SendingDate.reserve(ENEMY_MAX_NUM);
+
+		//バッファの作成
+		D3D11_BUFFER_DESC desc{};
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.ByteWidth = sizeof(InstanceData) * ENEMY_MAX_NUM;
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.InstanceBuffer);
+
+		assert(inst.InstanceBuffer != nullptr);
+	}
+}
+
+void EnemyManager::AddEnemy(BaseEnemy* enemy)
+{
+	//エネミーの情報を登録
 	for (auto& itr : map_Enemies)
 	{
-		auto& inst = itr.second;//構造体の方
+		auto tag = itr.first;
+		EnemyInstanceGroup& inst = itr.second;
+
+		if (tag == enemy->GetModelTag())
+		{
+			inst.Enemies.push_back(enemy);
+		}
+	}
+}
+
+void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
+{//ドローの直前で更新する
+	group.SendingDate.clear();
+
+	for (auto* itr : group.Enemies)
+	{
+		if (itr->GetDestroy())
+		{
+			itr = nullptr;
+			continue;
+		}
+
+		InstanceData inst{};
+		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z };
+		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z };
+		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z};
+
+		group.SendingDate.push_back(inst);
+	}
+
+	//もし送るデータが無ければ戻る
+	if (group.SendingDate.empty()) return;
+
+	D3D11_MAPPED_SUBRESOURCE mapped{};
+	HRESULT hr = Renderer::GetDeviceContext()->Map(group.InstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
+
+	assert(SUCCEEDED(hr));
+
+	memcpy(mapped.pData, group.SendingDate.data(), sizeof(InstanceData) * group.SendingDate.size());
+
+	Renderer::GetDeviceContext()->Unmap(group.InstanceBuffer, 0);
+
+	assert(!group.SendingDate.empty());
+
+}
+
+void EnemyManager::Update()
+{
+	for (auto& itr : map_Enemies)
+	{
+		EnemyInstanceGroup& inst = itr.second;
+
+		UpdateInstanceBuffer(inst);
+	}
+}
+
+void EnemyManager::Draw()
+{
+	for (auto& itr : map_Enemies)
+	{
+		ModelTags tag = itr.first;
+		EnemyInstanceGroup& inst = itr.second;
+
+		//インスタンスが無ければ処理を飛ばす
+		if (inst.SendingDate.empty()) continue;
+
+		assert(!inst.SendingDate.empty());
+
+		
+		//ModelManager::SetShaders(tag, SHADER_INSTANCE_TOON);
+
+		//残りのドロー処理をここに書く
+		/*UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+		UINT offsets[2] = { 0 , 0 };*/
+		
+		Renderer::SetCullMode(D3D11_CULL_BACK);
+
+		for(auto test : inst.Enemies)
+		{
+			if (test->GetDestroy())continue;
+
+			ModelManager::SetShaders(tag, test->GetShader());
+
+			//平行移動行列の作成（表示座標を決める）
+			XMMATRIX	TranslationMatrix = XMMatrixTranslation(test->GetPosition().x, test->GetPosition().y, test->GetPosition().z);
+
+			//回転行列（Z回転）行列の作成
+			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(test->GetRotation().x, test->GetRotation().y, test->GetRotation().z);
+
+			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+			XMMATRIX	ScalingMatrix = XMMatrixScaling(test->GetScale().x, test->GetScale().y, test->GetScale().z);
+
+			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+			//マテリアル設定
+			MATERIAL material{};
+			material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+			material.TextureEnable = false;
+			Renderer::SetMaterial(material);
+
+
+
+			Renderer::SetWorldMatrix(WorldMatrix);
+
+			ModelManager::ModelDraw(tag);
+
+			//UINT strides = sizeof(VERTEX_3D);
+			//UINT offsets = 0;
+
+			//MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+
+			//assert(model->VertexBuffer != nullptr);
+			//assert(model->IndexBuffer != nullptr);
+
+			////ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+
+			//Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &model->VertexBuffer, &strides, &offsets);
+			////Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+
+			//Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			//for (int i = 0; i < model->SubsetNum; i++)
+			//{
+			//	assert(model->SubsetArray[i].IndexNum > 0);
+
+			//	//マテリアルの固定
+			//	Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+
+			//	Renderer::GetDeviceContext()->DrawIndexed(model->SubsetArray[i].IndexNum, model->SubsetArray[i].StartIndex, 0);
+			//}
+		}
+
+
+		//Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, 1, 0, 0);
+
+		//for(int i = 0; i < model->SubsetNum ; i++)
+		//{
+		//	assert(model->SubsetArray[i].IndexNum > 0);
+
+		//	//マテリアルの固定
+		//	Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+
+		//	//実際の描画
+		//	Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, 1, model->SubsetArray[i].StartIndex, 0, 0);
+		//
+		//	/*Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
+		//*/
+		//}
+
+
 	}
 }
 

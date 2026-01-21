@@ -42,6 +42,7 @@ struct MODEL
 
 	SUBSET*			SubsetArray;
 	unsigned int	SubsetNum;
+	unsigned int	VertexNum;
 };
 
 
@@ -73,4 +74,11 @@ public:
 	void Load( const char *FileName );
 	void Draw() override;
 	void Draw(float);
+
+
+	MODEL* GetModel() { return m_Model; }
+	//ID3D11Buffer* GetVertexBuffer() { return m_Model->VertexBuffer; }
+	//ID3D11Buffer* GetIndexBuffer() { return m_Model->IndexBuffer; }
+	//int GetSubsetNum() { return m_Model->SubsetNum; }
+	//SUBSET* GetSubsetArray(int i) { return m_Model->SubsetArray; }
 };

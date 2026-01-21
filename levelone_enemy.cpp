@@ -17,6 +17,7 @@
 #include "result.h"
 #include "game.h"
 #include "fade.h"
+#include "enemy_manager.h"
 #include "manager_soundeffect.h"
 #include <vector>
 
@@ -34,11 +35,13 @@ void LevelOneEnemy::Init()
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
 	m_Shader = SHADER_TOON;
+	//m_Shader = SHADER_INSTANCE_TOON;
 
 	m_HP = 1 * 60;
 	m_EnemySpeed = 0.01f;
 	m_Points = 100;
 	m_ModelTag = ENEMY_RED;
+
 }
 
 void LevelOneEnemy::Uninit()

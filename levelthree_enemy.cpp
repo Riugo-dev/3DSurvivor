@@ -33,7 +33,7 @@ void LevelThreeEnemy::Init()
 {
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
-	m_Shader = SHADER_TOON;
+	m_Shader = SHADER_INSTANCE_TOON;
 
 	m_HP = 6 * 60;
 	m_EnemySpeed = 0.03f;
