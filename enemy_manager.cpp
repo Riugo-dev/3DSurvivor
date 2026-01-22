@@ -403,74 +403,28 @@ void EnemyManager::Draw()
 		assert(!inst.SendingDate.empty());
 
 		
-		//ModelManager::SetShaders(tag, SHADER_INSTANCE_TOON);
+		ModelManager::SetShaders(tag, SHADER_INSTANCE_TOON);
 
 		//残りのドロー処理をここに書く
-		/*UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
-		UINT offsets[2] = { 0 , 0 };*/
+		UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+		UINT offsets[2] = { 0 , 0 };
 		
 		Renderer::SetCullMode(D3D11_CULL_BACK);
 
-		for(auto test : inst.Enemies)
-		{
-			if (test->GetDestroy())continue;
+		MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
 
-			ModelManager::SetShaders(tag, test->GetShader());
+		assert(model->VertexBuffer != nullptr);
+		assert(model->IndexBuffer != nullptr);
 
-			//平行移動行列の作成（表示座標を決める）
-			XMMATRIX	TranslationMatrix = XMMatrixTranslation(test->GetPosition().x, test->GetPosition().y, test->GetPosition().z);
+		ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
 
-			//回転行列（Z回転）行列の作成
-			XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(test->GetRotation().x, test->GetRotation().y, test->GetRotation().z);
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
 
-			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-			XMMATRIX	ScalingMatrix = XMMatrixScaling(test->GetScale().x, test->GetScale().y, test->GetScale().z);
+		Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-			XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-			//マテリアル設定
-			MATERIAL material{};
-			material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-			material.TextureEnable = false;
-			Renderer::SetMaterial(material);
-
-
-
-			Renderer::SetWorldMatrix(WorldMatrix);
-
-			ModelManager::ModelDraw(tag);
-
-			//UINT strides = sizeof(VERTEX_3D);
-			//UINT offsets = 0;
-
-			//MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
-
-			//assert(model->VertexBuffer != nullptr);
-			//assert(model->IndexBuffer != nullptr);
-
-			////ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
-
-			//Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &model->VertexBuffer, &strides, &offsets);
-			////Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
-
-			//Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-			//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-			//for (int i = 0; i < model->SubsetNum; i++)
-			//{
-			//	assert(model->SubsetArray[i].IndexNum > 0);
-
-			//	//マテリアルの固定
-			//	Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
-
-			//	Renderer::GetDeviceContext()->DrawIndexed(model->SubsetArray[i].IndexNum, model->SubsetArray[i].StartIndex, 0);
-			//}
-		}
-
-
-		//Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, 1, 0, 0);
+		Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, inst.Enemies.size(), 0, 0);
 
 		//for(int i = 0; i < model->SubsetNum ; i++)
 		//{
@@ -518,4 +472,61 @@ void EnemyManager::SpawnEnemy()
 	}
 }
 
+//--------別途のドロー処理（確認用）
+//for (auto test : inst.Enemies)
+//{
+//	if (test->GetDestroy())continue;
 
+//	ModelManager::SetShaders(tag, test->GetShader());
+
+//	//平行移動行列の作成（表示座標を決める）
+//	XMMATRIX	TranslationMatrix = XMMatrixTranslation(test->GetPosition().x, test->GetPosition().y, test->GetPosition().z);
+
+//	//回転行列（Z回転）行列の作成
+//	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(test->GetRotation().x, test->GetRotation().y, test->GetRotation().z);
+
+//	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+//	XMMATRIX	ScalingMatrix = XMMatrixScaling(test->GetScale().x, test->GetScale().y, test->GetScale().z);
+
+//	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+//	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+
+//	//マテリアル設定
+//	MATERIAL material{};
+//	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+//	material.TextureEnable = false;
+//	Renderer::SetMaterial(material);
+
+
+
+//	Renderer::SetWorldMatrix(WorldMatrix);
+
+//	ModelManager::ModelDraw(tag);
+
+//	//UINT strides = sizeof(VERTEX_3D);
+//	//UINT offsets = 0;
+
+//	//MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+
+//	//assert(model->VertexBuffer != nullptr);
+//	//assert(model->IndexBuffer != nullptr);
+
+//	////ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+
+//	//Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &model->VertexBuffer, &strides, &offsets);
+//	////Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+
+//	//Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+//	//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+//	//for (int i = 0; i < model->SubsetNum; i++)
+//	//{
+//	//	assert(model->SubsetArray[i].IndexNum > 0);
+
+//	//	//マテリアルの固定
+//	//	Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+
+//	//	Renderer::GetDeviceContext()->DrawIndexed(model->SubsetArray[i].IndexNum, model->SubsetArray[i].StartIndex, 0);
+//	//}
+//}
