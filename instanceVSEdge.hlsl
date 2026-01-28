@@ -8,9 +8,9 @@ struct VS_IN
     float2 TexCoord : TEXCOORD0;
     
     //----インスタンスデータ-------
-    float3 Inst_Position : INSTANCE_POS;
-    float3 Inst_Scale : INSTANCE_SCALE;
-    float3 Inst_Rotation : INSTANCE_ROT;
+    float4 Inst_Position : INSTANCE_POS;
+    float4 Inst_Scale : INSTANCE_SCALE;
+    float4 Inst_Rotation : INSTANCE_ROT;
 };
 
 struct PS_IN
@@ -94,7 +94,7 @@ void main(in VS_IN In, out PS_IN Out)
     
     //法線方向に押し出し（エッジ）
     float3 normal = normalize(mul(float4(In.Normal.xyz, 0.0f), World).xyz);
-    float4 pos = In.Position;
+    float4 pos = float4(In.Position.xyz , 1.0f);
     pos.xyz += normal * 0.05f;
     
     Out.Position = mul(pos, WVP);

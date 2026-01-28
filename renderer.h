@@ -51,9 +51,9 @@ struct CAMERA
 
 struct InstanceData
 {
-	XMFLOAT3	Position;
-	XMFLOAT3	Scale;
-	XMFLOAT3	Rotation;
+	XMFLOAT4	Position;
+	XMFLOAT4	Scale;
+	XMFLOAT4	Rotation;
 };
 
 

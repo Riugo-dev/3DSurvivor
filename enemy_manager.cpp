@@ -357,9 +357,9 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 		}
 
 		InstanceData inst{};
-		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z };
-		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z };
-		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z};
+		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z , 0.0f};
+		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
+		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 0.0f};
 
 		group.SendingDate.push_back(inst);
 	}

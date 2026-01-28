@@ -178,6 +178,6 @@ void Game::Draw()
 {
 	Scene::Draw();
 
-	m_pTimer->Draw();
+	//m_pTimer->Draw();
 }
 
