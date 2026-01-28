@@ -14,6 +14,7 @@
 #include "player.h"
 #include "scene.h"
 #include "controller.h"
+#include "manager_effekseer.h"
 
 #include "camera.h"
 
@@ -33,6 +34,7 @@
 #define CAMERA_TARGET_FP_Y	(2.0f)
 #define CAMERA_TARGET_FP_Z	(10.0f)
 
+using namespace graphics;
 
 //********************************************************************************
 //関数
@@ -283,6 +285,23 @@ void Camera::Draw()
 	m_View = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*) &m_Position), XMLoadFloat3((XMFLOAT3*) &m_Target), XMLoadFloat3(&up));//カメラの設定をするためのマトリックス　ココがかなり大事☆
 
 	Renderer::SetViewMatrix(m_View);
+
+	auto effekseer = graphics::EffekseerManager::GetInstance();
+
+	Effekseer::Matrix44 efView;
+	Effekseer::Matrix44 efProj;
+
+	XMFLOAT4X4 view;
+	XMFLOAT4X4 proj;
+
+	XMStoreFloat4x4(&view, m_View);
+	XMStoreFloat4x4(& proj, m_Projection);
+
+	// XMFLOAT4X4 → Effekseer::Matrix44 にコピー
+	memcpy(&efView, &view, sizeof(Effekseer::Matrix44));
+	memcpy(&efProj, &proj, sizeof(Effekseer::Matrix44));
+
+	effekseer->SetCamera(efView, efProj);
 }
 
 void Camera::CameraShake(Vector3 shake)//引数が揺れの大きさ

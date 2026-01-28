@@ -43,6 +43,7 @@ using namespace DirectX;
 #define SCREEN_WIDTH	(1280)
 #define SCREEN_HEIGHT	(720)
 
+#define SAFE_RELEASE(o)      if (o){  (o)->Release(); o = NULL; }
 
 HWND GetWindow();
 

@@ -108,10 +108,13 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>main.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Effekseer/src/Effekseer;Effekseer/src/EffekseerRendererDX11;Effekseer/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>Effekseer\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Effekseer.lib;EffekseerRendererDX11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,12 +129,16 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>main.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Effekseer/src/Effekseer;Effekseer/src/EffekseerRendererDX11;Effekseer/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>Effekseer\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Effekseer.lib;EffekseerRendererDX11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -149,6 +156,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="effect_spawner.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_bullet.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
@@ -181,6 +189,7 @@
     <ClCompile Include="lowtier_exp_item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="manager_effekseer.cpp" />
     <ClCompile Include="meshField.cpp" />
     <ClCompile Include="midboss_manager.cpp" />
     <ClCompile Include="petal_particle.cpp" />
@@ -233,6 +242,7 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="effect_spawner.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemybase.h" />
     <ClInclude Include="enemy_bullet.h" />
@@ -266,6 +276,7 @@
     <ClInclude Include="lowtier_exp_item.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="manager_effekseer.h" />
     <ClInclude Include="meshField.h" />
     <ClInclude Include="midbossbase.h" />
     <ClInclude Include="midboss_manager.h" />
@@ -297,6 +308,9 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="title_ui.h" />
+    <ClInclude Include="utils_color.h" />
+    <ClInclude Include="utils_math.h" />
+    <ClInclude Include="utils_quaternion.h" />
     <ClInclude Include="vacuum_item.h" />
     <ClInclude Include="vector3.h" />
     <ClInclude Include="exp_ui.h" />

@@ -20,6 +20,7 @@
 #include "model_manager.h"
 #include "shader_manager.h"
 #include "manager_soundeffect.h"
+#include "effect_spawner.h"
 
 #include "player.h"
 
@@ -31,6 +32,8 @@
 #define PLAYER_ROTATING_RADIUS (15.0f)
 #define ANGLE_INCREASERATE (0.5f)
 #define RADIAN (XM_PI / 180.0f)
+
+using namespace app;
 //********************************************************************************
 //ŠÖ”
 //********************************************************************************
@@ -165,6 +168,11 @@ void Player::Update()
 		m_Radian = m_RotationAngle * RADIAN;
 
 		m_Rotation.y = atan2f(dir.x, dir.z);
+	}
+
+	if (m_pInput->GetKeyTrigger(KK_SPACE))
+	{
+		EffectSpawner::Spawn("asset\\effect\\test.efk", m_Position);
 	}
 }
 

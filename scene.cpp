@@ -14,11 +14,11 @@
 #include "gameobject.h"
 #include "camera.h"
 #include "input.h"
-
+#include "manager_effekseer.h"
 
 #include "scene.h"
 
-
+using namespace graphics;
 
 //********************************************************************************
 //ŠÖ”
@@ -46,7 +46,10 @@ void Scene::Uninit()
 		/*m_GameObjects[i].clear();*/
 		list.clear();
 	}
-}
+	
+	EffekseerManager::GetInstance()->StopAllEffects();
+
+} 
 
 void Scene::Update()
 {
@@ -96,12 +99,21 @@ void Scene::Draw()
 			});
 	}
 
-	for (/*int i = 0; i < 4; i++*/ auto& list : m_GameObjects)
+	for (int i = 0; i < 6; i++/* auto& list : m_GameObjects*/)
 	{
-		for (auto itr : list /* m_GameObjects[i]*/)
+		for (auto itr : /*list*/  m_GameObjects[i])
 		{
 			itr->Draw();
 		}
+
+		if (i == 2)
+		{
+			if (EffekseerManager::GetInstance())
+			{
+				EffekseerManager::GetInstance()->DrawAll();
+			}
+		}
+
 	}
 
 }

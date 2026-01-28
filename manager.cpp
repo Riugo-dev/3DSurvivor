@@ -19,6 +19,7 @@
 #include "fade.h"
 #include "audio.h"
 #include "manager_soundeffect.h"
+#include "manager_effekseer.h"
 
 
 #include "manager.h"
@@ -32,12 +33,17 @@ Controller* Manager::m_pController = nullptr;
 Audio* Manager::m_pAudio = nullptr;
 SoundEffectManager* Manager::m_pSoundEffect = nullptr;
 //ShaderManager* Manager::m_pShaderManager = nullptr;
+
+using namespace graphics;
+
 //********************************************************************************
 //ŠÖ”
 //********************************************************************************
 void Manager::Init()
 {
 	Renderer::Init();
+
+	EffekseerManager::GetInstance()->Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
 
 	m_pAudio = new Audio;
 	m_pAudio->InitMaster();
@@ -68,6 +74,8 @@ void Manager::Uninit()
 
 	delete m_pController;
 	delete m_Input;
+	EffekseerManager::GetInstance()->Terminate();
+
 	Renderer::Uninit();
 }
 
@@ -78,7 +86,7 @@ void Manager::Update()
 
 	m_Scene->Update();
 
-
+	EffekseerManager::GetInstance()->Update();
 	
 }
 

@@ -26,7 +26,11 @@
 #include "petal_particle.h"
 #include "shadowvolume.h"
 
+#include "effect_spawner.h"
+
 #include "title.h"
+
+using namespace app;
 
 void Title::Init(Input* input)
 {
@@ -65,6 +69,7 @@ void Title::Uninit()
 	delete m_pModelManager;
 	m_pModelManager = nullptr;
 
+
 	Scene::Uninit();
 }
 
@@ -95,6 +100,13 @@ void Title::Update()
 		Manager::GetAudio()->LowerVolume(0.01f);
 		//Manager::GetAudio()->SetVolumeZero();
 	}
+
+	//if (m_Input->GetKeyTrigger(KK_SPACE))
+	//{
+	//	Player* player = Manager::GetScene()->GetGameObject<Player>();
+
+	//	EffectSpawner::Spawn("asset\\effect\\test.efk", player->GetPosition());
+	//}
 
 
 	Scene::Update();
