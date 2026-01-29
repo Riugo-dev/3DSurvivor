@@ -38,6 +38,7 @@
 void EnemyManager::WaveOne()
 {
 	std::random_device rd;
+	//int enemyspawnedcount = rd() % 50 + 250;//スポーンさせる敵の数
 	int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
 
 	LevelOneEnemySpawner(enemyspawnedcount);
@@ -65,6 +66,12 @@ void EnemyManager::WaveThree()
 	int levelthreecount = rd() % 3 + 15;
 
 	int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
+
+	//int enemyspawnedcount = rd() % 50 + 375;//スポーンさせる敵の数
+
+	//int levelthreecount = rd() % 50 + 25;
+
+	//int leveltwocount = rd() % 70 + 100;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
 
@@ -126,6 +133,7 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
+		//int distance = rd() % 30 + 8;//rd() % 7 + 7
 		int distance = rd() % 10 + 8;//rd() % 7 + 7
 		float angle = randangle(mt);
 
