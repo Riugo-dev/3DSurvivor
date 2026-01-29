@@ -153,6 +153,7 @@
     <ClCompile Include="enemy_bullet.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
+    <ClCompile Include="explosion_gpuparticle.cpp" />
     <ClCompile Include="explosion_particle.cpp" />
     <ClCompile Include="exp_ui.cpp" />
     <ClCompile Include="fade.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="enemy_bullet.h" />
     <ClInclude Include="enemy_manager.h" />
     <ClInclude Include="explosion.h" />
+    <ClInclude Include="explosion_gpuparticle.h" />
     <ClInclude Include="explosion_particle.h" />
     <ClInclude Include="exp_item.h" />
     <ClInclude Include="fade.h" />

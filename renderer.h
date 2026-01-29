@@ -56,6 +56,14 @@ struct InstanceData
 	XMFLOAT4	Rotation;
 };
 
+struct GPUParticle
+{
+	XMFLOAT3 Position;
+	float Life;
+	XMFLOAT3 Velocity;
+	float MaxLife;
+	XMFLOAT4 Color;
+};
 
 //********************************************************************************
 //ƒNƒ‰ƒX
