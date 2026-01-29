@@ -111,10 +111,12 @@ void Scene::Draw()
 			{
 				Game* game = dynamic_cast<Game*>(Manager::GetScene());
 
-				if(game->GetGameState() == GAME_PLAY)
+				game->GetGameTimer()->Draw();
+
+				/*if(game->GetGameState() == GAME_PLAY)
 				{
-					game->GetGameTimer()->Draw();
-				}
+					
+				}*/
 			}
 		}
 

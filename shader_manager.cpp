@@ -176,5 +176,10 @@ void ShaderManager::SetShaders(Shader shader)
 	Renderer::GetDeviceContext()->PSSetShader(m_pShaderPointers[shader]->GetPixelShader(), NULL, 0);
 }
 
+ID3D11InputLayout* ShaderManager::GetInputLayout(Shader shader)
+{
+	return m_pShaderPointers[shader]->GetVertexLayout();
+}
+
 
 

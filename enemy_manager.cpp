@@ -346,20 +346,29 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy)
 
 void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 {//ドローの直前で更新する
+
+	group.Enemies.erase
+	(
+		std::remove_if
+		(
+			group.Enemies.begin(),
+			group.Enemies.end(),
+			[](BaseEnemy* enemy)
+			{
+				return enemy == nullptr || enemy->GetDestroy();
+			}
+		),
+		group.Enemies.end()
+	);
+
 	group.SendingDate.clear();
 
 	for (auto* itr : group.Enemies)
 	{
-		if (itr->GetDestroy())
-		{
-			itr = nullptr;
-			continue;
-		}
-
 		InstanceData inst{};
-		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z , 0.0f};
+		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z , 1.0f};
 		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
-		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 0.0f};
+		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 1.0f};
 
 		group.SendingDate.push_back(inst);
 	}
@@ -409,7 +418,8 @@ void EnemyManager::Draw()
 		UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
 		UINT offsets[2] = { 0 , 0 };
 		
-		Renderer::SetCullMode(D3D11_CULL_BACK);
+		//Renderer::SetCullMode(D3D11_CULL_BACK);
+		Renderer::SetCullMode(D3D11_CULL_NONE);
 
 		MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
 
@@ -420,25 +430,29 @@ void EnemyManager::Draw()
 
 		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
 
+		Renderer::GetDeviceContext()->IASetInputLayout(ModelManager::GetShaderManager(tag)->GetInputLayout(SHADER_INSTANCE_TOON));
+
+		//Renderer::GetDeviceContext()
+
 		Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, inst.Enemies.size(), 0, 0);
+		//Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, inst.Enemies.size(), 0, 0);
 
-		//for(int i = 0; i < model->SubsetNum ; i++)
-		//{
-		//	assert(model->SubsetArray[i].IndexNum > 0);
+		for(int i = 0; i < model->SubsetNum ; i++)
+		{
+			assert(model->SubsetArray[i].IndexNum > 0);
 
-		//	//マテリアルの固定
-		//	Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+			//マテリアルの固定
+			Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
 
-		//	//実際の描画
-		//	Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, 1, model->SubsetArray[i].StartIndex, 0, 0);
-		//
-		//	/*Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
-		//*/
-		//}
+			//実際の描画
+			Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
+		
+			/*Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
+		*/
+		}
 
 
 	}

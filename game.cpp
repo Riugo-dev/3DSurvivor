@@ -55,8 +55,7 @@ void Game::Init(Input* input)
 
 	m_Input = input;
 	m_pTimer = new GameTimer;
-
-
+	SetSceneType(SCENE_GAME);
 	//Renderer::Init();
 
 	//m_GameObjects.push_back(new Camera(g_Input));

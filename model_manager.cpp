@@ -187,3 +187,8 @@ ModelRenderer* ModelManager::GetModelRenderers(ModelTags tag)
 {
 	return m_pModelRenderers[tag].get();
 }
+
+ShaderManager* ModelManager::GetShaderManager(ModelTags model)
+{
+	return m_pModelShaders[model].get();
+}

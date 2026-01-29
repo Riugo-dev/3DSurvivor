@@ -8,9 +8,9 @@ struct VS_IN
     float2 TexCoord : TEXCOORD0;
     
     //----インスタンスデータ-------
-    float3 Inst_Position : INSTANCE_POS;
-    float3 Inst_Scale : INSTANCE_SCALE;
-    float3 Inst_Rotation : INSTANCE_ROT;
+    float4 Inst_Position : INSTANCE_POS;
+    float4 Inst_Scale : INSTANCE_SCALE;
+    float4 Inst_Rotation : INSTANCE_ROT;
 };
 
 struct PS_IN
@@ -89,16 +89,16 @@ void main(in VS_IN In, out PS_IN Out)
         In.Inst_Position.x, In.Inst_Position.y, In.Inst_Position.z, 1
     };
     
-    matrix World =
-    {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 5, 1
-    };
+    //matrix World =
+    //{
+    //    1, 0, 0, 0,
+    //    0, 1, 0, 0,
+    //    0, 0, 1, 0,
+    //    0, 0, 5, 1
+    //};
     
-    //matrix World = mul(Scale, Rotation);
-    //World = mul(World, Translation);
+    matrix World = mul(Scale, Rotation);
+    World = mul(World, Translation);
     
     matrix WVP = mul(World, View);
     WVP = mul(WVP, Projection);

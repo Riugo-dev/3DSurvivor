@@ -80,6 +80,7 @@ public:
 	static void ModelDrawAlpha(ModelTags, float aplha = 1.0f);
 	static void SetShaders(ModelTags, Shader);
 	static ModelRenderer* GetModelRenderers(ModelTags);
+	static ShaderManager* GetShaderManager(ModelTags);
 };
 
 #endif // !_MODEL_MANAGER_H_

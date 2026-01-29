@@ -59,6 +59,7 @@ public:
 
 	ShaderPointers* GetShaderPointers(Shader);
 	void SetShaders(Shader);
+	ID3D11InputLayout* GetInputLayout(Shader);
 };
 
 #endif // !_SHADER_MANAGER_H_
