@@ -14,7 +14,9 @@
 #include "gameobject.h"
 #include "camera.h"
 #include "input.h"
-
+#include "game.h"
+#include "gametimer.h"
+#include "exp_item_manager.h"
 
 #include "scene.h"
 
@@ -96,12 +98,31 @@ void Scene::Draw()
 			});
 	}
 
-	for (/*int i = 0; i < 4; i++*/ auto& list : m_GameObjects)
+	for (int i = 0; i < 6; i++/* auto& list : m_GameObjects*/)
 	{
-		for (auto itr : list /* m_GameObjects[i]*/)
+		for (auto itr : /*list*/  m_GameObjects[i])
 		{
 			itr->Draw();
+
 		}
+
+		if (i == 1)
+		{
+			if (Manager::GetScene()->GetSceneType() == SCENE_GAME)
+			{
+				Game* game = dynamic_cast<Game*>(Manager::GetScene());
+
+				game->GetGameTimer()->Draw();
+
+				ExpItemManager::GetInstance()->Draw();
+
+				/*if(game->GetGameState() == GAME_PLAY)
+				{
+					
+				}*/
+			}
+		}
+
 	}
 
 }

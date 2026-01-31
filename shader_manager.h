@@ -18,10 +18,15 @@ typedef enum
 	SHADER_NONE = -1,
 	SHADER_UNLITTEXT,
 	SHADER_TOON,
+	SHADER_INSTANCE_TOON,
 	SHADER_BLINNPHONG,
+	SHADER_INSTANCE_BLINNPHONG,
 	SHADER_TOONEDGE,
+	SHADER_INSTANCE_EDGE,
 	SHADER_TOON_TWO,
 	SHADER_DIRECTIONLIGHTING,
+
+	SHADER_TEST,
 
 	SHADER_MAX,
 }Shader;
@@ -55,6 +60,7 @@ public:
 
 	ShaderPointers* GetShaderPointers(Shader);
 	void SetShaders(Shader);
+	ID3D11InputLayout* GetInputLayout(Shader);
 };
 
 #endif // !_SHADER_MANAGER_H_

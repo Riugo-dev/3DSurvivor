@@ -50,6 +50,7 @@ GameTimer::GameTimer()
 	m_FrameCount = 0;
 
 	m_pEnemyManager = new EnemyManager(this);
+	m_pEnemyManager->Init();
 	m_pShooterEnemyManager = new ShooterEnemyManager(this);
 	m_pSwarmEnemyManager = new SwarmEnemyManager(this);
 	m_pMidBossManager = new MidBossManager(this);
@@ -66,6 +67,7 @@ GameTimer::~GameTimer()
 	delete m_pShooterEnemyManager;
 	m_pShooterEnemyManager = nullptr;
 
+	m_pEnemyManager->Uninit();
 	delete m_pEnemyManager;
 	m_pEnemyManager = nullptr;
 }
@@ -201,11 +203,14 @@ void GameTimer::Update()
 	{
 		m_pMidBossManager->SpawnEnemy();
 	}
+
+	m_pEnemyManager->Update();
+
 }
 
 void GameTimer::Draw()
 {
-
+	m_pEnemyManager->Draw();
 }
 
 Wave GameTimer::GetCurrentWave()

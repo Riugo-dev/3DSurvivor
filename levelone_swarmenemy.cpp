@@ -8,6 +8,7 @@
 #include "main.h"
 #include <random>
 #include "lowtier_exp_item.h"
+#include "exp_item_manager.h"
 #include "attackbase.h"
 #include "player.h"
 #include "camera.h"
@@ -185,5 +186,6 @@ void LevelOneSwarmEnemy::EnemyItemDrop()
 		LowTierExpItem* item = Manager::GetScene()->AddGameObject<LowTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 }

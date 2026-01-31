@@ -9,15 +9,33 @@
 #ifndef _ENEMY_MANAGER_H_
 #define _ENEMY_MANAGER_H_
 
-
+#include <vector>
 
 class EnemyManager
 {
 private:
 	class GameTimer* m_pGameTimer;
+	struct EnemyInstanceGroup
+	{
+		Shader ShaderInfo;
+		std::vector<class BaseEnemy*> Enemies;
+		std::vector<InstanceData> SendingData;
+		ID3D11Buffer* InstanceBuffer = nullptr;
+	};
+
+	std::unordered_map<ModelTags, EnemyInstanceGroup> map_Enemies;
+
 public:
 	EnemyManager(GameTimer*);
 	~EnemyManager();
+
+	void Init();
+	void Uninit();
+
+	void AddEnemy(class BaseEnemy*);
+	void UpdateInstanceBuffer(EnemyInstanceGroup& group);
+	void Update();
+	void Draw();
 
 	void SpawnEnemy();
 	void DestroyFarEnemy();

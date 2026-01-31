@@ -34,6 +34,7 @@
 #include "fade.h"
 #include "model_manager.h"
 #include "manager_soundeffect.h"
+#include "exp_item_manager.h"
 #include "controller.h"
 #include "title.h"
 #include "audio.h"
@@ -55,8 +56,7 @@ void Game::Init(Input* input)
 
 	m_Input = input;
 	m_pTimer = new GameTimer;
-
-
+	SetSceneType(SCENE_GAME);
 	//Renderer::Init();
 
 	//m_GameObjects.push_back(new Camera(g_Input));
@@ -80,6 +80,8 @@ void Game::Init(Input* input)
 
 	m_State = GAME_FADEIN;
 
+	ExpItemManager::GetInstance();//‚Æ‚è‚ ‚¦‚¸‰Šú‰»
+
 	//Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
 	Manager::GetAudio()->Load("asset\\audio\\Devine-Fencer.wav");
 	Manager::GetAudio()->Play(true);
@@ -87,7 +89,11 @@ void Game::Init(Input* input)
 
 void Game::Uninit()
 {
+
 	Manager::GetAudio()->Uninit();
+
+	ExpItemManager::GetInstance()->DestroySelf();//I—¹ˆ—
+
 	delete m_pTimer;
 	m_pTimer = nullptr;
 
@@ -114,7 +120,7 @@ void Game::Update()
 
 		m_pTimer->Update();
 
-
+		ExpItemManager::GetInstance()->Update();
 
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
@@ -177,5 +183,7 @@ void Game::Update()
 void Game::Draw()
 {
 	Scene::Draw();
+
+	//m_pTimer->Draw();
 }
 

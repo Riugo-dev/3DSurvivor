@@ -196,6 +196,8 @@ public:
 		//}
 	}
 
+	ModelTags GetModelTag() { return m_ModelTag; }
+	Shader GetShader() { return m_Shader; }
 
 	void DamageEnemy(int damage)
 	{

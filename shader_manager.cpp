@@ -69,6 +69,17 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 		m_pShaderPointers[SHADER_TOON]->SetShaderPointers(vs, ps, vl);
 	}
 		break;
+	case SHADER_INSTANCE_TOON:
+	{
+		m_pShaderPointers[SHADER_INSTANCE_TOON] = new ShaderPointers;
+		ID3D11VertexShader* vs;
+		ID3D11PixelShader* ps;
+		ID3D11InputLayout* vl;
+		Renderer::CreateInstanceVertexShader(&vs, &vl, "shader\\tooninstancedVS.cso");
+		Renderer::CreatePixelShader(&ps, "shader\\toon1PS.cso");
+		m_pShaderPointers[SHADER_INSTANCE_TOON]->SetShaderPointers(vs, ps, vl);
+	}
+		break;
 	case SHADER_BLINNPHONG:
 	{
 		m_pShaderPointers[SHADER_BLINNPHONG] = new ShaderPointers;
@@ -78,6 +89,17 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 		Renderer::CreateVertexShader(&vs, &vl, "shader\\pixelLightingBlinnPhongVS.cso");
 		Renderer::CreatePixelShader(&ps, "shader\\pixelLightingBlinnPhongPS.cso");
 		m_pShaderPointers[SHADER_BLINNPHONG]->SetShaderPointers(vs, ps, vl);
+	}
+		break;
+	case SHADER_INSTANCE_BLINNPHONG:
+	{
+		m_pShaderPointers[SHADER_INSTANCE_BLINNPHONG] = new ShaderPointers;
+		ID3D11VertexShader* vs;
+		ID3D11PixelShader* ps;
+		ID3D11InputLayout* vl;
+		Renderer::CreateInstanceVertexShader(&vs, &vl, "shader\\blinnphonginstanceVS.cso");
+		Renderer::CreatePixelShader(&ps, "shader\\pixelLightingBlinnPhongPS.cso");
+		m_pShaderPointers[SHADER_INSTANCE_BLINNPHONG]->SetShaderPointers(vs, ps, vl);
 	}
 		break;
 	case SHADER_TOON_TWO:
@@ -108,7 +130,17 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 
 	
 
-	if(flag)
+	if(flag && (shader == SHADER_INSTANCE_TOON || shader == SHADER_INSTANCE_BLINNPHONG))
+	{
+		m_pShaderPointers[SHADER_INSTANCE_EDGE] = new ShaderPointers;
+		ID3D11VertexShader* vs;
+		ID3D11PixelShader* ps;
+		ID3D11InputLayout* vl;
+		Renderer::CreateInstanceVertexShader(&vs, &vl, "shader\\instanceVSEdge.cso");
+		Renderer::CreatePixelShader(&ps, "shader\\ToonPSEdge.cso");
+		m_pShaderPointers[SHADER_INSTANCE_EDGE]->SetShaderPointers(vs, ps, vl);
+	}
+	else if(flag && shader!= SHADER_INSTANCE_TOON)
 	{
 		m_pShaderPointers[SHADER_TOONEDGE] = new ShaderPointers;
 		ID3D11VertexShader* vs;
@@ -118,6 +150,7 @@ ShaderManager::ShaderManager(Shader shader , bool flag)
 		Renderer::CreatePixelShader(&ps, "shader\\ToonPSEdge.cso");
 		m_pShaderPointers[SHADER_TOONEDGE]->SetShaderPointers(vs, ps, vl);
 	}
+	
 
 	
 
@@ -152,6 +185,11 @@ void ShaderManager::SetShaders(Shader shader)
 
 	Renderer::GetDeviceContext()->VSSetShader(m_pShaderPointers[shader]->GetVertexShader(), NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_pShaderPointers[shader]->GetPixelShader(), NULL, 0);
+}
+
+ID3D11InputLayout* ShaderManager::GetInputLayout(Shader shader)
+{
+	return m_pShaderPointers[shader]->GetVertexLayout();
 }
 
 

@@ -138,7 +138,7 @@ void ModelRenderer::LoadModel( const char *FileName, MODEL *Model)
 	MODEL_OBJ modelObj;
 	LoadObj( FileName, &modelObj );
 
-
+	Model->VertexNum = modelObj.VertexNum;
 
 	// 頂点バッファ生成
 	{

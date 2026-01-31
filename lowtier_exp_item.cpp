@@ -25,7 +25,8 @@ void LowTierExpItem::Init()
 {
 	m_Scale = { 1.0f , 1.0f , 1.0f };
 
-	m_Shader = SHADER_BLINNPHONG;
+	m_Shader = SHADER_INSTANCE_BLINNPHONG;
+	/*m_Shader = SHADER_BLINNPHONG;*/
 
 	std::random_device rd;
 	m_Exp = rd() % 30 + 5;
@@ -71,61 +72,61 @@ void LowTierExpItem::Update()
 
 void LowTierExpItem::Draw()
 {
-	{//通常の描画
-			//入力レイアウト設定
-			//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
+	//{//通常の描画
+	//		//入力レイアウト設定
+	//		//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexLayout());
 
-			////シェーダ設定
-			//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
-			//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
+	//		////シェーダ設定
+	//		//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetVertexShader(), NULL, 0);
+	//		//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(m_Shader)->GetPixelShader(), NULL, 0);
 
-		ModelManager::SetShaders(m_ModelTag, m_Shader);
+	//	ModelManager::SetShaders(m_ModelTag, m_Shader);
 
-		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+	//	//平行移動行列の作成（表示座標を決める）
+	//	XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
-		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
+	//	//回転行列（Z回転）行列の作成
+	//	XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
-		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	//	//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	//	XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
-		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+	//	//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	//	XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
 
-		//マテリアル設定
-		MATERIAL material{};
-		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-		material.TextureEnable = false;
-		Renderer::SetMaterial(material);
-
-
-
-		Renderer::SetWorldMatrix(WorldMatrix);
-
-		//m_pModelRenderer->Draw();
-
-		ModelManager::ModelDraw(m_ModelTag);
-	}
+	//	//マテリアル設定
+	//	MATERIAL material{};
+	//	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+	//	material.TextureEnable = false;
+	//	Renderer::SetMaterial(material);
 
 
-	{//輪郭線の描画
-		//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
 
-		////シェーダ設定
-		//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
-		//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+	//	Renderer::SetWorldMatrix(WorldMatrix);
 
-		ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+	//	//m_pModelRenderer->Draw();
 
-		Renderer::SetCullMode(D3D11_CULL_FRONT);
+	//	ModelManager::ModelDraw(m_ModelTag);
+	//}
 
-		//描画
-		//m_pModelRenderer->Draw();
-		ModelManager::ModelDraw(m_ModelTag);
 
-		Renderer::SetCullMode(D3D11_CULL_BACK);
-	}
+	//{//輪郭線の描画
+	//	//Renderer::GetDeviceContext()->IASetInputLayout(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexLayout());
+
+	//	////シェーダ設定
+	//	//Renderer::GetDeviceContext()->VSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetVertexShader(), NULL, 0);
+	//	//Renderer::GetDeviceContext()->PSSetShader(Manager::GetShaders()->GetShaderPointers(SHADER_TOONEDGE)->GetPixelShader(), NULL, 0);
+
+	//	ModelManager::SetShaders(m_ModelTag, SHADER_TOONEDGE);
+
+	//	Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+	//	//描画
+	//	//m_pModelRenderer->Draw();
+	//	ModelManager::ModelDraw(m_ModelTag);
+
+	//	Renderer::SetCullMode(D3D11_CULL_BACK);
+	//}
 }
 
 

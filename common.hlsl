@@ -81,26 +81,31 @@ cbuffer GaussianWeight : register(b7)
 
 
 
-struct VS_IN
-{
-	float4 Position		: POSITION0;
-	float4 Normal		: NORMAL0;
-	float4 Diffuse		: COLOR0;
-	float2 TexCoord		: TEXCOORD0;
-};
+//struct VS_IN
+//{
+//	float4 Position		: POSITION0;
+//	float4 Normal		: NORMAL0;
+//	float4 Diffuse		: COLOR0;
+//	float2 TexCoord		: TEXCOORD0;
+    
+//    //----インスタンスデータ-------
+//    float3 Inst_Position     : INSTANCE_POS;
+//    float3 Inst_Scale        : INSTANCE_SCALE;
+//    float3 Inst_Rotation     : INSTANCE_ROT;
+//};
 
 
-struct PS_IN
-{
-    float4 Position : SV_POSITION;
-    float4 WorldPosition : POSITION0;
-    float4 Normal : NORMAL0;
-    float4 Diffuse : COLOR0;
-    float2 TexCoord : TEXCOORD0;
-    //float4 WorldPosition : TEXCOORD0;
-    //float4 Normal : TEXCOORD1;
-    //float4 Diffuse : TEXCOORD2;
-    //float2 TexCoord : TEXCOORD3;
-    //float VertexLight : TEXCOORD1;//頂点ライティングの結果
-    //float3 LightDir : TEXCOORD2;//VSで計算したキャラ基準のライト方向
-};
+//struct PS_IN
+//{
+//    float4 Position : SV_POSITION;
+//    float4 WorldPosition : POSITION0;
+//    float4 Normal : NORMAL0;
+//    float4 Diffuse : COLOR0;
+//    float2 TexCoord : TEXCOORD0;
+//    //float4 WorldPosition : TEXCOORD0;
+//    //float4 Normal : TEXCOORD1;
+//    //float4 Diffuse : TEXCOORD2;
+//    //float2 TexCoord : TEXCOORD3;
+//    //float VertexLight : TEXCOORD1;//頂点ライティングの結果
+//    //float3 LightDir : TEXCOORD2;//VSで計算したキャラ基準のライト方向
+//};

@@ -91,6 +91,9 @@ AttackManager::AttackManager()
 	Manager::GetScene()->AddGameObject<SwordAttack>(5);
 	Manager::GetScene()->AddGameObject<BulletAttack>(5);
 	Manager::GetScene()->AddGameObject<ShurikenAttack>(5);
+
+	m_SlideAnimation = SCREEN_WIDTH;
+
 }
 
 AttackManager::~AttackManager()
@@ -106,6 +109,16 @@ void AttackManager::Update()
 {
 	if (Game::GetGameState() == PLAYER_LEVELUP)
 	{
+		if (m_SlideAnimation > 0)
+		{
+			m_SlideAnimation -= (SCREEN_WIDTH / 10);
+
+			if (m_SlideAnimation <= 0)
+			{
+				m_SlideAnimation = 0;
+			}
+		}
+
 
 		Controller* p_contorller = Manager::GetController();
 
@@ -181,6 +194,9 @@ void AttackManager::Update()
 			}
 				break;
 			}
+
+			m_SlideAnimation = SCREEN_WIDTH;
+
 		}
 	}
 }
@@ -247,9 +263,9 @@ void AttackManager::drawbg()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = 0.0f;//描画開始位置・・・X座標
+		float x = 0.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = 0.0f;//描画開始位置・・・Y座標
-		float w = SCREEN_WIDTH;//描画物の幅
+		float w = SCREEN_WIDTH - m_SlideAnimation;//描画物の幅
 		float h = SCREEN_HEIGHT;//描画物の高さ
 
 		float tw = 1;
@@ -297,9 +313,9 @@ void AttackManager::drawbg()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = SCREEN_WIDTH / 4;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = SCREEN_HEIGHT / 4;//描画開始位置・・・Y座標
-		float w = SCREEN_WIDTH / 2;//描画物の幅
+		float w = (SCREEN_WIDTH / 2) - m_SlideAnimation;//描画物の幅
 		float h = SCREEN_HEIGHT / 2;//描画物の高さ
 
 		float tw = 1;
@@ -349,9 +365,9 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4);//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
@@ -388,7 +404,7 @@ void AttackManager::drawicon()
 		Renderer::GetDeviceContext()->Draw(4, 0);
 	}
 
-	{//剣
+	{//爆弾
 		//テクスチャ設定
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextureBomb);
 
@@ -398,9 +414,9 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 175.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 175.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
-		float w = 75.0f;//描画物の幅
+		float w = 75.0f - m_SlideAnimation;//描画物の幅
 		float h = 75.0f;//描画物の高さ
 
 		float tw = 1;
@@ -447,9 +463,9 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 350.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 350.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
-		float w = 75.0f;//描画物の幅
+		float w = 75.0f - m_SlideAnimation;//描画物の幅
 		float h = 75.0f;//描画物の高さ
 
 		float tw = 1;
@@ -497,9 +513,9 @@ void AttackManager::drawicon()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 525.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 525.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) - 75.0f;//描画開始位置・・・Y座標
-		float w = 75.0f;//描画物の幅
+		float w = 75.0f - m_SlideAnimation;//描画物の幅
 		float h = 75.0f;//描画物の高さ
 
 		float tw = 1;
@@ -553,16 +569,16 @@ void AttackManager::drawselect()
 
 		if (m_SelectNumber == 0 || m_SelectNumber == 3)
 		{
-			x = (SCREEN_WIDTH / 4) + (515 / 3) * m_SelectNumber;//描画開始位置・・・X座標
+			x = ((SCREEN_WIDTH / 4) + (515 / 3) * m_SelectNumber) - m_SlideAnimation;//描画開始位置・・・X座標
 		}
 		else //if (m_SelectNumber == 2)
 		{
-			x = (SCREEN_WIDTH / 4) -12.5f + (515 / 3) * m_SelectNumber;//描画開始位置・・・X座標
+			x = ((SCREEN_WIDTH / 4) - 12.5f + (515 / 3) * m_SelectNumber) - m_SlideAnimation;//描画開始位置・・・X座標
 		}
 
 		
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
@@ -622,9 +638,9 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4);//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4)  + 50.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
@@ -679,9 +695,9 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 160.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 160.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
@@ -736,9 +752,9 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 335.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 335.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
@@ -794,9 +810,9 @@ void AttackManager::drawoption()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = (SCREEN_WIDTH / 4) + 515.0f;//描画開始位置・・・X座標
+		float x = (SCREEN_WIDTH / 4) + 515.0f - m_SlideAnimation;//描画開始位置・・・X座標
 		float y = (SCREEN_WIDTH / 4) + 50.0f;//描画開始位置・・・Y座標
-		float w = 100.0f;//描画物の幅
+		float w = 100.0f - m_SlideAnimation;//描画物の幅
 		float h = 100.0f;//描画物の高さ
 
 		float tw = 1;
