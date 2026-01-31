@@ -29,7 +29,7 @@
 #include "enemy_manager.h"
 
 #define ENEMY_DESTORY_LENGTH (50.0f)
-#define ENEMY_MAX_NUM (400)
+#define ENEMY_MAX_NUM (600)
 
 //********************************************************************************
 //プライベート関数
@@ -38,8 +38,8 @@
 void EnemyManager::WaveOne()
 {
 	std::random_device rd;
-	//int enemyspawnedcount = rd() % 50 + 250;//スポーンさせる敵の数
-	int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 50 + 150;//スポーンさせる敵の数
+	//int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
 
 	LevelOneEnemySpawner(enemyspawnedcount);
 }
@@ -47,9 +47,11 @@ void EnemyManager::WaveOne()
 void EnemyManager::WaveTwo()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 50 + 150;//スポーンさせる敵の数
+	//int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 50 + 25;//レベル２エネミーのスポーン数
+	//int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
 
@@ -61,11 +63,14 @@ void EnemyManager::WaveTwo()
 void EnemyManager::WaveThree()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
+	//int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 3 + 15;
+	int levelthreecount = rd() % 30 + 20;
+	//int levelthreecount = rd() % 3 + 15;
 
-	int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 50 + 50;//レベル２エネミーのスポーン数
+	//int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
 
 	//int enemyspawnedcount = rd() % 50 + 375;//スポーンさせる敵の数
 
@@ -83,13 +88,18 @@ void EnemyManager::WaveThree()
 void EnemyManager::WaveFour()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 50 + 200;//スポーンさせる敵の数
+	//int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
 
-	int levelfourcount = rd() % 3 + 15;
+	int levelfourcount = rd() % 10 + 20;
+	/*int levelfourcount = rd() % 3 + 15;*/
 
-	int levelthreecount = rd() % 7 + 13;
+	int levelthreecount = rd() % 20 + 50;
+	/*int levelthreecount = rd() % 7 + 13;*/
 
-	int leveltwocount = rd() % 2 + 15;//レベル２エネミーのスポーン数
+
+	int leveltwocount = rd() % 25 + 75;//レベル２エネミーのスポーン数
+	//int leveltwocount = rd() % 2 + 15;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
 
@@ -102,13 +112,17 @@ void EnemyManager::WaveFour()
 void EnemyManager::WaveMax()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 50 + 250;//スポーンさせる敵の数
+	//int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
-	int levelfivecount = rd() % 3 + 13;
+	int levelfivecount = rd() % 10 + 20;
+	//int levelfivecount = rd() % 3 + 13;
 
-	int levelfourcount = rd() % 7 + 15;
+	int levelfourcount = rd() % 20 + 50;
+	/*int levelfourcount = rd() % 7 + 15;*/
 
-	int levelthreecount = rd() % 2 + 17;
+	int levelthreecount = rd() % 25 + 75;
+	/*int levelthreecount = rd() % 2 + 17;*/
 
 	int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
 
@@ -133,8 +147,8 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		//int distance = rd() % 30 + 8;//rd() % 7 + 7
-		int distance = rd() % 10 + 8;//rd() % 7 + 7
+		int distance = rd() % 25 + 8;//rd() % 7 + 7
+		//int distance = rd() % 10 + 8;//rd() % 7 + 7
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -159,7 +173,8 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 8;
+		int distance = rd() % 25 + 10;
+		//int distance = rd() % 15 + 8;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -184,7 +199,8 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 9;
+		int distance = rd() % 25 + 12;
+		//int distance = rd() % 15 + 9;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -209,7 +225,8 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 10;
+		int distance = rd() % 25 + 14;
+		//int distance = rd() % 15 + 10;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -234,7 +251,8 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 15 + 11;
+		int distance = rd() % 25 + 16;
+		//int distance = rd() % 15 + 11;
 		float angle = randangle(mt);
 
 		Vector3 spawnpoint;
@@ -320,9 +338,9 @@ void EnemyManager::Init()
 
 		auto& inst = map_Enemies[(ModelTags)tag];
 
-		//エネミーの最大保持数確保
+		//エネミーの最大保持数確保...最大数以上に敵を追加させないようにコード追加
 		inst.Enemies.reserve(ENEMY_MAX_NUM);
-		inst.SendingDate.reserve(ENEMY_MAX_NUM);
+		inst.SendingData.reserve(ENEMY_MAX_NUM);
 
 		//バッファの作成
 		D3D11_BUFFER_DESC desc{};
@@ -334,6 +352,28 @@ void EnemyManager::Init()
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.InstanceBuffer);
 
 		assert(inst.InstanceBuffer != nullptr);
+
+		switch (tag)
+		{
+		case ENEMY_SILVER:
+			inst.ShaderInfo = SHADER_INSTANCE_BLINNPHONG;
+			break;
+		default:
+			inst.ShaderInfo = SHADER_INSTANCE_TOON;
+			break;
+		}
+
+	}
+}
+
+void EnemyManager::Uninit()
+{
+	for (auto& itr : map_Enemies)
+	{
+		EnemyInstanceGroup& inst = itr.second;
+		
+		inst.InstanceBuffer->Release();
+		inst.Enemies.clear();
 	}
 }
 
@@ -355,6 +395,7 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy)
 void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 {//ドローの直前で更新する
 
+	//もしエネミーが死んでるor死ぬ予定なら消す
 	group.Enemies.erase
 	(
 		std::remove_if
@@ -369,7 +410,7 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 		group.Enemies.end()
 	);
 
-	group.SendingDate.clear();
+	group.SendingData.clear();
 
 	for (auto* itr : group.Enemies)
 	{
@@ -378,22 +419,22 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
 		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 1.0f};
 
-		group.SendingDate.push_back(inst);
+		group.SendingData.push_back(inst);
 	}
 
 	//もし送るデータが無ければ戻る
-	if (group.SendingDate.empty()) return;
+	if (group.SendingData.empty()) return;
 
 	D3D11_MAPPED_SUBRESOURCE mapped{};
 	HRESULT hr = Renderer::GetDeviceContext()->Map(group.InstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
 
 	assert(SUCCEEDED(hr));
 
-	memcpy(mapped.pData, group.SendingDate.data(), sizeof(InstanceData) * group.SendingDate.size());
+	memcpy(mapped.pData, group.SendingData.data(), sizeof(InstanceData) * group.SendingData.size());
 
 	Renderer::GetDeviceContext()->Unmap(group.InstanceBuffer, 0);
 
-	assert(!group.SendingDate.empty());
+	assert(!group.SendingData.empty());
 
 }
 
@@ -415,53 +456,82 @@ void EnemyManager::Draw()
 		EnemyInstanceGroup& inst = itr.second;
 
 		//インスタンスが無ければ処理を飛ばす
-		if (inst.SendingDate.empty()) continue;
+		if (inst.SendingData.empty()) continue;
 
-		assert(!inst.SendingDate.empty());
+		assert(!inst.SendingData.empty());
 
 		
-		ModelManager::SetShaders(tag, SHADER_INSTANCE_TOON);
+		{//通常のインスタンス描画
+			ModelManager::SetShaders(tag, inst.ShaderInfo);
 
-		//残りのドロー処理をここに書く
-		UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
-		UINT offsets[2] = { 0 , 0 };
-		
-		//Renderer::SetCullMode(D3D11_CULL_BACK);
-		Renderer::SetCullMode(D3D11_CULL_NONE);
+			//残りのドロー処理をここに書く
+			UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+			UINT offsets[2] = { 0 , 0 };
 
-		MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+			MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
 
-		assert(model->VertexBuffer != nullptr);
-		assert(model->IndexBuffer != nullptr);
+			assert(model->VertexBuffer != nullptr);
+			assert(model->IndexBuffer != nullptr);
 
-		ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+			ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
 
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+			Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
 
-		Renderer::GetDeviceContext()->IASetInputLayout(ModelManager::GetShaderManager(tag)->GetInputLayout(SHADER_INSTANCE_TOON));
+			
 
-		//Renderer::GetDeviceContext()
+			Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+			Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, inst.Enemies.size(), 0, 0);
+			for (int i = 0; i < model->SubsetNum; i++)
+			{
+				assert(model->SubsetArray[i].IndexNum > 0);
 
-		for(int i = 0; i < model->SubsetNum ; i++)
-		{
-			assert(model->SubsetArray[i].IndexNum > 0);
+				//マテリアルの固定
+				Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
 
-			//マテリアルの固定
-			Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
-
-			//実際の描画
-			Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
-		
-			/*Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
-		*/
+				//実際の描画
+				Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingData.size(), model->SubsetArray[i].StartIndex, 0, 0);
+			}
 		}
 
+		{//エッジのインスタンス描画
+			ModelManager::SetShaders(tag, SHADER_INSTANCE_EDGE);
+
+			//残りのドロー処理をここに書く
+			UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+			UINT offsets[2] = { 0 , 0 };
+
+			Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+			MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+
+			assert(model->VertexBuffer != nullptr);
+			assert(model->IndexBuffer != nullptr);
+
+			ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+
+			Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+
+			Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			for (int i = 0; i < model->SubsetNum; i++)
+			{
+				assert(model->SubsetArray[i].IndexNum > 0);
+
+				//マテリアルの固定
+				Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+
+				//実際の描画
+				Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingData.size(), model->SubsetArray[i].StartIndex, 0, 0);
+			}
+
+			Renderer::SetCullMode(D3D11_CULL_BACK);
+
+		}
 
 	}
 }

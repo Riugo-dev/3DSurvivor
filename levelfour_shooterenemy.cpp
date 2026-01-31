@@ -9,6 +9,7 @@
 #include <random>
 #include "hightier_exp_item.h"
 #include "midtier_exp_item.h"
+#include "exp_item_manager.h"
 #include "enemy_bullet.h"
 #include "attackbase.h"
 #include "player.h"
@@ -207,11 +208,13 @@ void LevelFourShooterEnemy::EnemyItemDrop()
 		HighTierExpItem* item = Manager::GetScene()->AddGameObject<HighTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 	else
 	{
 		MidTierExpItem* item = Manager::GetScene()->AddGameObject<MidTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 }

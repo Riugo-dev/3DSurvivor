@@ -9,6 +9,7 @@
 #include <random>
 #include "lowtier_exp_item.h"
 #include "midtier_exp_item.h"
+#include "exp_item_manager.h"
 #include "attackbase.h"
 #include "player.h"
 #include "camera.h"
@@ -81,9 +82,9 @@ void LevelTwoEnemy::Update()
 
 			if (m_HP <= 0)
 			{
-				ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+				/*ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 				boom->SetPosition(m_Position);
-				boom->SetScale({ 0.1f , 0.1f , 0.1f });
+				boom->SetScale({ 0.1f , 0.1f , 0.1f });*/
 
 				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 				m_IsDestroy = true;
@@ -208,11 +209,13 @@ void LevelTwoEnemy::EnemyItemDrop()
 		LowTierExpItem* item = Manager::GetScene()->AddGameObject<LowTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 	else
 	{
 		MidTierExpItem* item = Manager::GetScene()->AddGameObject<MidTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 }

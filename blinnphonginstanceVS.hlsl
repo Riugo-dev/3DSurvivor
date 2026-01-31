@@ -68,7 +68,7 @@ matrix MakeRotation(float3 rot)
 
 void main(in VS_IN In, out PS_IN Out)
 {
-     //スケール
+    //スケール
     matrix Scale =
     {
         In.Inst_Scale.x, 0, 0, 0,
@@ -89,23 +89,29 @@ void main(in VS_IN In, out PS_IN Out)
         In.Inst_Position.x, In.Inst_Position.y, In.Inst_Position.z, 1
     };
     
-    matrix World = mul(Scale, mul(Rotation, Translation));
+    //matrix World =
+    //{
+    //    1, 0, 0, 0,
+    //    0, 1, 0, 0,
+    //    0, 0, 1, 0,
+    //    0, 0, 5, 1
+    //};
     
-    //View空間位置
-    float4 Worldpos = mul(float4(In.Position.xyz, 1.0f), World);
-    float4 Viewpos = mul(Worldpos, View);
+    matrix World = mul(Scale, Rotation);
+    World = mul(World, Translation);
     
-    //View空間法線
-    float3 Worldnormal = normalize(mul(float4(In.Normal.xyz, 0.0f), World).xyz);
-    float3 Viewnormal = normalize(mul(float4(Worldnormal, 0.0f), View).xyz);
+    matrix WVP = mul(World, View);
+    WVP = mul(WVP, Projection);
     
-    //押し出し
-    Viewpos.xyz += Viewnormal * 0.03f;
+    Out.Position = mul(In.Position, WVP);
     
-    Out.Position = mul(Viewpos, Projection);
-    Out.WorldPosition = Worldpos;
-    Out.Normal = float4(Worldnormal, 1.0f);
+    float4 Worldnormal, Normal;//ローカル変数の作成
+    Normal = float4(In.Normal.xyz, 0.0f);
+    Worldnormal = mul(Normal, World);
+    Worldnormal = normalize(Worldnormal);
+    Out.Normal = Worldnormal;
     
-    Out.Diffuse = float4(0, 0, 0, 1); //エッジの色
+    Out.WorldPosition = mul(In.Position, World);
+    Out.Diffuse = In.Diffuse;
     Out.TexCoord = In.TexCoord;
 }

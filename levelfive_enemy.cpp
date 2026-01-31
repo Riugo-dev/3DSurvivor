@@ -8,6 +8,7 @@
 #include "main.h"
 #include <random>
 #include "hightier_exp_item.h"
+#include "exp_item_manager.h"
 #include "attackbase.h"
 #include "player.h"
 #include "camera.h"
@@ -32,7 +33,8 @@ void LevelFiveEnemy::Init()
 {
 	m_Scale = { 0.05f , 0.05f , 0.05f };
 
-	m_Shader = SHADER_BLINNPHONG;
+	m_Shader = SHADER_INSTANCE_BLINNPHONG;
+	/*m_Shader = SHADER_BLINNPHONG;*/
 
 	m_HP = 1 * 600;
 	m_EnemySpeed = 0.05f;
@@ -79,9 +81,9 @@ void LevelFiveEnemy::Update()
 
 			if (m_HP <= 0)
 			{
-				ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+			/*	ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 				boom->SetPosition(m_Position);
-				boom->SetScale({ 0.1f , 0.1f , 0.1f });
+				boom->SetScale({ 0.1f , 0.1f , 0.1f });*/
 
 				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 				m_IsDestroy = true;
@@ -207,16 +209,19 @@ void LevelFiveEnemy::EnemyItemDrop()
 		HighTierExpItem* item1 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
 		item1->Init();
 		item1->SetPosition(m_Position + Vector3(0.25f, 0.5f, 0.0f));
-		
+		ExpItemManager::GetInstance()->AddExpItem(item1);
+
 		HighTierExpItem* item2 = Manager::GetScene()->AddGameObject<HighTierExpItem>();
 		item2->Init();
 		item2->SetPosition(m_Position + Vector3(-0.25f, 0.5f, 0.0f));
+		ExpItemManager::GetInstance()->AddExpItem(item2);
 	}
 	else
 	{
 		HighTierExpItem* item = Manager::GetScene()->AddGameObject<HighTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 }
 

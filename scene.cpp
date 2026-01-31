@@ -16,6 +16,7 @@
 #include "input.h"
 #include "game.h"
 #include "gametimer.h"
+#include "exp_item_manager.h"
 
 #include "scene.h"
 
@@ -112,6 +113,8 @@ void Scene::Draw()
 				Game* game = dynamic_cast<Game*>(Manager::GetScene());
 
 				game->GetGameTimer()->Draw();
+
+				ExpItemManager::GetInstance()->Draw();
 
 				/*if(game->GetGameState() == GAME_PLAY)
 				{

@@ -11,6 +11,9 @@
 
 #include "main.h"
 #include "gameobject.h"
+#include "renderer.h"
+#include "manager.h"
+#include "scene.h"
 #include "model_manager.h"
 #include "shader_manager.h"
 
@@ -139,6 +142,11 @@ public:
 		//}
 
 		
+	}
+
+	ModelTags GetModelTag()
+	{
+		return m_ModelTag;
 	}
 
 	void SetGather(bool flag = true, float gatherspeed = 0.3f)

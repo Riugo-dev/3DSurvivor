@@ -40,15 +40,15 @@ void ModelManager::Init()
 {
 	m_pModelRenderers[LOWTIER_EXP] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[LOWTIER_EXP]->Load("asset\\model\\LowTierEXPItem.obj");
-	m_pModelShaders[LOWTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[LOWTIER_EXP] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[MIDTIER_EXP] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[MIDTIER_EXP]->Load("asset\\model\\MidTierEXPItem.obj");
-	m_pModelShaders[MIDTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[MIDTIER_EXP] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[HIGHTIER_EXP] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[HIGHTIER_EXP]->Load("asset\\model\\HighTierEXPItem.obj");
-	m_pModelShaders[HIGHTIER_EXP] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[HIGHTIER_EXP] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[ITEM_HEAL] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ITEM_HEAL]->Load("asset\\model\\ItemTypeHeal.obj");
@@ -84,7 +84,7 @@ void ModelManager::Init()
 
 	m_pModelRenderers[ENEMY_SILVER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_SILVER]->Load("asset\\model\\EnemyTypeMetal.obj");
-	m_pModelShaders[ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[ENEMY_BLACK] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_BLACK]->Load("asset\\model\\EnemyTypeBlack.obj");
