@@ -84,7 +84,7 @@ void ModelManager::Init()
 
 	m_pModelRenderers[ENEMY_SILVER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_SILVER]->Load("asset\\model\\EnemyTypeMetal.obj");
-	m_pModelShaders[ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+	m_pModelShaders[ENEMY_SILVER] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[ENEMY_BLACK] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[ENEMY_BLACK]->Load("asset\\model\\EnemyTypeBlack.obj");

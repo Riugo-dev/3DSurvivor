@@ -17,9 +17,9 @@ private:
 	class GameTimer* m_pGameTimer;
 	struct EnemyInstanceGroup
 	{
-		
+		Shader ShaderInfo;
 		std::vector<class BaseEnemy*> Enemies;
-		std::vector<InstanceData> SendingDate;
+		std::vector<InstanceData> SendingData;
 		ID3D11Buffer* InstanceBuffer = nullptr;
 	};
 

@@ -12,6 +12,7 @@
 //#include <crtdbg.h>
 #include "main.h"
 #include "manager.h"
+#include <sstream>
 #include <thread>
 
 const char* CLASS_NAME = "AppClass";
@@ -20,6 +21,10 @@ const char* WINDOW_NAME = "3DSurvivor";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+/*------------------------------------------------------------------------------
+	グローバル変数
+------------------------------------------------------------------------------*/
+static DWORD g_CountFPS = 0;
 
 HWND g_Window;
 
@@ -70,12 +75,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 
-
+	// 時間計測用
 	DWORD dwExecLastTime;
+	DWORD dwFPSLastTime = 0;
 	DWORD dwCurrentTime;
+	DWORD dwFrameCount = 0;
+
 	timeBeginPeriod(1);
-	dwExecLastTime = timeGetTime();
-	dwCurrentTime = 0;
+
+	dwExecLastTime = dwFPSLastTime = timeGetTime();
+	dwCurrentTime = dwFrameCount = 0;
 
 
 
@@ -97,13 +106,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		else
 		{
 			dwCurrentTime = timeGetTime();
-
+			if ((dwCurrentTime - dwFPSLastTime) >= 1000) // 1秒ごとに実行
+			{
+#ifdef _DEBUG
+				g_CountFPS = dwFrameCount;
+#endif
+				dwFPSLastTime = dwCurrentTime; // FPSを測定した時刻を保存
+				dwFrameCount = 0; // カウントをクリア
+			}
 			if((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{
 				dwExecLastTime = dwCurrentTime;
+#ifdef _DEBUG // デバッグ版の時だけFPSを表示する
+				std::stringstream caption;
+				caption << WINDOW_NAME << " FPS:" << g_CountFPS;
+				SetWindowText(g_Window, caption.str().c_str());
+#endif
 
 				Manager::Update();
 				Manager::Draw();
+
+				dwFrameCount++;
 			}
 		}
 	}

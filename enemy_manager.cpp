@@ -29,7 +29,7 @@
 #include "enemy_manager.h"
 
 #define ENEMY_DESTORY_LENGTH (50.0f)
-#define ENEMY_MAX_NUM (400)
+#define ENEMY_MAX_NUM (600)
 
 //********************************************************************************
 //プライベート関数
@@ -338,9 +338,9 @@ void EnemyManager::Init()
 
 		auto& inst = map_Enemies[(ModelTags)tag];
 
-		//エネミーの最大保持数確保
+		//エネミーの最大保持数確保...最大数以上に敵を追加させないようにコード追加
 		inst.Enemies.reserve(ENEMY_MAX_NUM);
-		inst.SendingDate.reserve(ENEMY_MAX_NUM);
+		inst.SendingData.reserve(ENEMY_MAX_NUM);
 
 		//バッファの作成
 		D3D11_BUFFER_DESC desc{};
@@ -352,6 +352,17 @@ void EnemyManager::Init()
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.InstanceBuffer);
 
 		assert(inst.InstanceBuffer != nullptr);
+
+		switch (tag)
+		{
+		case ENEMY_SILVER:
+			inst.ShaderInfo = SHADER_INSTANCE_BLINNPHONG;
+			break;
+		default:
+			inst.ShaderInfo = SHADER_INSTANCE_TOON;
+			break;
+		}
+
 	}
 }
 
@@ -387,7 +398,7 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 		group.Enemies.end()
 	);
 
-	group.SendingDate.clear();
+	group.SendingData.clear();
 
 	for (auto* itr : group.Enemies)
 	{
@@ -396,22 +407,22 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
 		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 1.0f};
 
-		group.SendingDate.push_back(inst);
+		group.SendingData.push_back(inst);
 	}
 
 	//もし送るデータが無ければ戻る
-	if (group.SendingDate.empty()) return;
+	if (group.SendingData.empty()) return;
 
 	D3D11_MAPPED_SUBRESOURCE mapped{};
 	HRESULT hr = Renderer::GetDeviceContext()->Map(group.InstanceBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped);
 
 	assert(SUCCEEDED(hr));
 
-	memcpy(mapped.pData, group.SendingDate.data(), sizeof(InstanceData) * group.SendingDate.size());
+	memcpy(mapped.pData, group.SendingData.data(), sizeof(InstanceData) * group.SendingData.size());
 
 	Renderer::GetDeviceContext()->Unmap(group.InstanceBuffer, 0);
 
-	assert(!group.SendingDate.empty());
+	assert(!group.SendingData.empty());
 
 }
 
@@ -433,53 +444,82 @@ void EnemyManager::Draw()
 		EnemyInstanceGroup& inst = itr.second;
 
 		//インスタンスが無ければ処理を飛ばす
-		if (inst.SendingDate.empty()) continue;
+		if (inst.SendingData.empty()) continue;
 
-		assert(!inst.SendingDate.empty());
+		assert(!inst.SendingData.empty());
 
 		
-		ModelManager::SetShaders(tag, SHADER_INSTANCE_TOON);
+		{//通常のインスタンス描画
+			ModelManager::SetShaders(tag, inst.ShaderInfo);
 
-		//残りのドロー処理をここに書く
-		UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
-		UINT offsets[2] = { 0 , 0 };
-		
-		//Renderer::SetCullMode(D3D11_CULL_BACK);
-		Renderer::SetCullMode(D3D11_CULL_NONE);
+			//残りのドロー処理をここに書く
+			UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+			UINT offsets[2] = { 0 , 0 };
 
-		MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+			MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
 
-		assert(model->VertexBuffer != nullptr);
-		assert(model->IndexBuffer != nullptr);
+			assert(model->VertexBuffer != nullptr);
+			assert(model->IndexBuffer != nullptr);
 
-		ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+			ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
 
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+			Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
 
-		Renderer::GetDeviceContext()->IASetInputLayout(ModelManager::GetShaderManager(tag)->GetInputLayout(SHADER_INSTANCE_TOON));
+			
 
-		//Renderer::GetDeviceContext()
+			Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-		Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+			Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		//Renderer::GetDeviceContext()->DrawInstanced(model->VertexNum, inst.Enemies.size(), 0, 0);
+			for (int i = 0; i < model->SubsetNum; i++)
+			{
+				assert(model->SubsetArray[i].IndexNum > 0);
 
-		for(int i = 0; i < model->SubsetNum ; i++)
-		{
-			assert(model->SubsetArray[i].IndexNum > 0);
+				//マテリアルの固定
+				Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
 
-			//マテリアルの固定
-			Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
-
-			//実際の描画
-			Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
-		
-			/*Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingDate.size(), model->SubsetArray[i].StartIndex, 0, 0);
-		*/
+				//実際の描画
+				Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingData.size(), model->SubsetArray[i].StartIndex, 0, 0);
+			}
 		}
 
+		{//エッジのインスタンス描画
+			ModelManager::SetShaders(tag, SHADER_INSTANCE_EDGE);
+
+			//残りのドロー処理をここに書く
+			UINT strides[2] = { sizeof(VERTEX_3D) , sizeof(InstanceData) };
+			UINT offsets[2] = { 0 , 0 };
+
+			Renderer::SetCullMode(D3D11_CULL_FRONT);
+
+			MODEL* model = ModelManager::GetModelRenderers(tag)->GetModel();
+
+			assert(model->VertexBuffer != nullptr);
+			assert(model->IndexBuffer != nullptr);
+
+			ID3D11Buffer* buffers[2]{ model->VertexBuffer , inst.InstanceBuffer };
+
+			Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, strides, offsets);
+
+			Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+			Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			for (int i = 0; i < model->SubsetNum; i++)
+			{
+				assert(model->SubsetArray[i].IndexNum > 0);
+
+				//マテリアルの固定
+				Renderer::SetMaterial(model->SubsetArray[i].Material.Material);
+
+				//実際の描画
+				Renderer::GetDeviceContext()->DrawIndexedInstanced(model->SubsetArray[i].IndexNum, inst.SendingData.size(), model->SubsetArray[i].StartIndex, 0, 0);
+			}
+
+			Renderer::SetCullMode(D3D11_CULL_BACK);
+
+		}
 
 	}
 }

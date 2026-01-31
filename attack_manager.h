@@ -32,7 +32,7 @@ private:
 
 
 	int m_SelectNumber;
-
+	float m_SlideAnimation;
 public:
 	AttackManager();
 	~AttackManager() override;

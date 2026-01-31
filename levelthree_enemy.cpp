@@ -80,9 +80,9 @@ void LevelThreeEnemy::Update()
 
 			if (m_HP <= 0)
 			{
-				ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+				/*ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 				boom->SetPosition(m_Position);
-				boom->SetScale({ 0.1f , 0.1f , 0.1f });
+				boom->SetScale({ 0.1f , 0.1f , 0.1f });*/
 
 				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 				m_IsDestroy = true;
