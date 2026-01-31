@@ -366,6 +366,17 @@ void EnemyManager::Init()
 	}
 }
 
+void EnemyManager::Uninit()
+{
+	for (auto& itr : map_Enemies)
+	{
+		EnemyInstanceGroup& inst = itr.second;
+		
+		inst.InstanceBuffer->Release();
+		inst.Enemies.clear();
+	}
+}
+
 void EnemyManager::AddEnemy(BaseEnemy* enemy)
 {
 	//エネミーの情報を登録
@@ -384,6 +395,7 @@ void EnemyManager::AddEnemy(BaseEnemy* enemy)
 void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 {//ドローの直前で更新する
 
+	//もしエネミーが死んでるor死ぬ予定なら消す
 	group.Enemies.erase
 	(
 		std::remove_if

@@ -67,6 +67,7 @@ GameTimer::~GameTimer()
 	delete m_pShooterEnemyManager;
 	m_pShooterEnemyManager = nullptr;
 
+	m_pEnemyManager->Uninit();
 	delete m_pEnemyManager;
 	m_pEnemyManager = nullptr;
 }

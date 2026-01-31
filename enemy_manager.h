@@ -30,6 +30,7 @@ public:
 	~EnemyManager();
 
 	void Init();
+	void Uninit();
 
 	void AddEnemy(class BaseEnemy*);
 	void UpdateInstanceBuffer(EnemyInstanceGroup& group);

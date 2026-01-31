@@ -8,6 +8,7 @@
 #include "main.h"
 #include <random>
 #include "lowtier_exp_item.h"
+#include "exp_item_manager.h"
 #include "enemy_bullet.h"
 #include "attackbase.h"
 #include "player.h"
@@ -206,5 +207,6 @@ void LevelOneShooterEnemy::EnemyItemDrop()
 		LowTierExpItem* item = Manager::GetScene()->AddGameObject<LowTierExpItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+		ExpItemManager::GetInstance()->AddExpItem(item);
 	}
 }
