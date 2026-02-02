@@ -9,15 +9,21 @@ struct GPUParticle
     float maxLife;
 
     float4 color;
+    float3 scale;
+    float pad;
 };
 
-RWStructuredBuffer<GPUParticle> g_Particles : register(u0);
+StructuredBuffer<GPUParticle> g_Input : register(t0);
+AppendStructuredBuffer<GPUParticle> g_Output : register(u0);
+
+#define MAX_PARTICLE 65536
 
 cbuffer UpdateBuffer : register(b8)
 {
     float Gravity;
     float FadeSpeed;
-    float padding[2];
+    uint AliveCount;
+    float padding;
 }
 
 [numthreads(256, 1 , 1)]
@@ -25,20 +31,20 @@ void main(uint3 id : SV_DispatchThreadID)
 {
     uint index = id.x;
     
-    //if (index >= g_Particles.Length)
-    //    return;
+    if (index >= AliveCount)
+        return;
     
-    GPUParticle p = g_Particles[index];
+    GPUParticle p = g_Input[index];
     
-    if(p.life <= 0.0f)
+    if(p.life >= p.maxLife)
     {
         return;
     }
     
     p.velocity.y += Gravity;
     p.position += p.velocity;
-    p.life -= FadeSpeed;
+    p.life += FadeSpeed;
     
-    g_Particles[index] = p;
+    g_Output.Append(p);
     
 }

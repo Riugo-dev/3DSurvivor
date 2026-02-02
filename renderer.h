@@ -63,6 +63,8 @@ struct GPUParticle
 	XMFLOAT3 Velocity;
 	float MaxLife;
 	XMFLOAT4 Color;
+	XMFLOAT3 Scale;
+	float pad;
 };
 
 //********************************************************************************

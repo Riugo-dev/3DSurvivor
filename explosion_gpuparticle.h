@@ -13,12 +13,15 @@ class GPUExplosionParticle
 private:
 	static GPUExplosionParticle* m_pMyself;
 
-	ID3D11Buffer* m_pParticleBuffer = nullptr;
+	ID3D11Buffer* m_pParticleBuffer[2]{};
 	ID3D11Buffer* m_pSpawnPositionBuffer = nullptr;
+	ID3D11Buffer* m_pSpawnBuffer = nullptr;
+	ID3D11Buffer* m_pUpdateBuffer = nullptr;
+	ID3D11Buffer* m_pCameraBuffer = nullptr;
+	ID3D11Buffer* m_pCountBuffer = nullptr;
 
-
-	ID3D11UnorderedAccessView* m_pParticleUAV = nullptr;
-	ID3D11ShaderResourceView* m_pParticleSRV = nullptr;
+	ID3D11UnorderedAccessView* m_pParticleUAV[2]{};
+	ID3D11ShaderResourceView* m_pParticleSRV[2]{};
 	ID3D11ShaderResourceView* m_pSpawnPositionSRV = nullptr;
 	ID3D11ShaderResourceView* m_Texture;
 
@@ -33,6 +36,7 @@ private:
 	static constexpr UINT MAX_PARTICLE = 65536;
 	static constexpr UINT PARTICLE_PER_EXPLOSION = 1000;
 	int m_CurrentSpawnCount = 0;
+	int m_CurrentParticleIndex = 0;
 public:
 	static GPUExplosionParticle* GetInstance();
 
@@ -49,6 +53,7 @@ private:
 	GPUExplosionParticle() {}
 	~GPUExplosionParticle() {}
 
+	UINT getalivecount(ID3D11UnorderedAccessView*);
 	void createbuffers();
 	void createviews();
 	void loadshaders();

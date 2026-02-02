@@ -4,53 +4,63 @@ struct GPUParticle
 {
     float3 position;
     float life;
-
     float3 velocity;
     float maxLife;
-
     float4 color;
+    float3 scale;
+    float pad;
 };
 
-#define PARTICLES_PER_EXPLOSION (1000)
-
 StructuredBuffer<float3> g_SpawnPosition : register(t0);
-AppendStructuredBuffer<GPUParticle> g_ParticleAppend : register(u0);
+AppendStructuredBuffer<GPUParticle> g_Particle: register(u0);
+
+#define MAX_PARTICLE 65536
 
 cbuffer SpawnBuffer : register(b8)
 {
-    uint SpawnCount; //V‹K‚Ì”š”­”
+    uint SpawnCount; //V‹K‚Ì”š”­
+    uint ParticleCount;
+    float2 pad;
 };
+
+float Rand(uint seed)
+{
+    return frac(sin(seed * 12.9898) * 43758.5453);
+}
 
 [numthreads(256, 1 , 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
     uint particleindex = id.x;
-    uint totalparticles = SpawnCount * PARTICLES_PER_EXPLOSION;
+    uint totalparticles = SpawnCount * ParticleCount;
     
-    if (paticleindex >= totalparticles)
+    if (particleindex >= totalparticles)
     {
         return;
     }
     
-    uint explosionindex = particleindex / PARTICLES_PER_EXPLOSION;
-    uint localindex = particleindex % PARTICLES_PER_EXPLOSION;
+    uint spawnindex = particleindex / ParticleCount;
+    uint localindex = particleindex % ParticleCount;
     
-    float3 basepos = g_SpawnPosition[explosionindex];
+    float3 basepos = g_SpawnPosition[spawnindex];
     
-    uint seed = particleindex * 747796405u + explosionindex * 912367u;
-
-    float rx = frac(sin(seed * 12.9898) * 43758.5453);
-    float ry = frac(sin(seed * 78.233) * 43758.5453);
-    float rz = frac(sin(seed * 39.425) * 43758.5453);
-
-    float3 dir = normalize(float3(rx * 2 - 1, ry * 2 - 1, rz * 2 - 1));
-    
+    float rx = Rand(localindex * 3 + 1);
+    float ry = Rand(localindex * 3 + 2);
+    float rz = Rand(localindex * 3 + 3);
+           
+    float x = (rx * 100.0 - 50.0) / 500.0;
+    float y = (ry * 100.0 + 50.0) / 500.0;
+    float z = (rz * 100.0 - 50.0) / 500.0;
+           
     GPUParticle p;
     p.position = basepos;
-    p.velocity = dir * lerp(0.5, 3.0, ry);
-    p.life = 1.0;
-    p.maxLife = 1.0;
+    p.velocity = float3(x, y, z);
+    p.life = 0.0;
+    p.maxLife = 60.0;
     p.color = float4(1.0, 0.7, 0.3, 1.0);
+    //p.scale = float3(1, 1, 1);
+    p.scale = float3(0.05, 0.05, 0.05);
+    p.pad = 0;
     
-    g_ParticleAppend.Append(p);
+    g_Particle.Append(p);
 }

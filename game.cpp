@@ -35,6 +35,7 @@
 #include "model_manager.h"
 #include "manager_soundeffect.h"
 #include "exp_item_manager.h"
+#include "explosion_gpuparticle.h"
 #include "controller.h"
 #include "title.h"
 #include "audio.h"
@@ -82,6 +83,8 @@ void Game::Init(Input* input)
 
 	ExpItemManager::GetInstance();//‚Æ‚è‚ ‚¦‚¸‰Šú‰»
 
+	GPUExplosionParticle::GetInstance();
+
 	//Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
 	Manager::GetAudio()->Load("asset\\audio\\Devine-Fencer.wav");
 	Manager::GetAudio()->Play(true);
@@ -91,6 +94,8 @@ void Game::Uninit()
 {
 
 	Manager::GetAudio()->Uninit();
+
+	GPUExplosionParticle::GetInstance()->DestroyInstance();
 
 	ExpItemManager::GetInstance()->DestroySelf();//I—¹ˆ—
 
@@ -121,6 +126,8 @@ void Game::Update()
 		m_pTimer->Update();
 
 		ExpItemManager::GetInstance()->Update();
+
+		GPUExplosionParticle::GetInstance()->Update();
 
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{

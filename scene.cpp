@@ -17,6 +17,7 @@
 #include "game.h"
 #include "gametimer.h"
 #include "exp_item_manager.h"
+#include "explosion_gpuparticle.h"
 
 #include "scene.h"
 
@@ -106,7 +107,7 @@ void Scene::Draw()
 
 		}
 
-		if (i == 1)
+		if (i == 1 )
 		{
 			if (Manager::GetScene()->GetSceneType() == SCENE_GAME)
 			{
@@ -120,6 +121,13 @@ void Scene::Draw()
 				{
 					
 				}*/
+			}
+		}
+		else if (i == 2)
+		{
+			if (Manager::GetScene()->GetSceneType() == SCENE_GAME)
+			{
+				GPUExplosionParticle::GetInstance()->Draw();
 			}
 		}
 

@@ -620,7 +620,7 @@ void Renderer::CreateVertexShaderForParticle(ID3D11VertexShader** VertexShader, 
 
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
-		{ "PARTICLE_ID", 0, DXGI_FORMAT_R32_UINT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "PARTICLE_ID", 0, DXGI_FORMAT_R32_UINT, 0, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 	};
 	UINT numElements = ARRAYSIZE(layout);
 
