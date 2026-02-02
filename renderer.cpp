@@ -566,6 +566,73 @@ void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* F
 	delete[] buffer;
 }
 
+void Renderer::CreateComputeShader(ID3D11ComputeShader** ComputeShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	assert(file);
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	m_Device->CreateComputeShader(buffer, fsize, NULL, ComputeShader);
+
+	delete[] buffer;
+}
+
+void Renderer::CreateGeometryShader(ID3D11GeometryShader** GeometryShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	assert(file);
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	m_Device->CreateGeometryShader(buffer, fsize, NULL, GeometryShader);
+
+	delete[] buffer;
+}
+
+void Renderer::CreateVertexShaderForParticle(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	assert(file);
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	m_Device->CreateVertexShader(buffer,
+ fsize, NULL, VertexShader);
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "PARTICLE_ID", 0, DXGI_FORMAT_R32_UINT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	UINT numElements = ARRAYSIZE(layout);
+
+	m_Device->CreateInputLayout(layout,
+		numElements,
+		buffer,
+		fsize,
+		VertexLayout);
+
+	delete[] buffer;
+}
+
 void Renderer::SetCullMode(D3D11_CULL_MODE cull)
 {
 	// ラスタライザステート設定

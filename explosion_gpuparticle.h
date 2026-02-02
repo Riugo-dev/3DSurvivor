@@ -10,37 +10,33 @@
 
 class GPUExplosionParticle
 {
-public:
-	struct TimeConstantBuffer
-	{
-		float DeltaTime;
-		float padding[3];
-	};
-
-	struct ExplosionConstantBuffer
-	{
-		XMFLOAT3 Position;
-		float Life;
-		float speed;
-		int BaseIndex;
-		float padding[2];
-	};
-
 private:
+	static GPUExplosionParticle* m_pMyself;
+
 	ID3D11Buffer* m_pParticleBuffer = nullptr;
-	ID3D11UnorderedAccessView* m_pUnorderdAccessView = nullptr;
-	ID3D11ShaderResourceView* m_pShaderResourceView = nullptr;
+	ID3D11Buffer* m_pSpawnPositionBuffer = nullptr;
 
-	ID3D11ComputeShader* m_pInitComputeShader = nullptr;
-	ID3D11ComputeShader* m_pUpdateComputeShader = nullptr;
 
-	ID3D11Buffer* m_pTimeConstantBuffer = nullptr;
-	ID3D11Buffer* m_pExplosionConstantBuffer = nullptr;
+	ID3D11UnorderedAccessView* m_pParticleUAV = nullptr;
+	ID3D11ShaderResourceView* m_pParticleSRV = nullptr;
+	ID3D11ShaderResourceView* m_pSpawnPositionSRV = nullptr;
+	ID3D11ShaderResourceView* m_Texture;
 
-	int m_NextExlposionIndex = 0;
+	ID3D11VertexShader* m_pVertexShader = nullptr;
+	ID3D11InputLayout* m_pInputLayout = nullptr;
+	ID3D11PixelShader* m_pPixelShader = nullptr;
+	ID3D11ComputeShader* m_pSpawnCS = nullptr;
+	ID3D11ComputeShader* m_pUpdateCS = nullptr;
 
+	std::vector<XMFLOAT3> m_SpawnRequests;
+
+	static constexpr UINT MAX_PARTICLE = 65536;
+	static constexpr UINT PARTICLE_PER_EXPLOSION = 1000;
+	int m_CurrentSpawnCount = 0;
 public:
 	static GPUExplosionParticle* GetInstance();
+
+	void DestroyInstance();
 
 	void Init();
 	void Uninit();
@@ -50,16 +46,13 @@ public:
 	void SpawnExplosion(Vector3);
 
 private:
-	GPUExplosionParticle() = default;
+	GPUExplosionParticle() {}
+	~GPUExplosionParticle() {}
 
-	void createparticlebuffer();
+	void createbuffers();
 	void createviews();
-	void createconstantbuffers();
 	void loadshaders();
-
-	void updatetime();
-	void updatecs();
-	void initcs(int);
+	void uploadspawnrequests();
 };
 
 #endif // !_EXPLOSION_GPUPARTICLE_H_
