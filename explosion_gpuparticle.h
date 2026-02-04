@@ -13,21 +13,32 @@ class GPUExplosionParticle
 private:
 	static GPUExplosionParticle* m_pMyself;
 
-	ID3D11Buffer* m_pParticleBuffer[2]{};
+	//バッファ関係
+	ID3D11Buffer* m_pParticleBuffer = nullptr;
+	ID3D11Buffer* m_pAliveListBuffer = nullptr;
+	ID3D11Buffer* m_pDeadListBuffer = nullptr;
 	ID3D11Buffer* m_pSpawnPositionBuffer = nullptr;
 	ID3D11Buffer* m_pSpawnBuffer = nullptr;
 	ID3D11Buffer* m_pUpdateBuffer = nullptr;
 	ID3D11Buffer* m_pCameraBuffer = nullptr;
-	ID3D11Buffer* m_pCountBuffer = nullptr;
+	ID3D11Buffer* m_pIndirectArgsBuffer = nullptr;
+	ID3D11Buffer* m_pAliveCountReadBack = nullptr;
 
-	ID3D11UnorderedAccessView* m_pParticleUAV[2]{};
-	ID3D11ShaderResourceView* m_pParticleSRV[2]{};
+	//UAV関係
+	ID3D11UnorderedAccessView* m_pParticleUAV = nullptr;
+	ID3D11UnorderedAccessView* m_pAliveListUAV;
+	ID3D11UnorderedAccessView* m_pDeadListUAV = nullptr;
+
+	//SRV関係
+	ID3D11ShaderResourceView* m_pParticleSRV = nullptr;
 	ID3D11ShaderResourceView* m_pSpawnPositionSRV = nullptr;
+	ID3D11ShaderResourceView* m_pAliveListSRV = nullptr;
 	ID3D11ShaderResourceView* m_Texture;
 
+	//シェーダー関係
 	ID3D11VertexShader* m_pVertexShader = nullptr;
-	ID3D11InputLayout* m_pInputLayout = nullptr;
 	ID3D11PixelShader* m_pPixelShader = nullptr;
+	ID3D11ComputeShader* m_pDeadListInitCS = nullptr;
 	ID3D11ComputeShader* m_pSpawnCS = nullptr;
 	ID3D11ComputeShader* m_pUpdateCS = nullptr;
 
@@ -37,6 +48,7 @@ private:
 	static constexpr UINT PARTICLE_PER_EXPLOSION = 1000;
 	int m_CurrentSpawnCount = 0;
 	int m_CurrentParticleIndex = 0;
+	int m_AlivePingPong = 0;
 public:
 	static GPUExplosionParticle* GetInstance();
 
@@ -53,11 +65,16 @@ private:
 	GPUExplosionParticle() {}
 	~GPUExplosionParticle() {}
 
-	UINT getalivecount(ID3D11UnorderedAccessView*);
+	void initializedeadlist();
+	/*UINT getalivecount(ID3D11UnorderedAccessView*);*/
 	void createbuffers();
 	void createviews();
 	void loadshaders();
+	//void buildindirectargs();
+	void updateindirectargs();
 	void uploadspawnrequests();
+	void updatespawn();
+	void updateparticle();
 };
 
 #endif // !_EXPLOSION_GPUPARTICLE_H_

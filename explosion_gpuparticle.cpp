@@ -73,98 +73,110 @@ void GPUExplosionParticle::Init()
 	createbuffers();//バッファの作成
 	createviews();//UAVの作成&パーティクルのSRVの作成
 	loadshaders();//シェーダーの読み込み
+	initializedeadlist();//死者リストの初期化
 }
 
 void GPUExplosionParticle::Uninit()
 {
-	m_pParticleBuffer[0]->Release();
-	m_pParticleBuffer[1]->Release();
+	m_pParticleBuffer->Release();
+	m_pAliveListBuffer->Release();
+	m_pDeadListBuffer->Release();
 	m_pSpawnPositionBuffer->Release();
+	m_pSpawnBuffer->Release();
+	m_pUpdateBuffer->Release();
+	m_pCameraBuffer->Release();
+	m_pIndirectArgsBuffer->Release();
+	m_pAliveCountReadBack->Release();
 
-	m_pParticleUAV[0]->Release();
-	m_pParticleUAV[1]->Release();
-	m_pParticleSRV[0]->Release();
-	m_pParticleSRV[1]->Release();
+	m_pParticleUAV->Release();
+	m_pAliveListUAV->Release();
+	m_pDeadListUAV->Release();
+
+	m_pParticleSRV->Release();
 	m_pSpawnPositionSRV->Release();
-
+	m_pAliveListSRV->Release();
+	
 	m_pVertexShader->Release();
-	m_pInputLayout->Release();
 	m_pPixelShader->Release();
+	m_pDeadListInitCS->Release();
 	m_pSpawnCS->Release();
 	m_pUpdateCS->Release();
 }
 
 void GPUExplosionParticle::Update()
 {
-	//新規爆発データのリクエスト整理
-	uploadspawnrequests();
+	////新規爆発データのリクエスト整理
+	//uploadspawnrequests();
 
-	int read = m_CurrentParticleIndex;
-	int write = 1 - read;
+	//int read = m_CurrentParticleIndex;
+	//int write = 1 - read;
 
-	//出力先UAVのAppendカウンタをクリア
-	UINT clear[4] = { 0,0,0,0 };
-	Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pParticleUAV[write], clear);
+	////出力先UAVのAppendカウンタをクリア
+	//UINT clear[4] = { 0,0,0,0 };
+	//Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pParticleUAV[write], clear);
 
-	UINT alivecount = getalivecount(m_pParticleUAV[read]);
+	//UINT alivecount = getalivecount(m_pParticleUAV[read]);
 
-	//新規爆発がある場合それをもとにCSに送信
-	if (m_CurrentSpawnCount > 0 && alivecount < MAX_PARTICLE)
-	{
+	////新規爆発がある場合それをもとにCSに送信
+	//if (m_CurrentSpawnCount > 0 && alivecount < MAX_PARTICLE)
+	//{
 
-		SpawnCB cb{};
-		cb.SpawnCount = m_CurrentSpawnCount;
-		cb.ParticleCount = PARTICLE_PER_EXPLOSION;
+	//	SpawnCB cb{};
+	//	cb.SpawnCount = m_CurrentSpawnCount;
+	//	cb.ParticleCount = PARTICLE_PER_EXPLOSION;
 
-		Renderer::GetDeviceContext()->UpdateSubresource(m_pSpawnBuffer, 0, nullptr, &cb, 0, 0);
+	//	Renderer::GetDeviceContext()->UpdateSubresource(m_pSpawnBuffer, 0, nullptr, &cb, 0, 0);
 
-		//CSのセット
-		Renderer::GetDeviceContext()->CSSetShader(m_pSpawnCS, NULL, 0);
+	//	//CSのセット
+	//	Renderer::GetDeviceContext()->CSSetShader(m_pSpawnCS, NULL, 0);
 
-		//UAVのセット
-		Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[write], nullptr);
+	//	//UAVのセット
+	//	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[write], nullptr);
 
-		//SRVのセット
-		Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pSpawnPositionSRV);
+	//	//SRVのセット
+	//	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pSpawnPositionSRV);
 
-		//定数バッファのセット
-		Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pSpawnBuffer);
+	//	//定数バッファのセット
+	//	Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pSpawnBuffer);
 
-		uint32_t totalspawn = m_CurrentSpawnCount * PARTICLE_PER_EXPLOSION;
+	//	uint32_t totalspawn = m_CurrentSpawnCount * PARTICLE_PER_EXPLOSION;
 
-		Renderer::GetDeviceContext()->Dispatch((totalspawn + 255) / 256, 1, 1);
-	}
+	//	Renderer::GetDeviceContext()->Dispatch((totalspawn + 255) / 256, 1, 1);
+	//}
 
-	if(alivecount > 0)
-	{//パーティクルの更新
-		UpdateCB ucb{};
-		ucb.Gravity = -0.01f;
-		ucb.FadeSpeed = 1.0f;
-		ucb.AliveCount = alivecount;
+	//if(alivecount > 0)
+	//{//パーティクルの更新
+	//	UpdateCB ucb{};
+	//	ucb.Gravity = -0.01f;
+	//	ucb.FadeSpeed = 1.0f;
+	//	ucb.AliveCount = alivecount;
 
-		Renderer::GetDeviceContext()->UpdateSubresource(m_pUpdateBuffer, 0, nullptr, &ucb, 0, 0);
+	//	Renderer::GetDeviceContext()->UpdateSubresource(m_pUpdateBuffer, 0, nullptr, &ucb, 0, 0);
 
-		Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pUpdateBuffer);
+	//	Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pUpdateBuffer);
 
-		Renderer::GetDeviceContext()->CSSetShader(m_pUpdateCS, NULL, 0);
+	//	Renderer::GetDeviceContext()->CSSetShader(m_pUpdateCS, NULL, 0);
 
-		Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pParticleSRV[read]);
+	//	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pParticleSRV[read]);
 
-		Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[write], nullptr);
+	//	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[write], nullptr);
 
-		Renderer::GetDeviceContext()->Dispatch((alivecount + 255) / 256, 1, 1);
-	}
+	//	Renderer::GetDeviceContext()->Dispatch((alivecount + 255) / 256, 1, 1);
+	//}
 
-	//後処理
-	ID3D11UnorderedAccessView* nullUAV = nullptr;
-	ID3D11ShaderResourceView* nullSRV = nullptr;
+	updatespawn();
 
-	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &nullUAV, nullptr);
-	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &nullSRV);
-	Renderer::GetDeviceContext()->CSSetShader(nullptr, nullptr, 0);
+	updateparticle();
 
-	m_CurrentParticleIndex = write;
-	m_CurrentSpawnCount = 0;
+	updateindirectargs();
+
+	////後処理
+	//ID3D11UnorderedAccessView* nullUAV = nullptr;
+	//ID3D11ShaderResourceView* nullSRV = nullptr;
+
+	//Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &nullUAV, nullptr);
+	//Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &nullSRV);
+	//Renderer::GetDeviceContext()->CSSetShader(nullptr, nullptr, 0);
 }
 
 void GPUExplosionParticle::Draw()
@@ -172,6 +184,7 @@ void GPUExplosionParticle::Draw()
 	Camera* camera = Manager::GetScene()->GetGameObject<Camera>();
 
 	if (!camera) return;
+	if (!m_pAliveListSRV)return;
 
 	XMMATRIX view = camera->GetViewMatrix();
 
@@ -203,12 +216,13 @@ void GPUExplosionParticle::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_pVertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_pPixelShader, NULL, 0);
 
-	Renderer::GetDeviceContext()->VSSetShaderResources(0, 1, &m_pParticleSRV[m_CurrentParticleIndex]);
+	Renderer::GetDeviceContext()->VSSetShaderResources(0, 1, &m_pParticleSRV);
+	Renderer::GetDeviceContext()->VSSetShaderResources(1, 1, &m_pAliveListSRV);
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
 	Renderer::SetDepthEnable(false);
 
-	Renderer::GetDeviceContext()->DrawInstanced(4, MAX_PARTICLE, 0, 0);
+	Renderer::GetDeviceContext()->DrawInstancedIndirect(m_pIndirectArgsBuffer, 0);
 
 	Renderer::SetDepthEnable(true);
 }
@@ -220,34 +234,66 @@ void GPUExplosionParticle::SpawnExplosion(Vector3 pos)
 }
 
 
-UINT GPUExplosionParticle::getalivecount(ID3D11UnorderedAccessView* uav)
+void GPUExplosionParticle::initializedeadlist()
 {
-	UINT count = 0;
+	UINT zero = 0;
+	Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pDeadListUAV, &zero);
+	Renderer::GetDeviceContext()->CSSetShader(m_pDeadListInitCS, nullptr, 0);
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pDeadListUAV, &zero);
+	Renderer::GetDeviceContext()->Dispatch((MAX_PARTICLE + 255) / 256, 1, 1);
 
-	Renderer::GetDeviceContext()->CopyStructureCount(m_pCountBuffer, 0, uav);
-
-	D3D11_MAPPED_SUBRESOURCE mapped{};
-	Renderer::GetDeviceContext()->Map(m_pCountBuffer, 0, D3D11_MAP_READ, 0, &mapped);
-
-	count = *(UINT*)mapped.pData;
-
-	Renderer::GetDeviceContext()->Unmap(m_pCountBuffer, 0);
-
-	return count;
+	//後片付け
+	ID3D11UnorderedAccessView* nullUAV[3]{};
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, nullUAV, nullptr);
+	Renderer::GetDeviceContext()->CSSetShader(nullptr, nullptr, 0);
 }
+
+//UINT GPUExplosionParticle::getalivecount(ID3D11UnorderedAccessView* uav)
+//{
+//	UINT count = 0;
+//
+//	Renderer::GetDeviceContext()->CopyStructureCount(m_pCountBuffer, 0, uav);
+//
+//	D3D11_MAPPED_SUBRESOURCE mapped{};
+//	Renderer::GetDeviceContext()->Map(m_pCountBuffer, 0, D3D11_MAP_READ, 0, &mapped);
+//
+//	count = *(UINT*)mapped.pData;
+//
+//	Renderer::GetDeviceContext()->Unmap(m_pCountBuffer, 0);
+//
+//	return count;
+//}
 
 void GPUExplosionParticle::createbuffers()
 {
-	for(int i = 0; i < 2; i++)
 	{
 		//ParticleBufferの作成
 		D3D11_BUFFER_DESC desc{};
 		desc.ByteWidth = sizeof(GPUParticle) * MAX_PARTICLE;//GPU状に確保するメモリ量
 		desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;//更新と描画両方を行うために必要
+		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;//バッファの指定
 		desc.StructureByteStride = sizeof(GPUParticle);//一個当たりのサイズ
 
-		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pParticleBuffer[i]);
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pParticleBuffer);
+	}
+
+	{//DeadListのバッファ作成
+		
+		D3D11_BUFFER_DESC desc{};
+		desc.ByteWidth = sizeof(UINT) * MAX_PARTICLE;
+		desc.StructureByteStride = sizeof(UINT);
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pDeadListBuffer);
+
+	}
+
+	{//AliveListのバッファ作成
+		D3D11_BUFFER_DESC desc{};
+		desc.ByteWidth = sizeof(UINT) * MAX_PARTICLE;
+		desc.StructureByteStride = sizeof(UINT);
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pAliveListBuffer);
 	}
 
 	{
@@ -293,44 +339,80 @@ void GPUExplosionParticle::createbuffers()
 	}
 
 	{
-		//CountBufferの作成
+		//IndirectDrawのバッファー作成
+		D3D11_BUFFER_DESC desc{};
+		desc.ByteWidth = sizeof(D3D11_DRAW_INSTANCED_INDIRECT_ARGS);
+		desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_VERTEX_BUFFER;
+		desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pIndirectArgsBuffer);
+	}
+
+	{
+		//ReadBackバッファの作成
 		D3D11_BUFFER_DESC desc{};
 		desc.ByteWidth = sizeof(UINT);
 		desc.Usage = D3D11_USAGE_STAGING;
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
-		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pCountBuffer);
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pAliveCountReadBack);
 	}
-
 }
 
 void GPUExplosionParticle::createviews()
 {
-	for(int i = 0; i < 2; i++)
-	{
+	{//ParticleUAVとSRV作成
 		D3D11_UNORDERED_ACCESS_VIEW_DESC uav{};
 		uav.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 		uav.Format = DXGI_FORMAT_UNKNOWN;
-		uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
 		uav.Buffer.NumElements = MAX_PARTICLE;
 
-		Renderer::GetDevice()->CreateUnorderedAccessView(m_pParticleBuffer[i], &uav, &m_pParticleUAV[i]);
+		Renderer::GetDevice()->CreateUnorderedAccessView(m_pParticleBuffer, &uav, &m_pParticleUAV);
 
+		D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
+		srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		srv.Buffer.NumElements = MAX_PARTICLE;
+
+		Renderer::GetDevice()->CreateShaderResourceView(m_pParticleBuffer, &srv, &m_pParticleSRV);
+	}
+
+	{//AliveのlistUAV作成
+		D3D11_UNORDERED_ACCESS_VIEW_DESC desc{};
+		desc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.NumElements = MAX_PARTICLE;
+		desc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
+
+		Renderer::GetDevice()->CreateUnorderedAccessView(m_pAliveListBuffer, &desc, &m_pAliveListUAV);
+	}
+
+	{//DeadのlistUAV作成
+		D3D11_UNORDERED_ACCESS_VIEW_DESC desc{};
+		desc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.NumElements = MAX_PARTICLE;
+		desc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
+
+		Renderer::GetDevice()->CreateUnorderedAccessView(m_pDeadListBuffer, &desc, &m_pDeadListUAV);
+	}
+
+	{//SpawnPosSRVの作成
+		D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
+		srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		srv.Format = DXGI_FORMAT_UNKNOWN;
+		srv.Buffer.NumElements = PARTICLE_PER_EXPLOSION;
+
+		Renderer::GetDevice()->CreateShaderResourceView(m_pSpawnPositionBuffer, &srv, &m_pSpawnPositionSRV);
+	}
+
+	{//AliveListのSRVの作成
 		D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
 		srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
 		srv.Format = DXGI_FORMAT_UNKNOWN;
 		srv.Buffer.NumElements = MAX_PARTICLE;
 
-		Renderer::GetDevice()->CreateShaderResourceView(m_pParticleBuffer[i], &srv, &m_pParticleSRV[i]);
+		Renderer::GetDevice()->CreateShaderResourceView(m_pAliveListBuffer, &srv, &m_pAliveListSRV);
 	}
-
-
-	D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
-	srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
-	srv.Format = DXGI_FORMAT_UNKNOWN;
-	srv.Buffer.NumElements = PARTICLE_PER_EXPLOSION;
-
-	Renderer::GetDevice()->CreateShaderResourceView(m_pSpawnPositionBuffer, &srv, &m_pSpawnPositionSRV);
 
 	m_Texture = Texture::Load("asset\\texture\\particle.png");
 }
@@ -338,13 +420,48 @@ void GPUExplosionParticle::createviews()
 //各種シェーダーの作成
 void GPUExplosionParticle::loadshaders()
 {
-	Renderer::CreateVertexShaderForParticle(&m_pVertexShader, &m_pInputLayout, "shader\\particleVS.cso");
+	Renderer::CreateVertexShaderForParticle(&m_pVertexShader, nullptr, "shader\\particleVS.cso");
 
 	Renderer::CreatePixelShader(&m_pPixelShader, "shader\\particlePS.cso");
+
+	Renderer::CreateComputeShader(&m_pDeadListInitCS, "shader\\deadlistinitCS.cso");
 
 	Renderer::CreateComputeShader(&m_pSpawnCS, "shader\\particlespawnCS.cso");
 
 	Renderer::CreateComputeShader(&m_pUpdateCS, "shader\\particleupdateCS.cso");
+
+}
+
+//void GPUExplosionParticle::buildindirectargs()
+//{
+//	Renderer::GetDeviceContext()->CSSetShader(m_pIndirectArgsCS, nullptr, 0);
+//	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pAliveListUAV, nullptr);
+//	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(1, 1, &m_pIndirectArgsUAV, nullptr);
+//	Renderer::GetDeviceContext()->Dispatch(1, 1, 1);
+//
+//	//後処理
+//	ID3D11UnorderedAccessView* nullUAV = nullptr;
+//	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &nullUAV, nullptr);
+//	Renderer::GetDeviceContext()->CSSetShader(nullptr, nullptr, 0);
+//}
+
+void GPUExplosionParticle::updateindirectargs()
+{
+	Renderer::GetDeviceContext()->CopyStructureCount(m_pAliveCountReadBack, 0, m_pAliveListUAV);
+
+	D3D11_MAPPED_SUBRESOURCE map{};
+	Renderer::GetDeviceContext()->Map(m_pAliveCountReadBack, 0, D3D11_MAP_READ, 0, &map);
+
+	D3D11_DRAW_INSTANCED_INDIRECT_ARGS args{};
+	args.VertexCountPerInstance = 4;
+	args.InstanceCount = (UINT)map.pData;
+	args.StartVertexLocation = 0;
+	args.StartInstanceLocation = 0;
+
+	Renderer::GetDeviceContext()->Unmap(m_pAliveCountReadBack, 0);
+
+	Renderer::GetDeviceContext()->UpdateSubresource(m_pIndirectArgsBuffer, 0, nullptr, &args, 0, 0);
+
 }
 
 void GPUExplosionParticle::uploadspawnrequests()
@@ -388,5 +505,85 @@ void GPUExplosionParticle::uploadspawnrequests()
 
 	//リクエストの解放
 	m_SpawnRequests.clear();
+}
+
+void GPUExplosionParticle::updatespawn()
+{
+	if (m_SpawnRequests.empty()) return;
+
+	m_pSpawnPositionBuffer->Release();
+	m_pSpawnPositionSRV->Release();
+
+	//現在のリクエストに応じたスポーンバッファの作
+	D3D11_BUFFER_DESC desc{};
+	desc.ByteWidth = UINT(sizeof(XMFLOAT3) * m_SpawnRequests.size());
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	desc.StructureByteStride = sizeof(XMFLOAT3);
+
+	D3D11_SUBRESOURCE_DATA sub{};
+	sub.pSysMem = m_SpawnRequests.data();
+
+	Renderer::GetDevice()->CreateBuffer(&desc, &sub, &m_pSpawnPositionBuffer);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
+	srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+	srv.Buffer.FirstElement = 0;
+	srv.Buffer.NumElements = m_SpawnRequests.size();
+	srv.Format = DXGI_FORMAT_UNKNOWN;
+
+	Renderer::GetDevice()->CreateShaderResourceView(m_pSpawnPositionBuffer, &srv, &m_pSpawnPositionSRV);
+
+	UINT clear[4] = { 0, 0, 0, 0 };
+	Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pAliveListUAV, clear);
+
+	//ここからGPUにこの新規データを送信
+	SpawnCB cb{};
+	cb.SpawnCount = (UINT)m_SpawnRequests.size();
+	cb.ParticleCount = PARTICLE_PER_EXPLOSION;
+
+	Renderer::GetDeviceContext()->UpdateSubresource(m_pSpawnBuffer, 0, nullptr, &cb, 0, 0);
+	Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pSpawnBuffer);
+
+	Renderer::GetDeviceContext()->CSSetShader(m_pSpawnCS, nullptr, 0);
+	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pSpawnPositionSRV);
+
+	ID3D11UnorderedAccessView* uavs[] =
+	{
+		m_pParticleUAV,
+		m_pAliveListUAV,
+		m_pDeadListUAV
+	};
+
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, uavs, nullptr);
+	UINT total = cb.SpawnCount * cb.ParticleCount;
+	Renderer::GetDeviceContext()->Dispatch((total + 255) / 256, 1, 1);
+
+	m_SpawnRequests.clear();
+}
+
+void GPUExplosionParticle::updateparticle()
+{
+	UpdateCB ucb{};
+	ucb.Gravity = -0.01f;
+	ucb.FadeSpeed = 1.0f;
+	ucb.AliveCount = 0; // Append方式では不要
+
+	Renderer::GetDeviceContext()->UpdateSubresource(m_pUpdateBuffer, 0, nullptr, &ucb, 0, 0);
+
+
+	Renderer::GetDeviceContext()->CSSetShader(m_pUpdateCS, nullptr, 0);
+	Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pUpdateBuffer);
+
+	ID3D11UnorderedAccessView* uavs[] =
+	{
+		m_pParticleUAV,
+		m_pAliveListUAV,
+		m_pDeadListUAV
+	};
+
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, uavs, nullptr);
+	Renderer::GetDeviceContext()->Dispatch((MAX_PARTICLE + 255) / 256, 1, 1);
 }
 

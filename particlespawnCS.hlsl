@@ -12,7 +12,11 @@ struct GPUParticle
 };
 
 StructuredBuffer<float3> g_SpawnPosition : register(t0);
-AppendStructuredBuffer<GPUParticle> g_Particle: register(u0);
+
+RWStructuredBuffer<GPUParticle> Particles : register(u0);
+AppendStructuredBuffer<uint> AliveList : register(u1);
+ConsumeStructuredBuffer<uint> DeadList : register(u2);
+
 
 #define MAX_PARTICLE 65536
 
@@ -31,36 +35,42 @@ float Rand(uint seed)
 [numthreads(256, 1 , 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
-    uint particleindex = id.x;
-    uint totalparticles = SpawnCount * ParticleCount;
-    
-    if (particleindex >= totalparticles)
+    uint idx = id.x;
+    uint totalspawn = SpawnCount * ParticleCount;
+    if (idx >= totalspawn)
     {
         return;
     }
     
-    uint spawnindex = particleindex / ParticleCount;
-    uint localindex = particleindex % ParticleCount;
+    uint explosionID = idx / ParticleCount;
+    uint localID = idx % ParticleCount;
     
-    float3 basepos = g_SpawnPosition[spawnindex];
+    uint particleIndex;
+    bool valid = DeadList.Consume(particleIndex);
+   
+    if(!valid)
+        return;
     
-    float rx = Rand(localindex * 3 + 1);
-    float ry = Rand(localindex * 3 + 2);
-    float rz = Rand(localindex * 3 + 3);
+    float seed = (particleIndex * 12.9898 + localID * 78.233);
+    float rx = Rand(sin(seed) * 43758.5453);
+    float ry = Rand(sin(seed * 1.3) * 43758.5453);
+    float rz = Rand(sin(seed * 1.7) * 43758.5453);
            
     float x = (rx * 100.0 - 50.0) / 500.0;
     float y = (ry * 100.0 + 50.0) / 500.0;
     float z = (rz * 100.0 - 50.0) / 500.0;
            
     GPUParticle p;
-    p.position = basepos;
+    p.position = g_SpawnPosition[idx];
     p.velocity = float3(x, y, z);
-    p.life = 0.0;
+    p.life = 0.01;
     p.maxLife = 60.0;
     p.color = float4(1.0, 0.7, 0.3, 1.0);
     //p.scale = float3(1, 1, 1);
     p.scale = float3(0.05, 0.05, 0.05);
     p.pad = 0;
     
-    g_Particle.Append(p);
+    Particles[particleIndex] = p;
+    
+    AliveList.Append(particleIndex);
 }

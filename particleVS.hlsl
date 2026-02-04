@@ -13,7 +13,8 @@ struct GPUParticle
     float pad;
 };
 
-StructuredBuffer<GPUParticle> ParticleBuffer : register(t0);
+StructuredBuffer<GPUParticle> Particles : register(t0);
+StructuredBuffer<uint> AliveList : register(t1);
 
 cbuffer CameraCB : register(b8)
 {
@@ -39,18 +40,10 @@ struct PS_IN
 
 void main(in VS_IN In , out PS_IN Out)
 {
-  
-    GPUParticle p = ParticleBuffer[In.ParticleID];
-
-    if(p.life >= p.maxLife || p.life <= 0)
-    {
-        Out.Position = float4(-5.0, -5.0, 0, 0);
-        Out.Diffuse = float4(0, 0, 0, 0);
-        Out.TexCoord = float2(0, 0);
-        return;
-    }
+    uint particleIndex = AliveList[In.ParticleID];
+    GPUParticle p = Particles[particleIndex];
     
-    static float2 quad[4] =
+    float2 quad[4] =
     {
         float2(-1, -1),
         float2(-1, 1),

@@ -1,4 +1,3 @@
-#include "common.hlsl"
 
 struct GPUParticle
 {
@@ -13,8 +12,12 @@ struct GPUParticle
     float pad;
 };
 
-StructuredBuffer<GPUParticle> g_Input : register(t0);
-AppendStructuredBuffer<GPUParticle> g_Output : register(u0);
+
+RWStructuredBuffer<GPUParticle> Particles : register(u0);
+AppendStructuredBuffer<uint> AliveListOut : register(u1);
+AppendStructuredBuffer<uint> DeadList : register(u2);
+ConsumeStructuredBuffer<uint> AliveListIn : register(u3);
+
 
 #define MAX_PARTICLE 65536
 
@@ -22,29 +25,35 @@ cbuffer UpdateBuffer : register(b8)
 {
     float Gravity;
     float FadeSpeed;
-    uint AliveCount;
+    uint AliveCounts;
     float padding;
 }
 
 [numthreads(256, 1 , 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
-    uint index = id.x;
-    
-    if (index >= AliveCount)
+    uint particleIndex;
+    bool valid = AliveListIn.Consume(particleIndex);
+
+    if (!valid)
         return;
     
-    GPUParticle p = g_Input[index];
-    
-    if(p.life >= p.maxLife)
-    {
-        return;
-    }
+    GPUParticle p = Particles[particleIndex];
     
     p.velocity.y += Gravity;
     p.position += p.velocity;
     p.life += FadeSpeed;
     
-    g_Output.Append(p);
-    
+    if(p.life >= p.maxLife)
+    {
+        p.life = 0.0f;
+        Particles[particleIndex] = p;
+        DeadList.Append(particleIndex);
+
+    }
+    else
+    {
+        Particles[particleIndex] = p;
+        AliveListOut.Append(particleIndex);
+    }    
 }
