@@ -22,7 +22,7 @@ private:
 	ID3D11Buffer* m_pVertexBuffer = nullptr;
 
 	//UAV関係
-	ID3D11UnorderedAccessView* m_pParticleUAV = nullptr;
+	ID3D11UnorderedAccessView* m_pParticleUAV[2]{};
 
 	//SRV関係
 	ID3D11ShaderResourceView* m_pParticleSRV = nullptr;
@@ -41,6 +41,9 @@ private:
 	static constexpr UINT PARTICLE_PER_EXPLOSION = 1000;
 	int m_CurrentSpawnCount = 0;
 	int m_CurrentParticleIndex = 0;
+	const int m_MaxInstancePerBuffer = 65;//各バッファの最大生成値　MAX_PARTICLES　/　PARTICLE_PER_EXPLOSION
+	int m_CurrentSpawningBuffer = 0;//現在Spawnに利用してるバッファ
+	int m_TotalSpawnCountInCurrentBuffer = 0;//現在のバッファでのスポーンカウント
 public:
 	static GPUExplosionParticle* GetInstance();
 

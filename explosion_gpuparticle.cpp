@@ -84,7 +84,9 @@ void GPUExplosionParticle::Uninit()
 	m_pCameraBuffer->Release();
 	m_pVertexBuffer->Release();
 
-	m_pParticleUAV->Release();
+	m_pParticleUAV[0]->Release();
+	m_pParticleUAV[1]->Release();
+
 	m_pParticleSRV->Release();
 	m_pSpawnPositionSRV->Release();
 
@@ -278,15 +280,22 @@ void GPUExplosionParticle::createbuffers()
 
 void GPUExplosionParticle::createviews()
 {
-	{//ParticleUAVとSRV作成
-		D3D11_UNORDERED_ACCESS_VIEW_DESC uav{};
-		uav.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-		uav.Format = DXGI_FORMAT_UNKNOWN;
-		uav.Buffer.FirstElement = 0;
-		uav.Buffer.NumElements = MAX_PARTICLE;
-		uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
+	{//ParticleUAV作成
+		for(int i = 0; i < 2 ; i++)
+		{
+			D3D11_UNORDERED_ACCESS_VIEW_DESC uav{};
+			uav.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+			uav.Format = DXGI_FORMAT_UNKNOWN;
+			uav.Buffer.FirstElement = 0;
+			uav.Buffer.NumElements = MAX_PARTICLE;
+			uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
 
-		Renderer::GetDevice()->CreateUnorderedAccessView(m_pParticleBuffer, &uav, &m_pParticleUAV);
+			Renderer::GetDevice()->CreateUnorderedAccessView(m_pParticleBuffer, &uav, &m_pParticleUAV[i]);
+		}
+	}
+
+	{//ParticleSRV作成
+		
 
 		D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
 		srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
@@ -363,6 +372,32 @@ void GPUExplosionParticle::uploadspawnrequests()
 	//生成したバッファの解放
 	buffer->Release();
 
+	m_TotalSpawnCountInCurrentBuffer += m_CurrentSpawnCount;
+	if (m_TotalSpawnCountInCurrentBuffer > m_MaxInstancePerBuffer)
+	{
+		switch (m_CurrentSpawningBuffer)
+		{
+		case 0:
+		{
+			m_CurrentSpawningBuffer = 1;
+			FLOAT clear[4] = { 0,0,0,0 };
+			Renderer::GetDeviceContext()->ClearUnorderedAccessViewFloat(m_pParticleUAV[m_CurrentSpawningBuffer], clear);
+			UINT initialCount = 0;
+			Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[m_CurrentSpawningBuffer], &initialCount);
+		}
+			break;
+		case 1:
+		{
+			m_CurrentSpawningBuffer = 0;
+			FLOAT clear[4] = { 0,0,0,0 };
+			Renderer::GetDeviceContext()->ClearUnorderedAccessViewFloat(m_pParticleUAV[m_CurrentSpawningBuffer], clear);
+			UINT initialCount = 0;
+			Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[m_CurrentSpawningBuffer], &initialCount);
+		}
+			break;
+		}
+		m_TotalSpawnCountInCurrentBuffer = m_CurrentSpawnCount;
+	}
 	//リクエストの解放
 	//m_SpawnRequests.clear();
 }
@@ -380,7 +415,7 @@ void GPUExplosionParticle::updatespawn()
 
 	Renderer::GetDeviceContext()->CSSetShader(m_pSpawnCS, nullptr, 0);
 	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &m_pSpawnPositionSRV);
-	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV, nullptr);
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[m_CurrentSpawningBuffer], nullptr);
 
 	UINT total = cb.SpawnCount * cb.ParticleCount;
 	Renderer::GetDeviceContext()->Dispatch((total + 255) / 256, 1, 1);
@@ -401,8 +436,13 @@ void GPUExplosionParticle::updateparticle()
 
 	Renderer::GetDeviceContext()->CSSetShader(m_pUpdateCS, nullptr, 0);
 	Renderer::GetDeviceContext()->CSSetConstantBuffers(8, 1, &m_pUpdateBuffer);
+	ID3D11UnorderedAccessView* uavs[] =
+	{
+		m_pParticleUAV[0],
+		m_pParticleUAV[1]
+	};
 
-	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV, nullptr);
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, uavs, nullptr);
 	Renderer::GetDeviceContext()->Dispatch((MAX_PARTICLE + 255) / 256, 1, 1);
 }
 

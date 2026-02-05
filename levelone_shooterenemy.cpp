@@ -15,7 +15,7 @@
 #include "camera.h"
 #include "score.h"
 #include "hp_ui.h"
-#include "explosion_particle.h"
+#include "explosion_gpuparticle.h"
 #include "result.h"
 #include "game.h"
 #include "fade.h"
@@ -78,9 +78,11 @@ void LevelOneShooterEnemy::Update()
 
 			if (m_HP <= 0)
 			{
-				ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
+				/*ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 				boom->SetPosition(m_Position);
-				boom->SetScale({ 0.1f , 0.1f , 0.1f });
+				boom->SetScale({ 0.1f , 0.1f , 0.1f });*/
+				GPUExplosionParticle::GetInstance()->SpawnExplosion(m_Position);
+
 				Manager::GetSoundEffect()->PlaySE(SE_ENEMYDAMAGE);
 
 				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
