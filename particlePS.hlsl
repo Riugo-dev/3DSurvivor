@@ -6,8 +6,6 @@ SamplerState g_SamplerState : register(s0);
 struct PS_IN
 {
     float4 Position : SV_POSITION;
-    float4 WorldPosition : POSITION0;
-    float4 Normal : NORMAL0;
     float4 Diffuse : COLOR;
     float2 TexCoord : TEXCOORD0;
 };

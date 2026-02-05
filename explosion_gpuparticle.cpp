@@ -82,7 +82,7 @@ void GPUExplosionParticle::Uninit()
 	m_pSpawnBuffer->Release();
 	m_pUpdateBuffer->Release();
 	m_pCameraBuffer->Release();
-
+	m_pVertexBuffer->Release();
 
 	m_pParticleUAV->Release();
 	m_pParticleSRV->Release();
@@ -150,6 +150,11 @@ void GPUExplosionParticle::Draw()
 
 	Renderer::GetDeviceContext()->VSSetShaderResources(0, 1, &m_pParticleSRV);
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+
+	//頂点バッファ設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
 
 	Renderer::SetDepthEnable(false);
 
@@ -234,6 +239,40 @@ void GPUExplosionParticle::createbuffers()
 		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pCameraBuffer);
+	}
+	
+	{
+		//VertexBufferの作成
+		VERTEX_3D vertex[4];
+		vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+		vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
+		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+		vertex[1].Position = XMFLOAT3(1.0f, 1.0f, 0.0f);
+		vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+		vertex[2].Position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
+		vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+		vertex[3].Position = XMFLOAT3(1.0f, -1.0f, 0.0f);
+		vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+		D3D11_BUFFER_DESC desc{};
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.ByteWidth = sizeof(VERTEX_3D) * 4;
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		D3D11_SUBRESOURCE_DATA srd{};
+		srd.pSysMem = vertex;
+
+		Renderer::GetDevice()->CreateBuffer(&desc, &srd, &m_pVertexBuffer);
 	}
 }
 

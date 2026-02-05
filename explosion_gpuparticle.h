@@ -19,7 +19,8 @@ private:
 	ID3D11Buffer* m_pSpawnBuffer = nullptr;
 	ID3D11Buffer* m_pUpdateBuffer = nullptr;
 	ID3D11Buffer* m_pCameraBuffer = nullptr;
-	
+	ID3D11Buffer* m_pVertexBuffer = nullptr;
+
 	//UAVŠÖŒW
 	ID3D11UnorderedAccessView* m_pParticleUAV = nullptr;
 

@@ -46,5 +46,18 @@ void main(uint3 id : SV_DispatchThreadID)
     p.position += p.velocity;
     p.life += FadeSpeed;
     
+    if(p.life > 0.0 && p.life < 5.0)
+    {
+        p.color = float4(1.0f , 1.0f , 0.0f , 1.0f);
+    }
+    else if (p.life < 20)
+    {
+        p.color = float4(0.7f, 0.2f, 0.0f, 1.0f);
+    }
+    else if (p.life < 60)
+    {
+        p.color = float4(0.5f, 0.0f, 0.0f, 1.0f);
+    }
+    
     Particles[Index] = p;
 }
