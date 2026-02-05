@@ -83,6 +83,17 @@ void GPUExplosionParticle::Uninit()
 	m_pUpdateBuffer->Release();
 	m_pCameraBuffer->Release();
 	m_pVertexBuffer->Release();
+	
+	auto cleanGPU = [&](ID3D11UnorderedAccessView* buf)
+		{
+			FLOAT clear[4] = { 0,0,0,0 };
+			Renderer::GetDeviceContext()->ClearUnorderedAccessViewFloat(buf, clear);
+			UINT initialCount = 0;
+			Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &buf, &initialCount);
+		};
+
+	cleanGPU(m_pParticleUAV[0]);
+	cleanGPU(m_pParticleUAV[1]);
 
 	m_pParticleUAV[0]->Release();
 	m_pParticleUAV[1]->Release();
