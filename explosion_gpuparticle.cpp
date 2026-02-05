@@ -164,6 +164,14 @@ void GPUExplosionParticle::Update()
 	//	Renderer::GetDeviceContext()->Dispatch((alivecount + 255) / 256, 1, 1);
 	//}
 
+	{
+		ID3D11UnorderedAccessView* uavs[3] = { m_pParticleUAV, m_pAliveListUAV , m_pDeadListUAV };
+
+		UINT initCounts[3] = { (UINT)-1, 0, (UINT)-1 };
+
+		Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, uavs, initCounts);
+	}
+
 	updatespawn();
 
 	updateparticle();
@@ -236,10 +244,14 @@ void GPUExplosionParticle::SpawnExplosion(Vector3 pos)
 
 void GPUExplosionParticle::initializedeadlist()
 {
-	UINT zero = 0;
-	Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pDeadListUAV, &zero);
+	UINT clear4[4] = { 0,0,0,0 };
+	UINT initcount = 0;
+	ID3D11ShaderResourceView* nullSRV[8] = {};
+	Renderer::GetDeviceContext()->VSSetShaderResources(0, 8, nullSRV);
+	Renderer::GetDeviceContext()->CSSetShaderResources(0, 8, nullSRV);
+
 	Renderer::GetDeviceContext()->CSSetShader(m_pDeadListInitCS, nullptr, 0);
-	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pDeadListUAV, &zero);
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pDeadListUAV, &initcount);
 	Renderer::GetDeviceContext()->Dispatch((MAX_PARTICLE + 255) / 256, 1, 1);
 
 	//後片付け
@@ -282,6 +294,9 @@ void GPUExplosionParticle::createbuffers()
 		
 		D3D11_BUFFER_DESC desc{};
 		desc.ByteWidth = sizeof(UINT) * MAX_PARTICLE;
+		desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 		desc.StructureByteStride = sizeof(UINT);
 
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pDeadListBuffer);
@@ -291,6 +306,9 @@ void GPUExplosionParticle::createbuffers()
 	{//AliveListのバッファ作成
 		D3D11_BUFFER_DESC desc{};
 		desc.ByteWidth = sizeof(UINT) * MAX_PARTICLE;
+		desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 		desc.StructureByteStride = sizeof(UINT);
 
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pAliveListBuffer);
@@ -342,8 +360,9 @@ void GPUExplosionParticle::createbuffers()
 		//IndirectDrawのバッファー作成
 		D3D11_BUFFER_DESC desc{};
 		desc.ByteWidth = sizeof(D3D11_DRAW_INSTANCED_INDIRECT_ARGS);
-		desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_VERTEX_BUFFER;
+		desc.BindFlags =0;
 		desc.MiscFlags = D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS;
+		desc.Usage = D3D11_USAGE_DEFAULT;
 
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pIndirectArgsBuffer);
 	}
@@ -452,13 +471,17 @@ void GPUExplosionParticle::updateindirectargs()
 	D3D11_MAPPED_SUBRESOURCE map{};
 	Renderer::GetDeviceContext()->Map(m_pAliveCountReadBack, 0, D3D11_MAP_READ, 0, &map);
 
+	UINT alivecount = *(UINT*)map.pData;
+
+
+	Renderer::GetDeviceContext()->Unmap(m_pAliveCountReadBack, 0);
+
 	D3D11_DRAW_INSTANCED_INDIRECT_ARGS args{};
 	args.VertexCountPerInstance = 4;
-	args.InstanceCount = (UINT)map.pData;
+	args.InstanceCount = alivecount;
 	args.StartVertexLocation = 0;
 	args.StartInstanceLocation = 0;
 
-	Renderer::GetDeviceContext()->Unmap(m_pAliveCountReadBack, 0);
 
 	Renderer::GetDeviceContext()->UpdateSubresource(m_pIndirectArgsBuffer, 0, nullptr, &args, 0, 0);
 
@@ -535,8 +558,7 @@ void GPUExplosionParticle::updatespawn()
 
 	Renderer::GetDevice()->CreateShaderResourceView(m_pSpawnPositionBuffer, &srv, &m_pSpawnPositionSRV);
 
-	UINT clear[4] = { 0, 0, 0, 0 };
-	Renderer::GetDeviceContext()->ClearUnorderedAccessViewUint(m_pAliveListUAV, clear);
+
 
 	//ここからGPUにこの新規データを送信
 	SpawnCB cb{};
@@ -556,7 +578,10 @@ void GPUExplosionParticle::updatespawn()
 		m_pDeadListUAV
 	};
 
-	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, uavs, nullptr);
+	// Spawnでは AliveList をリセットしない（-1）
+	UINT initCounts[3] = { (UINT)-1, (UINT)-1, (UINT)-1 };
+
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 3, uavs, initCounts);
 	UINT total = cb.SpawnCount * cb.ParticleCount;
 	Renderer::GetDeviceContext()->Dispatch((total + 255) / 256, 1, 1);
 

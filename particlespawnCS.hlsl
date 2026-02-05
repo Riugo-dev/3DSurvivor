@@ -45,23 +45,19 @@ void main(uint3 id : SV_DispatchThreadID)
     uint explosionID = idx / ParticleCount;
     uint localID = idx % ParticleCount;
     
-    uint particleIndex;
-    bool valid = DeadList.Consume(particleIndex);
-   
-    if(!valid)
-        return;
+    uint particleIndex = DeadList.Consume();
     
     float seed = (particleIndex * 12.9898 + localID * 78.233);
-    float rx = Rand(sin(seed) * 43758.5453);
-    float ry = Rand(sin(seed * 1.3) * 43758.5453);
-    float rz = Rand(sin(seed * 1.7) * 43758.5453);
+    float rx = Rand(seed + 1);
+    float ry = Rand(seed + 2);
+    float rz = Rand(seed + 3);
            
     float x = (rx * 100.0 - 50.0) / 500.0;
     float y = (ry * 100.0 + 50.0) / 500.0;
     float z = (rz * 100.0 - 50.0) / 500.0;
            
     GPUParticle p;
-    p.position = g_SpawnPosition[idx];
+    p.position = g_SpawnPosition[explosionID];
     p.velocity = float3(x, y, z);
     p.life = 0.01;
     p.maxLife = 60.0;

@@ -14,9 +14,9 @@ struct GPUParticle
 
 
 RWStructuredBuffer<GPUParticle> Particles : register(u0);
-AppendStructuredBuffer<uint> AliveListOut : register(u1);
+AppendStructuredBuffer<uint> AliveList : register(u1);
 AppendStructuredBuffer<uint> DeadList : register(u2);
-ConsumeStructuredBuffer<uint> AliveListIn : register(u3);
+
 
 
 #define MAX_PARTICLE 65536
@@ -32,13 +32,14 @@ cbuffer UpdateBuffer : register(b8)
 [numthreads(256, 1 , 1)]
 void main(uint3 id : SV_DispatchThreadID)
 {
-    uint particleIndex;
-    bool valid = AliveListIn.Consume(particleIndex);
-
-    if (!valid)
+    uint Index = id.x;
+    if (Index >= MAX_PARTICLE)
         return;
     
-    GPUParticle p = Particles[particleIndex];
+    GPUParticle p = Particles[Index];
+    
+    if (p.life <= 0.0f)
+        return;
     
     p.velocity.y += Gravity;
     p.position += p.velocity;
@@ -47,13 +48,13 @@ void main(uint3 id : SV_DispatchThreadID)
     if(p.life >= p.maxLife)
     {
         p.life = 0.0f;
-        Particles[particleIndex] = p;
-        DeadList.Append(particleIndex);
+        Particles[Index] = p;
+        DeadList.Append(Index);
 
     }
     else
     {
-        Particles[particleIndex] = p;
-        AliveListOut.Append(particleIndex);
+        Particles[Index] = p;
+        AliveList.Append(Index);
     }    
 }
