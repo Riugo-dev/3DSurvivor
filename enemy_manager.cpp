@@ -199,7 +199,7 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 12;
+		int distance = rd() % 25 + 14;
 		//int distance = rd() % 15 + 9;
 		float angle = randangle(mt);
 
@@ -225,7 +225,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 14;
+		int distance = rd() % 25 + 16;
 		//int distance = rd() % 15 + 10;
 		float angle = randangle(mt);
 
@@ -251,7 +251,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 16;
+		int distance = rd() % 25 + 18;
 		//int distance = rd() % 15 + 11;
 		float angle = randangle(mt);
 

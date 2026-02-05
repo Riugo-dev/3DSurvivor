@@ -267,6 +267,24 @@
     <ClCompile Include="vacuum_item.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="explosion_gpuparticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="exp_item_manager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="meshField.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="petal_particle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowvolume.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="wave.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -512,6 +530,24 @@
     <ClInclude Include="vacuum_item.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="explosion_gpuparticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="exp_item_manager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="meshField.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="petal_particle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowvolume.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="wave.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="common.hlsl">
@@ -553,5 +589,16 @@
     <FxCompile Include="vertexDirectionalLightingVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+    <FxCompile Include="blinnphonginstanceVS.hlsl" />
+    <FxCompile Include="deadlistinitCS.hlsl" />
+    <FxCompile Include="indirectargsCS.hlsl" />
+    <FxCompile Include="instanceVSEdge.hlsl" />
+    <FxCompile Include="particlePS.hlsl" />
+    <FxCompile Include="particlespawnCS.hlsl" />
+    <FxCompile Include="particleupdateCS.hlsl" />
+    <FxCompile Include="particleVS.hlsl" />
+    <FxCompile Include="tooninstancedVS.hlsl" />
+    <FxCompile Include="wavePS.hlsl" />
+    <FxCompile Include="waveVS.hlsl" />
   </ItemGroup>
 </Project>

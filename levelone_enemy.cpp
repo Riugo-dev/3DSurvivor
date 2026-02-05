@@ -20,6 +20,7 @@
 #include "fade.h"
 #include "enemy_manager.h"
 #include "manager_soundeffect.h"
+#include "explosion_gpuparticle.h"
 #include <vector>
 
 
@@ -87,6 +88,8 @@ void LevelOneEnemy::Update()
 				/*ExplosionParticle* boom = Manager::GetScene()->AddGameObject<ExplosionParticle>(2);
 				boom->SetPosition(m_Position);
 				boom->SetScale({ 0.1f , 0.1f , 0.1f });*/
+
+				GPUExplosionParticle::GetInstance()->SpawnExplosion(m_Position);
 
 				Manager::GetScene()->GetGameObject<Score>()->AddPoints(m_Points);
 				m_IsDestroy = true;
