@@ -150,6 +150,7 @@
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemydamage_ui.cpp" />
     <ClCompile Include="enemy_bullet.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="controller.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemybase.h" />
+    <ClInclude Include="enemydamage_ui.h" />
     <ClInclude Include="enemy_bullet.h" />
     <ClInclude Include="enemy_manager.h" />
     <ClInclude Include="explosion.h" />

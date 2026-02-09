@@ -39,11 +39,11 @@ ModelManager::~ModelManager()
 void ModelManager::Init()
 {
 	m_pModelRenderers[LOWTIER_EXP] = std::make_unique<ModelRenderer>();
-	m_pModelRenderers[LOWTIER_EXP]->Load("asset\\model\\LowTierEXPItem.obj");
+	m_pModelRenderers[LOWTIER_EXP]->Load("asset\\model\\ExpItemPurple.obj");
 	m_pModelShaders[LOWTIER_EXP] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[MIDTIER_EXP] = std::make_unique<ModelRenderer>();
-	m_pModelRenderers[MIDTIER_EXP]->Load("asset\\model\\MidTierEXPItem.obj");
+	m_pModelRenderers[MIDTIER_EXP]->Load("asset\\model\\ExpItemCyan.obj");
 	m_pModelShaders[MIDTIER_EXP] = std::make_unique<ShaderManager>(SHADER_INSTANCE_BLINNPHONG, true);
 
 	m_pModelRenderers[HIGHTIER_EXP] = std::make_unique<ModelRenderer>();

@@ -131,11 +131,35 @@ void BulletAttack::Update()
 		}
 	}
 		break;
-	case ATT_LVMAX:
+	case ATT_LV5:
 	{
 		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
 		{
 			for (int i = -2; i < 3; i++)
+			{
+				//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
+				Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+				Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
+
+				Vector3 pos = player->GetPosition();
+				pos.y += 0.5f;
+				pos += player->GetRight().normalized() * i * 1.25f;
+
+				Vector3 vel = p_camera->GetFoward() * 0.5f;
+
+				BaseAttackBullet* bullet = Manager::GetScene()->AddGameObject<BaseAttackBullet>();
+				bullet->SetPosition(pos);
+				bullet->SetVelocity(vel);
+				bullet->SetLivingFrames(60);
+			}
+		}
+	}
+		break;
+	case ATT_LVMAX:
+	{
+		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
+		{
+			for (int i = -3; i < 4; i++)
 			{
 				//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
 				Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
@@ -180,6 +204,9 @@ void BulletAttack::SetToNextLevel()
 		m_AttackLevel = ATT_LV4;
 		break;
 	case ATT_LV4:
+		m_AttackLevel = ATT_LV5;
+		break;
+	case ATT_LV5:
 		m_AttackLevel = ATT_LVMAX;
 		break;
 	case ATT_LVMAX:

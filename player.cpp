@@ -314,6 +314,26 @@ void Player::GivePlayerExp(int gainingexp)
 			Game::SetGameState(PLAYER_LEVELUP);
 			break;
 		case LEVEL_NINETEEN:
+			m_PlayerCurrentLevel = LEVEL_TWENTY;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_TWENTY:
+			m_PlayerCurrentLevel = LEVEL_TWENTYONE;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_TWENTYONE:
+			m_PlayerCurrentLevel = LEVEL_TWENTYTWO;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_TWENTYTWO:
+			m_PlayerCurrentLevel = LEVEL_MAX;
+			//ここのタイミングレベルアップのアイテム選択をさせる
+			Game::SetGameState(PLAYER_LEVELUP);
+			break;
+		case LEVEL_TWENTYTHREE:
 			m_PlayerCurrentLevel = LEVEL_MAX;
 			//ここのタイミングレベルアップのアイテム選択をさせる
 			Game::SetGameState(PLAYER_LEVELUP);

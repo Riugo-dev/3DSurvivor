@@ -73,6 +73,11 @@ void GPUExplosionParticle::Init()
 	createbuffers();//バッファの作成
 	createviews();//UAVの作成&パーティクルのSRVの作成
 	loadshaders();//シェーダーの読み込み
+
+	m_CurrentSpawnCount = 0;
+	m_CurrentSpawningBuffer = 0;
+	m_TotalSpawnCountInCurrentBuffer = 0;
+
 }
 
 void GPUExplosionParticle::Uninit()
@@ -84,7 +89,7 @@ void GPUExplosionParticle::Uninit()
 	m_pCameraBuffer->Release();
 	m_pVertexBuffer->Release();
 	
-	auto cleanGPU = [&](ID3D11UnorderedAccessView* buf)
+	/*auto cleanGPU = [&](ID3D11UnorderedAccessView* buf)
 		{
 			FLOAT clear[4] = { 0,0,0,0 };
 			Renderer::GetDeviceContext()->ClearUnorderedAccessViewFloat(buf, clear);
@@ -93,7 +98,7 @@ void GPUExplosionParticle::Uninit()
 		};
 
 	cleanGPU(m_pParticleUAV[0]);
-	cleanGPU(m_pParticleUAV[1]);
+	cleanGPU(m_pParticleUAV[1]);*/
 
 	m_pParticleUAV[0]->Release();
 	m_pParticleUAV[1]->Release();
@@ -302,7 +307,15 @@ void GPUExplosionParticle::createviews()
 			uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
 
 			Renderer::GetDevice()->CreateUnorderedAccessView(m_pParticleBuffer, &uav, &m_pParticleUAV[i]);
+
+			FLOAT clear[4] = { 0.0,0.0,0.0,0.0 };
+			Renderer::GetDeviceContext()->ClearUnorderedAccessViewFloat(m_pParticleUAV[i], clear);
+			UINT initialCount = 0;
+			Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &m_pParticleUAV[i], &initialCount);
 		}
+		ID3D11UnorderedAccessView* nullUAV = nullptr;
+
+		Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &nullUAV, nullptr);
 	}
 
 	{//ParticleSRV作成

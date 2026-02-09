@@ -159,7 +159,7 @@ void SwordAttack::Update()
 		}
 	}
 	break;
-	case ATT_LVMAX:
+	case ATT_LV5:
 	{
 		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
 		{
@@ -183,6 +183,34 @@ void SwordAttack::Update()
 				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
 				sword->SetSword(vel, pos, 0.0f);
 				sword->SetStrength(9 * 60);
+			}
+		}
+	}
+	break;
+	case ATT_LVMAX:
+	{
+		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
+		{
+			for (int i = 0; i < 30; i++)
+			{
+				//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
+				Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+				Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
+
+				Vector3 pos = player->GetPosition();
+
+				BaseAttackSword* sword = Manager::GetScene()->AddGameObject<BaseAttackSword>();
+
+				std::random_device rd;
+				int angle = rd() % 360;
+
+				Vector3 vel = { 0.5f , 0.0f , 0.5f };
+				vel.x = cosf(angle) * vel.x;
+				vel.z = sinf(angle) * vel.z;
+				vel.y = 2.0f;
+				//sword->SetScale({ 1.01f , 1.01f , 1.01f });
+				sword->SetSword(vel, pos, 0.0f);
+				sword->SetStrength(10 * 60);
 			}
 		}
 	}
@@ -212,6 +240,9 @@ void SwordAttack::SetToNextLevel()
 		m_AttackLevel = ATT_LV4;
 		break;
 	case ATT_LV4:
+		m_AttackLevel = ATT_LV5;
+		break;
+	case ATT_LV5:
 		m_AttackLevel = ATT_LVMAX;
 		break;
 	case ATT_LVMAX:

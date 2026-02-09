@@ -114,7 +114,7 @@ void ShurikenAttack::Update()
 		}
 	}
 	break;
-	case ATT_LVMAX:
+	case ATT_LV5:
 	{
 		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
 		{
@@ -130,6 +130,26 @@ void ShurikenAttack::Update()
 				shuriken->SetLivingFrames(60);
 				shuriken->SetShuriken(2.0f, 0.2f, pos, i * (XM_2PI / 5));
 				shuriken->SetAttackHP(4);
+			}
+		}
+	}
+	break;
+	case ATT_LVMAX:
+	{
+		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				//プレイヤーの向いてる方向に合わせて弾の発射位置を変える・・・カメラ基準にすればよい
+				Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+				Player* player = Manager::GetScene()->Scene::GetGameObject<Player>();
+
+				Vector3 pos = player->GetPosition();
+
+				BaseAttackShuriken* shuriken = Manager::GetScene()->AddGameObject<BaseAttackShuriken>();
+				shuriken->SetLivingFrames(60);
+				shuriken->SetShuriken(2.0f, 0.2f, pos, i * (XM_2PI / 6));
+				shuriken->SetAttackHP(5);
 			}
 		}
 	}
@@ -159,6 +179,9 @@ void ShurikenAttack::SetToNextLevel()
 		m_AttackLevel = ATT_LV4;
 		break;
 	case ATT_LV4:
+		m_AttackLevel = ATT_LV5;
+		break;
+	case ATT_LV5:
 		m_AttackLevel = ATT_LVMAX;
 		break;
 	case ATT_LVMAX:

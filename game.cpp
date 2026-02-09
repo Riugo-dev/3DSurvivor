@@ -143,13 +143,14 @@ void Game::Update()
 		{
 			m_State = GAME_PLAY;
 		}
-
+#ifdef _DEBUG
 		if ((m_Input->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
 		{
 			Manager::SetScene<Title>();
 			GetGameObject<Fade>()->SetFade(FADE_OUT);
 			m_State = GAME_FADEOUT;
 		}
+#endif
 	}
 	else if (m_State == PLAYER_LEVELUP)
 	{
