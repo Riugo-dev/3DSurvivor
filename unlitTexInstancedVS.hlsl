@@ -107,11 +107,23 @@ void main(in VS_IN In, out PS_IN Out)
         In.Inst_Position.x, In.Inst_Position.y, In.Inst_Position.z, 1
     };
 
-    matrix wvp;
-    wvp = mul(Scale, InView);
-    wvp = mul(wvp, Translation);
+    //matrix World;
+    //World = mul(Scale, InView);
+    //World = mul(World, Translation);
+    
+    //matrix WVP = mul(World, View);
+    //WVP = mul(WVP, Projection);
 
-    Out.Position = mul(mul(In.Position, wvp), ViewProj);
+    //Out.Position = mul(In.Position, WVP);
+    
+    matrix World = mul(Scale, InView);
+    World = mul(World, Translation);
+    
+    //matrix wvp;
+    //wvp = mul(World, View);
+    //wvp = mul(wvp, Projection);
+
+    Out.Position = mul(mul(In.Position, World), ViewProj);
     Out.TexCoord = In.TexCoord;
     Out.Diffuse = In.Diffuse * Material.Diffuse;
 

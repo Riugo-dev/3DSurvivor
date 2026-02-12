@@ -22,6 +22,7 @@
 #include "game.h"
 #include "fade.h"
 #include "manager_soundeffect.h"
+#include "enemydamage_ui.h"
 #include <vector>
 
 #include "levelone_midboss.h"
@@ -77,6 +78,7 @@ void LevelOneMidBoss::Update()
 		{
 			m_HP -= itr->GetStrength();
 			itr->SubtractHP();
+			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), { m_Position.x , m_Position.y + 1.5f , m_Position.z });
 			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 			if (m_HP <= 0)
