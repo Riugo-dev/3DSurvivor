@@ -63,7 +63,7 @@ public:
 	void Update();
 	void Draw();
 
-	void SpawnDamageUI(DamageUI , Vector3);
+	void SpawnDamageUI(int , Vector3);
 
 private:
 	EnemyDamageUI() {}

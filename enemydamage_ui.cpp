@@ -26,13 +26,8 @@ EnemyDamageUI* EnemyDamageUI::m_pMySelf;
 
 struct CameraforDamageUI
 {
-	XMFLOAT3 CameraRight;
-	float Padding1;
-
-	XMFLOAT3 CameraUp;
-	float Padding2;
-
 	XMMATRIX ViewProj;
+	XMMATRIX InView;
 };
 
 //********************************************************************************
@@ -98,23 +93,11 @@ void EnemyDamageUI::Draw()
 
 	XMMATRIX view = camera->GetViewMatrix();
 
-	XMFLOAT3 camright =
-	{
-		view.r[0].m128_f32[0],
-		view.r[1].m128_f32[0],
-		view.r[2].m128_f32[0]
-	};
-
-	XMFLOAT3 camup =
-	{
-		view.r[0].m128_f32[1],
-		view.r[1].m128_f32[1],
-		view.r[2].m128_f32[1]
-	};
-
 	CameraforDamageUI cb{};
-	cb.CameraRight = camright;
-	cb.CameraUp = camup;
+	cb.InView = XMMatrixInverse(nullptr, view); //逆行列
+	cb.InView.r[3].m128_f32[0] = 0.0f;
+	cb.InView.r[3].m128_f32[1] = 0.0f;
+	cb.InView.r[3].m128_f32[2] = 0.0f;
 	cb.ViewProj = XMMatrixTranspose(view * camera->GetProjectionMatrix());
 	Renderer::GetDeviceContext()->UpdateSubresource(m_pCameraBuffer, 0, nullptr, &cb, 0, 0);
 
@@ -132,10 +115,22 @@ void EnemyDamageUI::Draw()
 
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &inst.Texture);
 
+		//マテリアル設定
+		MATERIAL material{};
+		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+		material.TextureEnable = true;
+		Renderer::SetMaterial(material);
+
+
 		//頂点バッファ設定
-		UINT stride = sizeof(VERTEX_3D);
-		UINT offset = 0;
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &inst.m_pVertexBuffer, &stride, &offset);
+		UINT stride[2] = { sizeof(VERTEX_3D), sizeof(InstanceData) };
+		UINT offset[2] = { 0 , 0};
+
+		ID3D11Buffer* buffers[2]{ inst.m_pVertexBuffer , inst.InstanceBuffer };
+
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 2, buffers, stride, offset);
+
+		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		Renderer::SetDepthEnable(false);
 
@@ -145,18 +140,52 @@ void EnemyDamageUI::Draw()
 	}
 }
 
-void EnemyDamageUI::SpawnDamageUI(DamageUI damage, Vector3 pos)
+void EnemyDamageUI::SpawnDamageUI(int damage, Vector3 pos)
 {
+	DamageUI ID;
+
+	switch (damage)
+	{
+	case 1:
+		ID = DAMAGE_1;
+		break;
+	case 60:
+		ID = DAMAGE_60;
+		break;
+	case 300:
+		ID = DAMAGE_300;
+		break;
+	case 360:
+		ID = DAMAGE_360;
+		break;
+	case 420:
+		ID = DAMAGE_420;
+		break;
+	case 480:
+		ID = DAMAGE_480;
+		break;
+	case 540:
+		ID =  DAMAGE_540;
+		break;
+	case 600:
+		ID = DAMAGE_600;
+		break;
+	default:
+		return;
+		break;
+	}
+
 	for (auto& itr : map_DamageUIs)
 	{
 		auto tag = itr.first;
 		DamageUIInfo& inst = itr.second;
 
-		if (tag == damage)
+		if (tag == ID)
 		{
 			DamageData data;
 			data.Position = pos;
-			data.Position.y += 1.0f;
+			data.Position.y -= 1.0f;
+			//data.Scale = Vector3{ 5.0f ,5.0f , 5.0f };
 			data.Scale = Vector3{ 0.5f ,0.5f , 0.5f };
 			data.Rotation = Vector3{ 0.0f, 0.0f , 0.0f };
 			data.IsDestory = false;
@@ -182,54 +211,65 @@ void EnemyDamageUI::createbuffers()
 
 		auto& inst = map_DamageUIs[(DamageUI)tag];
 
+		//インスタンスバッファの作成
+		D3D11_BUFFER_DESC desc{};
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
 		switch(tag)
 		{
 		case DAMAGE_1:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_ONE_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_ONE_MAX);
 			inst.m_DamageData.reserve(DAMAGE_ONE_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage1.png");
 			break;
 		case DAMAGE_60:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage60.png");
 			break;
 		case DAMAGE_300:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage300.png");
+			break;
 		case DAMAGE_360:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage360.png");
 			break;
 		case DAMAGE_420:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage420.png");
 			break;
 		case DAMAGE_480:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage480.png");
 			break;
 		case DAMAGE_540:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage540.png");
 			break;
 		case DAMAGE_600:
+			desc.ByteWidth = sizeof(InstanceData) * DAMAGE_OTHER_MAX;
 			inst.m_Sendingdata.reserve(DAMAGE_OTHER_MAX);
 			inst.m_DamageData.reserve(DAMAGE_OTHER_MAX);
 			inst.Texture = Texture::Load("asset\\texture\\EnemyDamage600.png");
 			break;
 		}
 
-		//インスタンスバッファの作成
-		D3D11_BUFFER_DESC desc{};
-		desc.Usage = D3D11_USAGE_DYNAMIC;
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		
 
 		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &inst.InstanceBuffer);
 
@@ -268,6 +308,16 @@ void EnemyDamageUI::createbuffers()
 		}
 
 	} 
+
+	{
+		//Cameraのバッファー作成
+		D3D11_BUFFER_DESC desc{};
+		desc.ByteWidth = sizeof(CameraforDamageUI);
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+		Renderer::GetDevice()->CreateBuffer(&desc, nullptr, &m_pCameraBuffer);
+	}
 }
 
 void EnemyDamageUI::createshaders()
@@ -286,10 +336,10 @@ void EnemyDamageUI::updateuis()
 
 		if (inst.m_DamageData.empty()) continue;
 
-		for (auto data : inst.m_DamageData)
+		for (auto& data : inst.m_DamageData)
 		{
 			data.LifeCount++;
-			data.Position.y += 0.01;
+			data.Position.y -= 0.01;
 			if (data.LifeCount >= 60)
 			{
 				data.IsDestory = true;
@@ -300,13 +350,13 @@ void EnemyDamageUI::updateuis()
 
 void EnemyDamageUI::updateinstancebuffer()
 {
-	for (auto& itr : map_DamageUIs)
+	for (auto& group : map_DamageUIs)
 	{
-		DamageUIInfo& inst = itr.second;
+		DamageUIInfo& inst = group.second;
 
 		inst.m_Sendingdata.clear();
 
-		for (auto itr : inst.m_DamageData)
+		for (auto& itr : inst.m_DamageData)
 		{
 			InstanceData data{};
 			data.Position = { itr.Position.x , itr.Position.y , itr.Position.z , 1.0f };

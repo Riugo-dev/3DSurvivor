@@ -38,6 +38,12 @@ struct PS_IN
     //float3 LightDir : TEXCOORD2;//VSで計算したキャラ基準のライト方向
 };
 
+cbuffer CameraCB : register(b8)
+{
+    float4x4 ViewProj;
+    float4x4 InView;
+};
+
 
 matrix MakeRotation(float3 rot)
 {
@@ -102,10 +108,10 @@ void main(in VS_IN In, out PS_IN Out)
     };
 
     matrix wvp;
-    wvp = mul(World, View);
-    wvp = mul(wvp, Projection);
+    wvp = mul(Scale, InView);
+    wvp = mul(wvp, Translation);
 
-    Out.Position = mul(In.Position, wvp);
+    Out.Position = mul(mul(In.Position, wvp), ViewProj);
     Out.TexCoord = In.TexCoord;
     Out.Diffuse = In.Diffuse * Material.Diffuse;
 
