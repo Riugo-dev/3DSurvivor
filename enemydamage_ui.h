@@ -71,7 +71,9 @@ private:
 
 	void createbuffers();
 	void createshaders();
-	
+	void updateuis();
+	void updateinstancebuffer();
+	void destroyuis();
 };
 
 #endif // !_ENEMYDAMAGE_UI_
