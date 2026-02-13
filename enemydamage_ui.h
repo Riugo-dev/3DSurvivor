@@ -35,6 +35,8 @@ private:
 		Vector3 Rotation;
 		int LifeCount;
 		bool IsDestory;
+		float velocity;
+		int MaxLife;
 	};
 
 	struct DamageUIInfo

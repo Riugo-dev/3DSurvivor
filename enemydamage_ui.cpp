@@ -26,8 +26,13 @@ EnemyDamageUI* EnemyDamageUI::m_pMySelf;
 
 struct CameraforDamageUI
 {
+	XMFLOAT3 CameraRight;
+	float Padding1;
+
+	XMFLOAT3 CameraUp;
+	float Padding2;
+
 	XMMATRIX ViewProj;
-	XMMATRIX InView;
 };
 
 //********************************************************************************
@@ -93,15 +98,23 @@ void EnemyDamageUI::Draw()
 
 	XMMATRIX view = camera->GetViewMatrix();
 
-	
-	XMMATRIX inView = XMMatrixInverse(nullptr, view); //‹ts—ñ
-	inView.r[3].m128_f32[0] = 0.0f;
-	inView.r[3].m128_f32[1] = 0.0f;
-	inView.r[3].m128_f32[2] = 0.0f;
-	inView.r[3].m128_f32[3] = 1.0f;
+	XMFLOAT3 camright =
+	{
+		view.r[0].m128_f32[0],
+		view.r[1].m128_f32[0],
+		view.r[2].m128_f32[0]
+	};
+
+	XMFLOAT3 camup =
+	{
+		view.r[0].m128_f32[1],
+		view.r[1].m128_f32[1],
+		view.r[2].m128_f32[1]
+	};
 
 	CameraforDamageUI cb{};
-	cb.InView = XMMatrixTranspose(inView);
+	cb.CameraRight = camright;
+	cb.CameraUp = camup;
 	cb.ViewProj = XMMatrixTranspose(view * camera->GetProjectionMatrix());
 	Renderer::GetDeviceContext()->UpdateSubresource(m_pCameraBuffer, 0, nullptr, &cb, 0, 0);
 
@@ -190,10 +203,28 @@ void EnemyDamageUI::SpawnDamageUI(int damage, Vector3 pos)
 			data.Position = pos;
 			data.Position.y += 1.0f;
 			//data.Scale = Vector3{ 5.0f ,5.0f , 5.0f };
-			data.Scale = Vector3{ 0.5f ,0.5f , 0.5f };
 			data.Rotation = Vector3{ 0.0f, 0.0f , 0.0f };
 			data.IsDestory = false;
 			data.LifeCount = 0;
+
+			switch (ID)
+			{
+			case DAMAGE_1:
+				data.Scale = Vector3{ 0.4f ,0.4f , 0.4f };
+				data.velocity = 0.75f;
+				data.MaxLife = 6;
+				break;
+			case DAMAGE_60:
+				data.Scale = Vector3{ 0.6f ,0.6f , 0.6f };
+				data.velocity = 0.1f;
+				data.MaxLife = 20;
+				break;
+			default:
+				data.Scale = Vector3{ 0.8f ,0.8f , 0.8f };
+				data.velocity = 0.05;
+				data.MaxLife = 25;
+				break;
+			}
 
 			inst.m_DamageData.push_back(data);
 		}
@@ -343,8 +374,8 @@ void EnemyDamageUI::updateuis()
 		for (auto& data : inst.m_DamageData)
 		{
 			data.LifeCount++;
-			data.Position.y += 0.1;
-			if (data.LifeCount >= 20)
+			data.Position.y += data.velocity;
+			if (data.LifeCount >= data.MaxLife)
 			{
 				data.IsDestory = true;
 			}

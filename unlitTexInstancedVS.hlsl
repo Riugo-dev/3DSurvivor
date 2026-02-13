@@ -40,90 +40,21 @@ struct PS_IN
 
 cbuffer CameraCB : register(b8)
 {
+    float3 CameraRight;
+    float pad0;
+    float3 CameraUp;
+    float pad1;
     float4x4 ViewProj;
-    float4x4 InView;
 };
-
-
-matrix MakeRotation(float3 rot)
-{
-    float cosx = cos(rot.x);
-    float cosy = cos(rot.y);
-    float cosz = cos(rot.z);
-    
-    float sinx = sin(rot.x);
-    float siny = sin(rot.y);
-    float sinz = sin(rot.z);
-    
-    matrix Rotx =
-    {
-        1, 0, 0, 0,
-        0, cosx, sinx, 0,
-        0, -sinx, cosx, 0,
-        0, 0, 0, 1
-    };
-    
-    matrix Roty =
-    {
-        cosy, 0, -siny, 0,
-        0, 1, 0, 0,
-        siny, 0, cosy, 0,
-        0, 0, 0, 1
-    };
-    
-    matrix Rotz =
-    {
-        cosz, sinz, 0, 0,
-        -sinz, cosz, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-    
-    return mul(Rotz, mul(Roty, Rotx)); //ZYX
-    
-}
 
 void main(in VS_IN In, out PS_IN Out)
 {
     
-     //スケール
-    matrix Scale =
-    {
-        In.Inst_Scale.x, 0, 0, 0,
-        0, In.Inst_Scale.y, 0, 0,
-        0, 0, In.Inst_Scale.z, 0,
-        0, 0, 0, 1
-    };
+    float2 billboard = In.Position.xy;
     
-    //回転
-    matrix Rotation = MakeRotation(In.Inst_Rotation);
-    
-    //平行移動
-    matrix Translation =
-    {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        In.Inst_Position.x, In.Inst_Position.y, In.Inst_Position.z, 1
-    };
+    float3 WorldPosition = In.Inst_Position.xyz + CameraRight * (billboard.x * In.Inst_Scale.x) + CameraUp * (billboard.y * In.Inst_Scale.y);
 
-    //matrix World;
-    //World = mul(Scale, InView);
-    //World = mul(World, Translation);
-    
-    //matrix WVP = mul(World, View);
-    //WVP = mul(WVP, Projection);
-
-    //Out.Position = mul(In.Position, WVP);
-    
-    matrix World = mul(Scale, InView);
-    World = mul(World, Translation);
-    
-    //matrix wvp;
-    //wvp = mul(World, View);
-    //wvp = mul(wvp, Projection);
-
-    Out.Position = mul(mul(In.Position, World), ViewProj);
+    Out.Position = mul(float4(WorldPosition, 1), ViewProj);
     Out.TexCoord = In.TexCoord;
     Out.Diffuse = In.Diffuse * Material.Diffuse;
 
