@@ -78,7 +78,7 @@ void LevelOneMidBoss::Update()
 		{
 			m_HP -= itr->GetStrength();
 			itr->SubtractHP();
-			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), { m_Position.x , m_Position.y + 1.5f , m_Position.z });
+			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), { m_Position.x , m_Position.y + 1.5f , m_Position.z }, true);
 			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 			if (m_HP <= 0)

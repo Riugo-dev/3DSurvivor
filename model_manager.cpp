@@ -62,6 +62,10 @@ void ModelManager::Init()
 	m_pModelRenderers[ITEM_BOOST]->Load("asset\\model\\ItemTypeBoost.obj");
 	m_pModelShaders[ITEM_BOOST] = std::make_unique<ShaderManager>(SHADER_TOON, true);
 
+	m_pModelRenderers[ITEM_DOUBLEPOINTS] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[ITEM_DOUBLEPOINTS]->Load("asset\\model\\DoublePointsItem.obj");
+	m_pModelShaders[ITEM_DOUBLEPOINTS] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG, true);
+
 	m_pModelRenderers[PLAYER] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[PLAYER]->Load("asset\\model\\player.obj");
 	m_pModelShaders[PLAYER] = std::make_unique<ShaderManager>(SHADER_TOON);

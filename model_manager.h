@@ -25,6 +25,7 @@ typedef enum
 	ITEM_HEAL,
 	ITEM_VACUUM,
 	ITEM_BOOST,
+	ITEM_DOUBLEPOINTS,
 
 	//プレイヤーモデル
 	PLAYER,

@@ -11,7 +11,7 @@
 
 #include "score.h"
 
-
+#define DOUBLE_TIME (1800)
 //********************************************************************************
 //関数
 //********************************************************************************
@@ -65,6 +65,8 @@ Score::Score(Vector3 size, Vector3 position, int movementx, int movementy, Vecto
 
 	m_Texture = Texture::Load("asset\\texture\\numbers.png");//頭にLを入れる必要がない
 	m_TextureScore = Texture::Load("asset\\texture\\SCORE.png");//頭にLを入れる必要がない
+	m_BonusTimeText = Texture::Load("asset\\texture\\bonustime.png");
+	m_ScoreBG = Texture::Load("asset\\texture\\white.png");
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 
@@ -80,6 +82,9 @@ Score::Score(Vector3 size, Vector3 position, int movementx, int movementy, Vecto
 	m_movement_y = movementy;
 
 	m_Points = 0;
+
+	m_IsDoubleTime = false;
+	
 }
 
 Score::~Score()
@@ -112,6 +117,17 @@ void Score::Update()
 	//}
 
 	//updateposition();
+
+	if (m_IsDoubleTime)
+	{
+		m_FrameCount++;
+		colorchange();
+		
+		if (m_FrameCount > DOUBLE_TIME)
+		{
+			m_IsDoubleTime = false;
+		}
+	}
 }
 
 void Score::Draw()
@@ -154,15 +170,113 @@ void Score::Draw()
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 
-	//テクスチャ設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-
-
 	//プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	//updateposition();
 	int value = m_Points;
+
+	if(m_IsDoubleTime)
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_BonusTimeText);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = 0.0f;
+		float y = 0.0f;
+		float w = 1280.0f;
+		float h = 720.0f;
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(m_color.x, m_color.y, m_color.z, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_ScoreBG);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = 0.0f;
+		float y = 0.0f;
+		float w = 600.0f;
+		float h = 100.0f;
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.25f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+
+	//テクスチャ設定
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -185,25 +299,47 @@ void Score::Draw()
 		float tx = num % 5 * tw;
 		float ty = num / 5 * th;
 
-		
+		if(!m_IsDoubleTime)
 		{
 			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
-			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 			vertex[0].TexCoord = XMFLOAT2(tx, ty);
 			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
-			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
 			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
-			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
 			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
 			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
-			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].Diffuse = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+		else
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(m_color.z, m_color.x, m_color.y, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(m_color.z, m_color.x, m_color.y, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(m_color.z, m_color.x, m_color.y, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(m_color.z, m_color.x, m_color.y, 1.0f);
 			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
 			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 		}
@@ -286,8 +422,130 @@ void Score::SetScore(float x, float y, float width, float height, const char* fi
 
 }
 
+void Score::AddPoints(int points)
+{
+	if (m_IsDoubleTime)
+	{
+		m_Points += (points * 2);
+	}
+	else
+	{
+		m_Points += points;
+	}
+}
+
+void Score::DoublePointsItem()
+{
+	m_IsDoubleTime = true;
+	m_FrameCount = 0;
+}
+
 int Score::GetPoints()
 {
 	return m_Points;
+}
+
+void Score::colorchange()
+{
+	static bool RedToOrange = false;
+	static bool OrangeToYellow = false;
+	static bool YellowToGreen = false;
+	static bool GreenToLightBlue = true;
+	static bool LightBlueToBlue = false;
+	static bool BlueToPurple = false;
+	static bool PurpleToRed = false;
+
+	for (int i = 0; i < 2; i++)
+	{//とりあえずカラーチェンジ後々一定の強さで打たないと出ないように
+		if (RedToOrange)
+		{
+			m_color.y += 0.01f;
+
+			if (m_color.y >= 0.5f)
+			{
+				m_color.y = 0.5f;
+
+				RedToOrange = false;
+				OrangeToYellow = true;
+			}
+		}
+		else if (OrangeToYellow)
+		{
+			m_color.y += 0.01f;
+
+			if (m_color.y >= 1.0f)
+			{
+				m_color.y = 1.0f;
+
+				OrangeToYellow = false;
+				YellowToGreen = true;
+			}
+		}
+		else if (YellowToGreen)
+		{
+			m_color.x -= 0.02f;
+
+			if (m_color.x <= 0.0f)
+			{
+				m_color.x = 0.0f;
+
+				YellowToGreen = false;
+				GreenToLightBlue = true;
+			}
+		}
+		else if (GreenToLightBlue)
+		{
+			m_color.z += 0.02f;
+
+			if (m_color.z >= 1.0f)
+			{
+				m_color.z = 1.0f;
+
+				GreenToLightBlue = false;
+				LightBlueToBlue = true;
+			}
+		}
+		else if (LightBlueToBlue)
+		{
+			m_color.y -= 0.02f;
+
+			if (m_color.y <= 0.0f)
+			{
+				m_color.y = 0.0f;
+
+				LightBlueToBlue = false;
+				BlueToPurple = true;
+			}
+		}
+		else if (BlueToPurple)
+		{
+			m_color.x += 0.005f;
+			m_color.z -= 0.005f;
+
+			if (m_color.x >= 0.5f)
+			{
+				m_color.x = 0.5f;
+				m_color.z = 0.5f;
+
+				BlueToPurple = false;
+				PurpleToRed = true;
+			}
+		}
+		else if (PurpleToRed)
+		{
+			m_color.x += 0.005f;
+			m_color.z -= 0.005f;
+
+			if (m_color.x >= 1.0f)
+			{
+				m_color.x = 1.0f;
+				m_color.z = 0.0f;
+
+				PurpleToRed = false;
+				RedToOrange = true;
+			}
+		}
+
+	}
 }
 

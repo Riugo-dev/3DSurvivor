@@ -35,7 +35,7 @@ private:
 		Vector3 Rotation;
 		int LifeCount;
 		bool IsDestory;
-		float velocity;
+		Vector3 velocity;
 		int MaxLife;
 	};
 
@@ -65,7 +65,7 @@ public:
 	void Update();
 	void Draw();
 
-	void SpawnDamageUI(int , Vector3);
+	void SpawnDamageUI(int , Vector3, bool isboss = false);
 
 private:
 	EnemyDamageUI() {}

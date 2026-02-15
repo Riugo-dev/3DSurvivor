@@ -11,6 +11,7 @@
 #include "renderer.h"
 #include "texture.h"
 #include "camera.h"
+#include <random>
 #include <vector>
 #include <unordered_map>
 
@@ -157,7 +158,7 @@ void EnemyDamageUI::Draw()
 	}
 }
 
-void EnemyDamageUI::SpawnDamageUI(int damage, Vector3 pos)
+void EnemyDamageUI::SpawnDamageUI(int damage, Vector3 pos , bool isboss)
 {
 	DamageUI ID;
 
@@ -210,19 +211,43 @@ void EnemyDamageUI::SpawnDamageUI(int damage, Vector3 pos)
 			switch (ID)
 			{
 			case DAMAGE_1:
+			{
+				
+				float x = rand() % 100 - 50;
+				float y = rand() % 100 - 50;
+				x /= 500;
+				y /= 500;
 				data.Scale = Vector3{ 0.4f ,0.4f , 0.4f };
-				data.velocity = 0.75f;
-				data.MaxLife = 6;
+				data.velocity = Vector3{ x,  0.5f , y};
+				data.MaxLife = 12;
+			}
 				break;
 			case DAMAGE_60:
-				data.Scale = Vector3{ 0.6f ,0.6f , 0.6f };
-				data.velocity = 0.1f;
-				data.MaxLife = 20;
+			{
+				if(!isboss)
+				{
+					data.Scale = Vector3{ 0.6f ,0.6f , 0.6f };
+					data.velocity = Vector3{ 0.0f, 0.1f , 0.0f };
+					data.MaxLife = 20;
+				}
+				else
+				{
+					float x = rand() % 100 - 50;
+					float y = rand() % 100 - 50;
+					x /= 500;
+					y /= 500;
+					data.Scale = Vector3{ 0.6f ,0.6f , 0.6f };
+					data.velocity = Vector3{ x, 0.1f , y };
+					data.MaxLife = 20;
+				}
+			}
 				break;
 			default:
+			{
 				data.Scale = Vector3{ 0.8f ,0.8f , 0.8f };
-				data.velocity = 0.05;
+				data.velocity = Vector3{ 0.0f, 0.05f , 0.0f };
 				data.MaxLife = 25;
+			}
 				break;
 			}
 
@@ -374,7 +399,7 @@ void EnemyDamageUI::updateuis()
 		for (auto& data : inst.m_DamageData)
 		{
 			data.LifeCount++;
-			data.Position.y += data.velocity;
+			data.Position += data.velocity;
 			if (data.LifeCount >= data.MaxLife)
 			{
 				data.IsDestory = true;

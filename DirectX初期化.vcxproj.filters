@@ -288,6 +288,9 @@
     <ClCompile Include="enemydamage_ui.cpp">
       <Filter>UI関連</Filter>
     </ClCompile>
+    <ClCompile Include="doublepoints_item.cpp">
+      <Filter>アイテム関係</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -553,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="enemydamage_ui.h">
       <Filter>UI関連</Filter>
+    </ClInclude>
+    <ClInclude Include="doublepoints_item.h">
+      <Filter>アイテム関係</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -149,6 +149,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="doublepoints_item.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemydamage_ui.cpp" />
     <ClCompile Include="enemy_bullet.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="doublepoints_item.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemybase.h" />
     <ClInclude Include="enemydamage_ui.h" />

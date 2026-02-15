@@ -29,6 +29,7 @@ typedef enum
 	SE_HEAL,
 	SE_GATHER,
 	SE_EXPGET,
+	SE_DOUBLEPOINTS,
 	SE_PAUSE,
 	SE_LEVELUP,
 }SoundEffect;

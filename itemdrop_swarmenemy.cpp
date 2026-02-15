@@ -10,6 +10,7 @@
 #include "heal_item.h"
 #include "vacuum_item.h"
 #include "boost_item.h"
+#include "doublepoints_item.h"
 #include "attackbase.h"
 #include "player.h"
 #include "camera.h"
@@ -185,7 +186,9 @@ void ItemDropSwarmEnemy::Draw()
 void ItemDropSwarmEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
-	int drop = rd() % 90 + 1;
+	int drop = rd() % 100 + 1;
+
+	
 
 	if (drop >= 1 && drop < 31)
 	{
@@ -193,9 +196,15 @@ void ItemDropSwarmEnemy::EnemyItemDrop()
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
-	else if (drop >= 31 && drop < 71)
+	else if (drop >= 31 && drop < 61)
 	{
 		VacuumItem* item = Manager::GetScene()->AddGameObject<VacuumItem>();
+		item->Init();
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+	}
+	else if (drop >= 61 && drop < 91)
+	{
+		DoublePointsItem* item = Manager::GetScene()->AddGameObject<DoublePointsItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
