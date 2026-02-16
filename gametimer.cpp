@@ -184,6 +184,7 @@ void GameTimer::Update()
 	case GAME_END:
 		//ここに強制終了エネミーを出現させる
 		m_pEnemyManager->SpawnEnemy();
+		break;
 	default:
 		break;
 	}

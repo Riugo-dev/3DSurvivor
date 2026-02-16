@@ -161,6 +161,7 @@
     <ClCompile Include="exp_ui.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="fire_instparticle.cpp" />
     <ClCompile Include="fire_particle.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameender_enemy.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="exp_item_manager.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="fire_instparticle.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameender_enemy.h" />
     <ClInclude Include="gameobject.h" />

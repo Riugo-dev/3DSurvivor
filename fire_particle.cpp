@@ -261,102 +261,102 @@ void FireParticle::Draw()
 		Renderer::GetDeviceContext()->DrawIndexed(6, 0, 0);
 	}
 
-	{//パーティクル部分
-		//頂点データ書き換え
-		D3D11_MAPPED_SUBRESOURCE msr;
-		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	//{//パーティクル部分
+	//	//頂点データ書き換え
+	//	D3D11_MAPPED_SUBRESOURCE msr;
+	//	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
-		{
-			vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
-			vertex[0].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
-			vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
-			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	//	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+	//	{
+	//		vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
+	//		vertex[0].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
+	//		vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
+	//		vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-			vertex[1].Position = XMFLOAT3(1.0f, 1.0f, 0.0f);
-			vertex[1].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
-			vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
-			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	//		vertex[1].Position = XMFLOAT3(1.0f, 1.0f, 0.0f);
+	//		vertex[1].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
+	//		vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+	//		vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-			vertex[2].Position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
-			vertex[2].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
-			vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
-			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	//		vertex[2].Position = XMFLOAT3(-1.0f, -1.0f, 0.0f);
+	//		vertex[2].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
+	//		vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+	//		vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 
-			vertex[3].Position = XMFLOAT3(1.0f, -1.0f, 0.0f);
-			vertex[3].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
-			vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
-			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
-		}
+	//		vertex[3].Position = XMFLOAT3(1.0f, -1.0f, 0.0f);
+	//		vertex[3].Diffuse = XMFLOAT4(m_RGB.x, m_RGB.y, m_RGB.z, 1.0f);
+	//		vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+	//		vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	//	}
 
-		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+	//	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-		//入力レイアウト設定
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	//	//入力レイアウト設定
+	//	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
-		//シェーダ設定
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	//	//シェーダ設定
+	//	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+	//	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-		//マトリックスの設定
-		//ビューの逆行列
-		Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
+	//	//マトリックスの設定
+	//	//ビューの逆行列
+	//	Camera* p_camera = Manager::GetScene()->GetGameObject<Camera>();
 
-		XMMATRIX view = p_camera->GetViewMatrix();
+	//	XMMATRIX view = p_camera->GetViewMatrix();
 
-		XMMATRIX inView;
-		inView = XMMatrixInverse(nullptr, view); //逆行列
-		inView.r[3].m128_f32[0] = 0.0f;
-		inView.r[3].m128_f32[1] = 0.0f;
-		inView.r[3].m128_f32[2] = 0.0f;
-
-
-
-		//マテリアル設定
-		MATERIAL material{};
-		material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
-		material.TextureEnable = true;
-		Renderer::SetMaterial(material);
-
-		//頂点バッファ設定
-		UINT stride = sizeof(VERTEX_3D);
-		UINT offset = 0;
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
-
-		//テクスチャ設定
-		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	//	XMMATRIX inView;
+	//	inView = XMMatrixInverse(nullptr, view); //逆行列
+	//	inView.r[3].m128_f32[0] = 0.0f;
+	//	inView.r[3].m128_f32[1] = 0.0f;
+	//	inView.r[3].m128_f32[2] = 0.0f;
 
 
-		//プリミティブトポロジ設定
-		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-		//updateposition();
-		//Zバッファを切るコード
-		Renderer::SetDepthEnable(false);
+	//	//マテリアル設定
+	//	MATERIAL material{};
+	//	material.Diffuse = { 1.0f , 1.0f , 1.0f , 1.0f };
+	//	material.TextureEnable = true;
+	//	Renderer::SetMaterial(material);
 
-		for (int i = 0; i < PARTICLE_MAX; i++)
-		{
-			if (m_Particle[i].Enable == true)
-			{
-				//平行移動行列の作成（表示座標を決める）
-				XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);
+	//	//頂点バッファ設定
+	//	UINT stride = sizeof(VERTEX_3D);
+	//	UINT offset = 0;
+	//	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 
-				//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-				XMMATRIX	ScalingMatrix = XMMatrixScaling(m_ParticleSize[i].x, m_ParticleSize[i].y, m_ParticleSize[i].z);
-
-				//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
-				XMMATRIX	WorldMatrix = ScalingMatrix * inView * TranslationMatrix;
-
-				Renderer::SetWorldMatrix(WorldMatrix);
-
-				//ポリゴン描画
-				Renderer::GetDeviceContext()->Draw(4, 0);
-			}
-		}
+	//	//テクスチャ設定
+	//	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
 
-		Renderer::SetDepthEnable(true);
-	}
+	//	//プリミティブトポロジ設定
+	//	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//	//updateposition();
+	//	//Zバッファを切るコード
+	//	Renderer::SetDepthEnable(false);
+
+	//	for (int i = 0; i < PARTICLE_MAX; i++)
+	//	{
+	//		if (m_Particle[i].Enable == true)
+	//		{
+	//			//平行移動行列の作成（表示座標を決める）
+	//			XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Particle[i].Position.x, m_Particle[i].Position.y, m_Particle[i].Position.z);
+
+	//			//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
+	//			XMMATRIX	ScalingMatrix = XMMatrixScaling(m_ParticleSize[i].x, m_ParticleSize[i].y, m_ParticleSize[i].z);
+
+	//			//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
+	//			XMMATRIX	WorldMatrix = ScalingMatrix * inView * TranslationMatrix;
+
+	//			Renderer::SetWorldMatrix(WorldMatrix);
+
+	//			//ポリゴン描画
+	//			Renderer::GetDeviceContext()->Draw(4, 0);
+	//		}
+	//	}
+
+
+	//	Renderer::SetDepthEnable(true);
+	//}
 
 	
 }
