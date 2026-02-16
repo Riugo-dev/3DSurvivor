@@ -339,7 +339,7 @@ void GPUExplosionParticle::createviews()
 		Renderer::GetDevice()->CreateShaderResourceView(m_pSpawnPositionBuffer, &srv, &m_pSpawnPositionSRV);
 	}
 
-	m_Texture = Texture::Load("asset\\texture\\particle.png");
+	m_Texture = Texture::Load("asset\\texture\\heart.png");
 }
 
 //各種シェーダーの作成

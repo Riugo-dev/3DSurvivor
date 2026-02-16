@@ -38,10 +38,10 @@ private:
 	std::vector<XMFLOAT3> m_SpawnRequests;
 
 	static constexpr UINT MAX_PARTICLE = 65536;
-	static constexpr UINT PARTICLE_PER_EXPLOSION = 1000;
+	static constexpr UINT PARTICLE_PER_EXPLOSION = 5000;
 	int m_CurrentSpawnCount = 0;
 	int m_CurrentParticleIndex = 0;
-	const int m_MaxInstancePerBuffer = 65;//各バッファの最大生成値　MAX_PARTICLES　/　PARTICLE_PER_EXPLOSION
+	const int m_MaxInstancePerBuffer = 13;//各バッファの最大生成値　MAX_PARTICLES　/　PARTICLE_PER_EXPLOSION
 	int m_CurrentSpawningBuffer = 0;//現在Spawnに利用してるバッファ
 	int m_TotalSpawnCountInCurrentBuffer = 0;//現在のバッファでのスポーンカウント
 public:

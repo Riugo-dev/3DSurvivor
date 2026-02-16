@@ -48,9 +48,9 @@ void main(uint3 id : SV_DispatchThreadID)
     float ry = Rand(localID * 3 + 2);
     float rz = Rand(localID * 3 + 3);
            
-    float x = (rx * 100.0 - 50.0) / 500.0;
+    float x = (rx * 100.0 - 50.0) / 100.0;
     float y = (ry * 100.0 + 50.0) / 500.0;
-    float z = (rz * 100.0 - 50.0) / 500.0;
+    float z = (rz * 100.0 - 50.0) / 100.0;
            
     GPUParticle p;
     p.position = g_SpawnPosition[explosionID];
@@ -59,7 +59,7 @@ void main(uint3 id : SV_DispatchThreadID)
     p.maxLife = 60.0;
     p.color = float4(1.0, 1.0, 1.0, 1.0);
     //p.scale = float3(1, 1, 1);
-    p.scale = float3(0.1, 0.1, 0.1);
+    p.scale = float3(0.5, 0.5, 0.5);
     //p.scale = float3(0.05, 0.05, 0.05);
     p.pad = 0;
     
