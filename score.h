@@ -22,6 +22,8 @@ private:
 
 	ID3D11ShaderResourceView* m_Texture;//”š
 	ID3D11ShaderResourceView* m_TextureScore;//•¶š
+	ID3D11ShaderResourceView* m_BonusTimeText;//“ñ”{‚Ì‰‰o
+	ID3D11ShaderResourceView* m_ScoreBG;//“ñ”{‚Ì‰‰o
 
 	int m_movement_x;
 	int m_movement_y;
@@ -29,7 +31,9 @@ private:
 	XMFLOAT3 m_VertexPosition[4] = {};
 
 	int m_Points;
-
+	bool m_IsDoubleTime;
+	int m_FrameCount;
+	Vector3 m_color;
 public:
 	Score(Vector3 size = { 1.0f , 1.0f , 1.0f }, Vector3 position = { 0.0f , 0.0f , 0.0f }, int movementx = 0, int movementy = 0, Vector3 rotation = { 0.0f , 0.0f , 0.0f });
 	~Score() override;
@@ -40,10 +44,12 @@ public:
 	void Draw() override;
 
 	void SetScore(float x, float y, float width, float height, const char* filename);
-	void AddPoints(int points) { m_Points += points; }
-	
-	int GetPoints();
+	void AddPoints(int points);
+	void DoublePointsItem();
 
+	int GetPoints();
+private:
+	void colorchange();
 };
 
 #endif // !_SCORE_H_

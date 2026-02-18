@@ -21,6 +21,7 @@
 #include "game.h"
 #include "fade.h"
 #include "manager_soundeffect.h"
+#include "enemydamage_ui.h"
 #include <vector>
 
 #include "levelthree_shooterenemy.h"
@@ -76,6 +77,7 @@ void LevelThreeShooterEnemy::Update()
 		{
 			m_HP -= itr->GetStrength();
 			itr->SubtractHP();
+			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), m_Position);
 			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 			if (m_HP <= 0)

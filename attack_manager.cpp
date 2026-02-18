@@ -117,6 +117,10 @@ void AttackManager::Update()
 			{
 				m_SlideAnimation = 0;
 			}
+			else
+			{
+				return;
+			}
 		}
 
 

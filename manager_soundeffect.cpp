@@ -43,6 +43,8 @@ SoundEffectManager::SoundEffectManager()
 	m_pSoundEffects[SE_GATHER]->Load("asset\\audio\\item_gather.wav");
 	m_pSoundEffects[SE_EXPGET] = std::make_unique<Audio>();
 	m_pSoundEffects[SE_EXPGET]->Load("asset\\audio\\exp_get.wav");
+	m_pSoundEffects[SE_DOUBLEPOINTS] = std::make_unique<Audio>();
+	m_pSoundEffects[SE_DOUBLEPOINTS]->Load("asset\\audio\\doublepoints.wav");
 	m_pSoundEffects[SE_PAUSE] = std::make_unique<Audio>();
 	m_pSoundEffects[SE_PAUSE]->Load("asset\\audio\\pause.wav");
 	m_pSoundEffects[SE_LEVELUP] = std::make_unique<Audio>();

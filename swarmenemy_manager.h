@@ -22,7 +22,8 @@ public:
 	void SpawnEnemy();
 	void DestroyFarEnemy();
 private:
-
+	void spawnregular();
+	void spawnlaterwaves();
 };
 
 #endif // !_SWARMENEMY_MANAGER_H_

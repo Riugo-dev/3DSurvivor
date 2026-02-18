@@ -184,6 +184,15 @@ public:
 		ret.z = a.x * b.y - a.y * b.x;
 		return ret;
 	}
+
+	static XMFLOAT3 ChangetoXMFLOAT3(const Vector3& a)
+	{
+		XMFLOAT3 ret;
+		ret.x = a.x;
+		ret.y = a.y;
+		ret.z = a.z;
+		return ret;
+	}
 };
 
 #endif // !_VECTOR3_

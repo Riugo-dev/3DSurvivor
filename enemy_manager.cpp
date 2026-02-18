@@ -289,7 +289,6 @@ void EnemyManager::GameEnderEnemySpawner(int count)
 		GameEnderEnemy* enemy = Manager::GetScene()->AddGameObject<GameEnderEnemy>();
 		enemy->Init();
 		enemy->SetPosition(spawnpoint);
-		AddEnemy(enemy);
 	}
 
 }

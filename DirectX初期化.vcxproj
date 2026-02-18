@@ -149,7 +149,9 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="doublepoints_item.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemydamage_ui.cpp" />
     <ClCompile Include="enemy_bullet.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="explosion.cpp" />
@@ -159,6 +161,7 @@
     <ClCompile Include="exp_ui.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
+    <ClCompile Include="fire_instparticle.cpp" />
     <ClCompile Include="fire_particle.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameender_enemy.cpp" />
@@ -235,8 +238,10 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="doublepoints_item.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemybase.h" />
+    <ClInclude Include="enemydamage_ui.h" />
     <ClInclude Include="enemy_bullet.h" />
     <ClInclude Include="enemy_manager.h" />
     <ClInclude Include="explosion.h" />
@@ -246,6 +251,7 @@
     <ClInclude Include="exp_item_manager.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="fire_instparticle.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameender_enemy.h" />
     <ClInclude Include="gameobject.h" />
@@ -446,6 +452,14 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="unlitTexInstancedVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="unlitTexturePS.hlsl">

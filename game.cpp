@@ -36,6 +36,8 @@
 #include "manager_soundeffect.h"
 #include "exp_item_manager.h"
 #include "explosion_gpuparticle.h"
+#include "fire_instparticle.h"
+#include "enemydamage_ui.h"
 #include "controller.h"
 #include "title.h"
 #include "audio.h"
@@ -85,6 +87,10 @@ void Game::Init(Input* input)
 
 	GPUExplosionParticle::GetInstance();
 
+	EnemyDamageUI::GetInstance();
+
+	FireInstParticle::GetInstance();
+
 	//Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
 	Manager::GetAudio()->Load("asset\\audio\\Devine-Fencer.wav");
 	Manager::GetAudio()->Play(true);
@@ -94,6 +100,10 @@ void Game::Uninit()
 {
 
 	Manager::GetAudio()->Uninit();
+
+	FireInstParticle::GetInstance()->DestroyInstance();
+
+	EnemyDamageUI::GetInstance()->DestroyInstance();
 
 	GPUExplosionParticle::GetInstance()->DestroyInstance();
 
@@ -129,6 +139,10 @@ void Game::Update()
 
 		GPUExplosionParticle::GetInstance()->Update();
 
+		FireInstParticle::GetInstance()->Update();
+
+		EnemyDamageUI::GetInstance()->Update();
+
 		if ((m_Input->GetKeyTrigger(KK_P) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_START)))
 		{
 			m_State = GAME_PAUSE;
@@ -143,13 +157,14 @@ void Game::Update()
 		{
 			m_State = GAME_PLAY;
 		}
-
+#ifdef _DEBUG
 		if ((m_Input->GetKeyTrigger(KK_ENTER) && !p_contorller->IsConnected()) || p_contorller->Controller_IsJustPressed(p_contorller->GetButtonForTrigger(XINPUT_GAMEPAD_B)))
 		{
 			Manager::SetScene<Title>();
 			GetGameObject<Fade>()->SetFade(FADE_OUT);
 			m_State = GAME_FADEOUT;
 		}
+#endif
 	}
 	else if (m_State == PLAYER_LEVELUP)
 	{

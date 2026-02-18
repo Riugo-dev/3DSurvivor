@@ -10,6 +10,7 @@
 #include "heal_item.h"
 #include "vacuum_item.h"
 #include "boost_item.h"
+#include "doublepoints_item.h"
 #include "attackbase.h"
 #include "player.h"
 #include "camera.h"
@@ -20,6 +21,7 @@
 #include "game.h"
 #include "fade.h"
 #include "manager_soundeffect.h"
+#include "enemydamage_ui.h"
 #include <vector>
 
 #include "itemdrop_swarmenemy.h"
@@ -73,6 +75,7 @@ void ItemDropSwarmEnemy::Update()
 		{
 			m_HP -= itr->GetStrength();
 			itr->SubtractHP();
+			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), m_Position);
 			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 			if (m_HP <= 0)
@@ -183,7 +186,9 @@ void ItemDropSwarmEnemy::Draw()
 void ItemDropSwarmEnemy::EnemyItemDrop()
 {
 	std::random_device rd;
-	int drop = rd() % 90 + 1;
+	int drop = rd() % 100 + 1;
+
+	
 
 	if (drop >= 1 && drop < 31)
 	{
@@ -191,9 +196,15 @@ void ItemDropSwarmEnemy::EnemyItemDrop()
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
-	else if (drop >= 31 && drop < 71)
+	else if (drop >= 31 && drop < 61)
 	{
 		VacuumItem* item = Manager::GetScene()->AddGameObject<VacuumItem>();
+		item->Init();
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+	}
+	else if (drop >= 61 && drop < 91)
+	{
+		DoublePointsItem* item = Manager::GetScene()->AddGameObject<DoublePointsItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}

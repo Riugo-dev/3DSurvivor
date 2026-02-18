@@ -11,6 +11,7 @@
 #include "fire_particle.h"
 #include "explosion_particle.h"
 #include "manager_soundeffect.h"
+#include "fire_instparticle.h"
 
 #include "attackbase_slipdamage.h"
 
@@ -54,21 +55,19 @@ void BaseAttackSlipDamage::Update()
 		boom->SetPosition(m_Position);
 		boom->SetScale(m_Scale/5);
 
-		m_pFire = Manager::GetScene()->AddGameObject<FireParticle>(2);
-		m_pFire->SetParticle(m_LivingFrames, m_Position, m_Radius);
+		/*m_pFire = Manager::GetScene()->AddGameObject<FireParticle>(2);
+		m_pFire->SetParticle(m_LivingFrames, m_Position, m_Radius);*/
+
+		FireInstParticle::GetInstance()->SetParticleSpawnPoint(m_LivingFrames, m_Position, m_Radius);
 
 		m_BombExplode = true;
 	}
 
-
-	if (m_pFire != nullptr)
+	if (m_FrameCount >= m_LivingFrames)
 	{
-		if (m_FrameCount >= m_LivingFrames)
-		{
-			m_IsDestroy = true;
-		}
-		m_FrameCount++;
+		m_IsDestroy = true;
 	}
+	m_FrameCount++;
 }
 
 void BaseAttackSlipDamage::Draw()

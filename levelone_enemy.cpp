@@ -21,6 +21,7 @@
 #include "enemy_manager.h"
 #include "manager_soundeffect.h"
 #include "explosion_gpuparticle.h"
+#include "enemydamage_ui.h"
 #include <vector>
 
 
@@ -81,6 +82,7 @@ void LevelOneEnemy::Update()
 		{
 			m_HP -= itr->GetStrength();
 			itr->SubtractHP();
+			EnemyDamageUI::GetInstance()->SpawnDamageUI(itr->GetStrength(), m_Position);
 			if (itr->GetAttackHP() <= 0) itr->SetDestroy(true);
 
 			if(m_HP <= 0)

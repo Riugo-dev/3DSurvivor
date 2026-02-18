@@ -29,6 +29,7 @@ void Audio::InitMaster()
 	m_Xaudio->CreateMasteringVoice(&m_MasteringVoice);
 
 	m_Volume = 0.05f;
+	//m_Volume = 0.0f;
 }
 
 

@@ -22,6 +22,7 @@ typedef enum
 	ATT_LV2,
 	ATT_LV3,
 	ATT_LV4,
+	ATT_LV5,
 	ATT_LVMAX,
 }AttackLevel;
 

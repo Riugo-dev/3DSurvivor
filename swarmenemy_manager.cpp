@@ -13,6 +13,7 @@
 #include "levelone_swarmenemy.h"
 #include "itemdrop_swarmenemy.h"
 #include "gametimer.h"
+#include "game.h"
 #include <random>
 #include <cmath>
 #include <vector>
@@ -47,6 +48,19 @@ void SwarmEnemyManager::SpawnEnemy()
 	std::vector<SwarmBaseEnemy*> p_enemys = Manager::GetScene()->GetGameObjects<SwarmBaseEnemy>();
 	if (p_enemys.size() > 0) return;
 
+	if (m_pGameTimer->GetCurrentWave() == WAVE_FOUR || m_pGameTimer->GetCurrentWave() == WAVE_MAX)
+	{
+		spawnlaterwaves();
+	}
+	else
+	{
+		spawnregular();
+	}
+
+}
+
+void SwarmEnemyManager::spawnregular()
+{
 	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
 
 	std::random_device rd;
@@ -59,7 +73,7 @@ void SwarmEnemyManager::SpawnEnemy()
 	int count = 0;
 
 	Vector3 spawnpoint;
-	
+
 	spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
 	spawnpoint.y = 0.5f;
 	spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
@@ -69,7 +83,7 @@ void SwarmEnemyManager::SpawnEnemy()
 
 	float angle_y = atan2(vel.x, vel.z);
 
-	for(int z = -2 ; z < 3 ; z++)
+	for (int z = -2; z < 3; z++)
 	{
 		for (int x = -2; x < 3; x++)
 		{
@@ -95,7 +109,70 @@ void SwarmEnemyManager::SpawnEnemy()
 			count++;
 		}
 	}
+}
 
+void SwarmEnemyManager::spawnlaterwaves()
+{
+	Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);
+
+	int distance = 25;
+	float angle = randangle(mt);
+	int itemenemy[2];
+
+	itemenemy[0] = rd() % 25;
+	itemenemy[1] = rd() % 25;
+
+	if (itemenemy[0] == itemenemy[1])
+	{
+		do
+		{
+			itemenemy[1] = rd() % 25;
+		} while (itemenemy[0] == itemenemy[1]);
+	}
+
+	int count = 0;
+
+	Vector3 spawnpoint;
+
+	spawnpoint.x = p_player->GetPosition().x + cosf(angle) * distance;
+	spawnpoint.y = 0.5f;
+	spawnpoint.z = p_player->GetPosition().z + sinf(angle) * distance;
+
+	Vector3 vel = p_player->GetPosition() - spawnpoint;
+	vel = vel.normalized();
+
+	float angle_y = atan2(vel.x, vel.z);
+
+	for (int z = -2; z < 3; z++)
+	{
+		for (int x = -2; x < 3; x++)
+		{
+			if (count == itemenemy[0] || count == itemenemy[1])
+			{
+				ItemDropSwarmEnemy* enemy = Manager::GetScene()->AddGameObject<ItemDropSwarmEnemy>();
+				enemy->Init();
+				enemy->SetPosition({ spawnpoint.x + x , spawnpoint.y , spawnpoint.z + z });
+				enemy->SetVelocity(vel);
+				enemy->SetSpeed(0.2f);
+				enemy->SetRotation({ 0.0f , angle_y , 0.0f });
+			}
+			else
+			{
+				LevelOneSwarmEnemy* enemy = Manager::GetScene()->AddGameObject<LevelOneSwarmEnemy>();
+				enemy->Init();
+				enemy->SetPosition({ spawnpoint.x + x , spawnpoint.y , spawnpoint.z + z });
+				enemy->SetVelocity(vel);
+				enemy->SetSpeed(0.2f);
+				enemy->SetRotation({ 0.0f , angle_y , 0.0f });
+			}
+
+			count++;
+		}
+	}
 }
 
 

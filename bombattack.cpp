@@ -96,7 +96,7 @@ void BombAttack::Update()
 				Vector3 bombpos = p_player->GetPosition();
 
 				bombpos.x = bombpos.x + cosf(angle) * distance;
-				bombpos.y = 5.0f;
+				bombpos.y = 5.0f + (0.001 * i);
 				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
@@ -133,7 +133,7 @@ void BombAttack::Update()
 				Vector3 bombpos = p_player->GetPosition();
 
 				bombpos.x = bombpos.x + cosf(angle) * distance;
-				bombpos.y = 5.0f;
+				bombpos.y = 5.0f + (0.001 * i);
 				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
@@ -170,7 +170,7 @@ void BombAttack::Update()
 				Vector3 bombpos = p_player->GetPosition();
 
 				bombpos.x = bombpos.x + cosf(angle) * distance;
-				bombpos.y = 5.0f;
+				bombpos.y = 5.0f + (0.001 * i);
 				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
@@ -183,7 +183,7 @@ void BombAttack::Update()
 		}
 	}
 	break;
-	case ATT_LVMAX:
+	case ATT_LV5:
 	{
 		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
 		{
@@ -207,7 +207,7 @@ void BombAttack::Update()
 				Vector3 bombpos = p_player->GetPosition();
 
 				bombpos.x = bombpos.x + cosf(angle) * distance;
-				bombpos.y = 5.0f;
+				bombpos.y = 5.0f + (0.001 * i);
 				bombpos.z = bombpos.z + sinf(angle) * distance;
 
 				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
@@ -216,6 +216,43 @@ void BombAttack::Update()
 				bomb->SetScale({ 0.25f , 0.25f ,0.25f });
 				bomb->SetLivingFrames(60 * 5);
 				bomb->SetRadius(3.0f);
+			}
+		}
+	}
+	break;
+	case ATT_LVMAX:
+	{
+		if (m_FrameCount % COOLDOWN_LEVELMAX == 0)
+		{
+			Player* p_player = Manager::GetScene()->GetGameObject<Player>();
+
+			std::random_device rd;
+			std::mt19937 mt(rd());
+
+			for (int i = 0; i < 6; i++)
+			{
+
+
+				std::uniform_real_distribution<float> randangle(0.0f, XM_2PI);
+				float angle = randangle(mt);
+
+				Vector3 spawnpoint;
+
+				std::uniform_real_distribution<float> randdist(-15.0f, 15.0f);
+				float distance = randdist(mt);
+
+				Vector3 bombpos = p_player->GetPosition();
+
+				bombpos.x = bombpos.x + cosf(angle) * distance;
+				bombpos.y = 5.0f + (0.001 * i);
+				bombpos.z = bombpos.z + sinf(angle) * distance;
+
+				BaseAttackSlipDamage* bomb = Manager::GetScene()->AddGameObject<BaseAttackSlipDamage>();
+				bomb->SetPosition(bombpos);
+				bomb->SetVelocity({ 0.0f , -0.25f , 0.0f });
+				bomb->SetScale({ 0.25f , 0.25f ,0.25f });
+				bomb->SetLivingFrames(60 * 5);
+				bomb->SetRadius(3.5f);
 			}
 		}
 	}
@@ -245,6 +282,9 @@ void BombAttack::SetToNextLevel()
 		m_AttackLevel = ATT_LV4;
 		break;
 	case ATT_LV4:
+		m_AttackLevel = ATT_LV5;
+		break;
+	case ATT_LV5:
 		m_AttackLevel = ATT_LVMAX;
 		break;
 	case ATT_LVMAX:
