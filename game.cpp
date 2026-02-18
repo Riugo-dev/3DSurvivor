@@ -36,6 +36,7 @@
 #include "manager_soundeffect.h"
 #include "exp_item_manager.h"
 #include "explosion_gpuparticle.h"
+#include "fire_instparticle.h"
 #include "enemydamage_ui.h"
 #include "controller.h"
 #include "title.h"
@@ -88,6 +89,8 @@ void Game::Init(Input* input)
 
 	EnemyDamageUI::GetInstance();
 
+	FireInstParticle::GetInstance();
+
 	//Manager::GetAudio()->Load("asset\\audio\\bgm.wav");
 	Manager::GetAudio()->Load("asset\\audio\\Devine-Fencer.wav");
 	Manager::GetAudio()->Play(true);
@@ -97,6 +100,8 @@ void Game::Uninit()
 {
 
 	Manager::GetAudio()->Uninit();
+
+	FireInstParticle::GetInstance()->DestroyInstance();
 
 	EnemyDamageUI::GetInstance()->DestroyInstance();
 
@@ -133,6 +138,8 @@ void Game::Update()
 		ExpItemManager::GetInstance()->Update();
 
 		GPUExplosionParticle::GetInstance()->Update();
+
+		FireInstParticle::GetInstance()->Update();
 
 		EnemyDamageUI::GetInstance()->Update();
 

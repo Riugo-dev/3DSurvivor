@@ -9,6 +9,7 @@
 #ifndef _FIRE_INSTPARTICLE_H_
 #define _FIRE_INSTPARTICLE_H_
 
+#include "renderer.h"
 
 class FireInstParticle
 {
@@ -20,37 +21,40 @@ private:
 		Vector3 Position;
 		Vector3 Scale;
 		Vector3 Rotation;
-		bool Enable;
-		int LifeCount;
+		bool Enable = false;
+		int LifeCount = 0;
 		Vector3 Velocity;
 	};
 
 	struct ParticleInfo
 	{
 		ID3D11Buffer* InstanceBuffer;
-		std::vector<InstanceData> Sendingdata;
-		std::vector<Particle> ParticleData;
 		bool IsUsed = false;
 		Vector3 SpawnPoint;
 		float Radius;
-		int SpawnPointLife;
+		ID3D11Buffer* RingVertexBuffer = nullptr;
+		std::vector<InstanceData> Sendingdata;
+		std::vector<Particle> ParticleData;
 	};
 
-	ID3D11ShaderResourceView* m_Texture;
+	ID3D11ShaderResourceView* m_Texture = nullptr;
 	ID3D11Buffer* m_pVertexBuffer = nullptr;
 	ID3D11VertexShader* m_pVertexShader = nullptr;
 	ID3D11PixelShader* m_pPixelShader = nullptr;
 	ID3D11InputLayout* m_pInputLayout = nullptr;
 	ID3D11Buffer* m_pCameraBuffer = nullptr;
 
-	ID3D11ShaderResourceView* m_RingTexture;
-	ID3D11Buffer* m_pRingVertexBuffer = nullptr;
+	ID3D11ShaderResourceView* m_RingTexture = nullptr;
+	ID3D11Buffer* m_pRingIndexBuffer = nullptr;
 	ID3D11VertexShader* m_pRingVertexShader = nullptr;
 	ID3D11PixelShader* m_pRingPixelShader = nullptr;
 	ID3D11InputLayout* m_pRingInputLayout = nullptr;
 
 	std::vector<ParticleInfo> m_FireParticles;
 
+	int m_FrameCount;
+	int m_SpawnPointLife = 0;
+	bool m_ResetSpawnPoint = false;
 public:
 	static FireInstParticle* GetInstance();
 
@@ -73,6 +77,7 @@ private:
 	void updateparticles();
 	void updateinstancebuffer();
 	void destroyparticles();
+	void destroyspawnpoints();
 
 };
 

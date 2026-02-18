@@ -19,6 +19,7 @@
 #include "exp_item_manager.h"
 #include "explosion_gpuparticle.h"
 #include "enemydamage_ui.h"
+#include "fire_instparticle.h"
 
 #include "scene.h"
 
@@ -129,6 +130,7 @@ void Scene::Draw()
 			if (Manager::GetScene()->GetSceneType() == SCENE_GAME)
 			{
 				GPUExplosionParticle::GetInstance()->Draw();
+				FireInstParticle::GetInstance()->Draw();
 				EnemyDamageUI::GetInstance()->Draw();
 			}
 		}
