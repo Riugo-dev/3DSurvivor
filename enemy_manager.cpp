@@ -10,6 +10,7 @@
 #include "scene.h"
 #include "player.h"
 #include "enemybase.h"
+#include "attackbase.h"
 #include "model_manager.h"
 #include "modelRenderer.h"
 #include "shader_manager.h"
@@ -37,99 +38,188 @@
 
 void EnemyManager::WaveOne()
 {
-	std::random_device rd;
-	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
-	//int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
 
-	LevelOneEnemySpawner(enemyspawnedcount);
+	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
+
+	if (enemycount > 200)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 100 + 50;//スポーンさせる敵の数
+		
+		LevelOneEnemySpawner(enemyspawnedcount);
+	}
+	else
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
+		//int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
+
+		LevelOneEnemySpawner(enemyspawnedcount);
+	}
 }
 
 void EnemyManager::WaveTwo()
 {
-	std::random_device rd;
-	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
-	//int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
+	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	int leveltwocount = rd() % 50 + 80;//レベル２エネミーのスポーン数
-	//int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
+	if (enemycount > 200)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 100 + 50;//スポーンさせる敵の数
+		
+		int leveltwocount = rd() % 20 + 30;//レベル２エネミーのスポーン数
+		int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
 
-	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+	}
+	else
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
+		//int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
 
-	LevelOneEnemySpawner(levelonecount);
-	LevelTwoEnemySpawner(leveltwocount);
+		int leveltwocount = rd() % 50 + 80;//レベル２エネミーのスポーン数
+		//int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
 
+		int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
+
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+	}
 }
 
 void EnemyManager::WaveThree()
 {
-	std::random_device rd;
-	//int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
-	int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
+	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	int levelthreecount = rd() % 30 + 30;
-	//int levelthreecount = rd() % 3 + 15;
+	if (enemycount > 200)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 50 + 100;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 50 + 60;//レベル２エネミーのスポーン数
-	//int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
+		int levelthreecount = rd() % 20 + 30;
+		int leveltwocount = rd() % 30 + 20;//レベル２エネミーのスポーン数
+		int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
 
-	//int enemyspawnedcount = rd() % 50 + 375;//スポーンさせる敵の数
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+	}
+	else
+	{
+		std::random_device rd;
+		//int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
+		int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
 
-	//int levelthreecount = rd() % 50 + 25;
+		int levelthreecount = rd() % 30 + 30;
+		//int levelthreecount = rd() % 3 + 15;
 
-	//int leveltwocount = rd() % 70 + 100;//レベル２エネミーのスポーン数
+		int leveltwocount = rd() % 50 + 60;//レベル２エネミーのスポーン数
+		//int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
 
-	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
+		//int enemyspawnedcount = rd() % 50 + 375;//スポーンさせる敵の数
 
-	LevelOneEnemySpawner(levelonecount);
-	LevelTwoEnemySpawner(leveltwocount);
-	LevelThreeEnemySpawner(levelthreecount);
+		//int levelthreecount = rd() % 50 + 25;
+
+		//int leveltwocount = rd() % 70 + 100;//レベル２エネミーのスポーン数
+
+		int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount;//レベル1エネミーのスポーン数
+
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+	}
 }
 
 void EnemyManager::WaveFour()
 {
-	std::random_device rd;
-	int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
-	//int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
+	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	int levelfourcount = rd() % 10 + 20;
-	/*int levelfourcount = rd() % 3 + 15;*/
+	if (enemycount > 200)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 50 + 100;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 20 + 50;
-	/*int levelthreecount = rd() % 7 + 13;*/
+		int levelfourcount = rd() % 10 + 20;
+		int levelthreecount = rd() % 20 + 30;
+		int leveltwocount = 20;//レベル２エネミーのスポーン数
+
+		int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
+
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+		LevelFourEnemySpawner(levelfourcount);
+	}
+	else
+	{
+		std::random_device rd;
+		int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
+		//int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
+
+		int levelfourcount = rd() % 10 + 20;
+		/*int levelfourcount = rd() % 3 + 15;*/
+
+		int levelthreecount = rd() % 20 + 50;
+		/*int levelthreecount = rd() % 7 + 13;*/
 
 
-	int leveltwocount = rd() % 25 + 75;//レベル２エネミーのスポーン数
-	//int leveltwocount = rd() % 2 + 15;//レベル２エネミーのスポーン数
+		int leveltwocount = rd() % 25 + 75;//レベル２エネミーのスポーン数
+		//int leveltwocount = rd() % 2 + 15;//レベル２エネミーのスポーン数
 
-	int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
+		int levelonecount = enemyspawnedcount - leveltwocount - levelthreecount - levelfourcount;//レベル1エネミーのスポーン数
 
-	LevelOneEnemySpawner(levelonecount);
-	LevelTwoEnemySpawner(leveltwocount);
-	LevelThreeEnemySpawner(levelthreecount);
-	LevelFourEnemySpawner(levelfourcount);
+		LevelOneEnemySpawner(levelonecount);
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+		LevelFourEnemySpawner(levelfourcount);
+	}
 }
 
 void EnemyManager::WaveMax()
 {
-	std::random_device rd;
-	int enemyspawnedcount = rd() % 100 + 250;//スポーンさせる敵の数
-	//int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
-	int levelfivecount = rd() % 10 + 20;
-	//int levelfivecount = rd() % 3 + 13;
+	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	int levelfourcount = rd() % 20 + 50;
-	/*int levelfourcount = rd() % 7 + 15;*/
+	if (enemycount > 200)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = 150;//スポーンさせる敵の数
+	
+		int levelfivecount = rd() % 10 + 20;
+		int levelfourcount = rd() % 20 + 30;
+		int levelthreecount = rd() % 20 + 50;
 
-	int levelthreecount = rd() % 25 + 75;
-	/*int levelthreecount = rd() % 2 + 17;*/
+		int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
 
-	int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+		LevelFourEnemySpawner(levelfourcount);
+		LevelFiveEnemySpawner(levelfivecount);
+	}
+	else
+	{
+		std::random_device rd;
+		int enemyspawnedcount = 300;//スポーンさせる敵の数
+		//int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
-	LevelTwoEnemySpawner(leveltwocount);
-	LevelThreeEnemySpawner(levelthreecount);
-	LevelFourEnemySpawner(levelfourcount);
-	LevelFiveEnemySpawner(levelfivecount);
+		int levelfivecount = rd() % 10 + 20;
+		//int levelfivecount = rd() % 3 + 13;
+
+		int levelfourcount = rd() % 20 + 50;
+		/*int levelfourcount = rd() % 7 + 15;*/
+
+		int levelthreecount = rd() % 25 + 75;
+		/*int levelthreecount = rd() % 2 + 17;*/
+
+		int leveltwocount = enemyspawnedcount - levelthreecount - levelfourcount;//レベル２エネミーのスポーン数
+
+		LevelTwoEnemySpawner(leveltwocount);
+		LevelThreeEnemySpawner(levelthreecount);
+		LevelFourEnemySpawner(levelfourcount);
+		LevelFiveEnemySpawner(levelfivecount);
+	}
 }
 
 void EnemyManager::WaveEnd()
@@ -378,17 +468,20 @@ void EnemyManager::Uninit()
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy)
 {
-	//エネミーの情報を登録
-	for (auto& itr : map_Enemies)
-	{
-		auto tag = itr.first;
-		EnemyInstanceGroup& inst = itr.second;
+	auto& inst = map_Enemies[enemy->GetModelTag()];
+	inst.Enemies.push_back(enemy);
 
-		if (tag == enemy->GetModelTag())
-		{
-			inst.Enemies.push_back(enemy);
-		}
-	}
+	////エネミーの情報を登録
+	//for (auto& itr : map_Enemies)
+	//{
+	//	auto tag = itr.first;
+	//	EnemyInstanceGroup& inst = itr.second;
+
+	//	if (tag == enemy->GetModelTag())
+	//	{
+	//		inst.Enemies.push_back(enemy);
+	//	}
+	//}
 }
 
 void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
@@ -411,12 +504,16 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 
 	group.SendingData.clear();
 
-	for (auto* itr : group.Enemies)
+	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+
+	for (auto& itr : group.Enemies)
 	{
 		InstanceData inst{};
 		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z , 1.0f};
 		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
 		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 1.0f};
+
+		itr->UpdateAttacks(p_attacks);
 
 		group.SendingData.push_back(inst);
 	}

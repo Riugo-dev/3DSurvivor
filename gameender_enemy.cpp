@@ -39,10 +39,14 @@ void GameEnderEnemy::Init()
 	m_EnemySpeed = 0.4f;
 	m_Points = 10000;
 	m_ModelTag = ENEMY_BLACK;
+
+	m_pPlayer = Manager::GetScene()->GetGameObject<Player>();
 }
 
 void GameEnderEnemy::Uninit()
 {
+	m_pPlayer = nullptr;
+	m_Attacks.clear();
 }
 
 void GameEnderEnemy::Update()
@@ -62,9 +66,9 @@ void GameEnderEnemy::Update()
 
 	if (m_IsDestroy)return;
 
-	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+	//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-	for (auto itr : p_attacks)
+	for (auto itr : m_Attacks)
 	{
 		if (itr->GetDestroy())continue;
 

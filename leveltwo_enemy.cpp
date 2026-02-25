@@ -41,10 +41,14 @@ void LevelTwoEnemy::Init()
 	m_EnemySpeed = 0.02f;
 	m_Points = 200;
 	m_ModelTag = ENEMY_BLUE;
+
+	m_pPlayer = Manager::GetScene()->GetGameObject<Player>();
 }
 
 void LevelTwoEnemy::Uninit()
 {
+	m_pPlayer = nullptr;
+	m_Attacks.clear();
 }
 
 void LevelTwoEnemy::Update()
@@ -65,9 +69,9 @@ void LevelTwoEnemy::Update()
 
 	if (m_IsDestroy)return;
 
-	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+	//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-	for (auto itr : p_attacks)
+	for (auto itr : m_Attacks)
 	{
 		if (itr->GetDestroy())continue;
 

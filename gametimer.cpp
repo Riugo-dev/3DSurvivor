@@ -30,7 +30,7 @@
 #define WAVETWO (110)
 #define WAVETHREE (170)
 #define WAVEFOUR (230)
-#define WAVEMAX (290)
+#define WAVEMAX (300)
 
 #define SWARMCOOLTIME (50)
 #define MIDBOSSCOOLTIME (120)
@@ -167,12 +167,7 @@ void GameTimer::Update()
 			m_pEnemyManager->SpawnEnemy();
 			m_pShooterEnemyManager->SpawnEnemy();
 		}
-		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 10 && m_FrameCount % WAVEONECOOLTIME <= 1500)
-		{
-			m_pEnemyManager->SpawnEnemy();
-		}
-
-		if (m_CurrentTime >= WAVEMAX)
+		else if (m_CurrentTime == WAVEMAX)
 		{
 			m_CurrentWave = GAME_END;
 
@@ -180,6 +175,12 @@ void GameTimer::Update()
 			m_pEnemyManager->DestroyFarEnemy();
 			m_pShooterEnemyManager->DestroyFarEnemy();
 		}
+		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 10 && m_FrameCount % WAVEONECOOLTIME <= 1500)
+		{
+			m_pEnemyManager->SpawnEnemy();
+		}
+
+		
 		break;
 	case GAME_END:
 		//ここに強制終了エネミーを出現させる

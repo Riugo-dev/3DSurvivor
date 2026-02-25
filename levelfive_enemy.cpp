@@ -41,10 +41,15 @@ void LevelFiveEnemy::Init()
 	m_EnemySpeed = 0.05f;
 	m_Points = 1000;
 	m_ModelTag = ENEMY_SILVER;
+
+	m_pPlayer = Manager::GetScene()->GetGameObject<Player>();
+
 }
 
 void LevelFiveEnemy::Uninit()
 {
+	m_pPlayer = nullptr;
+	m_Attacks.clear();
 }
 
 void LevelFiveEnemy::Update()
@@ -64,9 +69,9 @@ void LevelFiveEnemy::Update()
 
 	if (m_IsDestroy)return;
 
-	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+	//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-	for (auto itr : p_attacks)
+	for (auto itr : m_Attacks)
 	{
 		if (itr->GetDestroy())continue;
 
