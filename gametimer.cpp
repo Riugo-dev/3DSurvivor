@@ -30,7 +30,7 @@
 #define WAVETWO (110)
 #define WAVETHREE (170)
 #define WAVEFOUR (230)
-#define WAVEMAX (290)
+#define WAVEMAX (291)
 
 #define SWARMCOOLTIME (50)
 #define MIDBOSSCOOLTIME (120)

@@ -10,6 +10,7 @@
 #include "scene.h"
 #include "player.h"
 #include "enemybase.h"
+#include "attackbase.h"
 #include "model_manager.h"
 #include "modelRenderer.h"
 #include "shader_manager.h"
@@ -378,17 +379,20 @@ void EnemyManager::Uninit()
 
 void EnemyManager::AddEnemy(BaseEnemy* enemy)
 {
-	//ƒGƒlƒ~[‚Ìî•ñ‚ð“o˜^
-	for (auto& itr : map_Enemies)
-	{
-		auto tag = itr.first;
-		EnemyInstanceGroup& inst = itr.second;
+	auto& inst = map_Enemies[enemy->GetModelTag()];
+	inst.Enemies.push_back(enemy);
 
-		if (tag == enemy->GetModelTag())
-		{
-			inst.Enemies.push_back(enemy);
-		}
-	}
+	////ƒGƒlƒ~[‚Ìî•ñ‚ð“o˜^
+	//for (auto& itr : map_Enemies)
+	//{
+	//	auto tag = itr.first;
+	//	EnemyInstanceGroup& inst = itr.second;
+
+	//	if (tag == enemy->GetModelTag())
+	//	{
+	//		inst.Enemies.push_back(enemy);
+	//	}
+	//}
 }
 
 void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
@@ -411,12 +415,16 @@ void EnemyManager::UpdateInstanceBuffer(EnemyInstanceGroup& group)
 
 	group.SendingData.clear();
 
-	for (auto* itr : group.Enemies)
+	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+
+	for (auto& itr : group.Enemies)
 	{
 		InstanceData inst{};
 		inst.Position = { itr->GetPosition().x , itr->GetPosition().y , itr->GetPosition().z , 1.0f};
 		inst.Rotation = { itr->GetRotation().x , itr->GetRotation().y , itr->GetRotation().z , 0.0f};
 		inst.Scale = { itr->GetScale().x , itr->GetScale().y , itr->GetScale().z , 1.0f};
+
+		itr->UpdateAttacks(p_attacks);
 
 		group.SendingData.push_back(inst);
 	}

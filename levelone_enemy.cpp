@@ -45,10 +45,14 @@ void LevelOneEnemy::Init()
 	m_Points = 100;
 	m_ModelTag = ENEMY_RED;
 
+	m_pPlayer = Manager::GetScene()->GetGameObject<Player>();
+
 }
 
 void LevelOneEnemy::Uninit()
 {
+	m_pPlayer = nullptr;
+	m_Attacks.clear();
 }
 
 void LevelOneEnemy::Update()
@@ -68,9 +72,9 @@ void LevelOneEnemy::Update()
 
 	if (m_IsDestroy)return;
 	
-	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+	//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-	for (auto itr : p_attacks)
+	for (auto itr : m_Attacks)
 	{
 		if (itr->GetDestroy())continue;
 

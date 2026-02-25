@@ -41,10 +41,14 @@ void LevelThreeEnemy::Init()
 	m_EnemySpeed = 0.03f;
 	m_Points = 300;
 	m_ModelTag = ENEMY_GREEN;
+
+	m_pPlayer = Manager::GetScene()->GetGameObject<Player>();
 }
 
 void LevelThreeEnemy::Uninit()
 {
+	m_pPlayer = nullptr;
+	m_Attacks.clear();
 }
 
 void LevelThreeEnemy::Update()
@@ -64,9 +68,9 @@ void LevelThreeEnemy::Update()
 
 	if (m_IsDestroy)return;
 
-	std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
+	//std::vector<BaseAttack*> p_attacks = Manager::GetScene()->GetGameObjects<BaseAttack>();
 
-	for (auto itr : p_attacks)
+	for (auto itr : m_Attacks)
 	{
 		if (itr->GetDestroy())continue;
 
