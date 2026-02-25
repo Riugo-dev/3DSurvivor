@@ -33,7 +33,8 @@ void HighTierExpItem::Init()
 	m_ModelTag = HIGHTIER_EXP;
 
 
-	m_Radius = 0.31f;
+	//m_Radius = 0.31f;
+	m_Radius = 0.45f;
 }
 
 void HighTierExpItem::Uninit()
