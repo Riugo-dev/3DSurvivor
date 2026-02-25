@@ -41,7 +41,7 @@ void EnemyManager::WaveOne()
 
 	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	if (enemycount > 400)
+	if (enemycount > 200)
 	{
 		std::random_device rd;
 		int enemyspawnedcount = rd() % 100 + 50;//スポーンさせる敵の数
@@ -62,7 +62,7 @@ void EnemyManager::WaveTwo()
 {
 	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	if (enemycount > 400)
+	if (enemycount > 200)
 	{
 		std::random_device rd;
 		int enemyspawnedcount = rd() % 100 + 50;//スポーンさせる敵の数
@@ -93,7 +93,7 @@ void EnemyManager::WaveThree()
 {
 	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	if (enemycount > 400)
+	if (enemycount > 200)
 	{
 		std::random_device rd;
 		int enemyspawnedcount = rd() % 50 + 100;//スポーンさせる敵の数
@@ -136,7 +136,7 @@ void EnemyManager::WaveFour()
 {
 	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	if (enemycount > 400)
+	if (enemycount > 200)
 	{
 		std::random_device rd;
 		int enemyspawnedcount = rd() % 50 + 100;//スポーンさせる敵の数
@@ -182,7 +182,7 @@ void EnemyManager::WaveMax()
 
 	int enemycount = Manager::GetScene()->GetGameObjects<BaseEnemy>().size();
 
-	if (enemycount > 400)
+	if (enemycount > 200)
 	{
 		std::random_device rd;
 		int enemyspawnedcount = 150;//スポーンさせる敵の数
@@ -201,7 +201,7 @@ void EnemyManager::WaveMax()
 	else
 	{
 		std::random_device rd;
-		int enemyspawnedcount = rd() % 100 + 250;//スポーンさせる敵の数
+		int enemyspawnedcount = 300;//スポーンさせる敵の数
 		//int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
 		int levelfivecount = rd() % 10 + 20;
