@@ -32,7 +32,8 @@ void MidTierExpItem::Init()
 	m_Exp = rd() % 60 + 21;
 	m_ModelTag = MIDTIER_EXP;
 
-	m_Radius = 0.31f;
+	//m_Radius = 0.31f;
+	m_Radius = 0.45f;
 }
 
 void MidTierExpItem::Uninit()

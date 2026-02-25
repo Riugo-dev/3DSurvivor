@@ -32,7 +32,8 @@ void LowTierExpItem::Init()
 	m_Exp = rd() % 30 + 5;
 	m_ModelTag = LOWTIER_EXP;
 
-	m_Radius = 0.31f;
+	//m_Radius = 0.31f;
+	m_Radius = 0.45f;
 }
 
 void LowTierExpItem::Uninit()

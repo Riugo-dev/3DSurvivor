@@ -82,11 +82,11 @@ void GameTimer::Update()
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
-			m_pShooterEnemyManager->SpawnEnemy();
 		}
 		else if (Manager::GetScene()->GetGameObjects<BaseEnemy>().size() <= 10 && m_FrameCount % WAVEONECOOLTIME <= 1500)
 		{
 			m_pEnemyManager->SpawnEnemy();
+			m_pShooterEnemyManager->SpawnEnemy();
 		}
 
 		if (m_CurrentTime >= WAVEONE)

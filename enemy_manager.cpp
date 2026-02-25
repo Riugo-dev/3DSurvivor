@@ -38,7 +38,7 @@
 void EnemyManager::WaveOne()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 50 + 150;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
 	//int enemyspawnedcount = rd() % 5 + 50;//スポーンさせる敵の数
 
 	LevelOneEnemySpawner(enemyspawnedcount);
@@ -47,10 +47,10 @@ void EnemyManager::WaveOne()
 void EnemyManager::WaveTwo()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 50 + 150;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
 	//int enemyspawnedcount = rd() % 10 + 50;//スポーンさせる敵の数
 
-	int leveltwocount = rd() % 50 + 25;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 50 + 80;//レベル２エネミーのスポーン数
 	//int leveltwocount = rd() % 3 + 15;//レベル２エネミーのスポーン数
 
 	int levelonecount = enemyspawnedcount - leveltwocount;//レベル1エネミーのスポーン数
@@ -64,12 +64,12 @@ void EnemyManager::WaveThree()
 {
 	std::random_device rd;
 	//int enemyspawnedcount = rd() % 5 + 75;//スポーンさせる敵の数
-	int enemyspawnedcount = rd() % 100 + 150;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
 
-	int levelthreecount = rd() % 30 + 20;
+	int levelthreecount = rd() % 30 + 30;
 	//int levelthreecount = rd() % 3 + 15;
 
-	int leveltwocount = rd() % 50 + 50;//レベル２エネミーのスポーン数
+	int leveltwocount = rd() % 50 + 60;//レベル２エネミーのスポーン数
 	//int leveltwocount = rd() % 7 + 17;//レベル２エネミーのスポーン数
 
 	//int enemyspawnedcount = rd() % 50 + 375;//スポーンさせる敵の数
@@ -88,7 +88,7 @@ void EnemyManager::WaveThree()
 void EnemyManager::WaveFour()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 50 + 200;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 200;//スポーンさせる敵の数
 	//int enemyspawnedcount = rd() % 10 + 75;//スポーンさせる敵の数
 
 	int levelfourcount = rd() % 10 + 20;
@@ -112,7 +112,7 @@ void EnemyManager::WaveFour()
 void EnemyManager::WaveMax()
 {
 	std::random_device rd;
-	int enemyspawnedcount = rd() % 50 + 250;//スポーンさせる敵の数
+	int enemyspawnedcount = rd() % 100 + 250;//スポーンさせる敵の数
 	//int enemyspawnedcount = rd() % 5 + 80;//スポーンさせる敵の数
 
 	int levelfivecount = rd() % 10 + 20;
@@ -147,7 +147,7 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 8;//rd() % 7 + 7
+		int distance = rd() % 35 + 9 - ((int)m_pGameTimer->GetCurrentWave());//rd() % 7 + 7
 		//int distance = rd() % 10 + 8;//rd() % 7 + 7
 		float angle = randangle(mt);
 
@@ -173,7 +173,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 10;
+		int distance = rd() % 35 + 10;
 		//int distance = rd() % 15 + 8;
 		float angle = randangle(mt);
 
@@ -199,7 +199,7 @@ void EnemyManager::LevelThreeEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 14;
+		int distance = rd() % 30 + 14;
 		//int distance = rd() % 15 + 9;
 		float angle = randangle(mt);
 
@@ -225,7 +225,7 @@ void EnemyManager::LevelFourEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 16;
+		int distance = rd() % 30 + 16;
 		//int distance = rd() % 15 + 10;
 		float angle = randangle(mt);
 
@@ -251,7 +251,7 @@ void EnemyManager::LevelFiveEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 25 + 18;
+		int distance = rd() % 30 + 18;
 		//int distance = rd() % 15 + 11;
 		float angle = randangle(mt);
 
