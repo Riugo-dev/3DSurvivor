@@ -161,7 +161,7 @@ void GameTimer::Update()
 		}
 		break;
 	case WAVE_MAX:
-		if (m_FrameCount % WAVEMAXCOOLTIME == 0)
+		if (m_FrameCount % WAVEMAXCOOLTIME == 0 && m_CurrentTime != WAVEMAX)
 		{
 			//ここでエネミースポナーを呼び出す
 			m_pEnemyManager->SpawnEnemy();
