@@ -132,7 +132,7 @@ void LevelOneMidBoss::Update()
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 2.0f, 2.0f , 2.0f });
 
 				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 				{
@@ -190,7 +190,7 @@ void LevelOneMidBoss::Update()
 			{
 				p_player->SetInvincibilty(true);
 				Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP(2);
-				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+				Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 2.0f, 2.0f , 2.0f });
 
 				if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 				{

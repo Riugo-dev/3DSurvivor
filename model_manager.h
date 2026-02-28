@@ -52,6 +52,9 @@ typedef enum
 	//中ボス敵モデル
 	MIDBOSS_RED,
 
+	//敵の玉
+	ENEMYBULLET,
+
 	//武器モデル
 	BULLET,
 	SHURIKEN,

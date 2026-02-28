@@ -112,7 +112,7 @@ void ItemDropSwarmEnemy::Update()
 		{
 			p_player->SetInvincibilty(true);
 			Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 1.0f, 1.0f , 1.0f });
 
 			if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 			{
@@ -185,24 +185,39 @@ void ItemDropSwarmEnemy::Draw()
 
 void ItemDropSwarmEnemy::EnemyItemDrop()
 {
-	std::random_device rd;
-	int drop = rd() % 100 + 1;
+	HPUI* playerhp = Manager::GetScene()->GetGameObject<HPUI>();
 
+	if (playerhp->GetHP() == 3)
+	{
+		itemdropfullhp();
+	}
+	else
+	{
+		itemdroplowhp();
+	}
 	
+}
 
-	if (drop >= 1 && drop < 31)
+void ItemDropSwarmEnemy::itemdroplowhp()
+{
+	std::random_device rd;
+	int drop = rd() % 95 + 1;
+
+
+
+	if (drop >= 1 && drop < 70)
 	{
 		HealItem* item = Manager::GetScene()->AddGameObject<HealItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
-	else if (drop >= 31 && drop < 61)
+	else if (drop >= 71 && drop < 80)
 	{
 		VacuumItem* item = Manager::GetScene()->AddGameObject<VacuumItem>();
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
-	else if (drop >= 61 && drop < 91)
+	else if (drop >= 81 && drop < 90)
 	{
 		DoublePointsItem* item = Manager::GetScene()->AddGameObject<DoublePointsItem>();
 		item->Init();
@@ -214,5 +229,30 @@ void ItemDropSwarmEnemy::EnemyItemDrop()
 		item->Init();
 		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
 	}
-	
 }
+
+void ItemDropSwarmEnemy::itemdropfullhp()
+{
+	std::random_device rd;
+	int drop = rd() % 101 + 1;
+
+	if (drop >= 1 && drop < 50)
+	{
+		VacuumItem* item = Manager::GetScene()->AddGameObject<VacuumItem>();
+		item->Init();
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+	}
+	else if (drop >= 51 && drop < 100)
+	{
+		DoublePointsItem* item = Manager::GetScene()->AddGameObject<DoublePointsItem>();
+		item->Init();
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+	}
+	else
+	{
+		BoostItem* item = Manager::GetScene()->AddGameObject<BoostItem>();
+		item->Init();
+		item->SetPosition({ m_Position.x , 1.0f , m_Position.z });
+	}
+}
+

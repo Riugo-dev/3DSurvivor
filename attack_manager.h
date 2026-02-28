@@ -26,6 +26,10 @@ private:
 	ID3D11ShaderResourceView* m_TextureSword;//•¶Žš
 	ID3D11ShaderResourceView* m_TextureBullet;//”wŒi‰æ
 	ID3D11ShaderResourceView* m_TextureBomb;//”wŒi‰æ
+	ID3D11ShaderResourceView* m_ShurikenSummary;//”wŒi‰æ
+	ID3D11ShaderResourceView* m_SwordSummary;//•¶Žš
+	ID3D11ShaderResourceView* m_BulletSummary;//”wŒi‰æ
+	ID3D11ShaderResourceView* m_BombSummary;//”wŒi‰æ
 	ID3D11ShaderResourceView* m_TexturePowerUp;//•¶Žš
 	ID3D11ShaderResourceView* m_TextureLVMAX;//”wŒi‰æ
 	ID3D11ShaderResourceView* m_TextureSelect;//‘I‘ð‚Ì‚­‚­‚è
@@ -47,6 +51,7 @@ private:
 	void drawicon();
 	void drawselect();
 	void drawoption();
+	void drawsummary();
 };
 
 
