@@ -20,7 +20,7 @@ Ni 1.00
 Ks 0.50 0.50 0.50
 newmtl TEMPORARY_IMPORT_NAMESPACE__G_l_____p______4:lambert6SG
 illum 4
-Kd 0.09 0.05 0.24
+Kd 0.15 0.00 0.62
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00

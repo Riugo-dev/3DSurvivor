@@ -23,6 +23,10 @@ public:
 	void Draw() override;
 
 	void EnemyItemDrop() override;
+
+private:
+	void itemdroplowhp();
+	void itemdropfullhp();
 };
 
 #endif // !_ITEMDROP_SWARMENEMY_H_

@@ -120,7 +120,7 @@ void LevelThreeShooterEnemy::Update()
 		{
 			p_player->SetInvincibilty(true);
 			Manager::GetScene()->GetGameObject<HPUI>()->SubtractHP();
-			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 0.0f, 0.3f , 0.0f });
+			Manager::GetScene()->GetGameObject<Camera>()->CameraShake({ 1.0f, 1.0f , 1.0f });
 
 			if (Manager::GetScene()->GetGameObject<HPUI>()->GetHP() <= 0)
 			{

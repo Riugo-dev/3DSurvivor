@@ -82,6 +82,10 @@ AttackManager::AttackManager()
 	m_TexturePowerUp = Texture::Load("asset\\texture\\LevelUp.png");
 	m_TextureLVMAX = Texture::Load("asset\\texture\\LVMAX.png");
 	m_TextureSelect = Texture::Load("asset\\texture\\select.png");
+	m_ShurikenSummary = Texture::Load("asset\\texture\\shuriken_summary.png");
+	m_SwordSummary = Texture::Load("asset\\texture\\sword_summary.png");
+	m_BulletSummary = Texture::Load("asset\\texture\\bullet_summary.png");
+	m_BombSummary = Texture::Load("asset\\texture\\bomb_summary.png");
 
 	m_SelectNumber = 0;
 
@@ -249,6 +253,7 @@ void AttackManager::Draw()
 		drawicon();
 		drawselect();
 		drawoption();
+		drawsummary();
 	}
 }
 
@@ -852,4 +857,213 @@ void AttackManager::drawoption()
 		//ポリゴン描画
 		Renderer::GetDeviceContext()->Draw(4, 0);
 	}
+}
+
+void AttackManager::drawsummary()
+{
+	switch (m_SelectNumber)
+	{
+	case 0:
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_BulletSummary);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) + 200.0f;//描画開始位置・・・Y座標
+		float w = 640.0f - m_SlideAnimation;//描画物の幅
+		float h = 200.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+		break;
+	case 1:
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_BombSummary);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) + 230.0f;//描画開始位置・・・Y座標
+		float w = 643.0f - m_SlideAnimation;//描画物の幅
+		float h = 170.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+		break;
+	case 2:
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_SwordSummary);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) + 230.0f;//描画開始位置・・・Y座標
+		float w = 640.0f - m_SlideAnimation;//描画物の幅
+		float h = 170.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+		break;
+	case 3:
+	{
+		//テクスチャ設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_ShurikenSummary);
+
+		//頂点データ書き換え
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+		float x = (SCREEN_WIDTH / 4) - m_SlideAnimation -10;//描画開始位置・・・X座標
+		float y = (SCREEN_WIDTH / 4) + 230.0f;//描画開始位置・・・Y座標
+		float w = 663.0f - m_SlideAnimation;//描画物の幅
+		float h = 170.0f;//描画物の高さ
+
+		float tw = 1;
+		float th = 1;
+		float tx = 0;
+		float ty = 0;
+
+
+		{
+			vertex[0].Position = XMFLOAT3(x, y, 0.0f);
+			vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[0].TexCoord = XMFLOAT2(tx, ty);
+			vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[1].Position = XMFLOAT3(x + w, y, 0.0f);
+			vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[1].TexCoord = XMFLOAT2(tx + tw, ty);
+			vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[2].Position = XMFLOAT3(x, y + h, 0.0f);
+			vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[2].TexCoord = XMFLOAT2(tx, ty + th);
+			vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+
+			vertex[3].Position = XMFLOAT3(x + w, y + h, 0.0f);
+			vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[3].TexCoord = XMFLOAT2(tx + tw, ty + th);
+			vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+		}
+
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+		//ポリゴン描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
+		break;
+	}
+
+
 }

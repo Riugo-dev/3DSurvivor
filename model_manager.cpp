@@ -130,6 +130,10 @@ void ModelManager::Init()
 	m_pModelRenderers[BULLET]->Load("asset\\model\\bullet.obj");
 	m_pModelShaders[BULLET] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
 
+	m_pModelRenderers[ENEMYBULLET] = std::make_unique<ModelRenderer>();
+	m_pModelRenderers[ENEMYBULLET]->Load("asset\\model\\EnemyBullet.obj");
+	m_pModelShaders[ENEMYBULLET] = std::make_unique<ShaderManager>(SHADER_BLINNPHONG);
+
 	m_pModelRenderers[SHURIKEN] = std::make_unique<ModelRenderer>();
 	m_pModelRenderers[SHURIKEN]->Load("asset\\model\\AttackTypeShuriken.obj");
 	m_pModelShaders[SHURIKEN] = std::make_unique<ShaderManager>(SHADER_TOON);
