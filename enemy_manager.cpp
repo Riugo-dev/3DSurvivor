@@ -48,6 +48,13 @@ void EnemyManager::WaveOne()
 		
 		LevelOneEnemySpawner(enemyspawnedcount);
 	}
+	else if (enemycount == 0)
+	{
+		std::random_device rd;
+		int enemyspawnedcount = 100;//ƒXƒ|[ƒ“‚³‚¹‚é“G‚Ì”
+
+		LevelOneEnemySpawner(enemyspawnedcount);
+	}
 	else
 	{
 		std::random_device rd;
@@ -237,7 +244,7 @@ void EnemyManager::LevelOneEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 35 + 9 - ((int)m_pGameTimer->GetCurrentWave());//rd() % 7 + 7
+		int distance = rd() % 30 + 10;//rd() % 7 + 7
 		//int distance = rd() % 10 + 8;//rd() % 7 + 7
 		float angle = randangle(mt);
 
@@ -263,7 +270,7 @@ void EnemyManager::LevelTwoEnemySpawner(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		int distance = rd() % 35 + 10;
+		int distance = rd() % 30 + 12;
 		//int distance = rd() % 15 + 8;
 		float angle = randangle(mt);
 
