@@ -152,6 +152,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	switch(uMsg)
 	{
+	case WM_SYSCOMMAND:
+		if (wParam == SC_MAXIMIZE)
+		{
+			// 最大化状態にする
+			LONG style = GetWindowLong(hWnd, GWL_STYLE);
+			style &= ~WS_CAPTION; // タイトルバーを削除
+			SetWindowLong(hWnd, GWL_STYLE, style);
+
+			// 最大化後にウィンドウ位置とサイズを維持
+			RECT rc;
+			GetWindowRect(hWnd, &rc);
+
+			SetWindowPos(hWnd, HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_FRAMECHANGED);
+
+		}
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -160,7 +176,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch(wParam)
 		{
 		case VK_ESCAPE:
-			DestroyWindow(hWnd);
+			if (MessageBox(hWnd, "本当に終了してよろしいですか？", "確認", MB_OKCANCEL | MB_DEFBUTTON2) == IDOK)
+			{
+				DestroyWindow(hWnd);
+			}
 			break;
 		}
 		break;
