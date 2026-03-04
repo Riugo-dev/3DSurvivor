@@ -14,7 +14,7 @@
 //最大プレイヤー数
 #define PLAYERINDEX_MAX (4)
 // デッドゾーンの定義
-#define DEADZONE (8000)  
+#define DEADZONE (20000)  
 //円周率
 #define M_PI (3.14159265358979323846)
 // 連続した小さな角度変化を検知する
